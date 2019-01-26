@@ -26,3 +26,30 @@
 *.exe
 *.out
 *.app
+
+Archive/*
+BinScrambler/Builds/
+
+BinScrambler/JuceLibraryCode/
+
+FrequencyMagnet/Builds/
+
+FrequencyMagnet/JuceLibraryCode/
+
+FrequencyShift/Builds/
+
+FrequencyShift/JuceLibraryCode/
+
+shared/public\.sdk/
+
+shared/vstgui/
+
+shared/pluginterfaces/
+
+Sinusoidal Shaped Filter/Builds/
+
+Sinusoidal Shaped Filter/JuceLibraryCode/
+
+SpectralGate/Builds/
+
+SpectralGate/JuceLibraryCode/
