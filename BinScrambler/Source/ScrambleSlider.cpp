@@ -12,7 +12,7 @@ ScrambleSlider::ScrambleSlider(AudioProcessorValueTreeState& valueTreeState, Col
 	addAndMakeVisible(&balance);
 	balanceAttachment.reset(new SliderAttachment(valueTreeState, "scramble", balance));
 
-	balanceLabel.setText("scramble", NotificationType::dontSendNotification);
+	balanceLabel.setText("Scramble", NotificationType::dontSendNotification);
 	balanceLabel.attachToComponent(&balance, false);
 	balanceLabel.setColour(Label::ColourIds::textColourId, textColour);
 	addAndMakeVisible(balanceLabel); 

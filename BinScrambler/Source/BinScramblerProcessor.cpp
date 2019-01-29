@@ -6,7 +6,7 @@ void BinScramblerProcessor::createParameters(AudioProcessorValueTreeState* value
 {				
 	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"scramble",
-		"scramble",
+		"Scramble",
 		NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
 		AudioProcessorParameter::Category::genericParameter		
 	));

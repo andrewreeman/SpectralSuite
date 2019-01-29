@@ -26,7 +26,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_parameterUiComponentFactory(parameterComponentFactory.release()),
 	parameters(*this, nullptr),
 	m_fftSwitcher(this),
-	m_versionCheckThread(JucePlugin_VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
+	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
 {			
 	m_fftChoiceAdapter.remove(fftSizesToRemove);
 
