@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="WPt5si" name="Spectral Gate" projectType="audioplug" jucerVersion="5.4.1"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="1.0.0" defines="JucePlugin_VersionCode 1">
+              version="1.0.0" defines="VersionCode=2" pluginFormats="buildAU,buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="Spectral Gate">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="RKurz6" name="SliderContainer.cpp" compile="1" resource="0"
