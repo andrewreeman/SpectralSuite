@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="WPt5si" name="Bin Scrambler" projectType="audioplug" jucerVersion="5.4.1"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.0.0" defines="VersionCode=2">
+              version="2.0.0" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate.">
   <MAINGROUP id="NNl5AK" name="Bin Scrambler">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="PVHA2K" name="RateSlider.cpp" compile="1" resource="0" file="Source/RateSlider.cpp"/>
