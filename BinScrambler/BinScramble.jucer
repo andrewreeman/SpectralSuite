@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="Bin Scrambler" projectType="audioplug" jucerVersion="5.4.1"
+<JUCERPROJECT id="WPt5si" name="Bin Scrambler" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.0.0" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate.">
+              version="2.0.0" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+              pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="Bin Scrambler">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="PVHA2K" name="RateSlider.cpp" compile="1" resource="0" file="Source/RateSlider.cpp"/>
@@ -73,7 +74,10 @@
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"/>
-        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"/>
+        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"
+                       useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules"/>
