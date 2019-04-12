@@ -28,6 +28,22 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_fftSwitcher(this),
 	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
 {			
+
+
+	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
+	//	.getChildFile("spectral_suite" + Time::getCurrentTime().formatted("%Y-%m-%d_%H-%M-%S"))
+	//	.withFileExtension(".log")
+	//	.getNonexistentSibling(),
+	//	"Log started", 0);
+
+	m_logger = std::unique_ptr<FileLogger>(
+		new FileLogger(
+			File::getCurrentWorkingDirectory().getChildFile("spectral_suite_log.txt"),
+			"Log started", 0
+		)
+	);
+	m_logger->writeToLog("test message");
+
 	m_fftChoiceAdapter.remove(fftSizesToRemove);
 
 	m_audioProcessor->createParameters(&parameters);	
@@ -200,6 +216,7 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {
+	
     //return new SpectralGateAudioProcessorEditor (*this, parameters, new FrequencySlider(parameters, Colour::fromString(TEXT_COLOUR), 30));	
 	return new SpectralGateAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
 }

@@ -79,6 +79,7 @@ private:
 	FftChoiceAdapter m_fftChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
+	std::unique_ptr<FileLogger> m_logger;
 	
 	// io buffers: TODO n chan
 	int m_internalBufferReadWriteIndex;
