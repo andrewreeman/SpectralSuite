@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="FrequencyShifter" projectType="audioplug" jucerVersion="5.4.1"
+<JUCERPROJECT id="WPt5si" name="FrequencyShifter" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="1.0.0" defines="VersionCode=2">
+              version="1.0.0" defines="VersionCode=2" pluginDesc="Shifts frequencies up and down">
   <MAINGROUP id="NNl5AK" name="FrequencyShifter">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="D4yJXP" name="FrequencySlider.cpp" compile="1" resource="0"

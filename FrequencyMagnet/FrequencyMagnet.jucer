@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="Frequency Magnet" projectType="audioplug" jucerVersion="5.4.1"
+<JUCERPROJECT id="WPt5si" name="Frequency Magnet" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="1.0.0" defines="VersionCode=2">
+              version="1.0.0" defines="VersionCode=2" pluginDesc="Frequency content will gradually shift towards being centered on one frequency.">
   <MAINGROUP id="NNl5AK" name="Frequency Magnet">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="Zsriba" name="WidthSlider.cpp" compile="1" resource="0" file="Source/WidthSlider.cpp"/>

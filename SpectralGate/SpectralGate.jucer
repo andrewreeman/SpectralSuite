@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="Spectral Gate" projectType="audioplug" jucerVersion="5.4.1"
+<JUCERPROJECT id="WPt5si" name="Spectral Gate" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="1.0.0" defines="VersionCode=2" pluginFormats="buildAU,buildVST,buildVST3">
+              version="1.0.0" defines="VersionCode=2" pluginFormats="buildAU,buildVST,buildVST3"
+              pluginDesc="Only allow frequency components above or below a particular cut-off amplitude.">
   <MAINGROUP id="NNl5AK" name="Spectral Gate">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="RKurz6" name="SliderContainer.cpp" compile="1" resource="0"
