@@ -53,7 +53,7 @@
         <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"/>
         <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"/>
         <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;"
-                       useRuntimeLibDLL="0"/>
+                       useRuntimeLibDLL="0" winArchitecture="Win32"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules"/>
