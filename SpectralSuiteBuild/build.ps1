@@ -40,19 +40,30 @@ filter buildRelease {
     $sharedCodeProject = $projectName + "_SharedCode"
     $vstLegacyProject = $projectName + "_VST"
     $vst3Project = $projectName + "_VST3"
-        
-    devenv.com $solution /Clean "Release" /Project $vstLegacyProject | Write-Host
-    devenv.com $solution /Clean "Release" /Project $vst3Project | Write-Host
 
     Write-Host "Building $solution"    
-    devenv.com $solution /Clean "Release32|Win32" /Project $vstLegacyProject | Write-Host
-    devenv.com $solution /Clean "Release32|Win32" /Project $vst3Project | Write-Host
+    devenv.com $solution /Clean "Release" /Project $sharedCodeProject | Write-Host    
+    devenv.com $solution /Clean "Release" /Project $vstLegacyProject | Write-Host
+    devenv.com $solution /Clean "Release" /Project $vst3Project | Write-Host    
+    devenv.com $solution /Clean "Release32|Win32" /Project $sharedCodeProject | Write-Host
+    devenv.com $solution /Clean "Release32|Win32" /Project $vstLegacyProject | Write-Host   
 
     devenv.com /Build "Release" /Project $vstLegacyProject $solution | Write-Host
-    devenv.com /Build "Release" /Project $vst3Project  $solution | Write-Host
+    devenv.com /Build "Release" /Project $vst3Project  $solution | Write-Host    
+    devenv.com /Build "Release32|Win32" /Project $vstLegacyProject $solution | Write-Host    
+
+    $releaseDir = [IO.Path]::Combine($_, "..", "..", "Release")
+    $releaseDir = Resolve-Path $releaseDir
     
-    devenv.com /Build "Release32|Win32" /Project $vstLegacyProject $solution | Write-Host
-    devenv.com /Build "Release32|Win32" /Project $vst3Project $solution | Write-Host            
+    $vst64 = [IO.Path]::Combine($_, "..", "Builds", "VisualStudio*", "x64", "Release", "VST", "*.dll")        
+    cp $vst64 $releaseDir
+
+    $vst3_64 = [IO.Path]::Combine($_, "..", "Builds", "VisualStudio*", "x64", "Release", "VST3", "*.vst3")        
+    cp $vst3_64 $releaseDir
+
+    $vst32 = [IO.Path]::Combine($_, "..", "Builds", "VisualStudio*", "Win32", "Release", "VST", "*.dll")    
+    $vst32Target = [IO.Path]::Combine($releaseDir, $projectName + "_Win32.dll")
+    cp $vst32 $vst32Target    
 }
 
 $pluginJucerPath = Get-Location | Join-Path -ChildPath "../*/*.jucer"
