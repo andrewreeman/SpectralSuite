@@ -1,6 +1,6 @@
 
 function recreateProjectFiles {
-    Projucer.exe --resave $args[0]
+    Projucer.exe --resave $args[0] | Write-Host
 }
 
 filter updateFromBase {     
@@ -30,7 +30,9 @@ filter updateFromBase {
     $output = $baseProjucer.save($_)      
 }
 
-filter buildRelease {         
+filter buildRelease {
+    recreateProjectFiles($_)    
+
     $solution = [IO.Path]::Combine($_, "..", "Builds", "VisualStudio*", "*.sln")
     $solution = Resolve-Path $solution        
     $projectName = (get-item $solution).BaseName
@@ -38,24 +40,19 @@ filter buildRelease {
     $sharedCodeProject = $projectName + "_SharedCode"
     $vstLegacyProject = $projectName + "_VST"
     $vst3Project = $projectName + "_VST3"
+        
+    devenv.com $solution /Clean "Release" /Project $vstLegacyProject | Write-Host
+    devenv.com $solution /Clean "Release" /Project $vst3Project | Write-Host
 
-    echo $sharedCodeProject
-    echo $vstLegacyProject
-    echo $vst3Project
+    Write-Host "Building $solution"    
+    devenv.com $solution /Clean "Release32|Win32" /Project $vstLegacyProject | Write-Host
+    devenv.com $solution /Clean "Release32|Win32" /Project $vst3Project | Write-Host
 
-    devenv /Rebuild "Release" /Project  $sharedCodeProject $solution
-    # devenv /Rebuild "Release" /Project $vstLegacyProject $solution
-    # devenv /Rebuild "Release" /Project $vst3Project  $solution
-
-    # devenv /Rebuild "Release32" /Project $sharedCodeProject $solution
-    # devenv /Rebuild "Release32" /Project $vstLegacyProject $solution
-    # devenv /Rebuild "Release32" /Project $vst3Project  $solution          
+    devenv.com /Build "Release" /Project $vstLegacyProject $solution | Write-Host
+    devenv.com /Build "Release" /Project $vst3Project  $solution | Write-Host
     
-    # devenv /Rebuild "Release" '.\Bin Scrambler.sln'
-    # devenv /Rebuild "Release32" /Project 'Bin Scrambler_SharedCode'  '.\Bin Scrambler.sln'
-    # devenv /Rebuild "Release32" /Project 'Bin Scrambler_VST'  '.\Bin Scrambler.sln'
-    # devenv /Rebuild "Release32" /Project 'Bin Scrambler_VST3'  '.\Bin Scrambler.sln'
-    
+    devenv.com /Build "Release32|Win32" /Project $vstLegacyProject $solution | Write-Host
+    devenv.com /Build "Release32|Win32" /Project $vst3Project $solution | Write-Host            
 }
 
 $pluginJucerPath = Get-Location | Join-Path -ChildPath "../*/*.jucer"
