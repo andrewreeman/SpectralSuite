@@ -57,3 +57,9 @@ SpectralGate/JuceLibraryCode/
 SSF/JuceLibraryCode/
 
 SpectralSuiteBuild/JuceLibraryCode/
+
+SinusoidalShapedFilter/JuceLibraryCode/
+
+SinusoidalShapedFilter/Builds/
+
+SpectralSuiteBuild/Builds/
