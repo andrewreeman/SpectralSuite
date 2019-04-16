@@ -1,3 +1,6 @@
+param( [switch]$build = $false )
+
+
 filter updateFromBase {     
 
     # loading base file every time as we make mutable changes to this variable's contents
@@ -78,6 +81,9 @@ function Build-Release {
 }
 
 
+
+
+
 $pluginJucerPath = Get-Location | Join-Path -ChildPath "../*/*.jucer"
 $pluginJucerPath = Resolve-Path -Path $pluginJucerPath
 $pluginJucerPaths = $pluginJucerPath | where {$_.ToString() -notlike "*SpectralSuiteBuild*"}
@@ -89,31 +95,16 @@ if($errors) {
 }
 
 echo "Updated projucer files"
-$basePath = Get-Location | Join-Path -ChildPath "base.jucer"
-$baseProjucer = New-Object -TypeName XML
-$baseProjucer.Load($basePath)
-$version = $baseProjucer.JUCERPROJECT.version
 
-ForEach ($pluginPath in $pluginJucerPaths) {
-    Build-Release $pluginPath $version
+if ($build) {
+    $basePath = Get-Location | Join-Path -ChildPath "base.jucer"
+    $baseProjucer = New-Object -TypeName XML
+    $baseProjucer.Load($basePath)
+    $version = $baseProjucer.JUCERPROJECT.version
+
+    ForEach ($pluginPath in $pluginJucerPaths) {
+        Build-Release $pluginPath $version
+    }
+
+    echo "Built release files"
 }
-
-echo "Built release files"
-
-
-
-#$XmlWriter = New-Object System.XMl.XmlTextWriter($outPath,$Null)
-
-# $projectName = "New title"
-# $projectDescription = "New description"
-
-# $baseProjucer.JUCERPROJECT.name = $projectName
-# $baseProjucer.JUCERPROJECT.pluginDesc = $projectDescription
-# $baseProjucer.JUCERPROJECT.MAINGROUP.name = $projectName
-
-# $baseProjucer.save($outPath)
-
-
-
-
-# run Projucer.exe --resave project
