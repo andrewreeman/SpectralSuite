@@ -48,9 +48,9 @@
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;" />
-        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;" />
-        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files\VST3&quot;" useRuntimeLibDLL="0" winArchitecture="Win32" />
+        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" />
+        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" />
+        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" useRuntimeLibDLL="0" winArchitecture="Win32" />
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules" />
