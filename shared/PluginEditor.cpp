@@ -44,7 +44,7 @@ SpectralGateAudioProcessorEditor::SpectralGateAudioProcessorEditor(SpectralAudio
 	
 	fftComboBoxAttachment.reset(new ComboBoxAttachment(valueTreeState, "fft", fftComboBox));	
 	addAndMakeVisible(fftComboBox);
-
+	
 	ScopedPointer<Drawable> infoIcon = Drawable::createFromImageData(BinaryData::baselineinfo24px_svg, BinaryData::baselineinfo24px_svgSize);
 	infoIcon->replaceColour(Colours::black, textColour);
 			
