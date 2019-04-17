@@ -1,92 +1,115 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="FrequencyShifter" projectType="audioplug" jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.0.0" defines="VersionCode=2" pluginDesc="Shifts frequencies up and down" pluginFormats="buildVST,buildVST3">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="WPt5si" name="FrequencyShifter" projectType="audioplug" jucerVersion="5.4.3"
+              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              version="2.0.0" defines="VersionCode=2" pluginDesc="Shifts frequencies up and down"
+              pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="FrequencyShifter">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
-      <FILE id="D4yJXP" name="FrequencySlider.cpp" compile="1" resource="0" file="Source/FrequencySlider.cpp" />
-      <FILE id="Rln8Kd" name="FrequencySlider.h" compile="0" resource="0" file="Source/FrequencySlider.h" />
-      <FILE id="q789kK" name="FrequencyShiftProcessor.cpp" compile="1" resource="0" file="Source/FrequencyShiftProcessor.cpp" />
-      <FILE id="mWGQ8x" name="FrequencyShiftProcessor.h" compile="0" resource="0" file="Source/FrequencyShiftProcessor.h" />
-      <FILE id="g7Czry" name="FrequencyShiftAudioPlugin.cpp" compile="1" resource="0" file="Source/FrequencyShiftAudioPlugin.cpp" />
-      <FILE id="ta4EJb" name="FrequencyShiftAudioPlugin.h" compile="0" resource="0" file="Source/FrequencyShiftAudioPlugin.h" />
+      <FILE id="D4yJXP" name="FrequencySlider.cpp" compile="1" resource="0"
+            file="Source/FrequencySlider.cpp"/>
+      <FILE id="Rln8Kd" name="FrequencySlider.h" compile="0" resource="0"
+            file="Source/FrequencySlider.h"/>
+      <FILE id="q789kK" name="FrequencyShiftProcessor.cpp" compile="1" resource="0"
+            file="Source/FrequencyShiftProcessor.cpp"/>
+      <FILE id="mWGQ8x" name="FrequencyShiftProcessor.h" compile="0" resource="0"
+            file="Source/FrequencyShiftProcessor.h"/>
+      <FILE id="g7Czry" name="FrequencyShiftAudioPlugin.cpp" compile="1"
+            resource="0" file="Source/FrequencyShiftAudioPlugin.cpp"/>
+      <FILE id="ta4EJb" name="FrequencyShiftAudioPlugin.h" compile="0" resource="0"
+            file="Source/FrequencyShiftAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
-      <FILE id="S6H3F0" name="PluginEditor.cpp" compile="1" resource="0" file="../shared/PluginEditor.cpp" />
-      <FILE id="pBAB04" name="PluginEditor.h" compile="0" resource="0" file="../shared/PluginEditor.h" />
-      <FILE id="PL4x5T" name="ParameterComponentFactory.h" compile="0" resource="0" file="../shared/ParameterComponentFactory.h" />
-      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0" file="../shared/SpectralAudioPlugin.cpp" />
-      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0" file="../shared/SpectralAudioPlugin.h" />
+      <FILE id="S6H3F0" name="PluginEditor.cpp" compile="1" resource="0"
+            file="../shared/PluginEditor.cpp"/>
+      <FILE id="pBAB04" name="PluginEditor.h" compile="0" resource="0" file="../shared/PluginEditor.h"/>
+      <FILE id="PL4x5T" name="ParameterComponentFactory.h" compile="0" resource="0"
+            file="../shared/ParameterComponentFactory.h"/>
+      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0"
+            file="../shared/SpectralAudioPlugin.cpp"/>
+      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0"
+            file="../shared/SpectralAudioPlugin.h"/>
       <GROUP id="{F0BC6AE4-205E-C184-A8D6-A59EA97BEA6B}" name="Resources">
-        <FILE id="j9wopC" name="baseline-settings-20px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-settings-20px.svg" />
-        <FILE id="xuFJGs" name="baseline-info-24px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-info-24px.svg" />
+        <FILE id="j9wopC" name="baseline-settings-20px.svg" compile="0" resource="1"
+              file="../../../../Downloads/baseline-settings-20px.svg"/>
+        <FILE id="xuFJGs" name="baseline-info-24px.svg" compile="0" resource="1"
+              file="../../../../Downloads/baseline-info-24px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
-        <FILE id="KZa1o3" name="kissfft.hh" compile="0" resource="0" file="../shared/legacy/kissfft.hh" />
-        <FILE id="f92QF5" name="specprocess.cpp" compile="1" resource="0" file="../shared/legacy/specprocess.cpp" />
-        <FILE id="SdTad1" name="specprocess.h" compile="0" resource="0" file="../shared/legacy/specprocess.h" />
-        <FILE id="TRaK1a" name="SpectralAudioProcessor.cpp" compile="1" resource="0" file="../shared/SpectralAudioProcessor.cpp" />
-        <FILE id="mDr9T7" name="SpectralAudioProcessor.h" compile="0" resource="0" file="../shared/SpectralAudioProcessor.h" />
-        <FILE id="B8bYyq" name="utilities.cpp" compile="1" resource="0" file="../shared/legacy/utilities.cpp" />
-        <FILE id="ljXOgO" name="utilities.h" compile="0" resource="0" file="../shared/legacy/utilities.h" />
+        <FILE id="KZa1o3" name="kissfft.hh" compile="0" resource="0" file="../shared/legacy/kissfft.hh"/>
+        <FILE id="f92QF5" name="specprocess.cpp" compile="1" resource="0" file="../shared/legacy/specprocess.cpp"/>
+        <FILE id="SdTad1" name="specprocess.h" compile="0" resource="0" file="../shared/legacy/specprocess.h"/>
+        <FILE id="TRaK1a" name="SpectralAudioProcessor.cpp" compile="1" resource="0"
+              file="../shared/SpectralAudioProcessor.cpp"/>
+        <FILE id="mDr9T7" name="SpectralAudioProcessor.h" compile="0" resource="0"
+              file="../shared/SpectralAudioProcessor.h"/>
+        <FILE id="B8bYyq" name="utilities.cpp" compile="1" resource="0" file="../shared/legacy/utilities.cpp"/>
+        <FILE id="ljXOgO" name="utilities.h" compile="0" resource="0" file="../shared/legacy/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
-        <FILE id="XtBfvR" name="FftSwitcher.cpp" compile="1" resource="0" file="../shared/FftSwitcher.cpp" />
-        <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h" />
-        <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftChoiceAdapter.cpp" />
-        <FILE id="KsDffr" name="FftChoiceAdapter.h" compile="0" resource="0" file="../shared/FftChoiceAdapter.h" />
+        <FILE id="XtBfvR" name="FftSwitcher.cpp" compile="1" resource="0" file="../shared/FftSwitcher.cpp"/>
+        <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
+        <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftChoiceAdapter.cpp"/>
+        <FILE id="KsDffr" name="FftChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
-        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0" file="../shared/VersionCheck.cpp" />
-        <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h" />
-        <FILE id="HLaffe" name="VersionInfo.cpp" compile="1" resource="0" file="../shared/VersionInfo.cpp" />
-        <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h" />
+        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
+              file="../shared/VersionCheck.cpp"/>
+        <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h"/>
+        <FILE id="HLaffe" name="VersionInfo.cpp" compile="1" resource="0" file="../shared/VersionInfo.cpp"/>
+        <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" />
-        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" />
-        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#xA;" useRuntimeLibDLL="0" winArchitecture="Win32" />
+        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
+        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
+        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#10;"
+                       useRuntimeLibDLL="0" winArchitecture="Win32"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_events" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_graphics" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_data_structures" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_gui_basics" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_gui_extra" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_cryptography" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_video" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_opengl" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_basics" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_devices" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_formats" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_processors" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_plugin_client" path="..\..\..\..\..\..\JUCE\modules" />
-        <MODULEPATH id="juce_audio_utils" path="..\..\..\..\..\..\JUCE\modules" />
+        <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_cryptography" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_video" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_opengl" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_basics" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_formats" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_processors" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="..\..\..\..\..\..\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_utils" path="..\..\..\..\..\..\JUCE\modules"/>
       </MODULEPATHS>
     </VS2017>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
-    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1" />
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
-    <WINDOWS buildEnabled="0" />
+    <WINDOWS buildEnabled="0"/>
   </LIVE_SETTINGS>
-  <JUCEOPTIONS />
+  <JUCEOPTIONS/>
 </JUCERPROJECT>
