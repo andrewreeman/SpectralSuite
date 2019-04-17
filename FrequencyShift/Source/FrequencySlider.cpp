@@ -7,12 +7,12 @@ FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, C
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
 	frequencyShift.setRange(-500, 500, 10);
 	frequencyShift.setSkewFactor(2.0);
-	frequencyShift.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
-	frequencyShift.setTextValueSuffix("Hz");
+	frequencyShift.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);		
 
 	frequencyShift.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	frequencyShift.setValue(0.6);
 	addAndMakeVisible(&frequencyShift);
+	
 	frequencyShiftAttachment.reset(new SliderAttachment(valueTreeState, "shift", frequencyShift));	
 }
 

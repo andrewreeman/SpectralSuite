@@ -12,10 +12,11 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SpectralGateAudioProcessorEditor::SpectralGateAudioProcessorEditor(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainerFactory)
+SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainerFactory)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
+	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),
 	parameterContainerHeight(parameterContainerFactory.getComponentHeight())
 {			
 	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
@@ -53,22 +54,32 @@ SpectralGateAudioProcessorEditor::SpectralGateAudioProcessorEditor(SpectralAudio
 		this->aboutClicked();
 	};
 
-	addAndMakeVisible(&aboutButton);	
+	addAndMakeVisible(&aboutButton);
+
+	ScopedPointer<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
+	settingsIcon->replaceColour(Colours::black, textColour);
+
+	settingsButton.setImages(settingsIcon);
+	settingsButton.onClick = [this]() {
+		this->settingsClicked();
+	};
+	
+	addAndMakeVisible(&settingsButton);
 
 	setSize(300, 220 + parameterContainerHeight);
 }
 
-SpectralGateAudioProcessorEditor::~SpectralGateAudioProcessorEditor()
+SpectralAudioProcessorEditor::~SpectralAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void SpectralGateAudioProcessorEditor::paint (Graphics& g)
+void SpectralAudioProcessorEditor::paint (Graphics& g)
 {
 	g.fillAll(Colours::white);	    	
 }
 
-void SpectralGateAudioProcessorEditor::resized()
+void SpectralAudioProcessorEditor::resized()
 {
 	if (!hasInit) {
 		hasInit = true;
@@ -92,9 +103,10 @@ void SpectralGateAudioProcessorEditor::resized()
 	
 	auto iconSize = titleHeight;	
 	aboutButton.setBounds(getWidth() - iconSize, 0, iconSize, iconSize);	
+	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom() + yPadding, iconSize, iconSize);
 }
 
-void SpectralGateAudioProcessorEditor::handleCommandMessage(int messageId)
+void SpectralAudioProcessorEditor::handleCommandMessage(int messageId)
 {
 	if (messageId == Messages::UPDATE_AVAILABLE) {
 		aboutButton.getNormalImage()->replaceColour(Colour::fromString(TEXT_COLOUR), Colour::fromString(WARNING_COLOUR));				
@@ -102,13 +114,13 @@ void SpectralGateAudioProcessorEditor::handleCommandMessage(int messageId)
 	}
 }
 
-void SpectralGateAudioProcessorEditor::onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo)
+void SpectralAudioProcessorEditor::onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo)
 {	
 	this->versionInfo.reset(versionInfo.release());
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
 }
 
-void SpectralGateAudioProcessorEditor::aboutClicked()
+void SpectralAudioProcessorEditor::aboutClicked()
 {		
 	String aboutMessage = "Version " + String(JucePlugin_VersionString);	
 	if (versionInfo != nullptr) {
@@ -124,6 +136,15 @@ void SpectralGateAudioProcessorEditor::aboutClicked()
 	AlertWindow::showMessageBoxAsync(
 		icon, TRANS("About"),
 		aboutMessage,
+		"OK"
+	);
+}
+
+void SpectralAudioProcessorEditor::settingsClicked() {
+	AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
+	AlertWindow::showMessageBoxAsync(
+		icon, TRANS("Settings"),
+		"Settings",
 		"OK"
 	);
 }

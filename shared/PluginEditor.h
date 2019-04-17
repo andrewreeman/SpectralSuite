@@ -23,11 +23,11 @@ constexpr auto WARNING_COLOUR = "FFF44336";
 /**
 */
 
-class SpectralGateAudioProcessorEditor : public AudioProcessorEditor, public VersionCheckThread::Listener	
+class SpectralAudioProcessorEditor : public AudioProcessorEditor, public VersionCheckThread::Listener	
 {
 public:	    
-	SpectralGateAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainer);
-    ~SpectralGateAudioProcessorEditor();
+	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainer);
+    ~SpectralAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
@@ -45,7 +45,8 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 
-	void aboutClicked();			    
+	void aboutClicked();	
+	void settingsClicked();
 
 	const int textBoxHeight = 30;
 	const AudioProcessorValueTreeState& valueTreeState;
@@ -59,8 +60,9 @@ private:
 	Label fftComboLabel;
 	ComboBox fftComboBox;
 	std::unique_ptr<ComboBoxAttachment> fftComboBoxAttachment;	
-	DrawableButton aboutButton;		
+	DrawableButton aboutButton;	
+	DrawableButton settingsButton;
 	std::unique_ptr<VersionInfo> versionInfo;
 	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralGateAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioProcessorEditor)
 };

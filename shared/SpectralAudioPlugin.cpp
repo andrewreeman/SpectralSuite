@@ -217,8 +217,8 @@ bool SpectralAudioPlugin::hasEditor() const
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {
 	
-    //return new SpectralGateAudioProcessorEditor (*this, parameters, new FrequencySlider(parameters, Colour::fromString(TEXT_COLOUR), 30));	
-	return new SpectralGateAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
+    //return new SpectralAudioProcessorEditor (*this, parameters, new FrequencySlider(parameters, Colour::fromString(TEXT_COLOUR), 30));	
+	return new SpectralAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
 }
 
 //==============================================================================
