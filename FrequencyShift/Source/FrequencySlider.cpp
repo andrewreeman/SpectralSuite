@@ -5,7 +5,9 @@
 FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
-	frequencyShift.setRange(-500, 500, 10);
+	const NormalisableRange<float> range = valueTreeState.getParameterRange("shift");		
+		
+	frequencyShift.setRange(range.start, range.end, range.interval);
 	frequencyShift.setSkewFactor(2.0);
 	frequencyShift.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);		
 
@@ -14,6 +16,10 @@ FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, C
 	addAndMakeVisible(&frequencyShift);
 	
 	frequencyShiftAttachment.reset(new SliderAttachment(valueTreeState, "shift", frequencyShift));	
+
+	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
+	//shift->range.start = -600;	
+	//frequencyShift.setRange(-600, range.end, range.interval);
 }
 
 FrequencySlider::~FrequencySlider()
@@ -28,4 +34,8 @@ void FrequencySlider::paint (Graphics& g)
 void FrequencySlider::resized()
 {    
 	frequencyShift.setBounds(0, 0, getWidth(), getHeight());
+}
+
+void FrequencySlider::onPropertiesChanged()
+{
 }

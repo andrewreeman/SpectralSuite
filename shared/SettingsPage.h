@@ -15,7 +15,7 @@
 //==============================================================================
 /*
 */
-class SettingsPage    : public Component
+class SettingsPage : public Component
 {
 public:
 	class Listener {
@@ -23,11 +23,12 @@ public:
 		virtual void onPropertiesChanged() = 0;
 	};
 
-    SettingsPage(Listener* listener);
+    SettingsPage();
     ~SettingsPage();
 
     void paint (Graphics&) override;
     void resized() override;
+	void setListener(Listener* listener) { this->listener = listener; }
 
 	Array<PropertyComponent*> createSliders(int howMany);
 

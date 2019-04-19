@@ -11,9 +11,11 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/SettingsPage.h"
 
 //==============================================================================
-class FrequencySlider : public Component
+class FrequencySlider : public Component, 
+	public SettingsPage::Listener
 {
 public:
     FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
@@ -27,4 +29,7 @@ private:
 	std::unique_ptr<SliderAttachment> frequencyShiftAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)
+
+		// Inherited via Listener
+		virtual void onPropertiesChanged() override;
 };

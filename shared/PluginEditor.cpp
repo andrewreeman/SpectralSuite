@@ -17,10 +17,9 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
 	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
-	parameterContainerHeight(parameterContainerFactory.getComponentHeight()),
-	settingsPage(this)
+	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
 {			
-	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
+	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
 
 	auto textColour = Colour::fromString(TEXT_COLOUR);
 	auto sliderXPosition = 40;
@@ -123,11 +122,6 @@ void SpectralAudioProcessorEditor::onNewVersionAvailable(std::unique_ptr<Version
 {	
 	this->versionInfo.reset(versionInfo.release());
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
-}
-
-void SpectralAudioProcessorEditor::onPropertiesChanged()
-{
-
 }
 
 void SpectralAudioProcessorEditor::aboutClicked()

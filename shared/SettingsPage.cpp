@@ -1,8 +1,7 @@
 #include "SettingsPage.h"
 
 //==============================================================================
-SettingsPage::SettingsPage(SettingsPage::Listener* listener) :
-	listener(listener),
+SettingsPage::SettingsPage() :	
 	backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
 {
     // In your constructor, you should add any child components, and

@@ -26,8 +26,7 @@ constexpr auto WARNING_COLOUR = "FFF44336";
 
 class SpectralAudioProcessorEditor :
 	public AudioProcessorEditor, 
-	public VersionCheckThread::Listener,
-	public SettingsPage::Listener
+	public VersionCheckThread::Listener	
 {
 public:	    
 	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainer);
@@ -39,10 +38,7 @@ public:
 	void handleCommandMessage(int) override;
 
 	// VersionCheckThread::Listener methods
-	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);	
-
-	// SettingsPage::Listener methods
-	void onPropertiesChanged();
+	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);		
 	
 private:
 	enum Messages {
