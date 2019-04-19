@@ -1,22 +1,24 @@
-/*
-  ==============================================================================
-
-    SettingsPage.cpp
-    Created: 17 Apr 2019 9:48:04pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #include "SettingsPage.h"
 
 //==============================================================================
-SettingsPage::SettingsPage()
+SettingsPage::SettingsPage(SettingsPage::Listener* listener) :
+	listener(listener),
+	backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 	propertyPanel.addProperties(createSliders(3));
 	addAndMakeVisible(&propertyPanel);
+
+	ScopedPointer<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinearrow_back24px_svg, BinaryData::baselinearrow_back24px_svgSize);
+	settingsIcon->replaceColour(Colours::black, Colours::white);
+
+	backButton.setImages(settingsIcon);
+	backButton.onClick = [this]() {
+		this->backButtonClicked();
+	};
+
+	addAndMakeVisible(backButton);
 }
 
 SettingsPage::~SettingsPage()
@@ -51,6 +53,8 @@ void SettingsPage::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 	
+	backButton.setBounds(0, 0, 40, 40);
+
 	propertyPanel.setBounds(
 		getBounds()
 		.translated(0, 40)
@@ -68,4 +72,13 @@ Array<PropertyComponent*> SettingsPage::createSliders(int howMany)
 
 
 	return comps;
+}
+
+void SettingsPage::backButtonClicked()
+{
+	this->setVisible(false);
+	if (this->listener != nullptr) {
+		this->listener->onPropertiesChanged();
+	}
+
 }

@@ -18,7 +18,12 @@
 class SettingsPage    : public Component
 {
 public:
-    SettingsPage();
+	class Listener {
+	public:
+		virtual void onPropertiesChanged() = 0;
+	};
+
+    SettingsPage(Listener* listener);
     ~SettingsPage();
 
     void paint (Graphics&) override;
@@ -27,7 +32,11 @@ public:
 	Array<PropertyComponent*> createSliders(int howMany);
 
 private:
+	void backButtonClicked();
+
 	PropertyPanel propertyPanel;
+	DrawableButton backButton;
+	Listener* listener;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsPage)
 };

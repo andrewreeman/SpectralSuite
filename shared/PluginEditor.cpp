@@ -17,7 +17,8 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
 	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
-	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
+	parameterContainerHeight(parameterContainerFactory.getComponentHeight()),
+	settingsPage(this)
 {			
 	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
 
@@ -105,7 +106,7 @@ void SpectralAudioProcessorEditor::resized()
 	
 	auto iconSize = titleHeight;	
 	aboutButton.setBounds(getWidth() - iconSize, 0, iconSize, iconSize);	
-	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom() + yPadding, iconSize, iconSize);
+	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom(), iconSize, iconSize);
 	
 	settingsPage.setBounds(getBounds());	
 }
@@ -122,6 +123,11 @@ void SpectralAudioProcessorEditor::onNewVersionAvailable(std::unique_ptr<Version
 {	
 	this->versionInfo.reset(versionInfo.release());
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
+}
+
+void SpectralAudioProcessorEditor::onPropertiesChanged()
+{
+
 }
 
 void SpectralAudioProcessorEditor::aboutClicked()
