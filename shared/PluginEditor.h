@@ -14,6 +14,7 @@
 #include "SpectralAudioPlugin.h"
 #include "VersionCheck.h"
 #include "ParameterComponentFactory.h"
+#include "SettingsPage.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -46,6 +47,7 @@ private:
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 
 	void aboutClicked();	
+
 	void settingsClicked();
 
 	const int textBoxHeight = 30;
@@ -62,6 +64,8 @@ private:
 	std::unique_ptr<ComboBoxAttachment> fftComboBoxAttachment;	
 	DrawableButton aboutButton;	
 	DrawableButton settingsButton;
+	SettingsPage settingsPage;	
+
 	std::unique_ptr<VersionInfo> versionInfo;
 	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioProcessorEditor)

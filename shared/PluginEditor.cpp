@@ -16,8 +16,8 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
-	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),
-	parameterContainerHeight(parameterContainerFactory.getComponentHeight())
+	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
+	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
 {			
 	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
 
@@ -64,7 +64,9 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 		this->settingsClicked();
 	};
 	
-	addAndMakeVisible(&settingsButton);
+	addAndMakeVisible(&settingsButton);	
+			
+	addChildComponent(&settingsPage);
 
 	setSize(300, 220 + parameterContainerHeight);
 }
@@ -104,6 +106,8 @@ void SpectralAudioProcessorEditor::resized()
 	auto iconSize = titleHeight;	
 	aboutButton.setBounds(getWidth() - iconSize, 0, iconSize, iconSize);	
 	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom() + yPadding, iconSize, iconSize);
+	
+	settingsPage.setBounds(getBounds());	
 }
 
 void SpectralAudioProcessorEditor::handleCommandMessage(int messageId)
@@ -140,11 +144,14 @@ void SpectralAudioProcessorEditor::aboutClicked()
 	);
 }
 
-void SpectralAudioProcessorEditor::settingsClicked() {
-	AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
+void SpectralAudioProcessorEditor::settingsClicked() {	
+	settingsPage.setVisible(true);
+	
+
+	/*AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
 	AlertWindow::showMessageBoxAsync(
 		icon, TRANS("Settings"),
 		"Settings",
 		"OK"
-	);
+	);*/
 }

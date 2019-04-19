@@ -21,6 +21,10 @@
       <FILE id="PL4x5T" name="ParameterComponentFactory.h" compile="0" resource="0" file="../shared/ParameterComponentFactory.h" />
       <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0" file="../shared/SpectralAudioPlugin.cpp" />
       <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0" file="../shared/SpectralAudioPlugin.h" />
+      <GROUP id="{04893BC4-7A15-CA0B-8D5A-195B244F0958}" name="Settings">
+        <FILE id="mlfkqO" name="SettingsPage.cpp" compile="1" resource="0" file="../shared/SettingsPage.cpp" />
+        <FILE id="picqXi" name="SettingsPage.h" compile="0" resource="0" file="../shared/SettingsPage.h" />
+      </GROUP>
       <GROUP id="{F0BC6AE4-205E-C184-A8D6-A59EA97BEA6B}" name="Resources">
         <FILE id="j9wopC" name="baseline-settings-20px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-settings-20px.svg" />
         <FILE id="xuFJGs" name="baseline-info-24px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-info-24px.svg" />
