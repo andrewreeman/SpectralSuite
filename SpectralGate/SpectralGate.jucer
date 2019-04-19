@@ -25,6 +25,7 @@
       </GROUP>
       <GROUP id="{F0BC6AE4-205E-C184-A8D6-A59EA97BEA6B}" name="Resources">
         <FILE id="j9wopC" name="baseline-settings-20px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-settings-20px.svg" />
+        <FILE id="nkElL0" name="baseline-arrow_back-24px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-arrow_back-24px.svg" />
         <FILE id="xuFJGs" name="baseline-info-24px.svg" compile="0" resource="1" file="../../../../Downloads/baseline-info-24px.svg" />
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
