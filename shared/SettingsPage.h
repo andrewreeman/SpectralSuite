@@ -29,8 +29,9 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 	void setListener(Listener* listener) { this->listener = listener; }
+	void setProperties(Array<PropertyComponent*> properties) { propertyPanel.addProperties(properties); }
 
-	Array<PropertyComponent*> createSliders(int howMany);
+	//Array<PropertyComponent*> createSliders(int howMany);
 
 private:
 	void backButtonClicked();

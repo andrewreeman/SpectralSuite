@@ -17,9 +17,11 @@ FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, C
 	
 	frequencyShiftAttachment.reset(new SliderAttachment(valueTreeState, "shift", frequencyShift));	
 
+	this->valueTreeState = &valueTreeState;
+
 	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
-	//shift->range.start = -600;	
-	//frequencyShift.setRange(-600, range.end, range.interval);
+	//shift->shiftDownRange.start = -600;	
+	//frequencyShift.setRange(-600, shiftDownRange.end, shiftDownRange.interval);
 }
 
 FrequencySlider::~FrequencySlider()
@@ -38,4 +40,19 @@ void FrequencySlider::resized()
 
 void FrequencySlider::onPropertiesChanged()
 {
+}
+
+Array<PropertyComponent*> FrequencySlider::getSettingsProperties() 
+{	
+	const NormalisableRange<float> shiftDownRange = this->valueTreeState->getParameterRange("shiftMinRange");
+	SliderPropertyComponent* shiftMinRangeValue = new SliderPropertyComponent(valueTreeState->getParameterAsValue("shiftMinRange"), "Shift down max", shiftDownRange.start, shiftDownRange.end, shiftDownRange.interval, shiftDownRange.skew);
+
+	const NormalisableRange<float> shiftUpRange = this->valueTreeState->getParameterRange("shiftMaxRange");
+	SliderPropertyComponent* shiftMaxRangeValue = new SliderPropertyComponent(valueTreeState->getParameterAsValue("shiftMaxRange"), "Shift up max", shiftUpRange.start, shiftUpRange.end, shiftUpRange.interval, shiftUpRange.skew);
+
+	Array<PropertyComponent*> settingsPropertyComponents;
+	settingsPropertyComponents.add(shiftMinRangeValue);
+	settingsPropertyComponents.add(shiftMaxRangeValue);
+
+	return settingsPropertyComponents;
 }

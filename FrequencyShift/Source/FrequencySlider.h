@@ -23,10 +23,14 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;	
+
+	Array<PropertyComponent*> getSettingsProperties();
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 	Slider frequencyShift;
 	std::unique_ptr<SliderAttachment> frequencyShiftAttachment;
+	AudioProcessorValueTreeState* valueTreeState;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)
 

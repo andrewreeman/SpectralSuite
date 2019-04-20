@@ -22,7 +22,7 @@ void FrequencyShiftProcessor::createParameters(AudioProcessorValueTreeState* val
 	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"shiftMinRange",
 		"Frequency shift minimum range",
-		NormalisableRange<float>(-20000, 0, increment), minRangeDefault, "",
+		NormalisableRange<float>(-20000, -10, increment), minRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
 		[shiftHertzLabel](float v, float maxLabelLength) { return String(v, 2) + shiftHertzLabel; },
 		[shiftHertzLabel](String text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
@@ -31,7 +31,7 @@ void FrequencyShiftProcessor::createParameters(AudioProcessorValueTreeState* val
 	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"shiftMaxRange",
 		"Frequency shift maximum range",
-		NormalisableRange<float>(0, 20000, increment), maxRangeDefault, "",
+		NormalisableRange<float>(10, 20000, increment), maxRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
 		[shiftHertzLabel](float v, float maxLabelLength) { return String(v, 2) + shiftHertzLabel; },
 		[shiftHertzLabel](String text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }

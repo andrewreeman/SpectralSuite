@@ -6,6 +6,8 @@ class FrequencyShifterParameterContainerFactory : public ParameterComponentFacto
 		FrequencySlider* slider = new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30);
 		
 		settingsPageToConfigure.setListener(slider);
+		settingsPageToConfigure.setProperties(slider->getSettingsProperties());
+
 		return slider;
 	}
 };
