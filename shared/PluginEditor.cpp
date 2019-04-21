@@ -20,7 +20,7 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
 {			
 	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
-
+	
 	auto textColour = Colour::fromString(TEXT_COLOUR);
 	auto sliderXPosition = 40;
 	
@@ -55,18 +55,22 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	};
 
 	addAndMakeVisible(&aboutButton);
-
-	ScopedPointer<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
-	settingsIcon->replaceColour(Colours::black, textColour);
-
-	settingsButton.setImages(settingsIcon);
-	settingsButton.onClick = [this]() {
-		this->settingsClicked();
-	};
 	
-	addAndMakeVisible(&settingsButton);	
-			
-	addChildComponent(&settingsPage);
+	Array<PropertyComponent*> settings = this->parameterContainer.get()->getSettingsProperties();	
+	if (!settings.isEmpty()) {
+		settingsPage.setListener(this->parameterContainer.get());
+		settingsPage.setProperties(settings);
+
+		ScopedPointer<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
+		settingsIcon->replaceColour(Colours::black, textColour);
+		settingsButton.setImages(settingsIcon);
+		settingsButton.onClick = [this]() {
+			this->settingsClicked();
+		};
+
+		addAndMakeVisible(&settingsButton);
+		addChildComponent(&settingsPage);
+	}
 
 	setSize(300, 220 + parameterContainerHeight);
 }

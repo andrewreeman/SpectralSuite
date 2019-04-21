@@ -2,13 +2,8 @@
 
 
 class FrequencyShifterParameterContainerFactory : public ParameterComponentFactory  {
-	Component* create(AudioProcessorValueTreeState& valueTreeState, SettingsPage& settingsPageToConfigure) override {
-		FrequencySlider* slider = new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30);
-		
-		settingsPageToConfigure.setListener(slider);
-		settingsPageToConfigure.setProperties(slider->getSettingsProperties());
-
-		return slider;
+	EditorParameterContainer* create(AudioProcessorValueTreeState& valueTreeState, SettingsPage& settingsPageToConfigure) override {
+		return new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30); 				
 	}
 };
 	

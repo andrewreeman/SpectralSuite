@@ -5,15 +5,14 @@
 FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
-	const AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
-	NormalisableRange<float> range = valueTreeState.getParameterRange("shift");		
+	AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");	
 	const AudioParameterFloat* minRange = (AudioParameterFloat*)valueTreeState.getParameter("shiftMinRange");
 	const AudioParameterFloat* maxRange = (AudioParameterFloat*)valueTreeState.getParameter("shiftMaxRange");
-	
-	range.start = minRange->get();
-	range.end = maxRange->get();	
+		
+	shift->range.start = minRange->get();
+	shift->range.end = maxRange->get();	
 
-	frequencyShift.setRange(range.start, range.end, range.interval);
+	//frequencyShift.setRange(range.start, range.end, range.interval);
 	frequencyShift.setSkewFactor(2.0);
 	frequencyShift.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);		
 
@@ -63,13 +62,18 @@ void FrequencySlider::onPropertiesChanged()
 	}
 
 	shiftParam->range.start = lowestValue;
-	shiftParam->range.end = highestValue;
+	shiftParam->range.end = highestValue;	
 	frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
+	shiftParam->setValueNotifyingHost( shiftParam->convertTo0to1(currentValue) );
 	
 
 	/*shift->shiftDownRange.start = -600;	
 	frequencyShift.setRange(-600, shiftDownRange.end, shiftDownRange.interval);*/
 
+}
+
+void FrequencySlider::onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState)
+{
 }
 
 Array<PropertyComponent*> FrequencySlider::getSettingsProperties() 

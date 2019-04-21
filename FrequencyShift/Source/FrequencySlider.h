@@ -12,10 +12,10 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/SettingsPage.h"
+#include "../../shared/EditorParameterContainer.h"
 
 //==============================================================================
-class FrequencySlider : public Component, 
-	public SettingsPage::Listener
+class FrequencySlider : public EditorParameterContainer	
 {
 public:
     FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
@@ -23,8 +23,11 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;	
+	
+	Array<PropertyComponent*> getSettingsProperties() override;	
+	void onPropertiesChanged() override;	
+	void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState) override;
 
-	Array<PropertyComponent*> getSettingsProperties();
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 	Slider frequencyShift;
@@ -32,8 +35,5 @@ private:
 	AudioProcessorValueTreeState* valueTreeState;
 
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)
-
-		// Inherited via Listener
-		virtual void onPropertiesChanged() override;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)	
 };

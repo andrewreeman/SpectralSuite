@@ -12,9 +12,11 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SpectralAudioPlugin.h"
+#include "AudioValueTreeOnLoadListener.h"
 #include "VersionCheck.h"
 #include "ParameterComponentFactory.h"
 #include "SettingsPage.h"
+#include "EditorParameterContainer.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -26,7 +28,8 @@ constexpr auto WARNING_COLOUR = "FFF44336";
 
 class SpectralAudioProcessorEditor :
 	public AudioProcessorEditor, 
-	public VersionCheckThread::Listener	
+	public VersionCheckThread::Listener	,
+	public AudioValueTreeStateOnLoadListener
 {
 public:	    
 	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainer);
@@ -39,6 +42,11 @@ public:
 
 	// VersionCheckThread::Listener methods
 	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);		
+
+	// Inherited via AudioValueTreeStateOnLoadListener
+	virtual void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState) override {
+		parameterContainer->onAudioValueTreeStateLoaded(newState);
+	}
 	
 private:
 	enum Messages {
@@ -59,7 +67,7 @@ private:
 	Label title;	
 
 	const int parameterContainerHeight;
-	std::unique_ptr<Component> parameterContainer;	
+	std::unique_ptr<EditorParameterContainer> parameterContainer;	
 	
 	Label fftComboLabel;
 	ComboBox fftComboBox;
@@ -70,5 +78,5 @@ private:
 
 	std::unique_ptr<VersionInfo> versionInfo;
 	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioProcessorEditor)	
 };

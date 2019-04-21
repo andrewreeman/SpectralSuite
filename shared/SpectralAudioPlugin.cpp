@@ -26,7 +26,8 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_parameterUiComponentFactory(parameterComponentFactory.release()),
 	parameters(*this, nullptr),
 	m_fftSwitcher(this),
-	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
+	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json"),
+	m_onLoadStateListener(nullptr)
 {			
 
 
@@ -215,30 +216,56 @@ bool SpectralAudioPlugin::hasEditor() const
 }
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
-{
-	
-    //return new SpectralAudioProcessorEditor (*this, parameters, new FrequencySlider(parameters, Colour::fromString(TEXT_COLOUR), 30));	
-	return new SpectralAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
+{	    
+	SpectralAudioProcessorEditor* editor = new SpectralAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
+
+	m_onLoadStateListener = editor;
+	return editor;
 }
 
 //==============================================================================
 void SpectralAudioPlugin::getStateInformation (MemoryBlock& destData)
 {    
 	auto state = parameters.copyState();
+	AudioParameterFloat* shift = (AudioParameterFloat*)parameters.getParameter("shift");
+	AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
+	AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
 	std::unique_ptr<XmlElement> xml(state.createXml());
-	copyXmlToBinary(*xml, destData);
+	
+	// encode range
 
+	//XmlElement* shiftXmlElement = xml->getChildByAttribute("id", "shift");	
+	//shiftXmlElement->setAttribute("minRange", min->get());
+	//shiftXmlElement->setAttribute("maxRange", max->get());
+
+	copyXmlToBinary(*xml, destData);
 }
 
 void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes)
 { 
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
-	if (xmlState.get() != nullptr) {
-		if (xmlState->hasTagName(parameters.state.getType())) {
-			parameters.replaceState(ValueTree::fromXml(*xmlState));
-		}
-	}
+	if ( xmlState.get() == nullptr ) { return; }
+	if ( !xmlState->hasTagName(parameters.state.getType()) ) {	return;}
+	
+
+	parameters.replaceState(ValueTree::fromXml(*xmlState));		
+	
+	AudioParameterFloat* shift = (AudioParameterFloat*)parameters.getParameter("shift");
+	AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
+	AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
+
+	shift->range.start = min->get();
+	shift->range.end = max->get();
+	
+	//XmlElement* shiftXmlElement = xmlState->getChildByAttribute("id", "shift");
+	//double savedValue = shiftXmlElement->getDoubleAttribute("value", shift->get());
+	//shift->setValueNotifyingHost(savedValue);
+	//shift->set(shiftXmlElement->getAttributeValue(1));
+
+	if (m_onLoadStateListener != nullptr) {
+		m_onLoadStateListener->onAudioValueTreeStateLoaded(parameters);
+	}	
 }
 
 void SpectralAudioPlugin::switchFftSize()

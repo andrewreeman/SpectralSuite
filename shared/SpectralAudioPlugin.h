@@ -19,8 +19,7 @@ public:
 	static const int INIT_FFT_INDEX;
 	static const int N_CHANS;
 
-public:
-    //==============================================================================
+public:	
 	SpectralAudioPlugin(
 		std::unique_ptr<SpectralAudioProcessor> audioProcessor, 
 		std::unique_ptr<ParameterComponentFactory> parameterComponentFactory,
@@ -66,7 +65,7 @@ public:
 
 	void checkForUpdates(VersionCheckThread::Listener* onUpdateAvailableListener);
 
-private:
+private:	
     //==============================================================================
 	void emptyOutputs();
 	void setFftSize(int fftSize);	
@@ -87,6 +86,8 @@ private:
 	std::vector<float> m_output_R;
 	std::vector<float> m_Input_L;
 	std::vector<float> m_Input_R;
+
+	AudioValueTreeStateOnLoadListener* m_onLoadStateListener;
 
 	VersionCheckThread m_versionCheckThread;
 
