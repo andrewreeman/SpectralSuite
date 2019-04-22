@@ -228,8 +228,8 @@ void SpectralAudioPlugin::getStateInformation (MemoryBlock& destData)
 {    
 	auto state = parameters.copyState();
 	AudioParameterFloat* shift = (AudioParameterFloat*)parameters.getParameter("shift");
-	AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
-	AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
+	//AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
+	//AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
 	std::unique_ptr<XmlElement> xml(state.createXml());
 	
 	// encode range
@@ -250,22 +250,33 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 	
 
 	parameters.replaceState(ValueTree::fromXml(*xmlState));		
-	
-	AudioParameterFloat* shift = (AudioParameterFloat*)parameters.getParameter("shift");
-	AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
-	AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
-
-	shift->range.start = min->get();
-	shift->range.end = max->get();
-	
-	//XmlElement* shiftXmlElement = xmlState->getChildByAttribute("id", "shift");
-	//double savedValue = shiftXmlElement->getDoubleAttribute("value", shift->get());
-	//shift->setValueNotifyingHost(savedValue);
-	//shift->set(shiftXmlElement->getAttributeValue(1));
-
 	if (m_onLoadStateListener != nullptr) {
-		m_onLoadStateListener->onAudioValueTreeStateLoaded(parameters);
+		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(parameters, xmlState.get());
 	}	
+	else {		
+		AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->parameters.getParameter("shift");
+
+		const double originalShiftValue = xmlState->getChildByAttribute("id", "shift")->getDoubleAttribute("value", shiftParam->get());
+		const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)this->parameters.getParameter("shiftMinRange");
+		const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)this->parameters.getParameter("shiftMaxRange");
+
+		float currentValue = originalShiftValue;
+		const float lowestValue = lowestValueParam->get();
+		const float highestValue = highestValueParam->get();
+
+		if (currentValue < lowestValue) {
+			currentValue = lowestValue;
+		}
+
+		if (currentValue > highestValue) {
+			currentValue = highestValue;
+		}
+
+		shiftParam->range.start = lowestValue;
+		shiftParam->range.end = highestValue;
+		//frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
+		shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));
+	}
 }
 
 void SpectralAudioPlugin::switchFftSize()

@@ -14,5 +14,5 @@
 class AudioValueTreeStateOnLoadListener {
 public:
 	// Called when setStateInformation is used to replace the state of the AudioValueTreeState
-	virtual void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState& newState) = 0;
+	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState& newState, XmlElement* xmlState) = 0;
 };

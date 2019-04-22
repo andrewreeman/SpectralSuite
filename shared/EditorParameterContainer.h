@@ -37,7 +37,7 @@ public:
 	virtual void onPropertiesChanged() override {}
 
 	// Inherited via AudioValueTreeStateOnLoadListener
-	virtual void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState) override {}
+	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override {}
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EditorParameterContainer)	

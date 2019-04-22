@@ -29,7 +29,10 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 	void setListener(Listener* listener) { this->listener = listener; }
-	void setProperties(Array<PropertyComponent*> properties) { propertyPanel.addProperties(properties); }
+	void setProperties(Array<PropertyComponent*> properties) { 
+		propertyPanel.clear();
+		propertyPanel.addProperties(properties); 
+	}
 
 	//Array<PropertyComponent*> createSliders(int howMany);
 

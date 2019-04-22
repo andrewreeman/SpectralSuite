@@ -44,8 +44,8 @@ public:
 	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);		
 
 	// Inherited via AudioValueTreeStateOnLoadListener
-	virtual void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState) override {
-		parameterContainer->onAudioValueTreeStateLoaded(newState);
+	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override {
+		parameterContainer->onAudioValueTreeStateLoadedFromXmlState(newState, xmlState);
 	}
 	
 private:

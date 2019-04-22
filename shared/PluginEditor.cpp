@@ -149,6 +149,11 @@ void SpectralAudioProcessorEditor::aboutClicked()
 }
 
 void SpectralAudioProcessorEditor::settingsClicked() {	
+	const Array<PropertyComponent*> settings = this->parameterContainer.get()->getSettingsProperties();
+	if (settings.isEmpty()) { return; }
+	
+	
+	settingsPage.setProperties(settings);		
 	settingsPage.setVisible(true);
 	
 
