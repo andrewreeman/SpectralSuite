@@ -15,6 +15,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/SpectralAudioPlugin.h"
-#include "../../shared/ParameterComponentFactory.h"
+#include "../../shared/ParameterContainerComponentFactory.h"
 #include "../../shared/PluginEditor.h"
-#include "../../shared/EditorParameterContainer.h"
+//#include "../../shared/ParameterContainerComponent.h"

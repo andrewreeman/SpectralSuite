@@ -1,21 +1,11 @@
-/*
-  ==============================================================================
-
-    FrequencySlider.h
-    Created: 31 Dec 2018 8:31:43pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/SettingsPage.h"
-#include "../../shared/EditorParameterContainer.h"
+#include "../../shared/ParameterContainerComponent.h"
 
 //==============================================================================
-class FrequencySlider : public EditorParameterContainer	
+class FrequencySlider : public ParameterContainerComponent	
 {
 public:
     FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);

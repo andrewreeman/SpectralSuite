@@ -1,8 +1,8 @@
 #include "FrequencyShiftAudioPlugin.h"
 
 
-class FrequencyShifterParameterContainerFactory : public ParameterComponentFactory  {
-	EditorParameterContainer* create(AudioProcessorValueTreeState& valueTreeState) override {
+class FrequencyShifterParameterContainerFactory : public ParameterContainerComponentFactory  {
+	ParameterContainerComponent* create(AudioProcessorValueTreeState& valueTreeState) override {
 		return new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30); 				
 	}
 };

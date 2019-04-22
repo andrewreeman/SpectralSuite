@@ -1,14 +1,14 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/EditorParameterContainer.h"
+#include "../../shared/ParameterContainerComponent.h"
 #include "CutOffSlider.h"
 #include "BalanceSlider.h"
 
 //==============================================================================
 /*
 */
-class SliderContainer : public EditorParameterContainer
+class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);

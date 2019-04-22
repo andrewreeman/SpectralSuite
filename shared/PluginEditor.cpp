@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainerFactory)
+SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),

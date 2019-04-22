@@ -31,15 +31,15 @@
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
       <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
             resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
-      <FILE id="IYx7Bf" name="EditorParameterContainer.cpp" compile="1" resource="0"
-            file="../shared/EditorParameterContainer.cpp"/>
-      <FILE id="D0IWI4" name="EditorParameterContainer.h" compile="0" resource="0"
-            file="../shared/EditorParameterContainer.h"/>
+      <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1"
+            resource="0" file="../shared/ParameterContainerComponent.cpp"/>
+      <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0"
+            resource="0" file="../shared/ParameterContainerComponent.h"/>
       <FILE id="S6H3F0" name="PluginEditor.cpp" compile="1" resource="0"
             file="../shared/PluginEditor.cpp"/>
       <FILE id="pBAB04" name="PluginEditor.h" compile="0" resource="0" file="../shared/PluginEditor.h"/>
-      <FILE id="PL4x5T" name="ParameterComponentFactory.h" compile="0" resource="0"
-            file="../shared/ParameterComponentFactory.h"/>
+      <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0"
+            resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
       <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0"
             file="../shared/SpectralAudioPlugin.cpp"/>
       <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0"

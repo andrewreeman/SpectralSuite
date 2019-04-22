@@ -14,9 +14,9 @@
 #include "SpectralAudioPlugin.h"
 #include "AudioValueTreeOnLoadListener.h"
 #include "VersionCheck.h"
-#include "ParameterComponentFactory.h"
+#include "ParameterContainerComponentFactory.h"
 #include "SettingsPage.h"
-#include "EditorParameterContainer.h"
+#include "ParameterContainerComponent.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -32,7 +32,7 @@ class SpectralAudioProcessorEditor :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterComponentFactory& parameterContainer);
+	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainer);
     ~SpectralAudioProcessorEditor();
 
     //==============================================================================
@@ -67,7 +67,7 @@ private:
 	Label title;	
 
 	const int parameterContainerHeight;
-	std::unique_ptr<EditorParameterContainer> parameterContainer;	
+	std::unique_ptr<ParameterContainerComponent> parameterContainer;	
 	
 	Label fftComboLabel;
 	ComboBox fftComboBox;

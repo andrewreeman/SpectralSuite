@@ -1,7 +1,7 @@
 #include "SSFAudioPlugin.h"
 
-class FrequencyShifterParameterContainerFactory : public ParameterComponentFactory  {
-	EditorParameterContainer* create(AudioProcessorValueTreeState& valueTreeState) override {		
+class FrequencyShifterParameterContainerFactory : public ParameterContainerComponentFactory  {
+	ParameterContainerComponent* create(AudioProcessorValueTreeState& valueTreeState) override {		
 		return new SliderContainer(valueTreeState, Colour::fromString(TEXT_COLOUR), 30);
 	}
 	const int getComponentHeight() { return 240;  }

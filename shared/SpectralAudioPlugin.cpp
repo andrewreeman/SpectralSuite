@@ -7,7 +7,7 @@ const int SpectralAudioPlugin::N_CHANS = 2;
 
 //==============================================================================
 SpectralAudioPlugin::SpectralAudioPlugin(
-	std::unique_ptr<SpectralAudioProcessor> audioProcessor, std::unique_ptr<ParameterComponentFactory> parameterComponentFactory, Array<int> fftSizesToRemove
+	std::unique_ptr<SpectralAudioProcessor> audioProcessor, std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory, Array<int> fftSizesToRemove
 )
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()

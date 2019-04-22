@@ -6,7 +6,7 @@
 #include "../../shared/FftSwitcher.h"
 #include "../../shared/VersionCheck.h"
 #include "../../shared/SpectralAudioProcessor.h"
-#include "../../shared/ParameterComponentFactory.h"
+#include "../../shared/ParameterContainerComponentFactory.h"
 
 //==============================================================================
 /**
@@ -22,7 +22,7 @@ public:
 public:	
 	SpectralAudioPlugin(
 		std::unique_ptr<SpectralAudioProcessor> audioProcessor, 
-		std::unique_ptr<ParameterComponentFactory> parameterComponentFactory,
+		std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory,
 		Array<int> fftSizes = Array<int>()
 	);
     ~SpectralAudioPlugin();
@@ -71,7 +71,7 @@ private:
 	void setFftSize(int fftSize);	
 		
 	AudioProcessorValueTreeState parameters;
-	std::unique_ptr<ParameterComponentFactory> m_parameterUiComponentFactory;
+	std::unique_ptr<ParameterContainerComponentFactory> m_parameterUiComponentFactory;
 	
 	std::unique_ptr<SpectralAudioProcessor> m_audioProcessor;
 

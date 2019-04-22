@@ -65,6 +65,7 @@ void FrequencySlider::onPropertiesChanged()
 	shiftParam->range.start = lowestValue;
 	shiftParam->range.end = highestValue;	
 	shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));
+
 	frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
 
 	
@@ -96,9 +97,10 @@ void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValu
 	}
 
 	shiftParam->range.start = lowestValue;
-	shiftParam->range.end = highestValue;
-	frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
+	shiftParam->range.end = highestValue;	
 	shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));	
+	
+	frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
 }
 
 Array<PropertyComponent*> FrequencySlider::getSettingsProperties() 

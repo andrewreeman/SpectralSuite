@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    EditorParameterContainer.h
+    ParameterContainerComponent.h
     Created: 21 Apr 2019 11:10:40am
     Author:  rem_d
 
@@ -17,14 +17,14 @@
 //==============================================================================
 /*
 */
-class EditorParameterContainer : 
+class ParameterContainerComponent : 
 	public Component,
 	public SettingsPage::Listener,
 	public AudioValueTreeStateOnLoadListener	
 {
 public:
-    EditorParameterContainer();
-    ~EditorParameterContainer();
+    ParameterContainerComponent();
+    ~ParameterContainerComponent();
 
 	virtual void paint(Graphics&) = 0;
 	virtual void resized() = 0;
@@ -40,5 +40,5 @@ public:
 	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override {}
 
 private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EditorParameterContainer)	
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterContainerComponent)	
 };
