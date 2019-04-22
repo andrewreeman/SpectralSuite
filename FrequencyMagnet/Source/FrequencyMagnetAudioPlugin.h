@@ -17,3 +17,4 @@
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/ParameterComponentFactory.h"
 #include "../../shared/PluginEditor.h"
+#include "../../shared/EditorParameterContainer.h"

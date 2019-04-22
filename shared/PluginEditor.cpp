@@ -19,7 +19,8 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
 	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
 {			
-	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
+	//this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
+	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
 	
 	auto textColour = Colour::fromString(TEXT_COLOUR);
 	auto sliderXPosition = 40;

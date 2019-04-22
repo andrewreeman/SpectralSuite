@@ -4,11 +4,12 @@
 #include "ScatterSlider.h"
 #include "ScrambleSlider.h"
 #include "RateSlider.h"
+#include "../../shared/EditorParameterContainer.h"
 
 //==============================================================================
 /*
 */
-class SliderContainer    : public Component
+class SliderContainer : public EditorParameterContainer
 {
 public:
 	SliderContainer(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);

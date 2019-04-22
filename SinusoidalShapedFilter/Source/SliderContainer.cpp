@@ -1,4 +1,4 @@
-#include "../JuceLibraryCode/JuceHeader.h"
+//#include "../JuceLibraryCode/JuceHeader.h"
 #include "SliderContainer.h"
 
 SliderContainer::SliderContainer(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) :

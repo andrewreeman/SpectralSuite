@@ -1,7 +1,7 @@
 #include "BinScramblerAudioPlugin.h"
 
 class FrequencyShifterParameterContainerFactory : public ParameterComponentFactory  {
-	Component* create(AudioProcessorValueTreeState& valueTreeState) override {		
+	EditorParameterContainer* create(AudioProcessorValueTreeState& valueTreeState) override {
 		return new SliderContainer(valueTreeState, Colour::fromString(TEXT_COLOUR), 30);
 	}
 	const int getComponentHeight() { return 80 * 3;  }

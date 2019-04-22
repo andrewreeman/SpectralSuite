@@ -4,11 +4,12 @@
 #include "FreqSlider.h"
 #include "WidthSlider.h"
 #include "BiasSlider.h"
+#include "../../shared/EditorParameterContainer.h"
 
 //==============================================================================
 /*
 */
-class SliderContainer    : public Component
+class SliderContainer : public EditorParameterContainer
 {
 public:
 	SliderContainer(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
