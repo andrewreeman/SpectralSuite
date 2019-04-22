@@ -26,7 +26,7 @@ public:
 	
 	Array<PropertyComponent*> getSettingsProperties() override;	
 	void onPropertiesChanged() override;	
-	void onAudioValueTreeStateLoaded(AudioProcessorValueTreeState & newState) override;
+	void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override;
 
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
