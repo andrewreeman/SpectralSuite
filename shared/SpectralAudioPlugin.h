@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/legacy/specprocess.h"
-#include "../../shared/FftChoiceAdapter.h"
-#include "../../shared/FftSwitcher.h"
-#include "../../shared/VersionCheck.h"
-#include "../../shared/SpectralAudioProcessor.h"
-#include "../../shared/ParameterContainerComponentFactory.h"
+#include "JuceHeader.h"
+#include "legacy/specprocess.h"
+#include "FftChoiceAdapter.h"
+#include "FftSwitcher.h"
+#include "VersionCheck.h"
+#include "SpectralAudioProcessor.h"
+#include "ParameterContainerComponentFactory.h"
 
 //==============================================================================
 /**

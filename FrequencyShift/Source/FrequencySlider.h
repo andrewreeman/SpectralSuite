@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/SettingsPage.h"
 #include "../../shared/ParameterContainerComponent.h"
 

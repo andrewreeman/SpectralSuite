@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "SpectralAudioPlugin.h"
 #include "AudioValueTreeOnLoadListener.h"
 #include "VersionCheck.h"
@@ -26,14 +26,14 @@ constexpr auto WARNING_COLOUR = "FFF44336";
 /**
 */
 
-class SpectralAudioProcessorEditor :
+class SpectralAudioPluginUi :
 	public AudioProcessorEditor, 
 	public VersionCheckThread::Listener	,
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioProcessorEditor(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainer);
-    ~SpectralAudioProcessorEditor();
+	SpectralAudioPluginUi(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainer);
+    ~SpectralAudioPluginUi();
 
     //==============================================================================
     void paint (Graphics&) override;
@@ -78,5 +78,5 @@ private:
 
 	std::unique_ptr<VersionInfo> versionInfo;
 	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioProcessorEditor)	
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)	
 };

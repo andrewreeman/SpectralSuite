@@ -26,9 +26,10 @@
             resource="0" file="../shared/ParameterContainerComponent.cpp"/>
       <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0"
             resource="0" file="../shared/ParameterContainerComponent.h"/>
-      <FILE id="S6H3F0" name="PluginEditor.cpp" compile="1" resource="0"
-            file="../shared/PluginEditor.cpp"/>
-      <FILE id="pBAB04" name="PluginEditor.h" compile="0" resource="0" file="../shared/PluginEditor.h"/>
+      <FILE id="ECb8P2" name="SpectralAudioPluginUi.h" compile="0" resource="0"
+            file="../shared/SpectralAudioPluginUi.h"/>
+      <FILE id="S6H3F0" name="SpectralAudioPluginUi.cpp" compile="1" resource="0"
+            file="../shared/SpectralAudioPluginUi.cpp"/>
       <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0"
             resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
       <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0"
@@ -79,7 +80,8 @@
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
+        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"
+                       headerPath="../../shared"/>
         <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
         <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#10;"
                        useRuntimeLibDLL="0" winArchitecture="Win32"/>

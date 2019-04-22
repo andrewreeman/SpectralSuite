@@ -9,10 +9,10 @@
 */
 
 //#include "SpectralAudioPlugin.h"
-#include "PluginEditor.h"
+#include "SpectralAudioPluginUi.h"
 
 //==============================================================================
-SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
+SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
@@ -76,17 +76,17 @@ SpectralAudioProcessorEditor::SpectralAudioProcessorEditor(SpectralAudioPlugin& 
 	setSize(300, 220 + parameterContainerHeight);
 }
 
-SpectralAudioProcessorEditor::~SpectralAudioProcessorEditor()
+SpectralAudioPluginUi::~SpectralAudioPluginUi()
 {
 }
 
 //==============================================================================
-void SpectralAudioProcessorEditor::paint (Graphics& g)
+void SpectralAudioPluginUi::paint (Graphics& g)
 {
 	g.fillAll(Colours::white);	    	
 }
 
-void SpectralAudioProcessorEditor::resized()
+void SpectralAudioPluginUi::resized()
 {
 	if (!hasInit) {
 		hasInit = true;
@@ -115,7 +115,7 @@ void SpectralAudioProcessorEditor::resized()
 	settingsPage.setBounds(getBounds());	
 }
 
-void SpectralAudioProcessorEditor::handleCommandMessage(int messageId)
+void SpectralAudioPluginUi::handleCommandMessage(int messageId)
 {
 	if (messageId == Messages::UPDATE_AVAILABLE) {
 		aboutButton.getNormalImage()->replaceColour(Colour::fromString(TEXT_COLOUR), Colour::fromString(WARNING_COLOUR));				
@@ -123,13 +123,13 @@ void SpectralAudioProcessorEditor::handleCommandMessage(int messageId)
 	}
 }
 
-void SpectralAudioProcessorEditor::onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo)
+void SpectralAudioPluginUi::onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo)
 {	
 	this->versionInfo.reset(versionInfo.release());
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
 }
 
-void SpectralAudioProcessorEditor::aboutClicked()
+void SpectralAudioPluginUi::aboutClicked()
 {		
 	String aboutMessage = "Version " + String(JucePlugin_VersionString);	
 	if (versionInfo != nullptr) {
@@ -149,7 +149,7 @@ void SpectralAudioProcessorEditor::aboutClicked()
 	);
 }
 
-void SpectralAudioProcessorEditor::settingsClicked() {	
+void SpectralAudioPluginUi::settingsClicked() {	
 	const Array<PropertyComponent*> settings = this->parameterContainer.get()->getSettingsProperties();
 	if (settings.isEmpty()) { return; }
 	

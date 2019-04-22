@@ -9,12 +9,11 @@
 */
 
 #pragma once
+#include "JuceHeader.h"
 
 #include "SpectralGateProcessor.h"
 #include "SliderContainer.h"
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/ParameterContainerComponentFactory.h"
-#include "../../shared/PluginEditor.h"
-//#include "../../shared/ParameterContainerComponent.h"
+#include "../../shared/SpectralAudioPluginUi.h"

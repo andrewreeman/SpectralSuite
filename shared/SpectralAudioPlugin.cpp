@@ -1,5 +1,7 @@
 #include "SpectralAudioPlugin.h"
-#include "../../shared/PluginEditor.h"
+
+// avoiding circular declaration
+#include "SpectralAudioPluginUi.h"
 
 const int SpectralAudioPlugin::FFT_OVERLAPS = 4;
 const int SpectralAudioPlugin::INIT_FFT_INDEX = 4; // 2048 
@@ -217,7 +219,7 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	SpectralAudioProcessorEditor* editor = new SpectralAudioProcessorEditor(*this, parameters, *m_parameterUiComponentFactory);
+	SpectralAudioPluginUi* editor = new SpectralAudioPluginUi(*this, parameters, *m_parameterUiComponentFactory);
 
 	m_onLoadStateListener = editor;
 	return editor;

@@ -9,11 +9,13 @@
 */
 
 #pragma once
+#include "../JuceLibraryCode/JuceHeader.h"
 
 #include "FrequencyMagnetProcessor.h"
 #include "SliderContainer.h"
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/ParameterContainerComponentFactory.h"
-#include "../../shared/PluginEditor.h"
+
+// this is ONLY included so we can grab the theme constants..
+#include "../../shared/SpectralAudioPluginUi.h"
