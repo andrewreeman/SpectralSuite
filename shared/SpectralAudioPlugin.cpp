@@ -40,13 +40,15 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	//	.getNonexistentSibling(),
 	//	"Log started", 0);
 
+	File logFile = FileLogger::getSystemLogFileFolder().getChildFile("SpectralSuite").getChildFile("spectral_suite.log");
 	m_logger = std::unique_ptr<FileLogger>(
 		new FileLogger(
-			File::getCurrentWorkingDirectory().getChildFile("spectral_suite_log.txt"),
-			"Log started", 0
+		logFile,
+			"Log started"
 		)
 	);
-	m_logger->writeToLog("test message");
+	Logger::setCurrentLogger(m_logger.get());
+	
 
 	m_fftChoiceAdapter.remove(fftSizesToRemove);
 
@@ -70,6 +72,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {
+	Logger::setCurrentLogger(nullptr);
 }
 
 //==============================================================================
