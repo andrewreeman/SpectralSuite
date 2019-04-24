@@ -2,6 +2,7 @@
 
 #include "JuceHeader.h"
 #include "legacy/specprocess.h"
+#include "PluginParameters.h"
 
 class SpectralAudioProcessor {
 public:
@@ -14,7 +15,7 @@ public:
 	int getSampleRate() { return m_sampleRate; }
 
 	virtual STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) = 0;
-	virtual void createParameters(AudioProcessorValueTreeState* valueTreeState) {};
+	virtual void createParameters(PluginParameters* pluginParameters) {};
 	virtual void prepareProcess(int spectralProcessorIndex) {}	
 	virtual void onFftSizeChanged() {};
 	virtual void process(const float* input, float* output, const float* inputR, float* outputR);

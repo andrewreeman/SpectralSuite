@@ -12,7 +12,7 @@
 #include "SpectralAudioPluginUi.h"
 
 //==============================================================================
-SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
+SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParameters* valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
@@ -36,7 +36,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, AudioProces
 	addAndMakeVisible(&fftComboLabel);
 
 	fftComboBox.setText("FFT Size");
-	auto fftChoices = (AudioParameterChoice*)valueTreeState.getParameter("fft");
+	auto fftChoices = (AudioParameterChoice*)valueTreeState->getParameter("fft");
 	
 	int choiceIndex = 1;
 	for (String fft : fftChoices->choices) {		
@@ -44,7 +44,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, AudioProces
 		choiceIndex++;
 	}
 	
-	fftComboBoxAttachment.reset(new ComboBoxAttachment(valueTreeState, "fft", fftComboBox));	
+	fftComboBoxAttachment.reset( valueTreeState->createComboBoxAttachment("fft", fftComboBox) );//new ComboBoxAttachment(valueTreeState, "fft", fftComboBox));	
 	addAndMakeVisible(fftComboBox);
 	
 	ScopedPointer<Drawable> infoIcon = Drawable::createFromImageData(BinaryData::baselineinfo24px_svg, BinaryData::baselineinfo24px_svgSize);

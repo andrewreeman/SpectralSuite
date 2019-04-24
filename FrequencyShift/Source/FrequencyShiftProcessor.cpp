@@ -12,7 +12,7 @@
 
 
 
-void FrequencyShiftProcessor::createParameters(AudioProcessorValueTreeState* valueTreeState)
+void FrequencyShiftProcessor::createParameters(PluginParameters* valueTreeState)
 {	
 	const String shiftHertzLabel = " Hz";		
 	const float minRangeDefault = -500.0f;

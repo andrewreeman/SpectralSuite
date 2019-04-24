@@ -1,18 +1,10 @@
-/*
-  ==============================================================================
-
-    AudioValueTreeOnLoadListener.h
-    Created: 21 Apr 2019 11:26:14am
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #pragma once
+
 #include "JuceHeader.h"
+#include "PluginParameters.h"
 
 class AudioValueTreeStateOnLoadListener {
 public:
-	// Called when setStateInformation is used to replace the state of the AudioValueTreeState
-	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState& newState, XmlElement* xmlState) = 0;
+	// Called when setStateInformation is used to replace the state of the PluginParameters
+	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) = 0;
 };

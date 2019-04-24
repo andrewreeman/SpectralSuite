@@ -20,6 +20,10 @@
             file="Source/FrequencyShiftAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
+      <FILE id="jwVOxB" name="PluginParameters.cpp" compile="1" resource="0"
+            file="../shared/PluginParameters.cpp"/>
+      <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
+            file="../shared/PluginParameters.h"/>
       <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
             resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
       <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1"

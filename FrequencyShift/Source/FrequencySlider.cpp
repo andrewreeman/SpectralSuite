@@ -2,7 +2,7 @@
 #include "FrequencySlider.h"
 
 //==============================================================================
-FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) 
+FrequencySlider::FrequencySlider(PluginParameters* valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
 	/*AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");	
@@ -20,9 +20,9 @@ FrequencySlider::FrequencySlider(AudioProcessorValueTreeState& valueTreeState, C
 	//frequencyShift.setValue(shift->get());
 	addAndMakeVisible(&frequencyShift);
 	
-	frequencyShiftAttachment.reset(new SliderAttachment(valueTreeState, "shift", frequencyShift));	
+	frequencyShiftAttachment.reset(valueTreeState->createSliderAttachment("shift", frequencyShift));//  new SliderAttachment(valueTreeState, "shift", frequencyShift));
 
-	this->valueTreeState = &valueTreeState;
+	this->valueTreeState = valueTreeState;
 	this->onPropertiesChanged();
 
 	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
@@ -76,7 +76,7 @@ void FrequencySlider::onPropertiesChanged()
 
 }
 
-void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState)
+void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState)
 {				
 	AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->valueTreeState->getParameter("shift");
 	

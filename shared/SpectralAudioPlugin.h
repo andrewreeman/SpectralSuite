@@ -7,6 +7,7 @@
 #include "VersionCheck.h"
 #include "SpectralAudioProcessor.h"
 #include "ParameterContainerComponentFactory.h"
+#include "PluginParameters.h"
 
 //==============================================================================
 /**
@@ -70,7 +71,7 @@ private:
 	void emptyOutputs();
 	void setFftSize(int fftSize);	
 		
-	AudioProcessorValueTreeState parameters;
+	PluginParameters parameters;
 	std::unique_ptr<ParameterContainerComponentFactory> m_parameterUiComponentFactory;
 	
 	std::unique_ptr<SpectralAudioProcessor> m_audioProcessor;

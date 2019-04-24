@@ -2,7 +2,7 @@
 
 
 class FrequencyShifterParameterContainerFactory : public ParameterContainerComponentFactory  {
-	ParameterContainerComponent* create(AudioProcessorValueTreeState& valueTreeState) override {
+	ParameterContainerComponent* create(PluginParameters* valueTreeState) override {
 		return new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30); 				
 	}
 };
@@ -10,6 +10,7 @@ class FrequencyShifterParameterContainerFactory : public ParameterContainerCompo
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
+	//create shared pointer here and pass to processor and factory...which should actually just be the container
     return new SpectralAudioPlugin(
 		std::make_unique<FrequencyShiftProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS),
 		std::make_unique<FrequencyShifterParameterContainerFactory>(),

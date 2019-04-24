@@ -1,18 +1,9 @@
-/*
-  ==============================================================================
-
-    ParameterContainerComponent.h
-    Created: 21 Apr 2019 11:10:40am
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "JuceHeader.h"
 #include "SettingsPage.h"
 #include "AudioValueTreeOnLoadListener.h"
+#include "PluginParameters.h"
 
 //==============================================================================
 /*
@@ -37,7 +28,7 @@ public:
 	virtual void onPropertiesChanged() override {}
 
 	// Inherited via AudioValueTreeStateOnLoadListener
-	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override {}
+	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {}
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterContainerComponent)	

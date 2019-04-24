@@ -12,21 +12,22 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	std::unique_ptr<SpectralAudioProcessor> audioProcessor, std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory, Array<int> fftSizesToRemove
 )
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
-                     #endif
-                       ),
+	: AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+		.withInput("Input", AudioChannelSet::stereo(), true)
+#endif
+		.withOutput("Output", AudioChannelSet::stereo(), true)
+#endif
+	),
 
 #endif		
-	m_internalBufferReadWriteIndex(0),	
+	m_internalBufferReadWriteIndex(0),
 	m_fftChoiceAdapter(INIT_FFT_INDEX),
 	m_audioProcessor(audioProcessor.release()),
 	m_parameterUiComponentFactory(parameterComponentFactory.release()),
-	parameters(*this, nullptr),
+	//parameters(*this, nullptr),
+	parameters(this),
 	m_fftSwitcher(this),
 	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json"),
 	m_onLoadStateListener(nullptr)
@@ -219,7 +220,7 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	SpectralAudioPluginUi* editor = new SpectralAudioPluginUi(*this, parameters, *m_parameterUiComponentFactory);
+	SpectralAudioPluginUi* editor = new SpectralAudioPluginUi(*this, &parameters, *m_parameterUiComponentFactory);
 
 	m_onLoadStateListener = editor;
 	return editor;
@@ -248,12 +249,14 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
 	if ( xmlState.get() == nullptr ) { return; }
-	if ( !xmlState->hasTagName(parameters.state.getType()) ) {	return;}
+	if ( !xmlState->hasTagName(parameters.getState().getType()) ) {	return;}
 	
+
+	//parameters.replaceState(*xmlState);
 
 	parameters.replaceState(ValueTree::fromXml(*xmlState));		
 	if (m_onLoadStateListener != nullptr) {
-		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(parameters, xmlState.get());
+		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(&parameters, xmlState.get());
 	}	
 	else {		
 		AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->parameters.getParameter("shift");
@@ -269,7 +272,6 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 		if (currentValue < lowestValue) {
 			currentValue = lowestValue;
 		}
-
 		if (currentValue > highestValue) {
 			currentValue = highestValue;
 		}

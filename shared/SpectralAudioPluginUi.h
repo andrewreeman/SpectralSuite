@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "JuceHeader.h"
@@ -17,6 +7,7 @@
 #include "ParameterContainerComponentFactory.h"
 #include "SettingsPage.h"
 #include "ParameterContainerComponent.h"
+#include "PluginParameters.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -32,7 +23,7 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, AudioProcessorValueTreeState& valueTreeState, ParameterContainerComponentFactory& parameterContainer);
+	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, ParameterContainerComponentFactory& parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================
@@ -44,7 +35,7 @@ public:
 	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);		
 
 	// Inherited via AudioValueTreeStateOnLoadListener
-	virtual void onAudioValueTreeStateLoadedFromXmlState(AudioProcessorValueTreeState & newState, XmlElement* xmlState) override {
+	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {
 		parameterContainer->onAudioValueTreeStateLoadedFromXmlState(newState, xmlState);
 	}
 	
@@ -61,7 +52,7 @@ private:
 	void settingsClicked();
 
 	const int textBoxHeight = 30;
-	const AudioProcessorValueTreeState& valueTreeState;
+	const PluginParameters* valueTreeState;
 
 	bool hasInit = false;
 	Label title;	
