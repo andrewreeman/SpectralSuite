@@ -2,7 +2,7 @@
 #include "FrequencySlider.h"
 
 //==============================================================================
-FrequencySlider::FrequencySlider(PluginParameters* valueTreeState, Colour textColour, int textBoxHeight) 
+FrequencySlider::FrequencySlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
 	/*AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");	

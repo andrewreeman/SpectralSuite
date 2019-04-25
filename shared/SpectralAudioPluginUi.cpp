@@ -12,15 +12,15 @@
 #include "SpectralAudioPluginUi.h"
 
 //==============================================================================
-SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParameters* valueTreeState, ParameterContainerComponentFactory& parameterContainerFactory)
+SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParameters* valueTreeState, std::unique_ptr<ParameterContainerComponent> _parameterContainer)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
 	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
-	parameterContainerHeight(parameterContainerFactory.getComponentHeight())	
+	parameterContainerHeight(_parameterContainer->getComponentHeight())
 {			
 	//this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
-	this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState));
+	this->parameterContainer = std::move(_parameterContainer);
 	
 	auto textColour = Colour::fromString(TEXT_COLOUR);
 	auto sliderXPosition = 40;

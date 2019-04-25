@@ -9,7 +9,9 @@ const int SpectralAudioPlugin::N_CHANS = 2;
 
 //==============================================================================
 SpectralAudioPlugin::SpectralAudioPlugin(
-	std::unique_ptr<SpectralAudioProcessor> audioProcessor, std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory, Array<int> fftSizesToRemove
+	//std::unique_ptr<SpectralAudioProcessor> audioProcessor, std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory
+	DependencyCreator dependencyCreator,
+	Array<int> fftSizesToRemove
 )
 #ifndef JucePlugin_PreferredChannelConfigurations
 	: AudioProcessor(BusesProperties()
@@ -23,16 +25,16 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 
 #endif		
 	m_internalBufferReadWriteIndex(0),
-	m_fftChoiceAdapter(INIT_FFT_INDEX),
-	m_audioProcessor(audioProcessor.release()),
-	m_parameterUiComponentFactory(parameterComponentFactory.release()),
-	//parameters(*this, nullptr),
-	parameters(this),
+	m_fftChoiceAdapter(INIT_FFT_INDEX),	
+	//parameters(*this, nullptr),	
 	m_fftSwitcher(this),
 	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json"),
 	m_onLoadStateListener(nullptr)
 {			
-
+	std::unique_ptr<Dependencies> dependencies = dependencyCreator(this);
+	parameters = dependencies->getParams();
+	m_parameterUiComponent = dependencies->moveUi();
+	m_audioProcessor = dependencies->moveProcessor();
 
 	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
 	//	.getChildFile("spectral_suite" + Time::getCurrentTime().formatted("%Y-%m-%d_%H-%M-%S"))
@@ -49,17 +51,16 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	);
 	Logger::setCurrentLogger(m_logger.get());
 	
-
 	m_fftChoiceAdapter.remove(fftSizesToRemove);
 
-	m_audioProcessor->createParameters(&parameters);	
-	parameters.createAndAddParameter(
+	m_audioProcessor->createParameters(parameters.get());	
+	parameters->createAndAddParameter(
 		std::make_unique<AudioParameterChoice>(
 			"fft", "FFT Size", m_fftChoiceAdapter.fftStrings(), m_fftChoiceAdapter.currentIndex()
 		)
 	);		
 	
-	auto fftChoices = (AudioParameterChoice*)parameters.getParameter("fft");
+	auto fftChoices = (AudioParameterChoice*)parameters->getParameter("fft");	
 	m_fftChoiceAdapter.listen(fftChoices);
 	
 	auto valueTree = ValueTree(
@@ -67,7 +68,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 			this->getName().removeCharacters(" ") 
 		)
 	);
-	parameters.replaceState(valueTree);			
+	parameters->replaceState(valueTree);			
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -199,19 +200,19 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 	int hopSize = m_audioProcessor->getHopSize();
 	int blockSize = numSamples >= hopSize ? hopSize : numSamples;		
 	int ioVSTBuffers = 0;
-	while (numSamples--) {				
+	while (numSamples--) {		
+		if (m_internalBufferReadWriteIndex >= hopSize) {
+			m_internalBufferReadWriteIndex = 0;
+			emptyOutputs();
+			m_audioProcessor->process(&m_Input_L[0], &m_output_L[0], &m_Input_R[0], &m_output_R[0]);
+		}
+
 		m_Input_L[m_internalBufferReadWriteIndex] = audio[0][ioVSTBuffers];
 		m_Input_R[m_internalBufferReadWriteIndex] = audio[1][ioVSTBuffers];
 		audio[0][ioVSTBuffers] = m_output_L[m_internalBufferReadWriteIndex];
 		audio[1][ioVSTBuffers] = m_output_R[m_internalBufferReadWriteIndex];
 		ioVSTBuffers++;
-		m_internalBufferReadWriteIndex++;
-
-		if (m_internalBufferReadWriteIndex >= hopSize) {			
-			m_internalBufferReadWriteIndex = 0;
-			emptyOutputs();						
-			m_audioProcessor->process(&m_Input_L[0], &m_output_L[0], &m_Input_R[0], &m_output_R[0]);			
-		}
+		m_internalBufferReadWriteIndex++;	
 	}			
 }
 
@@ -223,8 +224,11 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	SpectralAudioPluginUi* editor = new SpectralAudioPluginUi(*this, &parameters, *m_parameterUiComponentFactory);
-
+	if (!m_parameterUiComponent) { return nullptr; }
+	
+	SpectralAudioPluginUi* editor = new SpectralAudioPluginUi(*this, parameters.get(), std::move(m_parameterUiComponent));
+	
+	// this is some nasty wiring
 	m_onLoadStateListener = editor;
 	return editor;
 }
@@ -232,8 +236,8 @@ AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 //==============================================================================
 void SpectralAudioPlugin::getStateInformation (MemoryBlock& destData)
 {    
-	auto state = parameters.copyState();
-	AudioParameterFloat* shift = (AudioParameterFloat*)parameters.getParameter("shift");
+	auto state = parameters->copyState();
+	//AudioParameterFloat* shift = (AudioParameterFloat*)parameters->getParameter("shift");
 	//AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
 	//AudioParameterFloat* max = (AudioParameterFloat*)parameters.getParameter("shiftMaxRange");
 	std::unique_ptr<XmlElement> xml(state.createXml());
@@ -252,21 +256,21 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
 	if ( xmlState.get() == nullptr ) { return; }
-	if ( !xmlState->hasTagName(parameters.getState().getType()) ) {	return;}
+	if ( !xmlState->hasTagName(parameters->getState().getType()) ) {	return;}
 	
 
 	//parameters.replaceState(*xmlState);
 
-	parameters.replaceState(ValueTree::fromXml(*xmlState));		
+	parameters->replaceState(ValueTree::fromXml(*xmlState));		
 	if (m_onLoadStateListener != nullptr) {
-		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(&parameters, xmlState.get());
+		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(parameters.get(), xmlState.get());
 	}	
 	else {		
-		AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->parameters.getParameter("shift");
+		AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->parameters->getParameter("shift");
 
 		const double originalShiftValue = xmlState->getChildByAttribute("id", "shift")->getDoubleAttribute("value", shiftParam->get());
-		const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)this->parameters.getParameter("shiftMinRange");
-		const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)this->parameters.getParameter("shiftMaxRange");
+		const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)this->parameters->getParameter("shiftMinRange");
+		const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)this->parameters->getParameter("shiftMaxRange");
 
 		float currentValue = originalShiftValue;
 		const float lowestValue = lowestValueParam->get();

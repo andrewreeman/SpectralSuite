@@ -20,10 +20,28 @@ public:
 	static const int INIT_FFT_INDEX;
 	static const int N_CHANS;
 
-public:	
+public:		
+	class Dependencies {
+	public:
+		Dependencies(std::shared_ptr<PluginParameters> pluginParameters, std::unique_ptr<SpectralAudioProcessor> spectralAudioProcessor, std::unique_ptr<ParameterContainerComponent> parametersUi)
+			: parameters(pluginParameters), parametersUi(parametersUi.release()), spectralAudioProcessor(spectralAudioProcessor.release()) {}
+
+		std::shared_ptr<PluginParameters> getParams() { return parameters; }
+		std::unique_ptr<ParameterContainerComponent> moveUi() { return std::move(parametersUi); }
+		std::unique_ptr<SpectralAudioProcessor> moveProcessor() { return std::move(spectralAudioProcessor); }
+
+	private:
+		std::shared_ptr<PluginParameters> parameters;
+		std::unique_ptr<ParameterContainerComponent> parametersUi;
+		std::unique_ptr<SpectralAudioProcessor> spectralAudioProcessor;
+	};
+
+	typedef std::unique_ptr<Dependencies>(*DependencyCreator)(SpectralAudioPlugin*);
+
 	SpectralAudioPlugin(
-		std::unique_ptr<SpectralAudioProcessor> audioProcessor, 
-		std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory,
+		DependencyCreator dependencyCreator,
+		//std::unique_ptr<SpectralAudioProcessor> audioProcessor, 
+		//std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory,
 		Array<int> fftSizes = Array<int>()
 	);
     ~SpectralAudioPlugin();
@@ -70,10 +88,9 @@ private:
     //==============================================================================
 	void emptyOutputs();
 	void setFftSize(int fftSize);	
-		
-	PluginParameters parameters;
-	std::unique_ptr<ParameterContainerComponentFactory> m_parameterUiComponentFactory;
-	
+			
+	std::shared_ptr<PluginParameters> parameters;
+	std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;	
 	std::unique_ptr<SpectralAudioProcessor> m_audioProcessor;
 
 	FftChoiceAdapter m_fftChoiceAdapter;

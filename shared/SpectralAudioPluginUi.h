@@ -23,7 +23,7 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, ParameterContainerComponentFactory& parameterContainer);
+	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::unique_ptr<ParameterContainerComponent> parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================

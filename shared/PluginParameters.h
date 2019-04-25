@@ -8,7 +8,7 @@
 **/
 class PluginParameters {
 public:
-	PluginParameters(AudioProcessor* audioProcessor) : valueTreeState(*audioProcessor, nullptr){};
+	PluginParameters(AudioProcessor* audioProcessor); //: valueTreeState(*audioProcessor, nullptr) {};
 	
 	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {  
 		valueTreeState.createAndAddParameter(std::move(param));	

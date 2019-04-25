@@ -17,6 +17,7 @@ public:
     ParameterContainerComponent();
     ~ParameterContainerComponent();
 
+	virtual const int getComponentHeight() { return 80; }
 	virtual void paint(Graphics&) = 0;
 	virtual void resized() = 0;
 

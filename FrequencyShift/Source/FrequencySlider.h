@@ -9,7 +9,7 @@
 class FrequencySlider : public ParameterContainerComponent	
 {
 public:
-    FrequencySlider(PluginParameters* valueTreeState, Colour textColour, int textBoxHeight);
+    FrequencySlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~FrequencySlider();
 
     void paint (Graphics&) override;
@@ -23,7 +23,7 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 	Slider frequencyShift;
 	std::unique_ptr<SliderAttachment> frequencyShiftAttachment;
-	PluginParameters* valueTreeState;
+	std::shared_ptr<PluginParameters> valueTreeState;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)	
