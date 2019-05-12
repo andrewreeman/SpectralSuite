@@ -1,6 +1,7 @@
 #include "FrequencyShiftAudioPlugin.h"
 
 
+
 //class FrequencyShifterParameterContainerFactory : public ParameterContainerComponentFactory  {
 //	ParameterContainerComponent* create(PluginParameters* valueTreeState) override {
 //		return new FrequencySlider(valueTreeState, Colour::fromString(TEXT_COLOUR), 30); 				
@@ -12,7 +13,7 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {	
 	//create shared pointer here and pass to processor and factory...which should actually just be the container
 	SpectralAudioPlugin::DependencyCreator dependencyCreator = [](SpectralAudioPlugin* plugin) {
-		auto pluginParams = std::make_shared<PluginParameters>(plugin);		
+		auto pluginParams = std::make_shared<FrequencyShiftPluginParameters>(plugin);		
 
 		return std::make_unique<SpectralAudioPlugin::Dependencies>(
 			pluginParams,
