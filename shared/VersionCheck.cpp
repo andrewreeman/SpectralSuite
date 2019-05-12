@@ -35,8 +35,7 @@ void VersionCheckThread::run()
 	}
 
 	if (code <= m_currentVersionCode) { return; }
-	if (m_listener == nullptr) { return; }
-				
+	if (m_listener == nullptr) { return; }				
 	
 	m_listener->onNewVersionAvailable(std::make_unique<VersionInfo>(versionName, releaseNotes, releaseUrl));
 }

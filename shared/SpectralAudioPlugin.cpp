@@ -126,21 +126,20 @@ int SpectralAudioPlugin::getCurrentProgram()
     return 0;
 }
 
-void SpectralAudioPlugin::setCurrentProgram (int index)
+void SpectralAudioPlugin::setCurrentProgram (int)
 {
 }
 
-const String SpectralAudioPlugin::getProgramName (int index)
+const String SpectralAudioPlugin::getProgramName (int)
 {
     return {};
 }
 
-void SpectralAudioPlugin::changeProgramName (int index, const String& newName)
+void SpectralAudioPlugin::changeProgramName (int, const String&)
 {
 }
 
-//==============================================================================
-void SpectralAudioPlugin::prepareToPlay (double sampleRate, int samplesPerBlock)
+void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {    
 	int fftSize = m_fftChoiceAdapter.fftSize();	
 	m_audioProcessor->prepareToPlay(fftSize, (int)sampleRate);	
@@ -182,8 +181,8 @@ void SpectralAudioPlugin::emptyOutputs() {
 	std::fill(m_output_R.begin(), m_output_R.end(), 0.f);
 }
 
-void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
-{			
+void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
+{					
 	if (m_fftSwitcher.isThreadRunning()) {
 		m_internalBufferReadWriteIndex = 0;
 		return; 
@@ -194,13 +193,11 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return;
 	}
 
-	float** audio = buffer.getArrayOfWritePointers();
-	
-	int numSamples = buffer.getNumSamples();	
-	
-	int hopSize = m_audioProcessor->getHopSize();
-	int blockSize = numSamples >= hopSize ? hopSize : numSamples;		
+	const int hopSize = m_audioProcessor->getHopSize();
+	float** audio = buffer.getArrayOfWritePointers();				
+	int numSamples = buffer.getNumSamples();
 	int ioVSTBuffers = 0;
+
 	while (numSamples--) {		
 		if (m_internalBufferReadWriteIndex >= hopSize) {
 			m_internalBufferReadWriteIndex = 0;
@@ -217,7 +214,6 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 	}			
 }
 
-//==============================================================================
 bool SpectralAudioPlugin::hasEditor() const
 {
     return true;

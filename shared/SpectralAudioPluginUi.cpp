@@ -1,30 +1,16 @@
-/*
-  ==============================================================================
-
-	This file was auto-generated!
-
-	It contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
-//#include "SpectralAudioPlugin.h"
 #include "SpectralAudioPluginUi.h"
 
-//==============================================================================
 SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParameters* valueTreeState, std::unique_ptr<ParameterContainerComponent> _parameterContainer)
 	: AudioProcessorEditor(&p), 
 	valueTreeState(valueTreeState), 		
 	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
 	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
 	parameterContainerHeight(_parameterContainer->getComponentHeight())
-{			
-	//this->parameterContainer.reset(parameterContainerFactory.create(valueTreeState, settingsPage));
+{				
 	this->parameterContainer = std::move(_parameterContainer);
 	
 	auto textColour = Colour::fromString(TEXT_COLOUR);
-	auto sliderXPosition = 40;
-	
+		
 	title.setText(JucePlugin_Name, NotificationType::dontSendNotification);
 	title.setColour(Label::ColourIds::textColourId, textColour);
 	title.setFont(20.0);
@@ -123,9 +109,9 @@ void SpectralAudioPluginUi::handleCommandMessage(int messageId)
 	}
 }
 
-void SpectralAudioPluginUi::onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo)
+void SpectralAudioPluginUi::onNewVersionAvailable(std::unique_ptr<VersionInfo> newVersionInfo)
 {	
-	this->versionInfo.reset(versionInfo.release());
+	this->versionInfo.reset(newVersionInfo.release());
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
 }
 

@@ -311,7 +311,7 @@ int PVoc::setFFTSize(int newSize){
     return status;
 }
 
-void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {	
+void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int)const {	
 	Polar<float> empty(0.f, 0.f);
 	std::fill(out.begin(), out.end(), empty);
 
@@ -354,7 +354,7 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
 	float balance = m_balance;
 	// mags below the low value will be counted as a weak magnitude. I am testing against a much lower value than gate
 	// to enchane to difference between strong and weak frequency components
-	float gate_low = gate*0.6;
+	float gate_low = gate * 0.6f;
 	gate = pow(gate, 10);
 	float balanceStrong = powf(balance, 3.f);
 	float balanceWeak = 1.f-balance;
@@ -375,10 +375,12 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
 //-------
  void sinusoidalShapedFilter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const{
 
-    float w;    
-	float freq = m_freq + 1.f;    
-	float theta = m_phase * PI;    
-	float width = (m_width * 8.f) + 1.f;
+    
+	const float freq = m_freq + 1.f;    
+	const float theta = m_phase * (float)PI;    
+	const float width = (m_width * 8.f) + 1.f;
+
+	float w;    
     float sinusoid;
 
     for(int i=0; i<bins; ++i){
@@ -418,10 +420,10 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
     //This loop will work on the frequencies below the target freq.
     for(int i=0; i<target_bin; ++i){
         line = float(i)/target_bin;
-        // The less width the more convex shape the line will become. Biasing towards one value. If width is zero index will always be one.
-        index_below = pow(line, width*8.f/8.f);
+        // The less width the more convex shape the line will become. Biasing towards one value. If width is zero index will always be one.        
+		
 		// scale
-        index_below *= target_bin;
+        index_below = (int) (pow(line, width*8.f / 8.f) * (float)target_bin);
 
         temp[index_below].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
@@ -436,13 +438,13 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
         int norm_index = i-target_bin;
         line = float(norm_index)/float(range);
         // when width is zero I want maximum bin bias. When width = 1 I want no bias (index_above will be raised to the power of one).
-        index_above = pow(line, ((1.f-width)*7.f)+1.f);
+        
 		// scale
-        index_above *= float(range);
+        index_above = (int) (pow(line, ((1.f - width)*7.f) + 1.f)  * (float)range) ;
         // offset by the target frequency.
         //index_above += target_freq;
 
-		index_above = utilities::clip(index_above, 1.0, out.size() - 1.0);
+		index_above = utilities::clip(index_above, 1, (int)(out.size() - 1));
 
         temp[index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;

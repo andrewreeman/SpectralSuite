@@ -42,7 +42,11 @@ namespace utilities{
 		
 	int ms2Samps(int ms, int sRate);					
 	int wrap(int index, int limit);    
-	float clip(const float& inVal, float lowLim, float hiLim);
+
+	template<class T>
+	T clip(const T& inVal, T lowLim, T hiLim) {
+		return std::min(std::max(inVal, lowLim), hiLim);
+	}
 
 	/* The following functions are defined in the header to avoid the need to specialise the templates.
     This enables the templates to be of any type.*/

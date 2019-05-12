@@ -13,9 +13,5 @@ namespace utilities {
 		else {
 			return index % limit;
 		}
-	}
-
-	float clip(const float& inVal, float lowLim, float hiLim) {
-		return std::min(std::max(inVal, lowLim), hiLim);
-	}
+	}	
 }
