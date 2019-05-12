@@ -13,6 +13,8 @@
 /**
 */
 
+class SpectralAudioPluginUi;
+
 class SpectralAudioPlugin  : public AudioProcessor, private FftSwitcherThread::FftSwitcher
 {
 public:
@@ -105,6 +107,7 @@ private:
 	std::vector<float> m_Input_L;
 	std::vector<float> m_Input_R;
 
+	SpectralAudioPluginUi* m_ui;
 	AudioValueTreeStateOnLoadListener* m_onLoadStateListener;
 
 	VersionCheckThread m_versionCheckThread;

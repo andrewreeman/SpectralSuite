@@ -5,14 +5,16 @@
 FrequencySlider::FrequencySlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
-	/*AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");	
-	const AudioParameterFloat* minRange = (AudioParameterFloat*)valueTreeState.getParameter("shiftMinRange");
-	const AudioParameterFloat* maxRange = (AudioParameterFloat*)valueTreeState.getParameter("shiftMaxRange");
 		
-	shift->range.start = minRange->get();
-	shift->range.end = maxRange->get();	*/
+	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState->getParameter("shift");	
+	//const AudioParameterFloat* minRange = (AudioParameterFloat*)valueTreeState->getParameter("shiftMinRange");
+	//const AudioParameterFloat* maxRange = (AudioParameterFloat*)valueTreeState->getParameter("shiftMaxRange");
+	//	
+	//shift->range.start = minRange->get();
+	//shift->range.end = maxRange->get();	
 
-	//frequencyShift.setRange(range.start, range.end, range.interval);
+	//frequencyShift.setRange(shift->range.start, shift->range.end, shift->range.interval);
+
 	frequencyShift.setSkewFactor(2.0);
 	frequencyShift.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);		
 
@@ -23,7 +25,7 @@ FrequencySlider::FrequencySlider(std::shared_ptr<PluginParameters> valueTreeStat
 	frequencyShiftAttachment.reset(valueTreeState->createSliderAttachment("shift", frequencyShift));//  new SliderAttachment(valueTreeState, "shift", frequencyShift));
 
 	this->valueTreeState = valueTreeState;
-	this->onPropertiesChanged();
+	//this->onPropertiesChanged();
 
 	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
 	//shift->shiftDownRange.start = -600;	
@@ -34,7 +36,7 @@ FrequencySlider::~FrequencySlider()
 {
 }
 
-void FrequencySlider::paint (Graphics& g)
+void FrequencySlider::paint(Graphics& g)
 {
 	g.fillAll(Colours::white); 
 }
@@ -46,6 +48,12 @@ void FrequencySlider::resized()
 
 void FrequencySlider::onPropertiesChanged()
 {
+
+* this method and onAudioValueTreeLoaded are identical
+* most of this should be in the frequency shift param object
+* the ui updates should just update the range
+* the handling of the ui pointer in the spectralaudioplugin class is nasty...
+
 	AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->valueTreeState->getParameter("shift");
 	const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)this->valueTreeState->getParameter("shiftMinRange");
 	const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)this->valueTreeState->getParameter("shiftMaxRange");	
@@ -98,9 +106,10 @@ void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(PluginParameters* 
 
 	shiftParam->range.start = lowestValue;
 	shiftParam->range.end = highestValue;	
-	shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));	
-	
+
 	frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
+	shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));	
+	//shiftParam->setValueNotifyingHost(currentValue);		
 }
 
 Array<PropertyComponent*> FrequencySlider::getSettingsProperties() 
