@@ -69,13 +69,13 @@ namespace utilities{
 
     template<class T>
 	void wrap_twopi(T &v) {
-		v = fmodf(v, TWOPI);		
+		v = fmodf(v, (float)TWOPI);		
 	}
 	
         
 	template<class T>
 	void vector_Scramble(std::vector<T>& in, int scramAmount){
-        int size = in.size();
+        int size = (int)in.size();
         if(scramAmount == 0) return; // no scramble
 		
         /* the scramble will occur in chunks to limit the distribution. This is useful to mix between 
@@ -87,7 +87,7 @@ namespace utilities{
 
     template<class T>
     void vector_Low2HighDistribute(std::vector<T>& in, int distAmount, int distRange){	
-        int size = in.size();
+        int size = (int)in.size();
         if(distRange > size/2) distRange= size/2;
 
         for(int i=0; i<size/5; ++i){

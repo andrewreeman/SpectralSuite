@@ -455,8 +455,8 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
 void binScrambler::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {
 
-	int phase = m_phase;
-	int maxPhase = m_maxPhase;
+	const int phase = m_phase;
+	const int maxPhase = m_maxPhase;
 
     for(int i=0; i<bins; ++i){		        
 		out[i].m_mag = utilities::interp_lin<float>(in[m_AInd->at(i)].m_mag, in[m_BInd->at(i)].m_mag, (float)phase/(float)maxPhase);

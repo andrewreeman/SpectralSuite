@@ -218,18 +218,18 @@ class binScrambler : public STFT{
         std::vector<int> *m_AInd;
         std::vector<int> *m_BInd;
 
-		void setPhase(float phase) { m_phase = phase; }
-		void setMaxPhase(float maxPhase) { m_maxPhase = maxPhase; }
+		void setPhase(int phase) { m_phase = phase; }
+		void setMaxPhase(int maxPhase) { m_maxPhase = maxPhase; }
 
 		// takes int vector pointer as arguments to the scrambled indices. The scrambling is done external to the spec proc
-        binScrambler(int size, int hops, int offset, int sRate, std::vector<int> *A, std::vector<int> *B) : m_AInd(A), m_BInd(B),STFT(size, hops, offset, sRate), m_phase(0.0), m_maxPhase((float)sRate){}
+        binScrambler(int size, int hops, int offset, int sRate, std::vector<int> *A, std::vector<int> *B) : m_AInd(A), m_BInd(B), STFT(size, hops, offset, sRate), m_phase(0), m_maxPhase(sRate){}
 		// swap the index pointers
         void swap(){ std::swap(m_AInd, m_BInd);}
         virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 
 private:
-	float m_phase;
-	float m_maxPhase;
+	int m_phase;
+	int m_maxPhase;
 };
 
 // for testing

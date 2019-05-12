@@ -37,7 +37,7 @@ void BinScramblerProcessor::createParameters(PluginParameters* valueTreeState)
 
 void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
 {	
-	const float maxPhase = (getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
+	const int maxPhase = (getSampleRate() / (int)getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
 
 	// Only on the first call do we need to increment the phasor
 	if (spectralProcessIndex == 0) {	
@@ -50,7 +50,7 @@ void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
 
 			const float sprinkleAmt = (1.f - (scatter*scatter))*100.f;
 			const int sprinkleRange = binRange / 5;
-			const int scramFac = (pow(scramble, 3)*binRange) / 2;
+			const int scramFac = (int)(pow(scramble, 3)*binRange) / 2;
 
 			// when the phasor reaches its peak it will swap the bin pointer
 			std::swap(m_pA_Ind, m_pB_Ind);

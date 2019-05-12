@@ -117,12 +117,15 @@ class kissfft
         void C_ADDTO( cpx_type & c,const cpx_type & a) { c+=a;}
         void C_FIXDIV( cpx_type & ,int ) {} // NO-OP for float types
         scalar_type S_MUL( const scalar_type & a,const scalar_type & b) { return a*b;}
+
+#pragma warning(suppress: 4244)
         scalar_type HALF_OF( const scalar_type & a) { return a*.5;}
         void C_MULBYSCALAR(cpx_type & c,const scalar_type & a) {c*=a;}
 
         void kf_bfly2( cpx_type * Fout, const size_t fstride, int m)
         {
             for (int k=0;k<m;++k) {
+#pragma warning(suppress: 4267)
                 cpx_type t = Fout[m+k] * _traits.twiddle(k*fstride);
                 Fout[m+k] = Fout[k] - t;
                 Fout[k] += t;
@@ -134,8 +137,12 @@ class kissfft
             cpx_type scratch[7];
             int negative_if_inverse = _inverse * -2 +1;
             for (size_t k=0;k<m;++k) {
+
+#pragma warning(suppress: 4267)
                 scratch[0] = Fout[k+m] * _traits.twiddle(k*fstride);
+#pragma warning(suppress: 4267)
                 scratch[1] = Fout[k+2*m] * _traits.twiddle(k*fstride*2);
+#pragma warning(suppress: 4267)
                 scratch[2] = Fout[k+3*m] * _traits.twiddle(k*fstride*3);
                 scratch[5] = Fout[k] - scratch[1];
 
@@ -279,6 +286,7 @@ class kissfft
                     int twidx=0;
                     Fout[ k ] = scratchbuf[0];
                     for (q=1;q<p;++q ) {
+#pragma warning(suppress: 4267)
                         twidx += fstride * k;
                         if (twidx>=Norig) twidx-=Norig;
                         C_MUL(t,scratchbuf[q] , twiddles[twidx] );
