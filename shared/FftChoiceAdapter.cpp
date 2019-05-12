@@ -1,18 +1,8 @@
-/*
-  ==============================================================================
-
-    FftChoiceAdapter.cpp
-    Created: 29 Nov 2018 7:52:08pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #include "FftChoiceAdapter.h"
 
 FftChoiceAdapter::FftChoiceAdapter(int initialIndex) {
 	for (int n = 7; n <= 14; n++) {
-		m_ffts.add(pow(2, n));
+		m_ffts.add( (int)pow(2, n) );
 	}
 
 	m_currentIndex = initialIndex;
@@ -71,10 +61,8 @@ void FftChoiceAdapter::remove(Array<int> fftSizes) {
 	
 }
 
-void FftChoiceAdapter::parameterValueChanged(int parameterIndex, float newValue)
-{
-	
-	//if (parameterIndex-1 == m_currentIndex) { return;  }
+void FftChoiceAdapter::parameterValueChanged(int, float)
+{		
 	auto choiceIndex = m_parameter->getIndex();	
 	if (choiceIndex == m_currentIndex) { return; }
 	m_currentIndex = choiceIndex;

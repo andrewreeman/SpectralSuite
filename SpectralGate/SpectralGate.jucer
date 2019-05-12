@@ -6,8 +6,6 @@
               pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="Spectral Gate">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
-      <FILE id="qnbijT" name="SpectralGateParameters.cpp" compile="1" resource="0"
-            file="Source/SpectralGateParameters.cpp"/>
       <FILE id="ml6pk2" name="SpectralGateParameters.h" compile="0" resource="0"
             file="Source/SpectralGateParameters.h"/>
       <FILE id="RKurz6" name="SliderContainer.cpp" compile="1" resource="0"
@@ -30,8 +28,6 @@
             file="Source/SpectralGateAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
-      <FILE id="jwVOxB" name="PluginParameters.cpp" compile="1" resource="0"
-            file="../shared/PluginParameters.cpp"/>
       <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
             file="../shared/PluginParameters.h"/>
       <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
@@ -75,7 +71,6 @@
         <FILE id="ljXOgO" name="utilities.h" compile="0" resource="0" file="../shared/legacy/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
-        <FILE id="XtBfvR" name="FftSwitcher.cpp" compile="1" resource="0" file="../shared/FftSwitcher.cpp"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
         <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0"
               file="../shared/FftChoiceAdapter.cpp"/>
@@ -86,7 +81,6 @@
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
               file="../shared/VersionCheck.cpp"/>
         <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h"/>
-        <FILE id="HLaffe" name="VersionInfo.cpp" compile="1" resource="0" file="../shared/VersionInfo.cpp"/>
         <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h"/>
       </GROUP>
     </GROUP>

@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    VersionCheck.cpp
-    Created: 1 Dec 2018 2:12:26pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #include "VersionCheck.h"
 
 void VersionCheckThread::run()
@@ -18,7 +8,7 @@ void VersionCheckThread::run()
 	String jsonString = urlInput->readString();
 	auto parsedJson = JSON::fromString(jsonString);	
 
-	String versionName = parsedJson.getProperty("version", String::empty).toString();
+	String versionName = parsedJson.getProperty("version", String()).toString();
 	if (versionName.isEmpty()) {
 		DBG("Error parsing version name");
 		return;
@@ -30,7 +20,7 @@ void VersionCheckThread::run()
 		return;
 	}
 	
-	String releaseUrl = parsedJson.getProperty("release_url", String::empty).toString();
+	String releaseUrl = parsedJson.getProperty("release_url", String()).toString();
 	if (releaseUrl.isEmpty()) {
 		DBG("Error parsing release url");
 		return;

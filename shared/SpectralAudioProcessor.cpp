@@ -16,17 +16,16 @@ void SpectralAudioProcessor::prepareToPlay(int fftSize, int sampleRate)
 }
 
 void SpectralAudioProcessor::process(const float* input, float* output, const float* inputR, float* outputR)
-{
-	float params[] = {0.0};
+{	
 	for (int i = 0; i < m_spectralProcess.size(); ++i) {
 		prepareProcess(i);
 		
 		// This is a very ugly and inflexible way of doing stereo processing
 		if (i < m_numOverlaps) {
-			m_spectralProcess[i]->process(&input[0], &output[0], m_fftHopSize, params);
+			m_spectralProcess[i]->process(&input[0], &output[0], m_fftHopSize);
 		}
 		else {
-			m_spectralProcess[i]->process(&inputR[0], &outputR[0], m_fftHopSize, params);
+			m_spectralProcess[i]->process(&inputR[0], &outputR[0], m_fftHopSize);
 		}
 	}
 }

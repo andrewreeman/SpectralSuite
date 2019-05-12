@@ -90,7 +90,7 @@ class STFT{
         void normalise(std::vector<Cpx>& cpxInOut);
         void doHann(std::vector<float>& inOut);
         //
-        void zeroPadding(std::vector<float>& inFloat, int user_FFTSize);
+   //     void zeroPadding(std::vector<float>& inFloat, int user_FFTSize);
         
 
     public:
@@ -114,9 +114,9 @@ class STFT{
         void setHopSize(int hopSize){ m_hopsize = hopSize;}
         void setOffset(int offset){ m_offset = offset; }
 
-        virtual void process(const float* input, float* output, int blockSize, float* params);
+        virtual void process(const float* input, float* output, int blockSize);
 		// spectral_process is a pure function that needs to be defined by class derivatives
-        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params) const = 0;
+        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins) const = 0;
 };
 
 //-----------------A phase vocoder derivative of STFT-----------------------------------------//
@@ -147,9 +147,9 @@ class PVoc : public STFT{
     	static std::vector<float> s_prevPhase;
 
        virtual int setFFTSize(int newSize);
-        virtual void process(const float* input, float* output, int blockSize, float* params);
+        virtual void process(const float* input, float* output, int blockSize);
         // still an abstract class that needs spectral_process to be overwritten
-        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const = 0;
+        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const = 0;
 };
 
 // the child classes will define the spectral process. At the moment they all derive from the STFT.
@@ -158,7 +158,7 @@ class frequencyShifter : public STFT {
     public:
         frequencyShifter(int size, int hops, int offset, int sRate) : STFT(size, hops, offset, sRate), m_shift(0){}
         
-		virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const;
+		virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 		
 		void setShift(float shift) { m_shift = (int)shift; }
 
@@ -169,7 +169,7 @@ class frequencyShifter : public STFT {
 class frequencyMagnet : public STFT{
     public:
         frequencyMagnet(int size, int hops, int offset, int sRate) : STFT(size, hops, offset, sRate), m_freq(0.5), m_width(0.5), m_widthBias(0.5) {}
-        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const;
+        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 
 		void setFrequency(float freq) { m_freq = freq; }
 		void setWidth(float width) { m_width = width; }
@@ -187,7 +187,7 @@ class spectralGate: public STFT{
     public:
         spectralGate(int size, int hops, int offset, int sRate) : STFT(size, hops, offset, sRate), m_cutOff(0.0), m_balance(0.0) {}
         
-		virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const;
+		virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 		void setCutOff(float cutOff) { m_cutOff = cutOff; }
 		void setBalance(float balance) { m_balance = balance; }
 	private:
@@ -199,7 +199,7 @@ class spectralGate: public STFT{
 class sinusoidalShapedFilter : public STFT{
     public:
         sinusoidalShapedFilter(int size, int hops, int offset, int sRate) : STFT(size, hops, offset, sRate), m_freq(0.0), m_width(0.0), m_phase(0.0) {}
-        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const;
+        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 
 		void setFrequency(float freq) { m_freq = freq; }
 		void setWidth(float width) { m_width = width; }
@@ -222,10 +222,10 @@ class binScrambler : public STFT{
 		void setMaxPhase(float maxPhase) { m_maxPhase = maxPhase; }
 
 		// takes int vector pointer as arguments to the scrambled indices. The scrambling is done external to the spec proc
-        binScrambler(int size, int hops, int offset, int sRate, std::vector<int> *A, std::vector<int> *B) : m_AInd(A), m_BInd(B),STFT(size, hops, offset, sRate), m_phase(0.0), m_maxPhase(sRate){}
+        binScrambler(int size, int hops, int offset, int sRate, std::vector<int> *A, std::vector<int> *B) : m_AInd(A), m_BInd(B),STFT(size, hops, offset, sRate), m_phase(0.0), m_maxPhase((float)sRate){}
 		// swap the index pointers
         void swap(){ std::swap(m_AInd, m_BInd);}
-        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const;
+        virtual void spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const;
 
 private:
 	float m_phase;
@@ -236,5 +236,5 @@ private:
 class emptyProcess : public STFT{
     public:
         emptyProcess(int size, int hops, int offset, int sRate) : STFT(size, hops, offset, sRate) {}
-        virtual void spectral_process(const std::vector< Polar<float> >& in, std::vector<Polar<float> >& out, int bins, const float* params)const;
+        virtual void spectral_process(const std::vector< Polar<float> >& in, std::vector<Polar<float> >& out, int bins)const;
 };

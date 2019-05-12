@@ -58,7 +58,7 @@ void emptyPolar(std::vector<Polar<float> >& inOutPol){
 //----STFT----
 
 STFT::STFT(int size, int hopSize, int offset, int sRate) :
-    m_sRate(sRate), m_fftSize(size), m_halfSize(float(size)/2.f), m_invSize(1.f/float(size)),
+    m_sRate(sRate), m_fftSize(size), m_halfSize(size / 2), m_invSize(1.f/float(size)),
     m_hopsize(hopSize), m_offset(offset), m_hann(size), m_input(size),
     m_cpxInput(size), m_fftOut(size), m_polarOut(m_halfSize), m_polarIn(m_halfSize),
     m_ifftin(size), m_cpxOutput(size), m_output(size),
@@ -99,10 +99,10 @@ void STFT::fillHann(std::vector<float>& table, int size){
     float invert_Cos;
     for(int n = 0; n < size; ++n){
         //hann window -- inverted cosine
-        w = TWOPI * float(n)/float(size-1);
+        w = (float)TWOPI * ( float(n)/float(size-1) );
         invert_Cos = 1.f - cos(w);
         //normalise to 0 to 1
-        table[n] = 0.5 * invert_Cos;
+        table[n] = 0.5f * invert_Cos;
     }
 }
 
@@ -162,13 +162,10 @@ void STFT::normalise(std::vector<Cpx>& cmpxInOut){
 }
 
 //
-void STFT::zeroPadding(std::vector<float> &inFloat, int user_FFTSize){
+//void STFT::zeroPadding(std::vector<float> &inFloat, int user_FFTSize){
     // do not like resizing of the vector within this function!!!!
-
-    inFloat.resize(m_fftSize, 0.f);
-
-
-}
+    //inFloat.resize(m_fftSize, 0.f);
+//}
 //
 
 // STFT process and PVoc process are defined further on for ease of comparison
@@ -218,8 +215,8 @@ void PVoc::phaseDiff2Hertz(std::vector<Polar<float> >& inOut){
 
     /*  For each bin the difference in phase will be related to the strongest frequency content of that bin.
     If there is no difference then the true frequency will be the center frequency of the bin.  */
-    float fac = (float)m_sRate / ((float)m_hopsize * TWOPI ); // radians to hertz factor.
-    float scl= TWOPI * (float)m_hopsize / float(m_fftSize); // Size in radians of the hopsize.
+    float fac = (float)m_sRate / ((float)m_hopsize * (float)TWOPI ); // radians to hertz factor.
+    float scl= (float)TWOPI * ( (float)m_hopsize / float(m_fftSize) ); // Size in radians of the hopsize.
 
     for(int n = 0; n < m_halfSize; ++n){
         float phi = inOut[n].m_phase;
@@ -235,7 +232,7 @@ void PVoc::hertzDiff2Phase(std::vector<Polar<float> >& inOut){
     // Find the difference between the new value in hertz (post spec process) from the center bin.
     // Convert this to the phase value.
 
-    float  fac = (float)m_hopsize * TWOPI /(float) m_sRate; //used for scaling the hertz to radians
+    float fac = (float)m_hopsize * ( (float)TWOPI / (float)m_sRate ); //used for scaling the hertz to radians
     float scl= (float)m_sRate / float(m_fftSize); //used to determine the center frequency for each bin.
 
     for(int i = 0; i < m_halfSize; ++i){
@@ -246,7 +243,7 @@ void PVoc::hertzDiff2Phase(std::vector<Polar<float> >& inOut){
     }
 }
 
-void STFT::process(const float* input, float* output, int blockSize, float* params){
+void STFT::process(const float* input, float* output, int blockSize){
 
     fill_in_passOut(input, output, blockSize);
     m_offset += blockSize;
@@ -266,7 +263,7 @@ void STFT::process(const float* input, float* output, int blockSize, float* para
         normalise(m_fftOut);
         car2Pol(m_fftOut, m_polarOut, m_halfSize);
 
-        spectral_process(m_polarOut, m_polarIn, m_halfSize, params);
+        spectral_process(m_polarOut, m_polarIn, m_halfSize);
 
         pol2Car(m_polarIn, m_ifftin, m_halfSize);
         m_ifftin[0] = 0.f;
@@ -279,7 +276,7 @@ void STFT::process(const float* input, float* output, int blockSize, float* para
     }
 }
 
-void PVoc::process(const float* input, float* output, int blockSize, float* params){
+void PVoc::process(const float* input, float* output, int blockSize){
 
     fill_in_passOut(input, output, blockSize);
     m_offset += blockSize;
@@ -295,7 +292,7 @@ void PVoc::process(const float* input, float* output, int blockSize, float* para
         car2Pol(m_fftOut, m_polarOut, m_halfSize);
         phaseDiff2Hertz(m_polarOut);
 
-        spectral_process(m_polarOut, m_polarIn, m_halfSize, params);
+        spectral_process(m_polarOut, m_polarIn, m_halfSize);
 
         hertzDiff2Phase(m_polarIn);
         pol2Car(m_polarIn, m_ifftin, m_halfSize);
@@ -314,7 +311,7 @@ int PVoc::setFFTSize(int newSize){
     return status;
 }
 
-void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const {	
+void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {	
 	Polar<float> empty(0.f, 0.f);
 	std::fill(out.begin(), out.end(), empty);
 
@@ -349,7 +346,7 @@ void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, s
 }
 
 //----------------
-void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const{
+void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const{
 	// a spectral gate
 	float mag;
 	//float gate = params[0];
@@ -376,7 +373,7 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
 
 };
 //-------
- void sinusoidalShapedFilter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const{
+ void sinusoidalShapedFilter::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const{
 
     float w;    
 	float freq = m_freq + 1.f;    
@@ -386,7 +383,7 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
 
     for(int i=0; i<bins; ++i){
         w = float(i)/float(bins-1);
-        w *= TWOPI*freq;
+        w *= (float)TWOPI * freq;
         sinusoid = std::max(0.f, cos(w-theta));
         out[i].m_mag = in[i].m_mag * pow(sinusoid, width);
         out[i].m_phase = in[i].m_phase;
@@ -394,7 +391,7 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
 }
 
 //-------
-void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const {
+void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {
     /*Frequency magnet dynamically merges all bins to a single bin. It is intended to explore spectral width. The x-axis controls the `width'.
     The y-axis controls the target frequency. When the width is zero all frequencies are shifted to a single bin.
     When the width is one the full un-shifted spectrum is presented. The interest comes from the range in between the extremes.
@@ -454,7 +451,7 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 }
 
 
-void binScrambler::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins, const float* params)const {
+void binScrambler::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {
 
 	int phase = m_phase;
 	int maxPhase = m_maxPhase;
@@ -465,7 +462,7 @@ void binScrambler::spectral_process(const std::vector< Polar<float> > &in, std::
     }
 }
 
-void emptyProcess::spectral_process(const std::vector< Polar<float> >& in, std::vector<Polar<float> >&out, int bins, const float* params)const{
+void emptyProcess::spectral_process(const std::vector< Polar<float> >& in, std::vector<Polar<float> >&out, int bins)const{
     for(int i=0; i<bins; ++i){
         out[i] = in[i];
     }

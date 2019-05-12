@@ -12,7 +12,7 @@ public:
 			NormalisableRange<float>(0.0f, 1.0f), 
 			0.6f, "",
 			AudioProcessorParameter::Category::genericParameter,
-			[dbSuffix](float value, float maxLabelLength) { 
+			[dbSuffix](float value, float) { 
 				return String(Decibels::gainToDecibels(value), 0) + dbSuffix; 
 			},
 			[dbSuffix](String text) {
