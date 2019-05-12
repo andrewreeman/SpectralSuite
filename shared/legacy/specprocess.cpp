@@ -402,14 +402,15 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
     // we will use the width bias input to limit and curve the width paramter
 
-    float widthBias = m_widthBias*3.f; //this will be the exponent for the width
-    float widthLimit = 1.f-pow(m_widthBias, 0.125f); // this is the lower limit for the width (less width, narrower band ... higher volume!)
+    const float widthBias = m_widthBias*3.f; //this will be the exponent for the width
+    const float widthLimit = 1.f-pow(m_widthBias, 0.125f); // this is the lower limit for the width (less width, narrower band ... higher volume!)
+	
+	int target_bin = (int)((m_freq / (float)this->getRate()) * (float)m_fftSize);
 	float width = m_width;
     width = utilities::clip(width, widthLimit, 1.f);
-    width = pow(width, widthBias);
+    width = pow(width, widthBias);	
 
-    float line;    
-	int target_bin = (m_freq / this->getRate()) * m_fftSize;
+    float line;    	
     int index_below;
     int index_above;
 
@@ -427,10 +428,10 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
         temp[index_below].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[index_below].m_mag = utilities::interp_lin(temp[index_below].m_mag, temp[index_below+1].m_mag, index_below);
+        out[index_below].m_mag = utilities::interp_lin(temp[index_below].m_mag, temp[index_below+1].m_mag, (float)index_below);
     }
 
-	if(target_bin < 1) target_bin = 1.f;
+	if(target_bin < 1) target_bin = 1;
 
     for(int i=target_bin; i<bins; ++i){
         int range = bins - target_bin ;
@@ -448,10 +449,9 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
         temp[index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[index_above].m_mag = utilities::interp_lin(temp[index_above].m_mag, temp[index_above-1].m_mag, index_above);
+        out[index_above].m_mag = utilities::interp_lin(temp[index_above].m_mag, temp[index_above-1].m_mag, (float)index_above);
     }
 }
-
 
 void binScrambler::spectral_process(const std::vector< Polar<float> > &in, std::vector<Polar<float> > &out, int bins)const {
 
