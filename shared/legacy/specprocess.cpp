@@ -33,8 +33,9 @@ void pol2Car(const std::vector<Polar<T> >& polarIn, std::vector<Cpx>& cpxOut, in
 template <class T>
 Polar<T> interp_Polar(const Polar<T>* v, int lim, float i, bool wrap = false){
     if (wrap){
-      while( i> lim) i -= float(lim);
+      while( (int)i > lim) i -= float(lim);
     }
+
     float t;
     float r = modff(i, &t);
     int n = int(t);
@@ -48,7 +49,6 @@ Polar<T> interp_Polar(const Polar<T>* v, int lim, float i, bool wrap = false){
     polOut.m_phase = 0.f;
     return polOut;
 }
-
 
 void emptyPolar(std::vector<Polar<float> >& inOutPol){
     Polar<float> empty(0.f, 0.f);
@@ -120,8 +120,8 @@ int STFT::newFFT(int newSize){
 void STFT::fill_in_passOut(const float* audioInput, float* processOutput, int blockSize){
 
 	 // this will write the audio input to the internal buffer of the process.
-    float* pWriteToProcess = &m_input[0] + m_offset;
-    float* pWriteToOutput = &m_output[0] + m_offset;
+    float* pWriteToProcess = (&m_input[0]) + m_offset;
+    float* pWriteToOutput = (&m_output[0]) + m_offset;
 
     for(int i=0; i<blockSize; ++i){
         *pWriteToProcess = audioInput[i];
@@ -218,8 +218,8 @@ void PVoc::phaseDiff2Hertz(std::vector<Polar<float> >& inOut){
 
     /*  For each bin the difference in phase will be related to the strongest frequency content of that bin.
     If there is no difference then the true frequency will be the center frequency of the bin.  */
-    float fac = m_sRate / (m_hopsize* TWOPI ); // radians to hertz factor.
-    float scl= TWOPI * m_hopsize/ float(m_fftSize); // Size in radians of the hopsize.
+    float fac = (float)m_sRate / ((float)m_hopsize * TWOPI ); // radians to hertz factor.
+    float scl= TWOPI * (float)m_hopsize / float(m_fftSize); // Size in radians of the hopsize.
 
     for(int n = 0; n < m_halfSize; ++n){
         float phi = inOut[n].m_phase;
@@ -235,8 +235,8 @@ void PVoc::hertzDiff2Phase(std::vector<Polar<float> >& inOut){
     // Find the difference between the new value in hertz (post spec process) from the center bin.
     // Convert this to the phase value.
 
-    float  fac = m_hopsize * TWOPI / m_sRate; //used for scaling the hertz to radians
-    float scl= m_sRate / float(m_fftSize); //used to determine the center frequency for each bin.
+    float  fac = (float)m_hopsize * TWOPI /(float) m_sRate; //used for scaling the hertz to radians
+    float scl= (float)m_sRate / float(m_fftSize); //used to determine the center frequency for each bin.
 
     for(int i = 0; i < m_halfSize; ++i){
         float delta = (inOut[i].m_phase - float(i) * scl) * fac;
@@ -308,11 +308,8 @@ void PVoc::process(const float* input, float* output, int blockSize, float* para
     }
 }
 
-
-
-int PVoc::setFFTSize(int newSize){
-    int status;
-    status = STFT::setFFTSize(newSize);
+int PVoc::setFFTSize(int newSize){    
+    int status = STFT::setFFTSize(newSize);
     s_prevPhase.resize(newSize/2, 0);
     return status;
 }
@@ -328,7 +325,7 @@ void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, s
 	
     int maxBin = getRate();	
 
-    float binWidth = maxBin /(float)fftSize;
+    int binWidth = maxBin / fftSize;
 	int shiftFrequency = m_shift;
 
 	int shift = shiftFrequency / binWidth;	
@@ -390,7 +387,7 @@ void spectralGate::spectral_process(const std::vector< Polar<float> > &in, std::
     for(int i=0; i<bins; ++i){
         w = float(i)/float(bins-1);
         w *= TWOPI*freq;
-        sinusoid = std::max(0.f, (float)cos(w-theta));
+        sinusoid = std::max(0.f, cos(w-theta));
         out[i].m_mag = in[i].m_mag * pow(sinusoid, width);
         out[i].m_phase = in[i].m_phase;
     }
@@ -413,9 +410,9 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
     width = pow(width, widthBias);
 
     float line;    
-	float target_bin = (m_freq / this->getRate()) * m_fftSize;
-    float index_below;
-    float index_above;
+	int target_bin = (m_freq / this->getRate()) * m_fftSize;
+    int index_below;
+    int index_above;
 
     std::vector<Polar<float> > temp(bins);
     emptyPolar(temp);

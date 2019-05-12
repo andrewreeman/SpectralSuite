@@ -66,9 +66,9 @@ class STFT{
    protected:
         int m_sRate;
         int m_fftSize;
-        float m_halfSize; // FFT/2
+        int m_halfSize; // FFT/2
         float m_invSize; // 1/FFT
-        float m_hopsize;
+        int m_hopsize;
 		int m_offset; // m_offset is used for the initial offset of the STFT instances. This allows overlapping
         std::vector<float> m_hann;
         std::vector<float> m_input; // audio input ...
@@ -91,7 +91,7 @@ class STFT{
         void doHann(std::vector<float>& inOut);
         //
         void zeroPadding(std::vector<float>& inFloat, int user_FFTSize);
-        //
+        
 
     public:
 
@@ -105,14 +105,14 @@ class STFT{
         }
 
         void setRate(int newRate){ m_sRate = newRate;}
-        int getRate()const{return m_sRate;}
+        int getRate() const { return m_sRate; }
 
         virtual int setFFTSize(int newSize);
-        int getFFTSize()const{return m_fftSize;}
+        int getFFTSize() const { return m_fftSize; }
 
-        int getHopSize()const{return m_hopsize;}
+        int getHopSize() const { return m_hopsize; }
         void setHopSize(int hopSize){ m_hopsize = hopSize;}
-        void setOffset(int offset){m_offset = offset;}
+        void setOffset(int offset){ m_offset = offset; }
 
         virtual void process(const float* input, float* output, int blockSize, float* params);
 		// spectral_process is a pure function that needs to be defined by class derivatives

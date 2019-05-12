@@ -29,7 +29,7 @@ public:
 	virtual void onPropertiesChanged() override {}
 
 	// Inherited via AudioValueTreeStateOnLoadListener
-	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {}
+	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters*, XmlElement*) override {}
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterContainerComponent)	
