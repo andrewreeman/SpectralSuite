@@ -8,7 +8,7 @@ class SpectralGateProcessor : public SpectralAudioProcessor {
 public:
 	SpectralGateProcessor(int numOverlaps, int numChans) : SpectralAudioProcessor(numOverlaps, numChans), m_cutOff(nullptr), m_balance(nullptr) {}		
 	
-	void createParameters(AudioProcessorValueTreeState* valueTreeState) override;
+	void createParameters(PluginParameters* parameters) override;
 	void prepareProcess(int spectralProcessorIndex) override;
 	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 private:	

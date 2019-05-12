@@ -1,8 +1,6 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "ScrambleSlider.h"
 
-//==============================================================================
-ScrambleSlider::ScrambleSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight)
+ScrambleSlider::ScrambleSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
 {
 	balance.setSliderStyle(Slider::LinearHorizontal);
 	balance.setRange(0.0, 1.0, 0.01);
@@ -10,7 +8,7 @@ ScrambleSlider::ScrambleSlider(AudioProcessorValueTreeState& valueTreeState, Col
 	balance.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
 	balance.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	addAndMakeVisible(&balance);
-	balanceAttachment.reset(new SliderAttachment(valueTreeState, "scramble", balance));
+	balanceAttachment.reset(valueTreeState->createSliderAttachment("scramble", balance));
 
 	balanceLabel.setText("Scramble", NotificationType::dontSendNotification);
 	balanceLabel.attachToComponent(&balance, false);

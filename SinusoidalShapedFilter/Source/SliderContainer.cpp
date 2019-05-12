@@ -1,7 +1,6 @@
-//#include "../JuceLibraryCode/JuceHeader.h"
 #include "SliderContainer.h"
 
-SliderContainer::SliderContainer(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) :
+SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) :
 	freqSlider(valueTreeState, textColour, textBoxHeight),
 	phaseSlider(valueTreeState, textColour, textBoxHeight),
 	widthSlider(valueTreeState, textColour, textBoxHeight)

@@ -13,6 +13,7 @@
 
 #include "FrequencyMagnetProcessor.h"
 #include "SliderContainer.h"
+#include "FrequencyMagnetParameters.h"
 
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/ParameterContainerComponentFactory.h"

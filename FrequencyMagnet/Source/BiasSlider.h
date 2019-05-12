@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
-class PhaseSlider    : public Component
+class PhaseSlider : public Component
 {
 public:
-    PhaseSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    PhaseSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~PhaseSlider();
 
     void paint (Graphics&) override;

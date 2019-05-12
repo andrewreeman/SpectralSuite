@@ -1,8 +1,6 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "ScatterSlider.h"
 
-//==============================================================================
-ScatterSlider::ScatterSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight)
+ScatterSlider::ScatterSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
 {
 	balance.setSliderStyle(Slider::LinearHorizontal);
 	balance.setRange(0.0, 1.0, 0.01);	
@@ -10,7 +8,7 @@ ScatterSlider::ScatterSlider(AudioProcessorValueTreeState& valueTreeState, Colou
 	balance.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);	
 	balance.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	addAndMakeVisible(&balance);
-	balanceAttachment.reset(new SliderAttachment(valueTreeState, "scatter", balance));
+	balanceAttachment.reset(valueTreeState->createSliderAttachment("scatter", balance));
 
 	balanceLabel.setText("Scatter", NotificationType::dontSendNotification);
 	balanceLabel.attachToComponent(&balance, false);

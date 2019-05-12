@@ -1,8 +1,6 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "CutOffSlider.h"
 
-//==============================================================================
-CutOffSlider::CutOffSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) 
+CutOffSlider::CutOffSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	cutOff.setSliderStyle(Slider::LinearHorizontal);
 	cutOff.setRange(0.0, 1.0, 0.01);
@@ -13,8 +11,8 @@ CutOffSlider::CutOffSlider(AudioProcessorValueTreeState& valueTreeState, Colour 
 
 	cutOff.setColour(Slider::ColourIds::textBoxTextColourId, textColour);	
 	addAndMakeVisible(&cutOff);
-	cutOffAttachment.reset(new SliderAttachment(valueTreeState, "cutoff", cutOff));	
 
+	cutOffAttachment.reset(valueTreeState->createSliderAttachment("cutoff", cutOff));	
 	cutOffLabel.setText("Cutoff amplitude", NotificationType::dontSendNotification);
 	cutOffLabel.attachToComponent(&cutOff, false);
 	cutOffLabel.setColour(Label::ColourIds::textColourId, textColour);

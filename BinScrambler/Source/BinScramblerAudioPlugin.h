@@ -1,18 +1,9 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #pragma once
 #include "JuceHeader.h"
 
 #include "BinScramblerProcessor.h"
 #include "SliderContainer.h"
+#include "BinScramblerParameters.h"
 
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/SpectralAudioPluginUi.h"

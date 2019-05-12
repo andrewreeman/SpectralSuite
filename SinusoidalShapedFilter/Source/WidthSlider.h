@@ -1,14 +1,12 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
-//==============================================================================
-/*
-*/
-class WidthSlider    : public Component
+class WidthSlider : public Component
 {
 public:
-    WidthSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    WidthSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~WidthSlider();
 
     void paint (Graphics&) override;

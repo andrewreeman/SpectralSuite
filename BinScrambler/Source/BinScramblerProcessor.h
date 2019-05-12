@@ -11,7 +11,7 @@ public:
 		m_pB_Ind = &m_B_Ind;		
 	}		
 	
-	void createParameters(AudioProcessorValueTreeState* valueTreeState) override;
+	void createParameters(PluginParameters* valueTreeState) override;
 	void prepareProcess(int spectralProcessorIndex) override;
 	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 	void onFftSizeChanged() override;	

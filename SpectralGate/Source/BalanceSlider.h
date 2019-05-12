@@ -1,24 +1,15 @@
-/*
-  ==============================================================================
-
-    BalanceSlider.h
-    Created: 1 Jan 2019 2:54:30pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
 //==============================================================================
 /*
 */
-class BalanceSlider    : public Component
+class BalanceSlider : public Component
 {
 public:
-    BalanceSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    BalanceSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~BalanceSlider();
 
     void paint (Graphics&) override;

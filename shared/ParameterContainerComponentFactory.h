@@ -4,6 +4,7 @@
 #include "SettingsPage.h"
 #include "ParameterContainerComponent.h"
 
+// TODO: can probably remove this now
 class ParameterContainerComponentFactory {
 public:
 	//virtual ParameterContainerComponent* create(AudioProcessorValueTreeState& treeState, SettingsPage& settingsPageToConfigure) = 0;

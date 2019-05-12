@@ -1,8 +1,6 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "FreqSlider.h"
 
-//==============================================================================
-FreqSlider::FreqSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight) 
+FreqSlider::FreqSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	freq.setSliderStyle(Slider::LinearHorizontal);
 	freq.setRange(0.0, 1.0, 0.01);	
@@ -11,7 +9,7 @@ FreqSlider::FreqSlider(AudioProcessorValueTreeState& valueTreeState, Colour text
 	
 	freq.setColour(Slider::ColourIds::textBoxTextColourId, textColour);	
 	addAndMakeVisible(&freq);
-	freqAttachment.reset(new SliderAttachment(valueTreeState, "freq", freq));	
+	freqAttachment.reset(valueTreeState->createSliderAttachment("freq", freq));	
 
 	freqLabel.setText("Frequency", NotificationType::dontSendNotification);
 	freqLabel.attachToComponent(&freq, false);

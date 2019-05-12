@@ -1,17 +1,18 @@
 #include "BinScramblerAudioPlugin.h"
 
-class FrequencyShifterParameterContainerFactory : public ParameterContainerComponentFactory  {
-	ParameterContainerComponent* create(AudioProcessorValueTreeState& valueTreeState) override {
-		return new SliderContainer(valueTreeState, Colour::fromString(TEXT_COLOUR), 30);
-	}
-	const int getComponentHeight() { return 80 * 3;  }
-};
-	
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new SpectralAudioPlugin(
-		std::make_unique<BinScramblerProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS),
-		std::make_unique<FrequencyShifterParameterContainerFactory>()
-	);
+	//create shared pointer here and pass to processor and factory...which should actually just be the container
+	SpectralAudioPlugin::DependencyCreator dependencyCreator = [](SpectralAudioPlugin* plugin) {
+		auto pluginParams = std::make_shared<BinScramblerParameters>(plugin);
+
+		return std::make_unique<SpectralAudioPlugin::Dependencies>(
+			pluginParams,
+			std::make_unique<BinScramblerProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS),
+			std::make_unique<SliderContainer>(pluginParams, Colour::fromString(TEXT_COLOUR), 30)
+		);		
+	};
+
+    return new SpectralAudioPlugin(dependencyCreator);
 }

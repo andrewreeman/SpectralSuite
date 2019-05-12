@@ -1,14 +1,12 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
-//==============================================================================
-/*
-*/
-class BiasSlider    : public Component
+class BiasSlider : public Component
 {
 public:
-    BiasSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    BiasSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~BiasSlider();
 
     void paint (Graphics&) override;

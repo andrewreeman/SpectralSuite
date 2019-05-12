@@ -13,6 +13,7 @@
 
 #include "SpectralGateProcessor.h"
 #include "SliderContainer.h"
+#include "SpectralGateParameters.h"
 
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/ParameterContainerComponentFactory.h"

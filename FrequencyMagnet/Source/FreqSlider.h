@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
 //==============================================================================
 class FreqSlider : public Component
 {
 public:
-    FreqSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    FreqSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~FreqSlider();
 
     void paint (Graphics&) override;

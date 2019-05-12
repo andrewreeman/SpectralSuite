@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
-class ScatterSlider    : public Component
+class ScatterSlider : public Component
 {
 public:
-    ScatterSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    ScatterSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~ScatterSlider();
 
     void paint (Graphics&) override;

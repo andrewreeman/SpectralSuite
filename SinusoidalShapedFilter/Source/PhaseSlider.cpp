@@ -1,8 +1,6 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "PhaseSlider.h"
 
-//==============================================================================
-PhaseSlider::PhaseSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight)
+PhaseSlider::PhaseSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
 {
 	balance.setSliderStyle(Slider::LinearHorizontal);
 	balance.setRange(0.0, 1.0, 0.01);	
@@ -10,7 +8,7 @@ PhaseSlider::PhaseSlider(AudioProcessorValueTreeState& valueTreeState, Colour te
 	balance.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);	
 	balance.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	addAndMakeVisible(&balance);
-	balanceAttachment.reset(new SliderAttachment(valueTreeState, "phase", balance));
+	balanceAttachment.reset(valueTreeState->createSliderAttachment("phase", balance));
 
 	balanceLabel.setText("Phase", NotificationType::dontSendNotification);
 	balanceLabel.attachToComponent(&balance, false);

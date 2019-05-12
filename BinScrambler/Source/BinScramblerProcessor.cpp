@@ -2,27 +2,27 @@
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/legacy/utilities.h"
 
-void BinScramblerProcessor::createParameters(AudioProcessorValueTreeState* valueTreeState)
+void BinScramblerProcessor::createParameters(PluginParameters* valueTreeState)
 {				
-	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"scramble",
-		"Scramble",
-		NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
-		AudioProcessorParameter::Category::genericParameter		
-	));
+	//valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
+	//	"scramble",
+	//	"Scramble",
+	//	NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
+	//	AudioProcessorParameter::Category::genericParameter		
+	//));
 
 	m_scramble = valueTreeState->getRawParameterValue("scramble");	
 	
-	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
+	/*valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"scatter",
 		"Scatter",
 		NormalisableRange<float>(0.0f, 1.0f), 0.4f, "",
 		AudioProcessorParameter::Category::genericParameter
-		));
+		));*/
 
 	m_scatter = valueTreeState->getRawParameterValue("scatter");	
 
-	String freqHertzLabel = "Hz";
+	/*String freqHertzLabel = "Hz";
 	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"rate",
 		"Rate",
@@ -30,27 +30,29 @@ void BinScramblerProcessor::createParameters(AudioProcessorValueTreeState* value
 		AudioProcessorParameter::Category::genericParameter,
 		[freqHertzLabel](float v, float maxLabelLength) { return String(v, 2) + freqHertzLabel; },
 		[freqHertzLabel](String text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); }
-	));
+	));*/
 
 	m_rate = valueTreeState->getRawParameterValue("rate");	
 }
 
 void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
 {
-	// This if statement is a hack to make this occur every time we need to proces audio. there really should be a different method for this
+	// This if statement is a hack to make this occur every time we need to process audio. there really should be a different method for this
 
 	float maxPhase = (getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
-	if (spectralProcessIndex == 0) {
-		int binRange = getFftSize() / 2;
-		// sprinkle amount determines the amount of lower indices to be mapped t
-		float scatter = *m_scatter;
-		float scramble = *m_scramble;		
-
-		float sprinkleAmt = (1.f - (scatter*scatter))*100.f;
-		int sprinkleRange = binRange / 5;
-		int scramFac = (pow(scramble, 3)*binRange) / 2;		
-
+	
+	if (spectralProcessIndex == 0) {	
 		if (m_Phase >= maxPhase) {
+			const int binRange = getFftSize() / 2;
+			
+			// sprinkle amount determines the amount of lower indices to be mapped t
+			const float scatter = *m_scatter;
+			const float scramble = *m_scramble;
+
+			const float sprinkleAmt = (1.f - (scatter*scatter))*100.f;
+			const int sprinkleRange = binRange / 5;
+			const int scramFac = (pow(scramble, 3)*binRange) / 2;
+
 			// when the phasor reaches its peak it will swap the bin pointer
 			std::swap(m_pA_Ind, m_pB_Ind);
 			for (int i = 0; i < binRange; ++i) m_pB_Ind->at(i) = i; // reset the b indices

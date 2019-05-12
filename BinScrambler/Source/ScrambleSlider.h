@@ -1,14 +1,12 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../../shared/PluginParameters.h"
 
-//==============================================================================
-/*
-*/
-class ScrambleSlider    : public Component
+class ScrambleSlider : public Component
 {
 public:
-    ScrambleSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight);
+    ScrambleSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~ScrambleSlider();
 
     void paint (Graphics&) override;

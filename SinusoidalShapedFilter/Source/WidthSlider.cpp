@@ -1,18 +1,6 @@
-/*
-  ==============================================================================
-
-    WidthSlider.cpp
-    Created: 2 Jan 2019 8:53:19pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "WidthSlider.h"
 
-//==============================================================================
-WidthSlider::WidthSlider(AudioProcessorValueTreeState& valueTreeState, Colour textColour, int textBoxHeight)
+WidthSlider::WidthSlider(std::shared_ptr<PluginParameters>  valueTreeState, Colour textColour, int textBoxHeight)
 {
 	balance.setSliderStyle(Slider::LinearHorizontal);
 	balance.setRange(0.0, 1.0, 0.01);
@@ -20,13 +8,12 @@ WidthSlider::WidthSlider(AudioProcessorValueTreeState& valueTreeState, Colour te
 	balance.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
 	balance.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	addAndMakeVisible(&balance);
-	balanceAttachment.reset(new SliderAttachment(valueTreeState, "width", balance));
+	balanceAttachment.reset(valueTreeState->createSliderAttachment("width", balance));
 
 	balanceLabel.setText("Narrowness", NotificationType::dontSendNotification);
 	balanceLabel.attachToComponent(&balance, false);
 	balanceLabel.setColour(Label::ColourIds::textColourId, textColour);
 	addAndMakeVisible(balanceLabel); 
-
 }
 
 WidthSlider::~WidthSlider()
