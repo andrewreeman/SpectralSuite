@@ -3,12 +3,10 @@
 CutOffSlider::CutOffSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) 
 {
 	cutOff.setSliderStyle(Slider::LinearHorizontal);
-	cutOff.setRange(0.0, 1.0, 0.01);
+	cutOff.setRange(0.0, 1.0, 0.01);	
 	cutOff.setSkewFactor(2.0);
 	cutOff.setValue(0.6);
-	cutOff.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
-	//cutOff.setTextValueSuffix("dB"); // not in db yet!
-
+	cutOff.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);	
 	cutOff.setColour(Slider::ColourIds::textBoxTextColourId, textColour);	
 	addAndMakeVisible(&cutOff);
 

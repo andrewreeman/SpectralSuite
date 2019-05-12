@@ -36,11 +36,10 @@ void BinScramblerProcessor::createParameters(PluginParameters* valueTreeState)
 }
 
 void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
-{
-	// This if statement is a hack to make this occur every time we need to process audio. there really should be a different method for this
+{	
+	const float maxPhase = (getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
 
-	float maxPhase = (getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
-	
+	// Only on the first call do we need to increment the phasor
 	if (spectralProcessIndex == 0) {	
 		if (m_Phase >= maxPhase) {
 			const int binRange = getFftSize() / 2;
@@ -65,7 +64,7 @@ void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
 				((binScrambler*)process)->swap();
 			}
 		}
-		// increment the phasor
+
 		m_Phase += getFftSize();
 	}
 
