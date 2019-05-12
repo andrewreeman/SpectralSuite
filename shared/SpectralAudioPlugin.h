@@ -107,9 +107,7 @@ private:
 	std::vector<float> m_Input_L;
 	std::vector<float> m_Input_R;
 
-	SpectralAudioPluginUi* m_ui;
-	AudioValueTreeStateOnLoadListener* m_onLoadStateListener;
-
+	SpectralAudioPluginUi* m_ui;	
 	VersionCheckThread m_versionCheckThread;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpectralAudioPlugin)		

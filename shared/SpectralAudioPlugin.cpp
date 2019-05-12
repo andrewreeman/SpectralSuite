@@ -28,8 +28,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_fftChoiceAdapter(INIT_FFT_INDEX),	
 	//parameters(*this, nullptr),	
 	m_fftSwitcher(this),
-	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json"),
-	m_onLoadStateListener(nullptr)
+	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
 {			
 	std::unique_ptr<Dependencies> dependencies = dependencyCreator(this);
 	parameters = dependencies->getParams();
@@ -70,10 +69,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	);
 	parameters->replaceState(valueTree);		
 
-	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), std::move(m_parameterUiComponent));
-
-	// this is some nasty wiring
-	m_onLoadStateListener = m_ui;
+	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), std::move(m_parameterUiComponent));	
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -261,37 +257,9 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 
 	if ( xmlState.get() == nullptr ) { return; }
 	if ( !xmlState->hasTagName(parameters->getState().getType()) ) {	return;}
-	
-
-	//parameters.replaceState(*xmlState);
-
-	parameters->replaceState(ValueTree::fromXml(*xmlState));		
-	if (m_onLoadStateListener != nullptr) {
-		m_onLoadStateListener->onAudioValueTreeStateLoadedFromXmlState(parameters.get(), xmlState.get());
-	}	
-	else {		
-		AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->parameters->getParameter("shift");
-
-		const double originalShiftValue = xmlState->getChildByAttribute("id", "shift")->getDoubleAttribute("value", shiftParam->get());
-		const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)this->parameters->getParameter("shiftMinRange");
-		const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)this->parameters->getParameter("shiftMaxRange");
-
-		float currentValue = originalShiftValue;
-		const float lowestValue = lowestValueParam->get();
-		const float highestValue = highestValueParam->get();
-
-		if (currentValue < lowestValue) {
-			currentValue = lowestValue;
-		}
-		if (currentValue > highestValue) {
-			currentValue = highestValue;
-		}
-
-		shiftParam->range.start = lowestValue;
-		shiftParam->range.end = highestValue;
-		//frequencyShift.setRange(shiftParam->range.start, shiftParam->range.end, shiftParam->range.interval);
-		shiftParam->setValueNotifyingHost(shiftParam->convertTo0to1(currentValue));
-	}
+		
+	parameters->replaceState(ValueTree::fromXml(*xmlState));			
+	m_ui->onAudioValueTreeStateLoadedFromXmlState(parameters.get(), xmlState.get());		
 }
 
 void SpectralAudioPlugin::switchFftSize()
