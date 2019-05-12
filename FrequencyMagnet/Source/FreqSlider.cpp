@@ -8,8 +8,7 @@ FreqSlider::FreqSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour 
 	freq.setSliderStyle(Slider::LinearHorizontal);
 	freq.setRange(freqRange.start , freqRange.end, 10.0);	
 	freq.setValue(*freqDefaultValue, NotificationType::dontSendNotification);	
-	freq.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
-	freq.setTextValueSuffix("Hz");
+	freq.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);	
 	
 	freq.setColour(Slider::ColourIds::textBoxTextColourId, textColour);	
 	addAndMakeVisible(&freq);
