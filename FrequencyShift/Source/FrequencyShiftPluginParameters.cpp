@@ -22,8 +22,8 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 		"Frequency shift minimum range",
 		NormalisableRange<float>(-20000, -10, increment), minRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
-		[shiftHertzLabel](float v, float maxLabelLength) { return String(v, 2) + shiftHertzLabel; },
-		[shiftHertzLabel](String text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
+		[shiftHertzLabel](float v, int) { return String(v, 2) + shiftHertzLabel; },
+		[shiftHertzLabel](const String& text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
@@ -31,8 +31,8 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 		"Frequency shift maximum range",
 		NormalisableRange<float>(10, 20000, increment), maxRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
-		[shiftHertzLabel](float v, float maxLabelLength) { return String(v, 2) + shiftHertzLabel; },
-		[shiftHertzLabel](String text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
+		[shiftHertzLabel](float v, int) { return String(v, 2) + shiftHertzLabel; },
+		[shiftHertzLabel](const String& text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
@@ -40,15 +40,15 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 		"Frequency shift",
 		NormalisableRange<float>(minRangeDefault, maxRangeDefault, increment), 0.0f, "",
 		AudioProcessorParameter::Category::genericParameter,
-		[shiftHertzLabel](float v, float maxLabelLength) { return String(v, 2) + shiftHertzLabel; },
-		[shiftHertzLabel](String text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
+		[shiftHertzLabel](float v, int) { return String(v, 2) + shiftHertzLabel; },
+		[shiftHertzLabel](const String& text) { return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue(); }
 	));
 }
 
 void FrequencyShiftPluginParameters::updateValue(Slider* frequencyShiftSlider, double valueToUpdateTo)
 {
 	AudioParameterFloat* shiftParam = (AudioParameterFloat*)getParameter("shift");		
-	double currentValue = valueToUpdateTo;	
+	float currentValue = (float)valueToUpdateTo;	
 
 	const AudioParameterFloat* lowestValueParam = (AudioParameterFloat*)getParameter("shiftMinRange");
 	const AudioParameterFloat* highestValueParam = (AudioParameterFloat*)getParameter("shiftMaxRange");

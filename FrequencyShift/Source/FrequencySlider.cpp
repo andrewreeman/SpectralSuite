@@ -52,7 +52,7 @@ void FrequencySlider::onPropertiesChanged()
 	this->valueTreeState->updateValue(&frequencyShift, shiftParam->get());	
 }
 
-void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState)
+void FrequencySlider::onAudioValueTreeStateLoadedFromXmlState(PluginParameters*, XmlElement* xmlState)
 {				
 	AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->valueTreeState->getParameter("shift");	
 	const double originalShiftValue = xmlState->getChildByAttribute("id", "shift")->getDoubleAttribute("value", shiftParam->get());		
