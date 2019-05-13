@@ -23,7 +23,7 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::unique_ptr<ParameterContainerComponent> parameterContainer);
+	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::shared_ptr<ParameterContainerComponent> parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================
@@ -58,7 +58,7 @@ private:
 	Label title;	
 
 	const int parameterContainerHeight;
-	std::unique_ptr<ParameterContainerComponent> parameterContainer;	
+	std::shared_ptr<ParameterContainerComponent> parameterContainer;	
 	
 	Label fftComboLabel;
 	ComboBox fftComboBox;

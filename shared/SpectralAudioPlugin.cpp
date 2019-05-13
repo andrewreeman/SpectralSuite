@@ -68,8 +68,8 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 		)
 	);
 	parameters->replaceState(valueTree);		
-
-	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), std::move(m_parameterUiComponent));	
+	
+	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);	
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -221,7 +221,12 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	return m_ui;;
+	if (m_ui->getWidth() < 0 || m_ui->getHeight() < 0) {
+		// recreate of ui was closed
+		m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
+	}
+
+	return m_ui;
 
 	//if (!m_parameterUiComponent) { return nullptr; }
 	

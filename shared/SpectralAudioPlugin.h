@@ -92,7 +92,7 @@ private:
 	void setFftSize(int fftSize);	
 			
 	std::shared_ptr<PluginParameters> parameters;
-	std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;	
+	std::shared_ptr<ParameterContainerComponent> m_parameterUiComponent;	
 	std::unique_ptr<SpectralAudioProcessor> m_audioProcessor;
 
 	FftChoiceAdapter m_fftChoiceAdapter;
