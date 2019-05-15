@@ -52,7 +52,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	
 	m_fftChoiceAdapter.remove(fftSizesToRemove);
 
-	m_audioProcessor->createParameters(parameters.get());	
+	//m_audioProcessor->createParameters(parameters.get());	
 	parameters->createAndAddParameter(
 		std::make_unique<AudioParameterChoice>(
 			"fft", "FFT Size", m_fftChoiceAdapter.fftStrings(), m_fftChoiceAdapter.currentIndex()

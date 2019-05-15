@@ -15,7 +15,7 @@ public:
 	int getSampleRate() { return m_sampleRate; }
 
 	virtual STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) = 0;
-	virtual void createParameters(PluginParameters*) {};
+//	virtual void createParameters(PluginParameters*) {};
 
 	// Arguments:
 	//	int: index of the spectral processor to prepare
