@@ -1,39 +1,39 @@
 #include "BinScramblerProcessor.h"
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/legacy/utilities.h"
-
-void BinScramblerProcessor::createParameters(PluginParameters* valueTreeState)
-{				
-	//valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-	//	"scramble",
-	//	"Scramble",
-	//	NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
-	//	AudioProcessorParameter::Category::genericParameter		
-	//));
-
-	m_scramble = valueTreeState->getRawParameterValue("scramble");	
-	
-	/*valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"scatter",
-		"Scatter",
-		NormalisableRange<float>(0.0f, 1.0f), 0.4f, "",
-		AudioProcessorParameter::Category::genericParameter
-		));*/
-
-	m_scatter = valueTreeState->getRawParameterValue("scatter");	
-
-	/*String freqHertzLabel = "Hz";
-	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"rate",
-		"Rate",
-		NormalisableRange<float>(0.25f, 15.0f), 2.0f, "",
-		AudioProcessorParameter::Category::genericParameter,
-		[freqHertzLabel](float v, float maxLabelLength) { return String(v, 2) + freqHertzLabel; },
-		[freqHertzLabel](String text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); }
-	));*/
-
-	m_rate = valueTreeState->getRawParameterValue("rate");	
-}
+//
+//void BinScramblerProcessor::createParameters(PluginParameters* valueTreeState)
+//{				
+//	//valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
+//	//	"scramble",
+//	//	"Scramble",
+//	//	NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
+//	//	AudioProcessorParameter::Category::genericParameter		
+//	//));
+//
+//	m_scramble = valueTreeState->getRawParameterValue("scramble");	
+//	
+//	/*valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
+//		"scatter",
+//		"Scatter",
+//		NormalisableRange<float>(0.0f, 1.0f), 0.4f, "",
+//		AudioProcessorParameter::Category::genericParameter
+//		));*/
+//
+//	m_scatter = valueTreeState->getRawParameterValue("scatter");	
+//
+//	/*String freqHertzLabel = "Hz";
+//	valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
+//		"rate",
+//		"Rate",
+//		NormalisableRange<float>(0.25f, 15.0f), 2.0f, "",
+//		AudioProcessorParameter::Category::genericParameter,
+//		[freqHertzLabel](float v, float maxLabelLength) { return String(v, 2) + freqHertzLabel; },
+//		[freqHertzLabel](String text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); }
+//	));*/
+//
+//	m_rate = valueTreeState->getRawParameterValue("rate");	
+//}
 
 void BinScramblerProcessor::prepareProcess(int spectralProcessIndex)
 {	

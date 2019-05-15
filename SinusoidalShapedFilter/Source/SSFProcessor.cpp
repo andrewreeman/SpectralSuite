@@ -1,11 +1,11 @@
 #include "SSFProcessor.h"
-
-void SSFProcessor::createParameters(PluginParameters* valueTreeState)
-{				
-	m_freq = valueTreeState->getRawParameterValue("freq");		
-	m_phase = valueTreeState->getRawParameterValue("phase");	
-	m_width = valueTreeState->getRawParameterValue("width");
-}
+//
+//void SSFProcessor::createParameters(PluginParameters* valueTreeState)
+//{				
+//	m_freq = valueTreeState->getRawParameterValue("freq");		
+//	m_phase = valueTreeState->getRawParameterValue("phase");	
+//	m_width = valueTreeState->getRawParameterValue("width");
+//}
 
 void SSFProcessor::prepareProcess(int spectralProcessIndex)
 {

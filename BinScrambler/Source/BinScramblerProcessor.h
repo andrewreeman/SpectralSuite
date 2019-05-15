@@ -3,15 +3,20 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/legacy/specprocess.h"
 #include "../../shared/SpectralAudioProcessor.h"
+#include "BinScramblerParameters.h"
 
 class BinScramblerProcessor : public SpectralAudioProcessor {
 public:
-	BinScramblerProcessor(int numOverlaps, int numChans) : SpectralAudioProcessor(numOverlaps, numChans), m_scramble(nullptr), m_scatter(nullptr), m_rate(nullptr), m_Phase(0) {
+	BinScramblerProcessor(int numOverlaps, int numChans, std::shared_ptr<BinScramblerParameters> params) : SpectralAudioProcessor(numOverlaps, numChans), m_Phase(0) {
 		m_pA_Ind = &m_A_Ind;
 		m_pB_Ind = &m_B_Ind;		
+				
+		m_scramble = params->getScrambleValuePointer();		
+		m_scatter = params->getScatterValuePointer();
+		m_rate = params->getRateValuePointer();
 	}		
 	
-	void createParameters(PluginParameters* valueTreeState) override;
+	//void createParameters(PluginParameters* valueTreeState) override;
 	void prepareProcess(int spectralProcessorIndex) override;
 	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 	void onFftSizeChanged() override;	

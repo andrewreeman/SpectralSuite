@@ -1,11 +1,11 @@
 #include "FrequencyMagnetProcessor.h"
 
-void FrequencyMagnetProcessor::createParameters(PluginParameters* valueTreeState)
-{				
-	m_freq = valueTreeState->getRawParameterValue("freq");			
-	m_bias = valueTreeState->getRawParameterValue("bias");
-	m_width = valueTreeState->getRawParameterValue("width");
-}
+//void FrequencyMagnetProcessor::createParameters(PluginParameters* valueTreeState)
+//{				
+//	m_freq = valueTreeState->getRawParameterValue("freq");			
+//	m_bias = valueTreeState->getRawParameterValue("bias");
+//	m_width = valueTreeState->getRawParameterValue("width");
+//}
 
 void FrequencyMagnetProcessor::prepareProcess(int spectralProcessIndex)
 {

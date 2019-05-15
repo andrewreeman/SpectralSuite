@@ -3,12 +3,17 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/legacy/specprocess.h"
 #include "../../shared/SpectralAudioProcessor.h"
+#include "SSFParameters.h"
 
 class SSFProcessor : public SpectralAudioProcessor {
 public:
-	SSFProcessor(int numOverlaps, int numChans) : SpectralAudioProcessor(numOverlaps, numChans), m_freq(nullptr), m_phase(nullptr), m_width(nullptr) {}		
+	SSFProcessor(int numOverlaps, int numChans, std::shared_ptr<SSFParameters> params) : SpectralAudioProcessor(numOverlaps, numChans) {
+		m_freq = params->getFreqValuePointer();
+		m_phase = params->getPhaseValuePointer();
+		m_width = params->getWidthValuePointer();		
+	}		
 	
-	void createParameters(PluginParameters* valueTreeState) override;
+	//void createParameters(PluginParameters* valueTreeState) override;
 	void prepareProcess(int spectralProcessorIndex) override;
 	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 private:	
