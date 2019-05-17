@@ -24,4 +24,32 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) : Plu
 		[freqHertzLabel](float v, int) { return String(v, 2) + freqHertzLabel; },
 		[freqHertzLabel](const String& text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); }
 	));
+
+	createAndAddParameter(std::make_unique<AudioParameterInt>(
+		"seed",
+		"Random seed",
+		0, 
+		9999, 
+		0
+	));
+	
+	updateSRand();
+	getParameter("seed")->addListener(this);
+}
+
+void BinScramblerParameters::parameterValueChanged(int, float)
+{	
+	updateSRand();
+}
+
+void BinScramblerParameters::updateSRand()
+{
+	unsigned int seed = getSeed();
+
+	if (seed > 0) {
+		std::srand(seed);
+	}
+	else {
+		std::srand((unsigned int)time(NULL));
+	}
 }

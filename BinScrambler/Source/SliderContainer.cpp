@@ -1,10 +1,10 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "SliderContainer.h"
 
-SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) :	
+SliderContainer::SliderContainer(std::shared_ptr<BinScramblerParameters> valueTreeState, Colour textColour, int textBoxHeight) :	
 	scatterSlider(valueTreeState, textColour, textBoxHeight),
 	scrambleSlider(valueTreeState, textColour, textBoxHeight),
-	rateSlider(valueTreeState, textColour, textBoxHeight)
+	rateSlider(valueTreeState, textColour, textBoxHeight),
+	pluginParameters(valueTreeState)
 {	
 	addAndMakeVisible(scatterSlider);
 	addAndMakeVisible(scrambleSlider);
@@ -30,4 +30,17 @@ void SliderContainer::resized()
 
 	y += scatterSlider.getHeight();
 	rateSlider.setBounds(0, y, getWidth(), getHeight() / 3);
+}
+
+Array<PropertyComponent*> SliderContainer::getSettingsProperties()
+{
+	Array<PropertyComponent*> propertyComponents;
+
+	AudioParameterInt* seedIntParameter = this->pluginParameters->getSeedParameter();
+	Range<int> range = seedIntParameter->getRange();
+	
+	SliderPropertyComponent* shiftMaxRangeValue = new SliderPropertyComponent(this->pluginParameters->getSeedParameterAsValue(), "Random seed (0 for random)", (double)range.getStart(), (double)range.getEnd(), 1.0);
+	propertyComponents.add(shiftMaxRangeValue);
+
+	return propertyComponents;
 }
