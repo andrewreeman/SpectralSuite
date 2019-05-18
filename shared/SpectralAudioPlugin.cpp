@@ -221,8 +221,8 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	if (m_ui->getWidth() < 0 || m_ui->getHeight() < 0) {
-		// recreate of ui was closed
+	if (m_ui->getWidth() <= 0 || m_ui->getHeight() <= 0) {
+		// recreate of ui after ui was closed
 		m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
 	}
 
