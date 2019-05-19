@@ -20,4 +20,5 @@ public:
 
 private:
 	void updateSRand();
+	unsigned int m_lastRandomSeed;
 };

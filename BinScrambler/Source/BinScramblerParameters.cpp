@@ -1,6 +1,9 @@
 #include "BinScramblerParameters.h"
 
-BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) : PluginParameters(processor) {
+BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) : 
+	PluginParameters(processor),
+	m_lastRandomSeed(1)
+{
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"scramble",
 		"Scramble",
@@ -28,12 +31,11 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) : Plu
 	createAndAddParameter(std::make_unique<AudioParameterInt>(
 		"seed",
 		"Random seed",
-		0, 
+		1, 
 		9999, 
 		0
 	));
 	
-	updateSRand();
 	getParameter("seed")->addListener(this);
 }
 
@@ -45,6 +47,8 @@ void BinScramblerParameters::parameterValueChanged(int, float)
 void BinScramblerParameters::updateSRand()
 {
 	unsigned int seed = getSeed();
+	if (seed == m_lastRandomSeed) { return; }
+	m_lastRandomSeed = seed;
 
 	if (seed > 0) {
 		std::srand(seed);
