@@ -411,8 +411,8 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
     width = pow(width, widthBias);	
 
     float line;    	
-    int index_below;
-    int index_above;
+    float index_below;
+    float index_above;
 
     std::vector<Polar<float> > temp(bins);
     emptyPolar(temp);
@@ -424,32 +424,35 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
         // The less width the more convex shape the line will become. Biasing towards one value. If width is zero index will always be one.        
 		
 		// scale
-        index_below = (int) (pow(line, width*8.f / 8.f) * (float)target_bin);
+        index_below = (pow(line, width*8.f / 8.f) * (float)target_bin);
 
-        temp[index_below].m_mag += in[i].m_mag;
+        temp[(int)index_below].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[index_below].m_mag = utilities::interp_lin(temp[index_below].m_mag, temp[index_below+1].m_mag, (float)index_below);
+        out[(int)index_below].m_mag = utilities::interp_lin(temp[(int)index_below].m_mag, temp[(int)index_below+1].m_mag, (float)index_below);
     }
 
 	if(target_bin < 1) target_bin = 1;
 
+	const int range = bins - target_bin;
     for(int i=target_bin; i<bins; ++i){
-        int range = bins - target_bin ;
+		/*out[i].m_phase = in[i].m_phase;
+		out[i].m_mag = in[i].m_mag;
+		continue;*/
+        
         // norm_index will run from 0 - Range.
         int norm_index = i-target_bin;
-        line = float(norm_index)/float(range);
-        // when width is zero I want maximum bin bias. When width = 1 I want no bias (index_above will be raised to the power of one).
+        line = float(norm_index)/float(range);   
         
 		// scale
-        index_above = (int) (pow(line, ((1.f - width)*7.f) + 1.f)  * (float)range) ;
+        index_above = (pow(line, ((1.f - width)*7.f) + 1.f)  * (float)range) ;
         // offset by the target frequency.
-        //index_above += target_freq;
+        index_above += (float)target_bin;
 
-		index_above = utilities::clip(index_above, 1, (int)(out.size() - 1));
+		index_above = utilities::clip(index_above, 1.f, out.size() - 1.f);
 
         temp[index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[index_above].m_mag = utilities::interp_lin(temp[index_above].m_mag, temp[index_above-1].m_mag, (float)index_above);
+        out[(int)index_above].m_mag = utilities::interp_lin(temp[(int)index_above].m_mag, temp[(int)index_above-1].m_mag, index_above);
     }
 }
 
