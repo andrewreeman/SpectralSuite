@@ -68,15 +68,15 @@ function Build-Release {
     $releaseDir = Resolve-Path $releaseDir
     
     $vst64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio*", "x64", "Release", "VST", "*.dll")        
-    $vst64Target = [IO.Path]::Combine($releaseDir, $projectName + "_$version.dll")
+    $vst64Target = [IO.Path]::Combine($releaseDir, $projectName + ".dll")
     cp $vst64 $vst64Target
 
     $vst3_64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio*", "x64", "Release", "VST3", "*.vst3")        
-    $vst3_64Target = [IO.Path]::Combine($releaseDir, $projectName + "_$version.vst3")
+    $vst3_64Target = [IO.Path]::Combine($releaseDir, $projectName + ".vst3")
     cp $vst3_64 $vst3_64Target
 
     $vst32 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio*", "Win32", "Release32", "VST", "*.dll")    
-    $vst32Target = [IO.Path]::Combine($releaseDir, $projectName + "_Win32_$version.dll")
+    $vst32Target = [IO.Path]::Combine($releaseDir, $projectName + "_Win32.dll")
     cp $vst32 $vst32Target    
 }
 
