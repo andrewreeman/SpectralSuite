@@ -450,7 +450,7 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
 		index_above = utilities::clip(index_above, 1.f, out.size() - 1.f);
 
-        temp[index_above].m_mag += in[i].m_mag;
+        temp[(int)index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
         out[(int)index_above].m_mag = utilities::interp_lin(temp[(int)index_above].m_mag, temp[(int)index_above-1].m_mag, index_above);
     }
