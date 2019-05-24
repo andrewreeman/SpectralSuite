@@ -55,9 +55,9 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParam
 			this->settingsClicked();
 		};
 
-		addAndMakeVisible(&settingsButton);
+		addAndMakeVisible(&settingsButton);		
 		addChildComponent(&settingsPage);
-	}
+	}	
 
 	setSize(300, 220 + parameterContainerHeight);
 }

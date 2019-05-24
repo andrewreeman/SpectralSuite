@@ -2,12 +2,10 @@
 
 <JUCERPROJECT id="WPt5si" name="Base" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.0.0" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+              version="2.0.1" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
               pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="Base">
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
-      <FILE id="jwVOxB" name="PluginParameters.cpp" compile="1" resource="0"
-            file="../shared/PluginParameters.cpp"/>
       <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
             file="../shared/PluginParameters.h"/>
       <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
@@ -51,7 +49,6 @@
         <FILE id="ljXOgO" name="utilities.h" compile="0" resource="0" file="../shared/legacy/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
-        <FILE id="XtBfvR" name="FftSwitcher.cpp" compile="1" resource="0" file="../shared/FftSwitcher.cpp"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
         <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0"
               file="../shared/FftChoiceAdapter.cpp"/>
@@ -62,7 +59,6 @@
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
               file="../shared/VersionCheck.cpp"/>
         <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h"/>
-        <FILE id="HLaffe" name="VersionInfo.cpp" compile="1" resource="0" file="../shared/VersionInfo.cpp"/>
         <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h"/>
       </GROUP>
     </GROUP>
