@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="WPt5si" name="Base" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.0.1" defines="VersionCode=2" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+              version="2.0.1" defines="VersionCode=3" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
               pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="NNl5AK" name="Base">
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
