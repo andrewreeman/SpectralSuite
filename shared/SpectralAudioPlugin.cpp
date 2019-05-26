@@ -69,7 +69,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	);
 	parameters->replaceState(valueTree);		
 	
-	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);	
+	//m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);	
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -221,12 +221,13 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	if (m_ui->getWidth() <= 0 || m_ui->getHeight() <= 0) {
-		// recreate of ui after ui was closed
-		m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
-	}
+	return new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
+	//if (m_ui->getWidth() <= 0 || m_ui->getHeight() <= 0) {
+	//	// recreate of ui after ui was closed
+	//	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
+	//}
 
-	return m_ui;
+	//return m_ui;
 
 	//if (!m_parameterUiComponent) { return nullptr; }
 	
@@ -259,8 +260,11 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 	if ( xmlState.get() == nullptr ) { return; }
 	if ( !xmlState->hasTagName(parameters->getState().getType()) ) {	return;}
 		
-	parameters->replaceState(ValueTree::fromXml(*xmlState));			
-	m_ui->onAudioValueTreeStateLoadedFromXmlState(parameters.get(), xmlState.get());		
+	parameters->replaceState(ValueTree::fromXml(*xmlState));	
+	AudioProcessorEditor* editor =  this->getActiveEditor();
+	if (editor != nullptr) {
+		((SpectralAudioPluginUi*)editor)->onAudioValueTreeStateLoadedFromXmlState(parameters.get(), xmlState.get());		
+	}
 }
 
 void SpectralAudioPlugin::switchFftSize()
