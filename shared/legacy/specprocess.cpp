@@ -328,18 +328,18 @@ void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, s
 	int shift = shiftFrequency / binWidth;	
 	
 	if (shift == 0) {		
-		for (int i = 0; i < in.size(); ++i) {
+		for (unsigned int i = 0; i < in.size(); ++i) {
 			out[i] = in[i];
 		}
 	}
 	else if (shift > 0) {
-		for (int i = 0; i < in.size() - shift; ++i) {
+		for (unsigned int i = 0; i < in.size() - shift; ++i) {
 			out[i + shift] = in[i];
 		}
 	}
 	else if (shift < 0) {
 		shift = abs(shift);
-		for (int i = shift; i < in.size(); ++i) {
+		for (unsigned int i = shift; i < in.size(); ++i) {
 			out[i - shift] = in[i];
 		}
 	}
