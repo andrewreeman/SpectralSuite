@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="FrequencyShifter" projectType="audioplug" jucerVersion="5.4.3"
-              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+<JUCERPROJECT id="WPt5si" name="Frequency Shifter" projectType="audioplug"
+              jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
               version="2.0.1" defines="VersionCode=3" pluginDesc="Shifts frequencies up and down"
               pluginFormats="buildVST,buildVST3">
-  <MAINGROUP id="NNl5AK" name="FrequencyShifter">
+  <MAINGROUP id="NNl5AK" name="Frequency Shifter">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="HJgauP" name="FrequencyShiftPluginParameters.cpp" compile="1"
             resource="0" file="Source/FrequencyShiftPluginParameters.cpp"/>
