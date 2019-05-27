@@ -141,9 +141,21 @@ void SpectralAudioPlugin::changeProgramName (int, const String&)
 
 void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {    
-	int fftSize = m_fftChoiceAdapter.fftSize();	
+	m_output.clear();
+	m_input.clear();
+	for (
+		int outputChannelCount = getBusesLayout().getMainOutputChannels();		
+		outputChannelCount > 0;
+		outputChannelCount--
+	)
+	{
+		m_output.push_back(std::vector<float>());
+		m_input.push_back(std::vector<float>());
+	}
+
+	const int fftSize = m_fftChoiceAdapter.fftSize();	
 	m_audioProcessor->prepareToPlay(fftSize, (int)sampleRate);	
-	setFftSize(fftSize);
+	setFftSize(fftSize);		
 }
 
 void SpectralAudioPlugin::releaseResources()
@@ -158,13 +170,7 @@ bool SpectralAudioPlugin::isBusesLayoutSupported (const BusesLayout& layouts) co
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
     return true;
-  #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
-        return false;
-
+  #else  
     // This checks if the input layout matches the output layout
    #if ! JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
@@ -177,8 +183,10 @@ bool SpectralAudioPlugin::isBusesLayoutSupported (const BusesLayout& layouts) co
 #endif
 
 void SpectralAudioPlugin::emptyOutputs() {
-	std::fill(m_output_L.begin(), m_output_L.end(), 0.f);
-	std::fill(m_output_R.begin(), m_output_R.end(), 0.f);
+	for(auto& output : m_output)
+	{
+		std::fill(output.begin(), output.end(), 0.f);
+	}	
 }
 
 void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
@@ -194,7 +202,8 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
 	}
 
 	const int hopSize = m_audioProcessor->getHopSize();
-	float** audio = buffer.getArrayOfWritePointers();				
+	const int numChannels = buffer.getNumChannels();
+	float** audio = buffer.getArrayOfWritePointers();		
 	int numSamples = buffer.getNumSamples();
 	int ioVSTBuffers = 0;
 
@@ -202,13 +211,15 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
 		if (m_internalBufferReadWriteIndex >= hopSize) {
 			m_internalBufferReadWriteIndex = 0;
 			emptyOutputs();
-			m_audioProcessor->process(&m_Input_L[0], &m_output_L[0], &m_Input_R[0], &m_output_R[0]);
+			m_audioProcessor->process(&m_input[0][0], &m_output[0][0], &m_input[1][0], &m_output[1][0]);
 		}
 
-		m_Input_L[m_internalBufferReadWriteIndex] = audio[0][ioVSTBuffers];
-		m_Input_R[m_internalBufferReadWriteIndex] = audio[1][ioVSTBuffers];
-		audio[0][ioVSTBuffers] = m_output_L[m_internalBufferReadWriteIndex];
-		audio[1][ioVSTBuffers] = m_output_R[m_internalBufferReadWriteIndex];
+		for (int channel = 0; channel < numChannels; channel++)
+		{
+			m_input[channel][m_internalBufferReadWriteIndex] = audio[channel][ioVSTBuffers];
+			audio[channel][ioVSTBuffers] = m_output[channel][m_internalBufferReadWriteIndex];
+		}
+		
 		ioVSTBuffers++;
 		m_internalBufferReadWriteIndex++;	
 	}			
@@ -221,18 +232,7 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {	    
-	return new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
-	//if (m_ui->getWidth() <= 0 || m_ui->getHeight() <= 0) {
-	//	// recreate of ui after ui was closed
-	//	m_ui = new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
-	//}
-
-	//return m_ui;
-
-	//if (!m_parameterUiComponent) { return nullptr; }
-	
-	
-	//return editor;
+	return new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);	
 }
 
 //==============================================================================
@@ -274,12 +274,17 @@ void SpectralAudioPlugin::switchFftSize()
 
 void SpectralAudioPlugin::setFftSize(int size) {	
 	m_audioProcessor->setFftSize(size);
-	int hopSize = m_audioProcessor->getHopSize();
+	const int hopSize = m_audioProcessor->getHopSize();
 
-	m_output_L.resize(hopSize, 0.f);
-	m_output_R.resize(hopSize, 0.f);
-	m_Input_L.resize(hopSize, 0.f);
-	m_Input_R.resize(hopSize, 0.f);
+	for(std::vector<float>& output : m_output)
+	{
+		output.resize(hopSize, 0.f);
+	}
+
+	for(std::vector<float>& input : m_input)
+	{
+		input.resize(hopSize, 0.f);
+	}
 
 	setLatencySamples(size);		
 }

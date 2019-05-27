@@ -102,10 +102,13 @@ private:
 	
 	// io buffers: TODO n chan
 	int m_internalBufferReadWriteIndex;
-	std::vector<float> m_output_L;
+	std::vector<std::vector<float>> m_input;
+	std::vector<std::vector<float>> m_output;
+
+	/*std::vector<float> m_output_L;
 	std::vector<float> m_output_R;
 	std::vector<float> m_Input_L;
-	std::vector<float> m_Input_R;
+	std::vector<float> m_Input_R;*/
 
 	//SpectralAudioPluginUi* m_ui;	
 	VersionCheckThread m_versionCheckThread;
