@@ -127,6 +127,9 @@ void SpectralAudioPluginUi::aboutClicked()
 		}
 	}	
 
+	aboutMessage += "\n\nMessage andrew.reeman@gmail.com for support.";
+
+
 	AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
 	AlertWindow::showMessageBoxAsync(
 		icon, TRANS("About"),
