@@ -12,8 +12,8 @@ public:
 	}
 	
 	//void createParameters(PluginParameters* valueTreeState) override;
-	void prepareProcess(int spectralProcessorIndex) override;
-	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;
+	void prepareProcess(STFT* spectralProcessor) override;
+	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;
 	
 	float getShift();
 

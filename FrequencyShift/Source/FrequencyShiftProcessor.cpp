@@ -48,15 +48,15 @@
 //	
 //}
 
-void FrequencyShiftProcessor::prepareProcess(int spectralProcessIndex)
+void FrequencyShiftProcessor::prepareProcess(STFT* spectralProcessor)
 {
-	auto shifter = (frequencyShifter*)m_spectralProcess[spectralProcessIndex];
+	auto shifter = (frequencyShifter*)spectralProcessor;
 	shifter->setShift(getShift());
 }
 
-STFT * FrequencyShiftProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps)
+std::unique_ptr<STFT> FrequencyShiftProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps)
 {
-	return new frequencyShifter(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<frequencyShifter>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
 }
 
 float FrequencyShiftProcessor::getShift()

@@ -154,7 +154,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 	}
 
 	const int fftSize = m_fftChoiceAdapter.fftSize();	
-	m_audioProcessor->prepareToPlay(fftSize, (int)sampleRate);	
+	m_audioProcessor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
 	setFftSize(fftSize);		
 }
 
