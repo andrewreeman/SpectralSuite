@@ -15,7 +15,7 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 	const String shiftHertzLabel = " Hz";
 	const float minRangeDefault = -500.0f;
 	const float maxRangeDefault = 500.0f;
-	const float increment = 10.0;
+	const float increment = 1.0f;
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
 		"shiftMinRange",
