@@ -7,8 +7,7 @@ RateSlider::RateSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour 
 	auto param = valueTreeState->getParameter("rate");
 	rate.setRange(param->getNormalisableRange().start, param->getNormalisableRange().end, 0.1);
 	rate.setValue(param->getValue(), NotificationType::dontSendNotification);
-	rate.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
-	rate.setTextValueSuffix("Hz");
+	rate.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);	
 	rate.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	addAndMakeVisible(&rate);
 	rateAttachment.reset(valueTreeState->createSliderAttachment("rate", rate));
