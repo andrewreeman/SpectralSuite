@@ -6,7 +6,7 @@
 
 class SpectralAudioProcessor {
 public:
-	SpectralAudioProcessor(int numOverlaps, int numChans)
+	SpectralAudioProcessor(int numOverlaps)
 		: m_numOverlaps(numOverlaps), m_fftHopSize(0) {}
 
 	int getHopSize() { return m_fftHopSize; }	
@@ -14,13 +14,10 @@ public:
 	int getSampleRate() { return m_sampleRate; }
 
 	virtual std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) = 0;
-//	virtual void createParameters(PluginParameters*) {};
-
-	// Arguments:
-	//	int: index of the spectral processor to prepare
+	
 	virtual void prepareProcess(STFT*) {}	
-	virtual void onFftSizeChanged() {};
-	virtual void process(const float* input, float* output, const float* inputR, float* outputR);
+	virtual void onFftSizeChanged() {};	
+	virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
 	
 	void prepareToPlay(int fftSize, int sampleRate, int channelCount);			
 	void setFftSize(int fftSize);		

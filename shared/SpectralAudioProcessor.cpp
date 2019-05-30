@@ -21,36 +21,22 @@ void SpectralAudioProcessor::prepareToPlay(int fftSize, int sampleRate, int chan
 				
 }
 
-void SpectralAudioProcessor::process(const float* input, float* output, const float* inputR, float* outputR)
+void SpectralAudioProcessor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
 {	
-	for (auto& spectralProcessChannel : m_spectralProcess) {
-		for (auto& spectralProcess : spectralProcessChannel) {
-			prepareProcess(spectralProcess.get());
-			spectralProcess->process(&input[0], &output[0], m_fftHopSize);
+	//need to take pointer to vector of vector of float
+	jassert(input != nullptr);
+	jassert(output != nullptr);
+	jassert(input->size() > 0);
+	jassert(input->at(0).size() > 0);
+	jassert(input->size() == output->size());
+	jassert(input->size() == m_spectralProcess.size());
+
+	for (int chan = 0; chan < input->size(); chan++) {
+		for (auto& spectralProcessOverlap : m_spectralProcess.at(chan)) {
+			prepareProcess(spectralProcessOverlap.get());
+			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
 		}
-
-		//for (int i = 0; i < spectralProcessChannel.size(); i++) {
-			//auto spectralProcess = spectralProcessChannel[i];
-			//prepareProcess(spectralProcess);
-			//spectralProcess->process(&input[0], &output[0], m_fftHopSize);
-		//}
-		//for (int i = 0; i < spectralProcessChannel.size(); i++) {
-			//prepareProcess(i);
-			//spectralProcessChannel[i]->process(&input[0], &output[0], m_fftHopSize);
-		//}
 	}
-
-	//for (int i = 0; i < m_spectralProcess.size(); ++i) {
-	//	prepareProcess(i);
-	//	
-	//	// This is a very ugly and inflexible way of doing stereo processing
-	//	if (i < m_numOverlaps) {
-	//		m_spectralProcess[i]->process(&input[0], &output[0], m_fftHopSize);
-	//	}
-	//	else {
-	//		m_spectralProcess[i]->process(&inputR[0], &outputR[0], m_fftHopSize);
-	//	}
-	//}
 }
 
 void SpectralAudioProcessor::setFftSize(int fftSize)
@@ -66,15 +52,6 @@ void SpectralAudioProcessor::setFftSize(int fftSize)
 			spectralProcessChannel[i]->setOffset(m_fftHopSize * (i%m_numOverlaps));
 		}
 	}
-
-	/*for (int i = 0; i < m_spectralProcess.size(); i++) {
-		auto spectralProcess = m_spectralProcess[i];
-		if (fftSize == spectralProcess->getFFTSize()) { continue; }
-
-		spectralProcess->setFFTSize(fftSize);
-		spectralProcess->setHopSize(m_fftHopSize);
-		spectralProcess->setOffset(m_fftHopSize * (i%m_numOverlaps));
-	}*/
 
 	this->onFftSizeChanged();
 }

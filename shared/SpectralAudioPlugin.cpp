@@ -5,7 +5,6 @@
 
 const int SpectralAudioPlugin::FFT_OVERLAPS = 4;
 const int SpectralAudioPlugin::INIT_FFT_INDEX = 4; // 2048 
-const int SpectralAudioPlugin::N_CHANS = 2;
 
 //==============================================================================
 SpectralAudioPlugin::SpectralAudioPlugin(
@@ -211,7 +210,8 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
 		if (m_internalBufferReadWriteIndex >= hopSize) {
 			m_internalBufferReadWriteIndex = 0;
 			emptyOutputs();
-			m_audioProcessor->process(&m_input[0][0], &m_output[0][0], &m_input[1][0], &m_output[1][0]);
+			m_audioProcessor->process(&m_input, &m_output);
+			//m_audioProcessor->process(&m_input[0][0], &m_output[0][0], &m_input[1][0], &m_output[1][0]);
 		}
 
 		for (int channel = 0; channel < numChannels; channel++)
