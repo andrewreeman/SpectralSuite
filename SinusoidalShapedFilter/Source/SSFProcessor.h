@@ -7,15 +7,15 @@
 
 class SSFProcessor : public SpectralAudioProcessor {
 public:
-	SSFProcessor(int numOverlaps, int numChans, std::shared_ptr<SSFParameters> params) : SpectralAudioProcessor(numOverlaps, numChans) {
+	SSFProcessor(int numOverlaps, std::shared_ptr<SSFParameters> params) : SpectralAudioProcessor(numOverlaps) {
 		m_freq = params->getFreqValuePointer();
 		m_phase = params->getPhaseValuePointer();
 		m_width = params->getWidthValuePointer();		
 	}		
 	
 	//void createParameters(PluginParameters* valueTreeState) override;
-	void prepareProcess(int spectralProcessorIndex) override;
-	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
+	void prepareProcess(STFT* spectralProcessor) override;
+	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 private:	
 	// parameters
 	float* m_freq;	

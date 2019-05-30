@@ -7,15 +7,14 @@
 
 class FrequencyMagnetProcessor : public SpectralAudioProcessor {
 public:
-	FrequencyMagnetProcessor(int numOverlaps, int numChans, std::shared_ptr<FrequencyMagnetParameters> params) : SpectralAudioProcessor(numOverlaps, numChans) {
+	FrequencyMagnetProcessor(int numOverlaps, std::shared_ptr<FrequencyMagnetParameters> params) : SpectralAudioProcessor(numOverlaps) {
 		m_freq = params->getFreqValuePointer();// valueTreeState->getRawParameterValue("freq");
 		m_bias = params->getBiasValuePointer(); // ->getRawParameterValue("bias");
 		m_width = params->getWidthValuePointer();// valueTreeState->getRawParameterValue("width");
 	}
-	
-	//void createParameters(PluginParameters* valueTreeState) override;
-	void prepareProcess(int spectralProcessorIndex) override;
-	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
+		
+	void prepareProcess(STFT* spectralProcessor) override;
+	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 private:	
 	// parameters
 	float* m_freq;	

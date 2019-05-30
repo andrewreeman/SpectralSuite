@@ -9,18 +9,11 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 		return std::make_unique<SpectralAudioPlugin::Dependencies>(
 			pluginParams,
-			std::make_unique<SpectralGateProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS, pluginParams),
+			std::make_unique<SpectralGateProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, pluginParams),
 			std::make_unique<SliderContainer>(pluginParams, Colour::fromString(TEXT_COLOUR), 30)
-			);
-
-		//std::make_unique<FrequencyShiftProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS),
-		//std::make_unique<FrequencyShifterParameterContainerFactory>(),
+		);		
 	};
 
 
-    return new SpectralAudioPlugin(
-		dependencyCreator//,
-		//std::make_unique<SpectralGateProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, SpectralAudioPlugin::N_CHANS),
-		//std::make_unique<FrequencyShifterParameterContainerFactory>()
-	);
+    return new SpectralAudioPlugin(dependencyCreator);
 }

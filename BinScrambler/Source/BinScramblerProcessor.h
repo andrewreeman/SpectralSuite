@@ -7,7 +7,7 @@
 
 class BinScramblerProcessor : public SpectralAudioProcessor {
 public:
-	BinScramblerProcessor(int numOverlaps, int numChans, std::shared_ptr<BinScramblerParameters> params) : SpectralAudioProcessor(numOverlaps, numChans), m_Phase(0) {
+	BinScramblerProcessor(int numOverlaps, std::shared_ptr<BinScramblerParameters> params) : SpectralAudioProcessor(numOverlaps), m_Phase(0) {
 		m_pA_Ind = &m_A_Ind;
 		m_pB_Ind = &m_B_Ind;		
 				
@@ -15,10 +15,11 @@ public:
 		m_scatter = params->getScatterValuePointer();
 		m_rate = params->getRateValuePointer();
 	}		
-	
-	//void createParameters(PluginParameters* valueTreeState) override;
-	void prepareProcess(int spectralProcessorIndex) override;
-	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
+		
+
+	virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output) override;
+	void prepareProcess(STFT* spectralProcessor) override;
+	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
 	void onFftSizeChanged() override;	
 
 private:	

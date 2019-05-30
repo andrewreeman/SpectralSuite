@@ -7,14 +7,13 @@
 
 class SpectralGateProcessor : public SpectralAudioProcessor {
 public:
-	SpectralGateProcessor(int numOverlaps, int numChans, std::shared_ptr<SpectralGateParameters> params) : SpectralAudioProcessor(numOverlaps, numChans) {
+	SpectralGateProcessor(int numOverlaps, std::shared_ptr<SpectralGateParameters> params) : SpectralAudioProcessor(numOverlaps) {
 		m_cutOff = params->getCutOffValuePointer();
 		m_balance = params->getBalanceValuePointer();		
 	}
-	
-	//void createParameters(PluginParameters* parameters) override;
-	void prepareProcess(int spectralProcessorIndex) override;
-	STFT* createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;		
+
+	void prepareProcess(STFT* spectralProcessor) override;
+	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps) override;
 private:	
 	// parameters
 	float* m_cutOff;	

@@ -1,34 +1,13 @@
 #include "SpectralGateProcessor.h"
 
-//void SpectralGateProcessor::createParameters(PluginParameters* valueTreeState)
-//{			
-//	/*valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-//		"cutoff",
-//		"Cutoff",
-//		NormalisableRange<float>(0.0f, 1.0f), 0.6f, "",
-//		AudioProcessorParameter::Category::genericParameter		
-//	));
-//*/
-//	m_cutOff = valueTreeState->getRawParameterValue("cutoff");	
-//
-//	//valueTreeState->createAndAddParameter(std::make_unique<AudioParameterFloat>(
-//	//	"balance",
-//	//	"Weak/Strong Balance",
-//	//	NormalisableRange<float>(0.0f, 1.0f), 0.7f, "",
-//	//	AudioProcessorParameter::Category::genericParameter
-//	//	));
-//
-//	m_balance = valueTreeState->getRawParameterValue("balance");
-//}
-
-void SpectralGateProcessor::prepareProcess(int spectralProcessIndex)
+void SpectralGateProcessor::prepareProcess(STFT* spectralProcessor)
 {
-	auto gate = (spectralGate*)m_spectralProcess[spectralProcessIndex];	
+	auto gate = (spectralGate*)spectralProcessor;
 	gate->setCutOff(*m_cutOff);
 	gate->setBalance(*m_balance);
 }
 
-STFT * SpectralGateProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps)
+std::unique_ptr<STFT> SpectralGateProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps)
 {
-	return new spectralGate(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<spectralGate>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
 }
