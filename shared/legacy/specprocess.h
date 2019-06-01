@@ -100,8 +100,13 @@ class STFT{
   		STFT(int size, int hops, int offset, int sRate);
 
         virtual ~STFT(){
-            delete fft;
-            delete ifft;
+            if(fft != nullptr) {
+                delete fft;
+            }
+            
+            if(ifft != nullptr) {
+                delete ifft;
+            }
         }
 
         void setRate(int newRate){ m_sRate = newRate;}

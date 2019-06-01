@@ -107,13 +107,20 @@ void STFT::fillHann(std::vector<float>& table, int size){
 }
 
 int STFT::newFFT(int newSize){
-	if(fft>0) delete fft;
-    if(ifft>0) delete ifft;
+    if(fft != nullptr) {
+        delete fft;
+        fft = nullptr;
+    }
+    
+    if(ifft != nullptr) {
+        delete ifft;
+        ifft = nullptr;
+    }
 
     fft = new kissfft<float>(newSize, false);
     ifft = new kissfft<float>(newSize, true);
 
-    if(fft ||  ifft == 0) return 1;
+    if(fft == nullptr || ifft == nullptr) return 1;
     return 0;
 }
 
