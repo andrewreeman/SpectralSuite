@@ -4,7 +4,7 @@
 
 void BinScramblerProcessor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
 {
-	const int maxPhase = (getSampleRate() / (int)getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
+	const int maxPhase = ((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
 	if (m_Phase >= maxPhase) {
 		const int binRange = getFftSize() / 2;
 
@@ -14,7 +14,7 @@ void BinScramblerProcessor::process(std::vector<std::vector<float>>* input, std:
 
 		const float sprinkleAmt = (1.f - (scatter*scatter))*100.f;
 		const int sprinkleRange = binRange / 5;
-		const int scramFac = (int)(pow(scramble, 3)*binRange) / 2;
+		const int scramFac = (int)(pow(scramble, 3.0f) * binRange) / 2;
 
 		// when the phasor reaches its peak it will swap the bin pointer
 		std::swap(m_pA_Ind, m_pB_Ind);
@@ -37,7 +37,7 @@ void BinScramblerProcessor::process(std::vector<std::vector<float>>* input, std:
 
 void BinScramblerProcessor::prepareProcess(STFT* spectralProcess)
 {		
-	const int maxPhase = (getSampleRate() / (int)getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
+	const int maxPhase = ((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
 	auto scrambler = (binScrambler*)spectralProcess;
 	scrambler->setPhase(m_Phase);
 	scrambler->setMaxPhase(maxPhase);	
