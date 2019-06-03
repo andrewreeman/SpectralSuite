@@ -62,8 +62,7 @@ namespace utilities{
 			factor += 1.0;
 		}
 
-		float diff = (float)(a - b);
-
+		float diff = (float)(b - a);
 		return a + (diff * factor);
 	}
 
