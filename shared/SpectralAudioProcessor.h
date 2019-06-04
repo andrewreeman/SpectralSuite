@@ -8,6 +8,8 @@ class SpectralAudioProcessor {
 public:
 	SpectralAudioProcessor(int numOverlaps)
 		: m_numOverlaps(numOverlaps), m_fftHopSize(0) {}
+    
+    virtual ~SpectralAudioProcessor(){}
 
 	int getHopSize() { return m_fftHopSize; }	
 	int getFftSize();
