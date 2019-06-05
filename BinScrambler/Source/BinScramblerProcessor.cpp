@@ -37,7 +37,7 @@ void BinScramblerProcessor::process(std::vector<std::vector<float>>* input, std:
 
 void BinScramblerProcessor::prepareProcess(STFT* spectralProcess)
 {		
-	const int maxPhase = ((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
+	const int maxPhase = (int)( ((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS );
 	auto scrambler = (binScrambler*)spectralProcess;
 	scrambler->setPhase(m_Phase);
 	scrambler->setMaxPhase(maxPhase);	

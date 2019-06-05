@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Frequency Magnet" projectType="audioplug" jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.0.1" defines="VersionCode=3" pluginDesc="Frequency content will gradually shift towards being centered on one frequency." pluginFormats="buildVST,buildVST3">
+<JUCERPROJECT id="WPt5si" name="Frequency Magnet" projectType="audioplug" jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.0.1" defines="VersionCode=3" pluginDesc="Frequency content will gradually shift towards being centered on one frequency." pluginFormats="buildAU,buildVST,buildVST3" companyName="Stepwise" companyCopyright="2019" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW">
   <MAINGROUP id="NNl5AK" name="Frequency Magnet">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="MCPb5D" name="FrequencyMagnetParameters.cpp" compile="1" resource="0" file="Source/FrequencyMagnetParameters.cpp" />
