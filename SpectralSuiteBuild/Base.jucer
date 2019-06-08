@@ -96,7 +96,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" vst3Folder="../../../../../../Library/vst3/VST3_SDK">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" headerPath="../../shared"/>
-        <CONFIGURATION isDebug="0" name="Release" headerPath="../../shared"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../shared" auBinaryLocation="$(SRCROOT)/../../../release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../../juce"/>
