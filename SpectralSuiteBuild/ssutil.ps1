@@ -12,13 +12,16 @@ filter updateFromBase {
     $pluginJucerXml.Load($_)
     $projectName = $pluginJucerXml.JUCERPROJECT.name
     $projectDescription = $pluginJucerXml.JUCERPROJECT.pluginDesc
-    
+    $pluginCode = $pluginJucerXml.JUCERPROJECT.pluginCode    
+
+
     if(!$projectDescription) {
         echo "You must provide a description for $projectName"
         return        
     }
     $baseProjucer.JUCERPROJECT.name = $projectName
     $baseProjucer.JUCERPROJECT.pluginDesc = $projectDescription
+    $baseProjucer.JUCERPROJECT.pluginCode = $pluginCode
     $baseProjucer.JUCERPROJECT.MAINGROUP.name = $projectName
 
     # add source code to base project template    
