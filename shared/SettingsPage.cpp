@@ -2,7 +2,8 @@
 
 //==============================================================================
 SettingsPage::SettingsPage() :	
-	backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
+	backButton("backButton", DrawableButton::ButtonStyle::ImageFitted),
+	listener(nullptr)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.	

@@ -20,7 +20,7 @@ public:
 		virtual void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo) = 0;
 	};
 
-	VersionCheckThread(int currentVersionCode, String versionCheckUrl) : Thread("versionCheckThread", 0),  m_currentVersionCode(currentVersionCode), m_versionCheckUrl(versionCheckUrl) {};
+	VersionCheckThread(int currentVersionCode, String versionCheckUrl) : Thread("versionCheckThread", 0),  m_currentVersionCode(currentVersionCode), m_versionCheckUrl(versionCheckUrl), m_listener(nullptr) {};
 	void setListener(Listener* listener) { m_listener = listener; }
 	void run() override;
 

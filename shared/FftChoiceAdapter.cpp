@@ -1,12 +1,13 @@
 #include "FftChoiceAdapter.h"
 
-FftChoiceAdapter::FftChoiceAdapter(int initialIndex) {
+FftChoiceAdapter::FftChoiceAdapter(int initialIndex)
+	: m_currentIndex(initialIndex),
+	m_shouldChangeFft(false),
+	m_parameter(nullptr)
+{
 	for (int n = 7; n <= 14; n++) {
 		m_ffts.add( (int)pow(2, n) );
-	}
-
-	m_currentIndex = initialIndex;
-	m_shouldChangeFft = false;
+	}	
 }
 
 int FftChoiceAdapter::fftSize()

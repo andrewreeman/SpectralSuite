@@ -7,7 +7,7 @@
 class SpectralAudioProcessor {
 public:
 	SpectralAudioProcessor(int numOverlaps)
-		: m_numOverlaps(numOverlaps), m_fftHopSize(0) {}
+		: m_numOverlaps(numOverlaps), m_fftHopSize(0), m_sampleRate(48000) {}
     
     virtual ~SpectralAudioProcessor(){}
 
