@@ -80,6 +80,7 @@ class kissfft
             int p = _stageRadix[stage];
             int m = _stageRemainder[stage];
             cpx_type * Fout_beg = Fout;
+#pragma warning(suppress: 26451)
             cpx_type * Fout_end = Fout + p*m;
 
             if (m==1) {

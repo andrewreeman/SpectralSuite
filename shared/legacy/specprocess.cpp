@@ -21,12 +21,20 @@ void car2Pol(std::vector<Cpx> cpxIn, std::vector< Polar<T> >& polOut, int size){
 
 template<class T>
 void pol2Car(const std::vector<Polar<T> >& polarIn, std::vector<Cpx>& cpxOut, int size){
+	const long invertedindexMax = (size * 2) - 1;
+
+	float mag;
+	float phase;
+	long invertedIndex;
+
     for(int i=0; i<size; ++i){
-        float mag = polarIn[i].m_mag;
-        float phase = polarIn[i].m_phase;
+        mag = polarIn[i].m_mag;
+        phase = polarIn[i].m_phase;
         cpxOut[i] = std::polar(mag, phase);
-        //and perform the reflection here.
-        cpxOut[(size*2)-1-i] = 0.f;
+        
+		//and perform the reflection here.		
+		invertedIndex = invertedindexMax - (long)i;
+        cpxOut[invertedIndex] = 0.f;
     }
 }
 
@@ -334,20 +342,23 @@ void frequencyShifter::spectral_process(const std::vector< Polar<float> > &in, s
 
 	int shift = shiftFrequency / binWidth;	
 	
+	long shiftIndex;
 	if (shift == 0) {		
 		for (unsigned int i = 0; i < in.size(); ++i) {
 			out[i] = in[i];
 		}
 	}
-	else if (shift > 0) {
-		for (unsigned int i = 0; i < in.size() - shift; ++i) {
-			out[i + shift] = in[i];
+	else if (shift > 0) {		
+		for (unsigned int i = 0; i < in.size() - shift; ++i) {			
+			shiftIndex = (long)i + (long)shift;
+			out[shiftIndex] = in[i];
 		}
 	}
-	else if (shift < 0) {
+	else if (shift < 0) {		
 		shift = abs(shift);
 		for (unsigned int i = shift; i < in.size(); ++i) {
-			out[i - shift] = in[i];
+			shiftIndex = (long)i - (long)shift;
+			out[shiftIndex] = in[i];
 		}
 	}
 }
@@ -425,6 +436,7 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
     emptyPolar(temp);
     emptyPolar(out);
 
+	long nextIndexBelow;
     //This loop will work on the frequencies below the target freq.
     for(int i=0; i<target_bin; ++i){
         line = float(i)/target_bin;
@@ -435,12 +447,16 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
         temp[(int)index_below].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[(int)index_below].m_mag = utilities::interp_lin(temp[(int)index_below].m_mag, temp[(int)index_below+1].m_mag, (float)index_below);
+		
+		nextIndexBelow = (long)index_below + 1l;
+        out[(int)index_below].m_mag = utilities::interp_lin(temp[(int)index_below].m_mag, temp[nextIndexBelow].m_mag, (float)index_below);
     }
 
 	if(target_bin < 1) target_bin = 1;
 
 	const int range = bins - target_bin;
+	
+	long nextIndexAbove;
     for(int i=target_bin; i<bins; ++i){
 		/*out[i].m_phase = in[i].m_phase;
 		out[i].m_mag = in[i].m_mag;
@@ -459,7 +475,9 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 
         temp[(int)index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
-        out[(int)index_above].m_mag = utilities::interp_lin(temp[(int)index_above].m_mag, temp[(int)index_above-1].m_mag, index_above);
+
+		nextIndexAbove = (long)index_above - 1l;
+        out[(int)index_above].m_mag = utilities::interp_lin(temp[(int)index_above].m_mag, temp[nextIndexAbove].m_mag, index_above);
     }
 }
 

@@ -86,11 +86,13 @@ namespace utilities{
 
     template<class T>
     void vector_Low2HighDistribute(std::vector<T>& in, int distAmount, int distRange){	
-        int size = (int)in.size();
-        if(distRange > size/2) distRange= size/2;
+        const size_t size = in.size();
+		if (distRange > (int)size / 2) distRange = ((int)size) / 2;
 
-        for(int i=0; i<size/5; ++i){
-            if(rand()%100 >= distAmount) in[i+size/5] = in[rand()%size/5];
+		long index;
+        for(long i=0; i<size/5; ++i){
+			index = i + (long)size;
+            if(rand()%100 >= distAmount) in[index/5] = in[rand()%size/5];
         }
     }
 
