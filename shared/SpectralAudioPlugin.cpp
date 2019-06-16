@@ -286,7 +286,7 @@ void SpectralAudioPlugin::setFftSize(int size) {
 		input.resize(hopSize, 0.f);
 	}
 
-	setLatencySamples(size);		
+	setLatencySamples(size + hopSize);		
 }
 
 void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener) {
