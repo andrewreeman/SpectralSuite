@@ -4,7 +4,7 @@
 
 void BinScramblerProcessor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
 {
-	const int maxPhase = ((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
+	const int maxPhase = (int)((float)getSampleRate() / getFreq()) * SpectralAudioPlugin::FFT_OVERLAPS;
 	if (m_Phase >= maxPhase) {
 		const int binRange = getFftSize() / 2;
 
