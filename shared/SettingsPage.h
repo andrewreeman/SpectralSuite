@@ -21,6 +21,7 @@ public:
 	class Listener {
 	public:
 		virtual void onPropertiesChanged() = 0;
+        virtual ~Listener(){};
 	};
 
     SettingsPage();

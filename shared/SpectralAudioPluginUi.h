@@ -32,7 +32,7 @@ public:
 	void handleCommandMessage(int) override;
 
 	// VersionCheckThread::Listener methods
-	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo);		
+	void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo) override;		
 
 	// Inherited via AudioValueTreeStateOnLoadListener
 	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {

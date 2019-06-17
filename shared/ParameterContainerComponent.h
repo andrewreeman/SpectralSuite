@@ -18,8 +18,8 @@ public:
     ~ParameterContainerComponent();
 
 	virtual const int getComponentHeight() { return 80; }
-	virtual void paint(Graphics&) = 0;
-	virtual void resized() = 0;
+	virtual void paint(Graphics&) override = 0;
+	virtual void resized() override = 0;
 
 	virtual Array<PropertyComponent*> getSettingsProperties() {
 		return Array<PropertyComponent*>();
