@@ -22,11 +22,11 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 #endif
 	),
 
-#endif		
-	m_internalBufferReadWriteIndex(0),
-	m_fftChoiceAdapter(INIT_FFT_INDEX),	
+#endif
+	m_fftChoiceAdapter(INIT_FFT_INDEX),
 	//parameters(*this, nullptr),	
 	m_fftSwitcher(this),
+    m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://andrewreeman.github.io/spectral_suite_publish.json")
 {			
 	std::unique_ptr<Dependencies> dependencies = dependencyCreator(this);

@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    FftSwitcher.h
-    Created: 30 Nov 2018 11:38:32pm
-    Author:  rem_d
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "JuceHeader.h"
@@ -17,6 +7,7 @@ public:
 	class FftSwitcher {
 	public:
 		virtual void switchFftSize() = 0;
+        virtual ~FftSwitcher(){};
 	};
 
 	FftSwitcherThread(FftSwitcher* fftSwitcher) : Thread("fftSwitcherThread", 0), m_fftSwitcher(fftSwitcher) {}			

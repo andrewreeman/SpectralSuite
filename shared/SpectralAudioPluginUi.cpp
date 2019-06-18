@@ -2,10 +2,10 @@
 
 SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParameters* valueTreeState, std::shared_ptr<ParameterContainerComponent> _parameterContainer)
 	: AudioProcessorEditor(&p), 
-	valueTreeState(valueTreeState), 		
-	aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
-	settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),	
-	parameterContainerHeight(_parameterContainer->getComponentHeight())
+	valueTreeState(valueTreeState),
+    parameterContainerHeight(_parameterContainer->getComponentHeight()),
+    aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
+    settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted)
 {				
 	this->parameterContainer = _parameterContainer;
 	

@@ -1,8 +1,8 @@
 #include "FftChoiceAdapter.h"
 
 FftChoiceAdapter::FftChoiceAdapter(int initialIndex)
-	: m_currentIndex(initialIndex),
-	m_shouldChangeFft(false),
+	: m_shouldChangeFft(false),
+    m_currentIndex(initialIndex),
 	m_parameter(nullptr)
 {
 	for (int n = 7; n <= 14; n++) {

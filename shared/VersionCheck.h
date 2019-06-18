@@ -18,6 +18,7 @@ public:
 	class Listener {
 	public:
 		virtual void onNewVersionAvailable(std::unique_ptr<VersionInfo> versionInfo) = 0;
+        virtual ~Listener(){};
 	};
 
 	VersionCheckThread(int currentVersionCode, String versionCheckUrl) : Thread("versionCheckThread", 0),  m_currentVersionCode(currentVersionCode), m_versionCheckUrl(versionCheckUrl), m_listener(nullptr) {};

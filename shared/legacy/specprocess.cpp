@@ -1,6 +1,6 @@
 #include "specprocess.h"
 
-#pragma once
+//#pragma once
 #include "utilities.h"
 
 template <class T>
@@ -68,7 +68,7 @@ void emptyPolar(std::vector<Polar<float> >& inOutPol){
 STFT::STFT(int size, int hopSize, int offset, int sRate) :
     m_sRate(sRate), m_fftSize(size), m_halfSize(size / 2), m_invSize(1.f/float(size)),
     m_hopsize(hopSize), m_offset(offset), m_hann(size), m_input(size),
-    m_cpxInput(size), m_fftOut(size), m_polarOut(m_halfSize), m_polarIn(m_halfSize),
+    m_cpxInput(size), m_fftOut(size), m_polarIn(m_halfSize),m_polarOut(m_halfSize),
     m_ifftin(size), m_cpxOutput(size), m_output(size),
     fft(new kissfft<float>(m_fftSize, false)), ifft(new kissfft<float> (m_fftSize, true))
 {
