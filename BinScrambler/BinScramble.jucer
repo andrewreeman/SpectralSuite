@@ -36,6 +36,8 @@
             file="Source/BinScramblerAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
+      <FILE id="AD8hie" name="AboutPage.cpp" compile="1" resource="0" file="../shared/AboutPage.cpp"/>
+      <FILE id="Vq0P90" name="AboutPage.h" compile="0" resource="0" file="../shared/AboutPage.h"/>
       <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
             file="../shared/PluginParameters.h"/>
       <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
