@@ -59,6 +59,8 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(SpectralAudioPlugin& p, PluginParam
 		addChildComponent(&settingsPage);
 	}	
 
+	addChildComponent(&aboutPage);
+
 	setSize(300, 220 + parameterContainerHeight);
 }
 
@@ -98,6 +100,7 @@ void SpectralAudioPluginUi::resized()
 	aboutButton.setBounds(getWidth() - iconSize, 0, iconSize, iconSize);	
 	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom(), iconSize, iconSize);
 	
+	aboutPage.setBounds(getBounds());
 	settingsPage.setBounds(getBounds());	
 }
 
@@ -111,46 +114,20 @@ void SpectralAudioPluginUi::handleCommandMessage(int messageId)
 
 void SpectralAudioPluginUi::onNewVersionAvailable(std::unique_ptr<VersionInfo> newVersionInfo)
 {	
-	this->versionInfo.reset(newVersionInfo.release());
+	aboutPage.setVersionInfo(newVersionInfo.release());
+	
 	this->postCommandMessage(Messages::UPDATE_AVAILABLE);			
 }
 
 void SpectralAudioPluginUi::aboutClicked()
-{		
-	String aboutMessage = "Version " + String(JucePlugin_VersionString);	
-	if (versionInfo != nullptr) {
-		aboutMessage += "\n\n New version available: " + versionInfo->getVersionName();
-		aboutMessage += "\n\n Download from: " + versionInfo->getDownloadUrl();
-		aboutMessage += "\n\n Release notes: \n\n";
-		for(String s : versionInfo->getReleaseNotes()) {
-			aboutMessage += "\n> " + s;
-		}
-	}	
-
-	aboutMessage += "\n\nMessage andrew.reeman@gmail.com for support.";
-
-
-	AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
-	AlertWindow::showMessageBoxAsync(
-		icon, TRANS("About"),
-		aboutMessage,
-		"OK"
-	);
+{				
+	aboutPage.setVisible(true);	
 }
 
 void SpectralAudioPluginUi::settingsClicked() {	
 	const Array<PropertyComponent*> settings = this->parameterContainer.get()->getSettingsProperties();
 	if (settings.isEmpty()) { return; }
-	
-	
+		
 	settingsPage.setProperties(settings);		
-	settingsPage.setVisible(true);
-	
-
-	/*AlertWindow::AlertIconType icon = AlertWindow::NoIcon;
-	AlertWindow::showMessageBoxAsync(
-		icon, TRANS("Settings"),
-		"Settings",
-		"OK"
-	);*/
+	settingsPage.setVisible(true);		
 }

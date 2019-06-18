@@ -8,6 +8,7 @@
 #include "SettingsPage.h"
 #include "ParameterContainerComponent.h"
 #include "PluginParameters.h"
+#include "AboutPage.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -66,8 +67,9 @@ private:
 	DrawableButton aboutButton;	
 	DrawableButton settingsButton;
 	SettingsPage settingsPage;	
+	AboutPage aboutPage;
 
-	std::unique_ptr<VersionInfo> versionInfo;
+	//std::unique_ptr<VersionInfo> versionInfo;
 	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)	
 };
