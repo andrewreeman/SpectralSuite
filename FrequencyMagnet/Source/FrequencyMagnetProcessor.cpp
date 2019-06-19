@@ -5,7 +5,9 @@ void FrequencyMagnetProcessor::prepareProcess(STFT* spectralProcess)
 	auto mag = (frequencyMagnet*)spectralProcess;
 	mag->setFrequency(*m_freq);
 	mag->setWidthBias(*m_bias);
-	mag->setWidth(*m_width);
+	mag->setWidth(*m_width);		
+	bool value = (bool)m_params->getUseLegacyLogicValue().getValue();
+	mag->setUseLegacyHighFrequencyShift(value);
 }
 
 std::unique_ptr<STFT> FrequencyMagnetProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps)

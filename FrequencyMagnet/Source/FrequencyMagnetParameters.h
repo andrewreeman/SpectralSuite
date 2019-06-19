@@ -9,4 +9,5 @@ public:
 	float* getFreqValuePointer() const { return getRawParameterValue("freq"); }
 	float* getWidthValuePointer() const { return getRawParameterValue("width"); }
 	float* getBiasValuePointer() const {  return getRawParameterValue("bias"); }
+	Value getUseLegacyLogicValue() const { return getParameterAsValue("useLegacyHighFrequencyShift"); }
 };

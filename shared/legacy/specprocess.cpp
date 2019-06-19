@@ -469,7 +469,9 @@ void frequencyMagnet::spectral_process(const std::vector< Polar<float> > &in, st
 		// scale
         index_above = (pow(line, ((1.f - width)*7.f) + 1.f)  * (float)range) ;
         // offset by the target frequency.
-        index_above += (float)target_bin;
+		if (!m_useLegacyHighFrequencyShift) {
+			index_above += (float)target_bin;
+		}
 
 		index_above = utilities::clip(index_above, 1.f, out.size() - 1.f);
 

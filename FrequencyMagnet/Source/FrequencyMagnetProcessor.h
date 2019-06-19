@@ -8,9 +8,11 @@
 class FrequencyMagnetProcessor : public SpectralAudioProcessor {
 public:
 	FrequencyMagnetProcessor(int numOverlaps, std::shared_ptr<FrequencyMagnetParameters> params) : SpectralAudioProcessor(numOverlaps) {
-		m_freq = params->getFreqValuePointer();// valueTreeState->getRawParameterValue("freq");
-		m_bias = params->getBiasValuePointer(); // ->getRawParameterValue("bias");
-		m_width = params->getWidthValuePointer();// valueTreeState->getRawParameterValue("width");
+		m_freq = params->getFreqValuePointer();
+		m_bias = params->getBiasValuePointer();
+		m_width = params->getWidthValuePointer();
+		m_params = params;
+		//m_useLegacyFrequencyShift = params->getUseLegacyLogicValue();
 	}
 		
 	void prepareProcess(STFT* spectralProcessor) override;
@@ -20,4 +22,6 @@ private:
 	float* m_freq;	
 	float* m_bias;
 	float* m_width;
+	std::shared_ptr<FrequencyMagnetParameters> m_params;
+	//Value m_useLegacyFrequencyShift;
 };

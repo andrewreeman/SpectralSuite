@@ -25,4 +25,10 @@ FrequencyMagnetParameters::FrequencyMagnetParameters(AudioProcessor * processor)
 		NormalisableRange<float>(0.0f, 1.0f), 0.5f, "",
 		AudioProcessorParameter::Category::genericParameter
 	));
+	
+	createAndAddParameter(std::make_unique<AudioParameterBool>(
+		"useLegacyHighFrequencyShift",
+		"Use legacy mode",
+		false
+	));
 }

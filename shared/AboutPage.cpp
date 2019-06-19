@@ -67,7 +67,7 @@ void AboutPage::resized()
 
 	Rectangle<int> aboutMessageSection2Bounds = downloadLinkBounds;
 	if (aboutMessageSection2.isVisible()) {
-		aboutMessageSection2Bounds = Rectangle<int>(localBounds.getX() + padding, downloadLinkBounds.getBottom() + componentSpacing, localBounds.getWidth(), localBounds.getHeight() * 0.5);
+		aboutMessageSection2Bounds = Rectangle<int>(localBounds.getX() + padding, downloadLinkBounds.getBottom() + componentSpacing, localBounds.getWidth(), localBounds.getHeight() / 2);
 		aboutMessageSection2.setBounds(aboutMessageSection2Bounds);
 	}
 	else {
