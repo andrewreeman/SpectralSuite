@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Sinusoidal Shaped Filter" projectType="audioplug" jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.0.2" defines="VersionCode=4" pluginDesc="Filters the frequency components according by applying a sinusoudal shape over the spectrum." pluginFormats="buildAU,buildVST,buildVST3" companyName="Stepwise" companyCopyright="2019" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPSS">
+<JUCERPROJECT id="WPt5si" name="Sinusoidal Shaped Filter" projectType="audioplug" jucerVersion="5.4.3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.0.3" defines="VersionCode=5" pluginDesc="Filters the frequency components according by applying a sinusoudal shape over the spectrum." pluginFormats="buildAU,buildVST,buildVST3" companyName="Stepwise" companyCopyright="2019" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPSS">
   <MAINGROUP id="NNl5AK" name="Sinusoidal Shaped Filter">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="ffuK4Q" name="SSFParameters.cpp" compile="1" resource="0" file="Source/SSFParameters.cpp" />

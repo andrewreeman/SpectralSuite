@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="WPt5si" name="Base" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.0.2" defines="VersionCode=4" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+              version="2.0.3" defines="VersionCode=5" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
               pluginFormats="buildAU,buildVST,buildVST3" companyName="Stepwise"
               companyCopyright="2019" companyWebsite="www.andrewreeman.com"
               companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW"
