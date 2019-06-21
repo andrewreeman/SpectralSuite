@@ -16,7 +16,7 @@ filter updateFromBase {
 
 
     if(!$projectDescription) {
-        echo "You must provide a description for $projectName"
+        Write-Error "You must provide a description for $projectName"
         return        
     }
     $baseProjucer.JUCERPROJECT.name = $projectName
@@ -33,7 +33,31 @@ filter updateFromBase {
 
 function Build-Release {
     param($jucerFile, $version)
+
+    $output = Invoke-WebRequest "http://andrewreeman.github.io/spectral_suite_publish.json"
+    $json = $output.Content | ConvertFrom-Json
     
+    # loading base file every time as we make mutable changes to this variable's contents
+    $basePath = Get-Location | Join-Path -ChildPath "base.jucer"
+    $baseProjucer = New-Object -TypeName XML
+    $baseProjucer.Load($basePath)    
+    $projectVersion = $baseProjucer.JUCERPROJECT.version    
+    
+    
+    if($projectVersion -eq $json.version) {
+        Write-Error "You have not updated the version"
+        exit
+    }
+    
+    $definesString = $baseProjucer.JUCERPROJECT.defines
+    $versionCodeString = $definesString.split("`n") | Where-Object { $_.contains("VersionCode")}
+    $projectVersionCode = $versionCodeString.split("=")[1]
+
+    if($projectVersionCode -eq $json.code) {
+        Write-Error "You have not updated the version code"
+        exit
+    }
+        
     # recreate
     Projucer.exe --resave $jucerFile | Write-Host
 
