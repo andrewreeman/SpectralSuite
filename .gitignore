@@ -1,0 +1,86 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+Gin/*
+
+Archive/*
+BinScrambler/Builds/
+
+BinScrambler/JuceLibraryCode/
+
+FrequencyMagnet/Builds/
+
+FrequencyMagnet/JuceLibraryCode/
+
+FrequencyShift/Builds/
+
+FrequencyShift/JuceLibraryCode/
+
+Playground/Builds/
+Playground/JuceLibraryCode/
+
+shared/public\.sdk/
+
+shared/vstgui/
+
+shared/pluginterfaces/
+
+Sinusoidal Shaped Filter/Builds/
+
+Sinusoidal Shaped Filter/JuceLibraryCode/
+
+SpectralGate/Builds/
+
+SpectralGate/JuceLibraryCode/
+
+SSF/JuceLibraryCode/
+
+SpectralSuiteBuild/JuceLibraryCode/
+
+SinusoidalShapedFilter/JuceLibraryCode/
+
+SinusoidalShapedFilter/Builds/
+
+SpectralSuiteBuild/Builds/
+
+Morph/JuceLibraryCode/
+Morph/Builds/
+
+Release/
+
+SpectralSuite-latest\.zip
+
+SpectralSuite-v2\.0\.2\.zip
+
+*DS_Store
+
+PhaseLock/Builds/
+
+PhaseLock/JuceLibraryCode/
+SpectralSuiteBuild/package/
