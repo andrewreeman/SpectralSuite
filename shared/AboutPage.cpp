@@ -109,6 +109,8 @@ void AboutPage::setVersionInfo(VersionInfo * versionInfo)
 		for(String s : versionInfo->getReleaseNotes()) {			
             section2String += "\n  > " + s;
 		}
+        
+        section2String += "\n This plugin makes use of KissFFT developed by Mark Borgerding";
 	}
 	    
 	aboutMessageSection1.setText(section1String, NotificationType::dontSendNotification);
