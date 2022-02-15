@@ -7,11 +7,13 @@ AboutPage::AboutPage()
 	: backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
 {
 	
-	setVersionInfo(nullptr);
-	std::unique_ptr<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinearrow_back24px_svg, BinaryData::baselinearrow_back24px_svgSize);
-	settingsIcon->replaceColour(Colours::black, Colours::white);
+    std::unique_ptr<Drawable> navigateBackIcon = Drawable::createFromImageData(
+                                                                               BinaryData::baselinearrow_back24px_svg,
+                                                                               BinaryData::baselinearrow_back24px_svgSize
+                                                                               );
+	navigateBackIcon->replaceColour(Colours::black, Colours::white);
 
-    backButton.setImages(settingsIcon.release());
+    backButton.setImages(navigateBackIcon.release());
 	backButton.onClick = [this]() {
 		this->setVisible(false);
 	};
@@ -27,13 +29,21 @@ AboutPage::AboutPage()
 
 	emailLink.setJustificationType(Justification::topLeft);
 	emailLink.setColour(HyperlinkButton::ColourIds::textColourId, Colour(0xFF00BCD4));
+    
+    licenseButton.setButtonText("View licenses");
+    licenseButton.onClick = [] {
+        
+    };
 
 	addAndMakeVisible(&backButton);
     addAndMakeVisible(&description);
 	addAndMakeVisible(&aboutMessageSection1);
 	addAndMakeVisible(&downloadLink);
 	addAndMakeVisible(&aboutMessageSection2);	
-	addAndMakeVisible(&emailLink);	
+	addAndMakeVisible(&emailLink);
+    addAndMakeVisible(&licenseButton);
+    
+    setVersionInfo(nullptr);
 }
 
 AboutPage::~AboutPage()
@@ -61,15 +71,18 @@ void AboutPage::resized()
     
     y = description.getBottom() + componentSpacing;
     
-	const Rectangle<int> aboutMessageSection1Bounds(localBounds.getX() + padding, y, localBounds.getWidth(), 46);
+	const Rectangle<int> aboutMessageSection1Bounds(localBounds.getX() + padding, y, getWidth(), 46);
 	Rectangle<int> downloadLinkBounds = aboutMessageSection1Bounds;
 
 	aboutMessageSection1.setBounds(aboutMessageSection1Bounds);
+    
+    y = aboutMessageSection1.getBottom() + componentSpacing;
 
 	if (downloadLink.isVisible()) {		
-		downloadLinkBounds = Rectangle<int>(localBounds.getX() + padding, aboutMessageSection1Bounds.getBottom() + componentSpacing, localBounds.getWidth(), 22);
+		downloadLinkBounds = Rectangle<int>(localBounds.getX() + padding, y, getWidth(), 22);
 		downloadLink.setBounds(downloadLinkBounds);
 		downloadLink.changeWidthToFitText();		
+        y = downloadLink.getBottom() + padding;
 	}
 	else {
 		downloadLink.setBounds(0, 0, 0, 0);
@@ -77,15 +90,20 @@ void AboutPage::resized()
 
 	Rectangle<int> aboutMessageSection2Bounds = downloadLinkBounds;
 	if (aboutMessageSection2.isVisible()) {
-		aboutMessageSection2Bounds = Rectangle<int>(localBounds.getX() + padding, downloadLinkBounds.getBottom() + componentSpacing, localBounds.getWidth(), localBounds.getHeight() / 2);
+		aboutMessageSection2Bounds = Rectangle<int>(localBounds.getX() + padding, y, getWidth(), getHeight() / 2);
 		aboutMessageSection2.setBounds(aboutMessageSection2Bounds);
+        y = aboutMessageSection2.getBottom() + padding;
 	}
 	else {
 		aboutMessageSection2.setBounds(0, 0, 0, 0);
 	}
 
-	const Rectangle<int> emailBounds(localBounds.getX() + padding, aboutMessageSection2Bounds.getBottom() + padding, localBounds.getWidth(), 22);
+	const Rectangle<int> emailBounds(localBounds.getX() + padding, y, getWidth(), 22);
 	emailLink.setBounds(emailBounds);
+    y = emailLink.getBottom() + padding;
+    
+    const Rectangle<int> licenseButtonBounds(localBounds.getX() + padding, y, getWidth() - padding, 22);
+    licenseButton.setBounds(licenseButtonBounds);
 }
 
 void AboutPage::setVersionInfo(VersionInfo * versionInfo)

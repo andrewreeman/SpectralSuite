@@ -19,6 +19,7 @@ public:
 private:
 
 	DrawableButton backButton;
+    TextButton licenseButton;
     Label description;
 	Label aboutMessageSection1;
 	Label aboutMessageSection2;	
