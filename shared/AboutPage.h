@@ -2,6 +2,9 @@
 
 #include "JuceHeader.h"
 #include "VersionInfo.h"
+#include "components/LicensesComponent.h"
+
+//TODO: all components should be in shared/components folder
 
 //==============================================================================
 /*
@@ -25,6 +28,7 @@ private:
 	Label aboutMessageSection2;	
 	HyperlinkButton downloadLink;
 	HyperlinkButton emailLink;
+    LicensesComponent licenses;
 	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutPage)
 };

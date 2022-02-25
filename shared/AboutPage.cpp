@@ -31,8 +31,8 @@ AboutPage::AboutPage()
 	emailLink.setColour(HyperlinkButton::ColourIds::textColourId, Colour(0xFF00BCD4));
     
     licenseButton.setButtonText("View licenses");
-    licenseButton.onClick = [] {
-        
+    licenseButton.onClick = [this] {
+        licenses.setVisible(true);
     };
 
 	addAndMakeVisible(&backButton);
@@ -42,6 +42,7 @@ AboutPage::AboutPage()
 	addAndMakeVisible(&aboutMessageSection2);	
 	addAndMakeVisible(&emailLink);
     addAndMakeVisible(&licenseButton);
+    addChildComponent(&licenses);
     
     setVersionInfo(nullptr);
 }
@@ -104,6 +105,8 @@ void AboutPage::resized()
     
     const Rectangle<int> licenseButtonBounds(localBounds.getX() + padding, y, getWidth() - padding, 22);
     licenseButton.setBounds(licenseButtonBounds);
+    
+    licenses.setBounds(localBounds);
 }
 
 void AboutPage::setVersionInfo(VersionInfo * versionInfo)
