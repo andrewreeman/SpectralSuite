@@ -15,6 +15,7 @@ public:
     void resized() override;
 
 private:
+    void configureLicenseView();
 
     DrawableButton backButton;
     TextEditor licenses;

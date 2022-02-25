@@ -18,7 +18,37 @@ LicensesComponent::LicensesComponent()
         this->setVisible(false);
     };
         
-    String licenseInfo = "====\n"
+    configureLicenseView();
+    addAndMakeVisible(&backButton);
+    addAndMakeVisible(&licenses);
+}
+
+LicensesComponent::~LicensesComponent()
+{
+}
+
+void LicensesComponent::paint (Graphics& g)
+{
+    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
+
+    g.setColour (Colours::grey);
+    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+}
+
+void LicensesComponent::resized()
+{
+    static const int padding = 4;
+    static const int componentSpacing = padding * 3;
+    
+    backButton.setBounds(0, 0, 40, 40);
+    auto y = backButton.getBottom() + componentSpacing;
+
+    licenses.setBounds(padding, y, getWidth() - padding, getHeight() - padding);
+}
+
+
+void LicensesComponent::configureLicenseView() {
+     String licenseInfo = "====\n"
     "This product uses KissFFT (https://github.com/mborgerding/kissfft)\n"
     "developed by Mark Borgerding\n\n"
     
@@ -65,35 +95,4 @@ LicensesComponent::LicensesComponent()
     licenses.setEnabled(false);
     licenses.setText(licenseInfo, NotificationType::dontSendNotification);
     licenses.setFont(16.0);
-    
-//    licensesViewPort.setViewedComponent(&licenses, false);
-    
-    addAndMakeVisible(&backButton);
-    addAndMakeVisible(&licenses);
-//    addAndMakeVisible(&licensesViewPort);
-}
-
-LicensesComponent::~LicensesComponent()
-{
-}
-
-void LicensesComponent::paint (Graphics& g)
-{
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-}
-
-void LicensesComponent::resized()
-{
-    static const int padding = 4;
-    static const int componentSpacing = padding * 3;
-    
-    backButton.setBounds(0, 0, 40, 40);
-    auto y = backButton.getBottom() + componentSpacing;
-
-//    const Rectangle<int> localBounds = getBounds();
-    licenses.setBounds(padding, y, getWidth() - padding, getHeight() - padding);
-//    licensesViewPort.setBounds(padding, y, getWidth() - padding, getHeight());
 }
