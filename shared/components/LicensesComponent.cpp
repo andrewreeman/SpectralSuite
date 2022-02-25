@@ -19,7 +19,7 @@ LicensesComponent::LicensesComponent()
     };
         
     String licenseInfo = "====\n"
-    "This product includes/uses software, KissFFT (https://github.com/mborgerding/kissfft)\n"
+    "This product uses KissFFT (https://github.com/mborgerding/kissfft)\n"
     "developed by Mark Borgerding\n\n"
     
     "KissFFT license:\n\n"
@@ -61,11 +61,16 @@ LicensesComponent::LicensesComponent()
     "USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
     "====\n";
 
+    licenses.setMultiLine(true);
+    licenses.setEnabled(false);
     licenses.setText(licenseInfo, NotificationType::dontSendNotification);
     licenses.setFont(16.0);
     
+//    licensesViewPort.setViewedComponent(&licenses, false);
+    
     addAndMakeVisible(&backButton);
     addAndMakeVisible(&licenses);
+//    addAndMakeVisible(&licensesViewPort);
 }
 
 LicensesComponent::~LicensesComponent()
@@ -88,6 +93,7 @@ void LicensesComponent::resized()
     backButton.setBounds(0, 0, 40, 40);
     auto y = backButton.getBottom() + componentSpacing;
 
-    const Rectangle<int> localBounds = getBounds();
-    licenses.setBounds(padding, y, getWidth() - padding, 60);
+//    const Rectangle<int> localBounds = getBounds();
+    licenses.setBounds(padding, y, getWidth() - padding, getHeight() - padding);
+//    licensesViewPort.setBounds(padding, y, getWidth() - padding, getHeight());
 }

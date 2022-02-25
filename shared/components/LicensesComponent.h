@@ -17,7 +17,8 @@ public:
 private:
 
     DrawableButton backButton;
-    Label licenses;
+    TextEditor licenses;
+    Viewport licensesViewPort;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LicensesComponent)
 };
