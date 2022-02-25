@@ -43,7 +43,7 @@ void LicensesComponent::resized()
     backButton.setBounds(0, 0, 40, 40);
     auto y = backButton.getBottom() + componentSpacing;
 
-    licenses.setBounds(padding, y, getWidth() - padding, getHeight() - padding);
+    licenses.setBounds(padding, y, getWidth() - padding, getHeight() - componentSpacing);
 }
 
 
