@@ -28,6 +28,10 @@
               file="../shared/components/ControlPointComponent.cpp"/>
         <FILE id="XV1FGk" name="ControlPointComponent.h" compile="0" resource="0"
               file="../shared/components/ControlPointComponent.h"/>
+        <FILE id="lmoa90" name="LicensesComponent.cpp" compile="1" resource="0"
+              file="../shared/components/LicensesComponent.cpp"/>
+        <FILE id="uXqO3H" name="LicensesComponent.h" compile="0" resource="0"
+              file="../shared/components/LicensesComponent.h"/>
         <FILE id="CxupVI" name="Spline.cpp" compile="1" resource="0" file="../shared/components/Spline.cpp"/>
         <FILE id="GCHJPY" name="Spline.h" compile="0" resource="0" file="../shared/components/Spline.h"/>
       </GROUP>
