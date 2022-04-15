@@ -47,7 +47,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 		)
 	);
 	Logger::setCurrentLogger(m_logger.get());
-    this->initialiseDependencies();
+    this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -305,7 +305,7 @@ void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener
 	m_versionCheckThread.startThread();
 }
 
-void SpectralAudioPlugin::initialiseDependencies() {
+void SpectralAudioPlugin::initialiseParameters() {
     
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
@@ -323,6 +323,17 @@ void SpectralAudioPlugin::initialiseDependencies() {
     auto fftChoices = (AudioParameterChoice*)parameters->getParameter("fft");
     m_fftChoiceAdapter.listen(fftChoices);
     
+    StringArray strings;
+    strings.add(String("Default"));
+    strings.add(String("PVOC"));
+
+    parameters->createAndAddParameter(
+        std::make_unique<AudioParameterChoice>(
+            "fft_style", "FFT style", strings, 0
+        )
+    );
+    
+
     auto valueTree = ValueTree(
         Identifier(
             this->getName().removeCharacters(" ")

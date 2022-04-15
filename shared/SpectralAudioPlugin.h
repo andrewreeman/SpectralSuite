@@ -103,7 +103,7 @@ private:
     //==============================================================================
 	void emptyOutputs();
 	void setFftSize(int fftSize);
-    void initialiseDependencies();
+    void initialiseParameters();
 			
 	std::shared_ptr<PluginParameters> parameters;
 	ParameterContainerComponent* m_parameterUiComponent;
