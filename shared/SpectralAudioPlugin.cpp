@@ -329,7 +329,7 @@ void SpectralAudioPlugin::initialiseParameters() {
 
     parameters->createAndAddParameter(
         std::make_unique<AudioParameterChoice>(
-            "fft_style", "FFT style", strings, 0
+            "fftStyle", "FFT style", strings, 0
         )
     );
     

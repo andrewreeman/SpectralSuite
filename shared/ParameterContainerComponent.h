@@ -32,6 +32,19 @@ public:
 
 	// Inherited via AudioValueTreeStateOnLoadListener
 	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters*, XmlElement*) override {}
+    
+protected:
+    PropertyComponent* fftStylePropertyComponent(std::shared_ptr<PluginParameters> valueTreeState) {
+        StringArray choices;
+        choices.add("Default");
+        choices.add("PVOC");
+        
+        Array<var> values;
+        values.add(0);
+        values.add(1);
+        
+        return new ChoicePropertyComponent(valueTreeState->getParameterAsValue("fftStyle"), "FFT Style", choices, values);
+    }
 
 private:
     // This just needs to be declared: https://forum.juce.com/t/no-button-tooltips-in-juce-widgets-demo/36479/5
