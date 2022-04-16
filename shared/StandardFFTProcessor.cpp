@@ -1,4 +1,4 @@
-#include "specprocess.h"
+#include "StandardFFTProcessor.h"
 
 //#pragma once
 #include "utilities.h"

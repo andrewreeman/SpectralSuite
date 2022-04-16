@@ -1,6 +1,6 @@
 #pragma once
 
-#include "specprocess.h"
+#include "StandardFFTProcessor.h"
 
 
 //-----------------A phase vocoder derivative of STFT-----------------------------------------//

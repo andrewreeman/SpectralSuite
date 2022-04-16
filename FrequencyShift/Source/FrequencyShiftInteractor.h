@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "FrequencyShiftPluginParameters.h"
 

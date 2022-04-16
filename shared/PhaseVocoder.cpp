@@ -68,7 +68,7 @@ void PhaseVocoder::hertzDiff2Phase(PolarVector& inOut){
 
 
 void PhaseVocoder::process(const FftDecimal* input, FftDecimal* output, int blockSize) {
-if(!phaseBuffer->isAvailable()) {
+    if(!phaseBuffer->isAvailable()) {
         STFT::process(input, output, blockSize);
         return;
     }

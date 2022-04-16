@@ -1,7 +1,7 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "specprocess.h"
+#include "StandardFFTProcessor.h"
 #include "PluginParameters.h"
 
 class SpectralAudioProcessorInteractor {

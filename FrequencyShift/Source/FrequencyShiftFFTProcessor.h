@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 
 class FrequencyShiftFFTProcessor : public STFT {
 public:
