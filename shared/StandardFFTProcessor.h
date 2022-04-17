@@ -26,7 +26,7 @@
 
 #define __specprocesses__
 
-class STFT{
+class StandardFFTProcessor{
     // TODO: really? can none of these be private?
 protected:
     int m_sRate;
@@ -63,9 +63,9 @@ public:
 
     /* Constructor for STFT. Every STFT can take an offset in samples as an argument
     The offsets should be (FFTSIZE/(n/i)). Where n is the total number of overlaps and i is the current overlap. */
-    STFT(int size, int hops, int offset, int sRate);
+    StandardFFTProcessor(int size, int hops, int offset, int sRate);
 
-    virtual ~STFT(){
+    virtual ~StandardFFTProcessor(){
         if(fft != nullptr) {
             delete fft;
         }

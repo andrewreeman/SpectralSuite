@@ -3,7 +3,7 @@
 //#pragma once
 #include "utilities.h"
 
-STFT::STFT(int size, int hopSize, int offset, int sRate) :
+StandardFFTProcessor::StandardFFTProcessor(int size, int hopSize, int offset, int sRate) :
     m_sRate(sRate), m_fftSize(size), m_halfSize(size / 2), m_invSize(1.f/float(size)),
     m_hopsize(hopSize), m_offset(offset), m_hann(size), m_input(size),
     m_cpxInput(size), m_fftOut(size), m_polarIn(m_halfSize),m_polarOut(m_halfSize),
@@ -14,7 +14,7 @@ STFT::STFT(int size, int hopSize, int offset, int sRate) :
 }
 
 
-void STFT::process(const FftDecimal* input, FftDecimal* output, int blockSize){
+void StandardFFTProcessor::process(const FftDecimal* input, FftDecimal* output, int blockSize){
 
     fill_in_passOut(input, output, blockSize);
     m_offset += blockSize;
@@ -45,7 +45,7 @@ void STFT::process(const FftDecimal* input, FftDecimal* output, int blockSize){
     }
 }
 
-bool STFT::setFFTSize(int newSize){
+bool StandardFFTProcessor::setFFTSize(int newSize){
     m_fftSize = newSize;
     m_halfSize = newSize/2;
     m_invSize = 1.f/(float)newSize;
@@ -70,7 +70,7 @@ bool STFT::setFFTSize(int newSize){
 }
 
 
-void STFT::fillHann(std::vector<FftDecimal>& table, int size){
+void StandardFFTProcessor::fillHann(std::vector<FftDecimal>& table, int size){
     float w;
     float invert_Cos;
     for(int n = 0; n < size; ++n){
@@ -82,7 +82,7 @@ void STFT::fillHann(std::vector<FftDecimal>& table, int size){
     }
 }
 
-int STFT::newFFT(int newSize){
+int StandardFFTProcessor::newFFT(int newSize){
     if(fft != nullptr) {
         delete fft;
         fft = nullptr;
@@ -107,7 +107,7 @@ int STFT::newFFT(int newSize){
     return 0;
 }
 
-void STFT::fill_in_passOut(const FftDecimal* audioInput, FftDecimal* processOutput, int blockSize){
+void StandardFFTProcessor::fill_in_passOut(const FftDecimal* audioInput, FftDecimal* processOutput, int blockSize){
 
 	 // this will write the audio input to the internal buffer of the process.
     FftDecimal* pWriteToProcess = (&m_input[0]) + m_offset;
@@ -122,26 +122,26 @@ void STFT::fill_in_passOut(const FftDecimal* audioInput, FftDecimal* processOutp
 }
 
 
-void STFT::doHann(std::vector<FftDecimal>& inOut){
+void StandardFFTProcessor::doHann(std::vector<FftDecimal>& inOut){
   for(int i=0; i<m_fftSize; ++i){
     inOut[i] *= m_hann[i];
   }
 }
 
-void STFT::float2Cpx(const std::vector<FftDecimal>& inFloat, std::vector<Cpx>& outCpx){
+void StandardFFTProcessor::float2Cpx(const std::vector<FftDecimal>& inFloat, std::vector<Cpx>& outCpx){
   for(int i=0; i<m_fftSize; ++i){
 	outCpx[i].real(inFloat[i]);    
 	outCpx[i].imag(0.f);
   }
 }
 
-void STFT::cpx2Float(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat){
+void StandardFFTProcessor::cpx2Float(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat){
   for(int i=0; i<m_fftSize; ++i){
     outFloat[i] = inCpx[i].real();
   }
 }
 
-void STFT::normalise(std::vector<Cpx>& cmpxInOut){
+void StandardFFTProcessor::normalise(std::vector<Cpx>& cmpxInOut){
     
     float scale = m_invSize * 2.0;
 	for(int i=0; i<m_halfSize; ++i){	  		

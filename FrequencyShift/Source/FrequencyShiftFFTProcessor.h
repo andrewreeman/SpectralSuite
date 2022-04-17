@@ -2,7 +2,7 @@
 
 #include "../../shared/StandardFFTProcessor.h"
 
-class FrequencyShiftFFTProcessor : public STFT {
+class FrequencyShiftFFTProcessor : public StandardFFTProcessor {
 public:
     FrequencyShiftFFTProcessor(int size, int hops, int offset, int sRate);    
     

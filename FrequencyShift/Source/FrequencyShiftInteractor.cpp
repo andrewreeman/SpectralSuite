@@ -2,13 +2,13 @@
 #include "FrequencyShiftFFTProcessor.h"
 
 
-void FrequencyShiftInteractor::prepareProcess(STFT* spectralProcessor)
+void FrequencyShiftInteractor::prepareProcess(StandardFFTProcessor* spectralProcessor)
 {
 	auto shifter = (FrequencyShiftFFTProcessor*)spectralProcessor;
 	shifter->setShift(getShift());
 }
 
-std::unique_ptr<STFT> FrequencyShiftInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> FrequencyShiftInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
 	return std::make_unique<FrequencyShiftFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
 }

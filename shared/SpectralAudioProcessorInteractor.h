@@ -16,7 +16,7 @@ public:
 	int getSampleRate() const { return m_sampleRate; }
     int getNumOverlaps() const { return m_numOverlaps; }
 
-	virtual std::unique_ptr<STFT> createSpectralProcess(
+	virtual std::unique_ptr<StandardFFTProcessor> createSpectralProcess(
         int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount
     ) = 0;
  
@@ -24,7 +24,7 @@ public:
     virtual void switchOverlapCount(){};
 	
     virtual void receivedMidi(MidiBuffer& midiBuffer){};
-	virtual void prepareProcess(STFT*) {}	
+	virtual void prepareProcess(StandardFFTProcessor*) {}	
 	virtual void onFftSizeChanged() {};	
 	
     virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
@@ -34,7 +34,7 @@ public:
     void setNumOverlaps(int newOverlapCount);        
 
 protected:	
-	std::vector< std::vector<std::unique_ptr<STFT>> > m_spectralProcess;
+	std::vector< std::vector<std::unique_ptr<StandardFFTProcessor>> > m_spectralProcess;
 
 private:
     int m_numOverlaps;

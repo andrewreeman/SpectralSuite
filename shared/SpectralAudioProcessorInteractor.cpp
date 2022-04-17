@@ -58,7 +58,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
     m_spectralProcess.clear();
         
 	for (int chan = 0; chan < m_numChans; ++chan) {
-        m_spectralProcess.push_back(std::vector<std::unique_ptr<STFT>>());
+        m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
             m_spectralProcess.at(chan).push_back(
