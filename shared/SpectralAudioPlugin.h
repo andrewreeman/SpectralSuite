@@ -2,7 +2,7 @@
 
 #include "JuceHeader.h"
 #include "StandardFFTProcessor.h"
-#include "FftChoiceAdapter.h"
+#include "FftSizeChoiceAdapter.h"
 #include "FftSwitcher.h"
 #include "VersionCheck.h"
 #include "SpectralAudioProcessorInteractor.h"
@@ -110,7 +110,7 @@ private:
 //    std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;
 	std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
 
-	FftChoiceAdapter m_fftChoiceAdapter;
+	FftSizeChoiceAdapter m_fftChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
 	std::unique_ptr<FileLogger> m_logger;

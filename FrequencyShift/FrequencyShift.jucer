@@ -105,10 +105,10 @@
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
-        <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0"
-              file="../shared/FftChoiceAdapter.cpp"/>
-        <FILE id="KsDffr" name="FftChoiceAdapter.h" compile="0" resource="0"
-              file="../shared/FftChoiceAdapter.h"/>
+        <FILE id="oT9BQz" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftSizeChoiceAdapter.cpp"/>
+        <FILE id="KsDffr" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftSizeChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
