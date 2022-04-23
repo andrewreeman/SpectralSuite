@@ -3,18 +3,18 @@
 #include "JuceHeader.h"
 #include "StandardFFTProcessor.h"
 #include "PluginParameters.h"
+#include "PhaseBuffer.h"
 
 class SpectralAudioProcessorInteractor {
 public:
-	SpectralAudioProcessorInteractor(int numOverlaps)
-		: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2) {}
-    
+    SpectralAudioProcessorInteractor(int numOverlaps);
     virtual ~SpectralAudioProcessorInteractor(){}
 
 	int getHopSize() const { return m_fftHopSize; }	
 	int getFftSize();
 	int getSampleRate() const { return m_sampleRate; }
     int getNumOverlaps() const { return m_numOverlaps; }
+    std::shared_ptr<PhaseBuffer> getPhaseBuffer() const { return m_phaseBuffer; }
 
 	virtual std::unique_ptr<StandardFFTProcessor> createSpectralProcess(
         int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount
@@ -31,7 +31,8 @@ public:
 	
 	void prepareToPlay(int fftSize, int sampleRate, int channelCount);			
 	void setFftSize(int fftSize);
-    void setNumOverlaps(int newOverlapCount);        
+    void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); };
+    void setNumOverlaps(int newOverlapCount);
 
 protected:	
 	std::vector< std::vector<std::unique_ptr<StandardFFTProcessor>> > m_spectralProcess;
@@ -42,4 +43,6 @@ private:
 	int m_fftHopSize;
     int m_numChans;
     int m_fftSize;
+    
+    std::shared_ptr<PhaseBuffer> m_phaseBuffer;
 };

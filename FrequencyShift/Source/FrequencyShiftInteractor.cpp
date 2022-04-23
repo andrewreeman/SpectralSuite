@@ -1,5 +1,6 @@
 #include "FrequencyShiftInteractor.h"
 #include "FrequencyShiftFFTProcessor.h"
+#include "../../shared/PhaseBuffer.h"
 
 
 void FrequencyShiftInteractor::prepareProcess(StandardFFTProcessor* spectralProcessor)
@@ -10,7 +11,9 @@ void FrequencyShiftInteractor::prepareProcess(StandardFFTProcessor* spectralProc
 
 std::unique_ptr<StandardFFTProcessor> FrequencyShiftInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
-	return std::make_unique<FrequencyShiftFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+    
+    auto phaseBuffer = this->getPhaseBuffer();
+	return std::make_unique<FrequencyShiftFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, phaseBuffer);
 }
 
 float FrequencyShiftInteractor::getShift()
@@ -24,3 +27,4 @@ float FrequencyShiftInteractor::getShift()
 		}
 	}
 }
+

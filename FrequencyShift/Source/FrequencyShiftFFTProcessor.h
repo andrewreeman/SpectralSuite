@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../../shared/StandardFFTProcessor.h"
+#include "../../shared/PhaseVocoder.h"
+#include "../../shared/PhaseBuffer.h"
 
-class FrequencyShiftFFTProcessor : public StandardFFTProcessor {
+class FrequencyShiftFFTProcessor : public PhaseVocoder {
 public:
-    FrequencyShiftFFTProcessor(int size, int hops, int offset, int sRate);    
+    FrequencyShiftFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
     
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
     virtual bool setFFTSize(int newSize) override;
