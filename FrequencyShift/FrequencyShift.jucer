@@ -103,7 +103,10 @@
         <FILE id="I57ppE" name="utilities.cpp" compile="1" resource="0" file="../shared/utilities.cpp"/>
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
-      <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
+      <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftInteraction">
+        <FILE id="mMONC2" name="FftInteractor.cpp" compile="1" resource="0"
+              file="../shared/FftInteractor.cpp"/>
+        <FILE id="Z7wnRB" name="FftInteractor.h" compile="0" resource="0" file="../shared/FftInteractor.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
         <FILE id="oT9BQz" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
               file="../shared/FftSizeChoiceAdapter.cpp"/>

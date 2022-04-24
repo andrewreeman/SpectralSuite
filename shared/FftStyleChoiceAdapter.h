@@ -19,7 +19,7 @@ enum FftStyle {
 
 class FftStyleChoiceAdapter: AudioParameterChoice::Listener {
 public:
-    FftStyleChoiceAdapter(int initialIndex);
+    FftStyleChoiceAdapter();
 
     int currentIndex() { return (int)m_currentStyle; }
     FftStyle fftStyle();

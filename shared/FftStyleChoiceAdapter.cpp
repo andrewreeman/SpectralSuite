@@ -10,7 +10,7 @@
 
 #include "FftStyleChoiceAdapter.h"
 
-FftStyleChoiceAdapter::FftStyleChoiceAdapter(int initialIndex)
+FftStyleChoiceAdapter::FftStyleChoiceAdapter()
 : m_shouldChangeFftStyle(false),
     m_currentStyle(FftStyle::DEFAULT),
     m_parameter(nullptr)

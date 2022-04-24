@@ -3,6 +3,7 @@
 #include "JuceHeader.h"
 #include "StandardFFTProcessor.h"
 #include "FftSizeChoiceAdapter.h"
+#include "FftStyleChoiceAdapter.h"
 #include "FftSwitcher.h"
 #include "VersionCheck.h"
 #include "SpectralAudioProcessorInteractor.h"
@@ -91,6 +92,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;		
     
     int getOverlapCount(){ return m_audioProcessorInteractor->getNumOverlaps(); }
+    
+    // TODO: this is unused as is all the overlap switch logic
     void switchOverlapCountAsync() { m_shouldUpdateOverlapCount = true; };
     
 	// FftSwitcher methods
@@ -111,6 +114,7 @@ private:
 	std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
 
 	FftSizeChoiceAdapter m_fftChoiceAdapter;
+    FftStyleChoiceAdapter m_fftStyleChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
 	std::unique_ptr<FileLogger> m_logger;

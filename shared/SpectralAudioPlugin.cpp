@@ -24,7 +24,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 
 #endif
 	m_fftChoiceAdapter(INIT_FFT_INDEX),
-	//parameters(*this, nullptr),	
+	//parameters(*this, nullptr),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
