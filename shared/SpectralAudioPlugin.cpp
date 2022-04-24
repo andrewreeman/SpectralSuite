@@ -23,7 +23,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	),
 
 #endif
-	m_fftChoiceAdapter(INIT_FFT_INDEX),
+	m_fftSizeChoiceAdapter(INIT_FFT_INDEX),
 	//parameters(*this, nullptr),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
@@ -58,7 +58,7 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
-	setFftSize(m_fftChoiceAdapter.fftSize());
+	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
     if(m_parameterUiComponent != nullptr) {
         m_parameterUiComponent->onFftSizeChanged();
@@ -159,7 +159,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 		m_input.push_back(std::vector<float>());
 	}
 
-	const int fftSize = m_fftChoiceAdapter.fftSize();	
+	const int fftSize = m_fftSizeChoiceAdapter.fftSize();	
 	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
 	setFftSize(fftSize);		
 }
@@ -202,7 +202,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return; 
 	}
 
-	if (m_fftChoiceAdapter.shouldChangeFft()) {
+	if (m_fftSizeChoiceAdapter.shouldChangeFft()) {
 		m_fftSwitcher.switchFftSize();
 		return;
 	}
@@ -311,17 +311,17 @@ void SpectralAudioPlugin::initialiseParameters() {
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
     
     auto fftSizesToRemove = m_dependencyFactory->fftSizesToNotInclude();
-    m_fftChoiceAdapter.remove(fftSizesToRemove);
+    m_fftSizeChoiceAdapter.remove(fftSizesToRemove);
 
     //m_audioProcessor->createParameters(parameters.get());
     parameters->createAndAddParameter(
         std::make_unique<AudioParameterChoice>(
-            "fft", "FFT Size", m_fftChoiceAdapter.fftStrings(), m_fftChoiceAdapter.currentIndex()
+            "fft", "FFT Size", m_fftSizeChoiceAdapter.fftStrings(), m_fftSizeChoiceAdapter.currentIndex()
         )
     );
     
     auto fftChoices = (AudioParameterChoice*)parameters->getParameter("fft");
-    m_fftChoiceAdapter.listen(fftChoices);
+    m_fftSizeChoiceAdapter.listen(fftChoices);
     
     StringArray strings;
     strings.add(String("Default"));

@@ -113,7 +113,7 @@ private:
 //    std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;
 	std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
 
-	FftSizeChoiceAdapter m_fftChoiceAdapter;
+	FftSizeChoiceAdapter m_fftSizeChoiceAdapter;
     FftStyleChoiceAdapter m_fftStyleChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
