@@ -159,7 +159,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 		m_input.push_back(std::vector<float>());
 	}
 
-	const int fftSize = m_fftSizeChoiceAdapter.fftSize();	
+	const int fftSize = m_fftSizeChoiceAdapter.fftSize();
 	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
 	setFftSize(fftSize);		
 }
@@ -320,19 +320,17 @@ void SpectralAudioPlugin::initialiseParameters() {
         )
     );
     
-    auto fftChoices = (AudioParameterChoice*)parameters->getParameter("fft");
-    m_fftSizeChoiceAdapter.listen(fftChoices);
+    auto fftSizeChoices = (AudioParameterChoice*)parameters->getParameter("fft");
+    m_fftSizeChoiceAdapter.listen(fftSizeChoices);
     
-    StringArray strings;
-    strings.add(String("Default"));
-    strings.add(String("PVOC"));
-
     parameters->createAndAddParameter(
         std::make_unique<AudioParameterChoice>(
-            "fftStyle", "FFT style", strings, 0
+            "fftStyle", "FFT style", m_fftStyleChoiceAdapter.fftStyleStrings(), m_fftStyleChoiceAdapter.currentIndex()
         )
     );
     
+    auto fftStyleChoices = (AudioParameterChoice*)parameters->getParameter("fftStyle");
+    m_fftStyleChoiceAdapter.listen(fftStyleChoices);
 
     auto valueTree = ValueTree(
         Identifier(
