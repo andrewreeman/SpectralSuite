@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../shared/PhaseVocoder.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/PhaseBuffer.h"
 
-class FrequencyShiftFFTProcessor : public PhaseVocoder {
+class FrequencyShiftFFTProcessor : public StandardFFTProcessor {
 public:
     FrequencyShiftFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
     

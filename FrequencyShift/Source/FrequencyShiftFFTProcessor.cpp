@@ -1,7 +1,7 @@
 #include "FrequencyShiftFFTProcessor.h"
 
 FrequencyShiftFFTProcessor::FrequencyShiftFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer)
-    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_shift(0)
+    : StandardFFTProcessor(size, hops, offset, sRate), m_shift(0)
 {
     recalculateInternalParameters();
 }
