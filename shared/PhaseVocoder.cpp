@@ -3,7 +3,7 @@
 
 PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) : StandardFFTProcessor(size, hops, offset, sRate), m_initialOffset(offset)
 {
-    ifft = new kissfft<FftDecimal> (524288, true);
+    ifft = new kissfft<FftDecimal> (size, true);
     phaseBuffer = _phaseBuffer;
 }
 
