@@ -3,7 +3,7 @@
 
 class PhaseBuffer {
 public:
-    PhaseBuffer(int clientCount, int initialSize) : m_clientCount(clientCount), m_resizeRequestCount(0), m_usePvoc(true) {
+    PhaseBuffer(int clientCount, int initialSize) : m_clientCount(clientCount), m_resizeRequestCount(0), m_usePvoc(false) {
         prevPhase.resize(initialSize, 0.f);
     }
     

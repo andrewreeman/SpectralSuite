@@ -202,7 +202,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return; 
 	}
 
-	if (m_fftSizeChoiceAdapter.shouldChangeFft()) {
+	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {
 		m_fftSwitcher.switchFftSize();
 		return;
 	}

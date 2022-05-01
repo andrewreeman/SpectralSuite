@@ -16,7 +16,7 @@ int FftSizeChoiceAdapter::fftSize()
 	return m_ffts[m_currentIndex];
 }
 
-bool FftSizeChoiceAdapter::shouldChangeFft()
+bool FftSizeChoiceAdapter::shouldChangeFftSize()
 {
 	if (m_shouldChangeFft) {
 		m_shouldChangeFft = false;

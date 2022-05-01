@@ -19,7 +19,7 @@ public:
 
 	int currentIndex() { return m_currentIndex; }
 	int fftSize();
-	bool shouldChangeFft();
+	bool shouldChangeFftSize();
 	StringArray fftStrings();	
 	void listen(AudioParameterChoice* parameter);	
 	void remove(Array<int> fftSizes);
