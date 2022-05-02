@@ -1,7 +1,7 @@
 #include "SpectralGateFFTProcessor.h"
 
-SpectralGateFFTProcessor::SpectralGateFFTProcessor(int size, int hops, int offset, int sRate)
-    : STFT(size, hops, offset, sRate), m_cutOff(0.0), m_balance(0.0)
+SpectralGateFFTProcessor::SpectralGateFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer)
+    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_cutOff(0.0), m_balance(0.0)
 {
     recalculateInternalParameters();
 }

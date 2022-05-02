@@ -1,11 +1,12 @@
 #pragma once
 
-#include "../../shared/specprocess.h"
+#include "../../shared/PhaseVocoder.h"
+#include "../../shared/PhaseBuffer.h"
 
-class SpectralGateFFTProcessor: public STFT {
+class SpectralGateFFTProcessor: public PhaseVocoder {
     
 public:
-    SpectralGateFFTProcessor(int size, int hops, int offset, int sRate);
+    SpectralGateFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
     
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
     

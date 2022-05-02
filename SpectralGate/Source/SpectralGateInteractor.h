@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "SpectralGateParameters.h"
 
@@ -12,8 +12,8 @@ public:
 		m_balanceParameter = params->getBalanceValuePointer();		
 	}
 
-	void prepareProcess(STFT* spectralProcessor) override;
-	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
+	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
+	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
 private:
 	float* m_cutOffParameter;	
 	float* m_balanceParameter;
