@@ -26,6 +26,7 @@ public:
 	}
     
     virtual void onFftSizeChanged() {}
+    virtual void onFftStyleChanged() {}
 
 	// Inherited via Listener
 	virtual void onPropertiesChanged() override {}

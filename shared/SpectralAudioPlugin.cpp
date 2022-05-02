@@ -64,6 +64,25 @@ void SpectralAudioPlugin::switchFftSize()
         m_parameterUiComponent->onFftSizeChanged();
     }
 }
+void SpectralAudioPlugin::switchFftStyle()
+{
+    FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
+    switch(style) {
+        case FftStyle::DEFAULT:
+            m_audioProcessorInteractor->usePvoc(false);
+            break;
+        case FftStyle::PVOC:
+            m_audioProcessorInteractor->usePvoc(true);
+            break;
+        default:
+            break;
+    }
+    
+    if(m_parameterUiComponent != nullptr) {
+        m_parameterUiComponent->onFftStyleChanged();
+    }
+}
+
 
 void SpectralAudioPlugin::switchOverlapCount() {
     m_audioProcessorInteractor->switchOverlapCount();
@@ -209,6 +228,11 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
  
     if(m_shouldUpdateOverlapCount) {
         m_fftSwitcher.switchOverlapCount();
+        return;
+    }
+    
+    if(m_fftStyleChoiceAdapter.shouldChangeFftStyle()) {
+        m_fftSwitcher.switchFftStyle();
         return;
     }
     
