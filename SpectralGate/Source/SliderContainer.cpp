@@ -2,8 +2,9 @@
 
 SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) :
 	cutOffSlider(valueTreeState, textColour, textBoxHeight),
-	balanceSlider(valueTreeState, textColour, textBoxHeight)	
+	balanceSlider(valueTreeState, textColour, textBoxHeight)
 {
+    this->pluginParameters = valueTreeState;
 	addAndMakeVisible(cutOffSlider);
 	addAndMakeVisible(balanceSlider);
 }

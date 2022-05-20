@@ -18,11 +18,17 @@ public:
     ~ParameterContainerComponent();
 
 	virtual const int getComponentHeight() { return 80; }
+    virtual std::shared_ptr<PluginParameters> getPluginParameters() = 0;
 	virtual void paint(Graphics&) override = 0;
 	virtual void resized() override = 0;
 
 	virtual Array<PropertyComponent*> getSettingsProperties() {
-		return Array<PropertyComponent*>();
+		auto settings = Array<PropertyComponent*>();
+        auto pluginParameters = getPluginParameters();
+        
+        settings.add(fftStylePropertyComponent(pluginParameters));
+        
+        return settings;
 	}
     
     virtual void onFftSizeChanged() {}

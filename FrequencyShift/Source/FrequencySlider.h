@@ -12,6 +12,10 @@ class FrequencySlider : public ParameterContainerComponent
 public:
     FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~FrequencySlider();
+    
+    std::shared_ptr<PluginParameters> getPluginParameters() override {
+        return valueTreeState;
+    }
 
     void paint (Graphics&) override;
     void resized() override;	
@@ -19,6 +23,7 @@ public:
 	Array<PropertyComponent*> getSettingsProperties() override;	
 	void onPropertiesChanged() override;	
 	void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override;
+    
 
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
