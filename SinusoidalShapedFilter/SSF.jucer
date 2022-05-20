@@ -90,23 +90,29 @@
               file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
+        <FILE id="W6eV6X" name="StandardFFTProcessor.h" compile="0" resource="0"
+              file="../shared/StandardFFTProcessor.h"/>
+        <FILE id="gVhqDU" name="StandardFFTProcessor.cpp" compile="1" resource="0"
+              file="../shared/StandardFFTProcessor.cpp"/>
         <FILE id="PvYG5x" name="wavetable.cpp" compile="1" resource="0" file="../shared/wavetable.cpp"/>
         <FILE id="ZCFI6Q" name="wavetable.h" compile="0" resource="0" file="../shared/wavetable.h"/>
         <FILE id="VxMagh" name="PhaseVocoder.h" compile="0" resource="0" file="../shared/PhaseVocoder.h"/>
         <FILE id="rXj2te" name="PhaseVocoder.cpp" compile="1" resource="0"
               file="../shared/PhaseVocoder.cpp"/>
         <FILE id="bC4PvO" name="kissfft.hh" compile="0" resource="0" file="../shared/kissfft.hh"/>
-        <FILE id="YJNWQj" name="specprocess.cpp" compile="1" resource="0" file="../shared/specprocess.cpp"/>
         <FILE id="I57ppE" name="utilities.cpp" compile="1" resource="0" file="../shared/utilities.cpp"/>
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
-        <FILE id="X0u7qs" name="specprocess.h" compile="0" resource="0" file="../shared/specprocess.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
+        <FILE id="uIXpHW" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftSizeChoiceAdapter.cpp"/>
+        <FILE id="CKMRqB" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftSizeChoiceAdapter.h"/>
+        <FILE id="k7pR72" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftStyleChoiceAdapter.cpp"/>
+        <FILE id="awgPF4" name="FftStyleChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
-        <FILE id="oT9BQz" name="FftChoiceAdapter.cpp" compile="1" resource="0"
-              file="../shared/FftChoiceAdapter.cpp"/>
-        <FILE id="KsDffr" name="FftChoiceAdapter.h" compile="0" resource="0"
-              file="../shared/FftChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"

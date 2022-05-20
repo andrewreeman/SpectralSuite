@@ -10,14 +10,14 @@ SSFInteractor::SSFInteractor(int numOverlaps, std::shared_ptr<SSFParameters> par
     m_width = params->getWidthValuePointer();
 }
 
-void SSFInteractor::prepareProcess(STFT* spectralProcess) {
+void SSFInteractor::prepareProcess(StandardFFTProcessor* spectralProcess) {
 	auto ssf = (SSF_FFTProcessor*)spectralProcess;
 	ssf->setFrequency(*m_freq);
 	ssf->setPhase(*m_phase);
 	ssf->setWidth(*m_width);
 }
 
-std::unique_ptr<STFT> SSFInteractor::createSpectralProcess(
+std::unique_ptr<StandardFFTProcessor> SSFInteractor::createSpectralProcess(
     int index, int fftSize, int hopSize, int sampleRate,
     int numOverlaps, int chan, int numChans
 )
