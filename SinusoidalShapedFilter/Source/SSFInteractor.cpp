@@ -27,7 +27,7 @@ std::unique_ptr<StandardFFTProcessor> SSFInteractor::createSpectralProcess(
     }
 
     int offset = hopSize * (index%numOverlaps);
-	return std::make_unique<SSF_FFTProcessor>(fftSize, hopSize, offset, (int)sampleRate, m_wavetable);
+	return std::make_unique<SSF_FFTProcessor>(fftSize, hopSize, offset, (int)sampleRate, this->getPhaseBuffer(), m_wavetable);
 }
 
 void SSFInteractor::onFftSizeChanged(){

@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../../shared/StandardFFTProcessor.h"
+#include "../../shared/PhaseVocoder.h"
+#include "../../shared/PhaseBuffer.h"
 #include "../../shared/wavetable.h"
 
-class SSF_FFTProcessor : public StandardFFTProcessor {
+class SSF_FFTProcessor : public PhaseVocoder {
 public:
 using SharedTable = std::shared_ptr<Table<float> >;
-    SSF_FFTProcessor(int size, int hops, int offset, int sRate, SharedTable wavetable);
+    SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, SharedTable wavetable);
         
     void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
     bool setFFTSize(int newSize) override;

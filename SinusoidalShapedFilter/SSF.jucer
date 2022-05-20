@@ -90,6 +90,7 @@
               file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
+        <FILE id="L7NebK" name="PhaseBuffer.h" compile="0" resource="0" file="../shared/PhaseBuffer.h"/>
         <FILE id="W6eV6X" name="StandardFFTProcessor.h" compile="0" resource="0"
               file="../shared/StandardFFTProcessor.h"/>
         <FILE id="gVhqDU" name="StandardFFTProcessor.cpp" compile="1" resource="0"
