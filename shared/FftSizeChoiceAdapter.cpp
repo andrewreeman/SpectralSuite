@@ -5,7 +5,7 @@ FftSizeChoiceAdapter::FftSizeChoiceAdapter(int initialIndex)
     m_currentIndex(initialIndex),
 	m_parameter(nullptr)
 {
-	for (int n = 7; n <= 20; n++) {
+	for (int n = 7; n <= 15; n++) {
 		m_ffts.add( (int)pow(2, n) );
 	}	
 }
