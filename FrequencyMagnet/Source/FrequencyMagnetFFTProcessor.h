@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 
-class FrequencyMagnetFFTProcessor : public STFT{
+class FrequencyMagnetFFTProcessor : public StandardFFTProcessor {
 public:
     FrequencyMagnetFFTProcessor(int size, int hops, int offset, int sRate)
-        : STFT(size, hops, offset, sRate), m_freq(0.5), m_width(0.5), m_widthBias(0.5), m_useLegacyHighFrequencyShift(false) {}
+        : StandardFFTProcessor(size, hops, offset, sRate), m_freq(0.5), m_width(0.5), m_widthBias(0.5), m_useLegacyHighFrequencyShift(false) {}
 
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
 
