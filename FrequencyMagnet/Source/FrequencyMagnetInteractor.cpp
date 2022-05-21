@@ -13,7 +13,7 @@ void FrequencyMagnetInteractor::prepareProcess(StandardFFTProcessor* spectralPro
 
 std::unique_ptr<StandardFFTProcessor> FrequencyMagnetInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
-	return std::make_unique<FrequencyMagnetFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<FrequencyMagnetFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
 void FrequencyMagnetInteractor::receivedMidi(MidiBuffer& midi) {
