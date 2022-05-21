@@ -10,11 +10,10 @@ public:
     UiContainer(std::shared_ptr<BaseParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~UiContainer();
 
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return pluginParameters; }
     const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 3; }
     void paint (Graphics&) override;
     void resized() override;    
-    
-    
     
 private:
     Slider mixSlider;
