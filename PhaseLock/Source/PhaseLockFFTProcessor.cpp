@@ -8,7 +8,7 @@ float phaseLockGenerateRandomNumber() {
 }
 
 PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int sRate) :
-		STFT(size, hops, offset, sRate),
+		StandardFFTProcessor(size, hops, offset, sRate),
 		m_lockedPhases(0),
         m_lockedMag(0),
         m_phaseMix(1.0),
@@ -146,7 +146,7 @@ bool PhaseLockFFTProcessor::setFFTSize(int newSize) {
     m_transitionPhaseState.setSampleRateAndBlockSize(getSampleRate(), newSize);
     m_transitionMagState.setSampleRateAndBlockSize(getSampleRate(), newSize);
     
-    return STFT::setFFTSize(newSize);
+    return StandardFFTProcessor::setFFTSize(newSize);
 }
 
 void PhaseLockFFTProcessor::lockPhase() {

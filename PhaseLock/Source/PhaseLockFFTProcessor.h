@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "LockState.h"
 #include "TransitionState.h"
 
-class PhaseLockFFTProcessor : public STFT {
+class PhaseLockFFTProcessor : public StandardFFTProcessor {
 public:
 	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate);
     

@@ -11,6 +11,7 @@ public:
 	SliderContainer(std::shared_ptr<PhaseLockParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~SliderContainer();
 
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return m_pluginParameters; }
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 5; }
     void paint (Graphics&) override;
     void resized() override;
