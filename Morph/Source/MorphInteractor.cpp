@@ -12,7 +12,7 @@ void MorphInteractor::prepareProcess(StandardFFTProcessor* spectralProcessor)
 
 std::unique_ptr<StandardFFTProcessor> MorphInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
-	return std::make_unique<MorphFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, &pReadArray);
+	return std::make_unique<MorphFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer(), &pReadArray);
 }
 
 void MorphInteractor::controlPointsChanged(Array<float> controlPoints) {
