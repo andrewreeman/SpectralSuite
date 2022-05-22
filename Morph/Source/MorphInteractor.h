@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "MorphPluginParameters.h"
 
@@ -15,9 +15,9 @@ public:
         pWriteArray = &pointsArray2;
 	}
 		
-	void prepareProcess(STFT* spectralProcessor) override;
+	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
     
-	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
+	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
 		
     void controlPointsChanged(Array<float> controlPoints) override;    
 

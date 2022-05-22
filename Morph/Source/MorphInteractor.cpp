@@ -2,7 +2,7 @@
 #include "MorphFFTProcessor.h"
 #include "../../shared//utilities.h"
 
-void MorphInteractor::prepareProcess(STFT* spectralProcessor)
+void MorphInteractor::prepareProcess(StandardFFTProcessor* spectralProcessor)
 {
     if(m_morphPointsChanged) {
         m_morphPointsChanged = false;
@@ -10,7 +10,7 @@ void MorphInteractor::prepareProcess(STFT* spectralProcessor)
     }
 }
 
-std::unique_ptr<STFT> MorphInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> MorphInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
 	return std::make_unique<MorphFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, &pReadArray);
 }

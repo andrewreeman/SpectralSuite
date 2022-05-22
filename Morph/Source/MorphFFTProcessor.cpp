@@ -2,7 +2,7 @@
 #include "../../shared/Polar.h"
 
 MorphFFTProcessor::MorphFFTProcessor(int size, int hops, int offset, int sRate, Array<int>** pMorphPointsPointer)
-    : STFT(size, hops, offset, sRate), m_pMorphPointsPointer(pMorphPointsPointer)
+    : StandardFFTProcessor(size, hops, offset, sRate), m_pMorphPointsPointer(pMorphPointsPointer)
 {}
 
 void MorphFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out, int halfSize) {
