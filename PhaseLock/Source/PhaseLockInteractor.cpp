@@ -6,7 +6,7 @@
 std::unique_ptr<StandardFFTProcessor> PhaseLockInteractor::createSpectralProcess(int index, int fftSize, int hopSize,
     int sampleRate, int numOverlaps, int chans, int numChans)
 {    
-	return std::make_unique<PhaseLockFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<PhaseLockFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
 void PhaseLockInteractor::prepareProcess(StandardFFTProcessor * spectralProcessor)
