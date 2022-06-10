@@ -40,7 +40,12 @@ Array<PropertyComponent*> SliderContainer::getSettingsProperties()
 	Range<int> range = seedIntParameter->getRange();
 	
 	SliderPropertyComponent* shiftMaxRangeValue = new SliderPropertyComponent(this->pluginParameters->getSeedParameterAsValue(), "Random seed (0 for random)", (double)range.getStart(), (double)range.getEnd(), 1.0);
+    
+    
 	propertyComponents.add(shiftMaxRangeValue);
+    
+    PropertyComponent* fftStyle = this->fftStylePropertyComponent(this->pluginParameters);
+    propertyComponents.add(fftStyle);
 
 	return propertyComponents;
 }

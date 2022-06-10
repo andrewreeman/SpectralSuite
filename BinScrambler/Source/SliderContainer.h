@@ -18,6 +18,7 @@ public:
     void resized() override;
 
 	Array<PropertyComponent*> getSettingsProperties() override;
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return pluginParameters; }
 
 private:	
 	ScatterSlider scatterSlider;
