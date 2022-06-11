@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:SpectralGate/Builds/MacOSX/Spectral Gate.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SinusoidalShapedFilter/Builds/MacOSX/Sinusoidal Shaped Filter.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FrequencyMagnet/Builds/MacOSX/Frequency Magnet.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BinScrambler/Builds/MacOSX/Bin Scrambler.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Morph/Builds/MacOSX/Morph.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FrequencyShift/Builds/MacOSX/Frequency Shifter.xcodeproj">
+   </FileRef>
+</Workspace>

@@ -16,6 +16,7 @@ public:
 	SliderContainer(std::shared_ptr<FrequencyMagnetParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~SliderContainer();
 
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return params; }
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 3; }
     void paint (Graphics&) override;
     void resized() override;

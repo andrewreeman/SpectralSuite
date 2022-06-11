@@ -1,9 +1,9 @@
 #include "PhaseVocoder.h"
 #include "utilities.h"
 
-PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) : STFT(size, hops, offset, sRate), m_initialOffset(offset)
+PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) : StandardFFTProcessor(size, hops, offset, sRate), m_initialOffset(offset)
 {
-    ifft = new kissfft<FftDecimal> (524288, true);
+    ifft = new kissfft<FftDecimal> (size, true);
     phaseBuffer = _phaseBuffer;
 }
 
@@ -68,8 +68,8 @@ void PhaseVocoder::hertzDiff2Phase(PolarVector& inOut){
 
 
 void PhaseVocoder::process(const FftDecimal* input, FftDecimal* output, int blockSize) {
-if(!phaseBuffer->isAvailable()) {
-        STFT::process(input, output, blockSize);
+    if(!phaseBuffer->isAvailable()) {
+        StandardFFTProcessor::process(input, output, blockSize);
         return;
     }
    
@@ -110,7 +110,7 @@ void PhaseVocoder::doFFTWork() {
 }
 
 bool PhaseVocoder::setFFTSize(int newSize){
-    bool status = STFT::setFFTSize(newSize);
+    bool status = StandardFFTProcessor::setFFTSize(newSize);
     phaseBuffer->requestResize(newSize/2);
     return status;
 }

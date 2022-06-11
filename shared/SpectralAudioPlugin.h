@@ -1,8 +1,9 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "specprocess.h"
-#include "FftChoiceAdapter.h"
+#include "StandardFFTProcessor.h"
+#include "FftSizeChoiceAdapter.h"
+#include "FftStyleChoiceAdapter.h"
 #include "FftSwitcher.h"
 #include "VersionCheck.h"
 #include "SpectralAudioProcessorInteractor.h"
@@ -91,10 +92,13 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;		
     
     int getOverlapCount(){ return m_audioProcessorInteractor->getNumOverlaps(); }
+    
+    // TODO: this is unused as is all the overlap switch logic
     void switchOverlapCountAsync() { m_shouldUpdateOverlapCount = true; };
     
 	// FftSwitcher methods
     void switchFftSize() override;
+    void switchFftStyle() override;
     void switchOverlapCount() override;    
 
 	void checkForUpdates(VersionCheckThread::Listener* onUpdateAvailableListener);
@@ -103,14 +107,15 @@ private:
     //==============================================================================
 	void emptyOutputs();
 	void setFftSize(int fftSize);
-    void initialiseDependencies();
+    void initialiseParameters();
 			
 	std::shared_ptr<PluginParameters> parameters;
 	ParameterContainerComponent* m_parameterUiComponent;
 //    std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;
 	std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
 
-	FftChoiceAdapter m_fftChoiceAdapter;
+	FftSizeChoiceAdapter m_fftSizeChoiceAdapter;
+    FftStyleChoiceAdapter m_fftStyleChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
 	std::unique_ptr<FileLogger> m_logger;

@@ -3,7 +3,7 @@
 
 class PhaseBuffer {
 public:
-    PhaseBuffer(int clientCount, int initialSize) : m_clientCount(clientCount), m_resizeRequestCount(0), m_usePvoc(true) {
+    PhaseBuffer(int clientCount, int initialSize) : m_clientCount(clientCount), m_resizeRequestCount(0), m_usePvoc(false) {
         prevPhase.resize(initialSize, 0.f);
     }
     
@@ -20,7 +20,10 @@ public:
         }
     }
     
-    void setUsePvoc(bool shouldUsePvoc) { m_usePvoc = shouldUsePvoc; }
+    void setUsePvoc(bool shouldUsePvoc) {
+        m_usePvoc = shouldUsePvoc;
+        m_resizeRequestCount = 0;
+    }
     
     // The overlapping instances of STFT will all write their previous phase values to this static array.
     std::vector<float> prevPhase;

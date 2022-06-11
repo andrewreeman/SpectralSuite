@@ -71,6 +71,9 @@ Array<PropertyComponent*> FrequencySlider::getSettingsProperties()
 	Array<PropertyComponent*> settingsPropertyComponents;
 	settingsPropertyComponents.add(shiftMinRangeValue);
 	settingsPropertyComponents.add(shiftMaxRangeValue);
+    
+    PropertyComponent* fftStyle = this->fftStylePropertyComponent(this->valueTreeState);
+    settingsPropertyComponents.add(fftStyle);
 
 	return settingsPropertyComponents;
 }

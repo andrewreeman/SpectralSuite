@@ -46,21 +46,21 @@ void BinScramblerInteractor::process(std::vector<std::vector<float>>* input, std
 	SpectralAudioProcessorInteractor::process(input, output);	
 }
 
-void BinScramblerInteractor::prepareProcess(STFT* spectralProcess)
+void BinScramblerInteractor::prepareProcess(StandardFFTProcessor* spectralProcess)
 {
 	auto scrambler = (BinScramblerFFTProcessor*)spectralProcess;
 	scrambler->setPhase(m_phasor);
 	scrambler->setMaxPhase(m_phasorMax);
 }
 
-std::unique_ptr<STFT> BinScramblerInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> BinScramblerInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
 	m_A_Ind.resize(fftSize / 2);
 	m_B_Ind.resize(fftSize / 2);
 	resetIndicies();
     recalculateInternalParameters();
     
-	return std::make_unique<BinScramblerFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, &m_A_Ind, &m_B_Ind);
+	return std::make_unique<BinScramblerFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer(), &m_A_Ind, &m_B_Ind);
 }
 
 void BinScramblerInteractor::onFftSizeChanged()

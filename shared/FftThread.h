@@ -2,6 +2,7 @@
 
 #include "JuceHeader.h"
 
+//TODO this class can be removed as it is unused
 class FftThread : public Thread {
 public:
     class FftWorker {

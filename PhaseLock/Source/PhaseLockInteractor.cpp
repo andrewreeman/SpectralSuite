@@ -3,13 +3,13 @@
 #include "../../shared/utilities.h"
 #include "PhaseLockFFTProcessor.h"
 
-std::unique_ptr<STFT> PhaseLockInteractor::createSpectralProcess(int index, int fftSize, int hopSize,
+std::unique_ptr<StandardFFTProcessor> PhaseLockInteractor::createSpectralProcess(int index, int fftSize, int hopSize,
     int sampleRate, int numOverlaps, int chans, int numChans)
 {    
-	return std::make_unique<PhaseLockFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<PhaseLockFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
-void PhaseLockInteractor::prepareProcess(STFT * spectralProcessor)
+void PhaseLockInteractor::prepareProcess(StandardFFTProcessor * spectralProcessor)
 {
     auto processor = ((PhaseLockFFTProcessor*)spectralProcessor);
 	if (m_params->isPhaseLocked()) {

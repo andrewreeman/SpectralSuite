@@ -1,6 +1,6 @@
 #pragma once
 
-#include "specprocess.h"
+#include "StandardFFTProcessor.h"
 
 
 //-----------------A phase vocoder derivative of STFT-----------------------------------------//
@@ -8,7 +8,7 @@
 In this class we perform the phase vocoder during the STFT process. This allows for a much finer frequency resolution
 and manipulation
 */
-class PhaseVocoder : public STFT {
+class PhaseVocoder : public StandardFFTProcessor {
 protected:
     int m_initialOffset;
     /* Rotate the input in preparation for finding the difference in phase between the ideal center frequency

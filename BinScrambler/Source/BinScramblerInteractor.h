@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
+#include "../../shared/PhaseBuffer.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "BinScramblerParameters.h"
 
@@ -10,8 +11,8 @@ public:
     BinScramblerInteractor(int numOverlaps, std::shared_ptr<BinScramblerParameters> params);
 
 	virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output) override;
-	void prepareProcess(STFT* spectralProcessor) override;
-	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chans, int numChans) override;		
+	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
+	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chans, int numChans) override;
 	void onFftSizeChanged() override;	
 
 private:

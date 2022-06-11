@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "FrequencyShiftPluginParameters.h"
 
@@ -11,8 +11,8 @@ public:
 		m_shift = params->getShiftValuePointer();// valueTreeState->getRawParameterValue("shift");
 	}
 		
-	void prepareProcess(STFT* spectralProcessor) override;
-	std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
+	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
+	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
 	
 	float getShift();
 

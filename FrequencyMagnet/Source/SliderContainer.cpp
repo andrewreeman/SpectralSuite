@@ -45,6 +45,8 @@ Array<PropertyComponent*> SliderContainer::getSettingsProperties()
 	BooleanPropertyComponent* useLegacyHighFrequencyShiftMode = new BooleanPropertyComponent(params->getUseLegacyLogicValue(), "Use bad shift", "");
 
 	Array<PropertyComponent*> settingsPropertyComponents;
-	settingsPropertyComponents.add(useLegacyHighFrequencyShiftMode);	
+	settingsPropertyComponents.add(useLegacyHighFrequencyShiftMode);
+    settingsPropertyComponents.addArray(ParameterContainerComponent::getSettingsProperties());
+    
 	return settingsPropertyComponents;
 }

@@ -2,7 +2,7 @@
 
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "../../shared/specprocess.h"
+#include "../../shared/StandardFFTProcessor.h"
 #include "../../shared/SpectralAudioProcessorInteractor.h"
 #include "../../shared/PhaseBuffer.h"
 #include "PlaygroundParameters.h"
@@ -18,8 +18,8 @@ public:
         }
     }
     
-    void prepareProcess(STFT* spectralProcessor) override;
-    std::unique_ptr<STFT> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount) override;
+    void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
+    std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount) override;
     void switchOverlapCount() override;
             
 

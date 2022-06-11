@@ -23,8 +23,8 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	),
 
 #endif
-	m_fftChoiceAdapter(INIT_FFT_INDEX),
-	//parameters(*this, nullptr),	
+	m_fftSizeChoiceAdapter(INIT_FFT_INDEX),
+	//parameters(*this, nullptr),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
@@ -47,7 +47,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 		)
 	);
 	Logger::setCurrentLogger(m_logger.get());
-    this->initialiseDependencies();
+    this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
@@ -58,12 +58,31 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
-	setFftSize(m_fftChoiceAdapter.fftSize());
+	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
     if(m_parameterUiComponent != nullptr) {
         m_parameterUiComponent->onFftSizeChanged();
     }
 }
+void SpectralAudioPlugin::switchFftStyle()
+{
+    FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
+    switch(style) {
+        case FftStyle::DEFAULT:
+            m_audioProcessorInteractor->usePvoc(false);
+            break;
+        case FftStyle::PVOC:
+            m_audioProcessorInteractor->usePvoc(true);
+            break;
+        default:
+            break;
+    }
+    
+    if(m_parameterUiComponent != nullptr) {
+        m_parameterUiComponent->onFftStyleChanged();
+    }
+}
+
 
 void SpectralAudioPlugin::switchOverlapCount() {
     m_audioProcessorInteractor->switchOverlapCount();
@@ -159,7 +178,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 		m_input.push_back(std::vector<float>());
 	}
 
-	const int fftSize = m_fftChoiceAdapter.fftSize();	
+	const int fftSize = m_fftSizeChoiceAdapter.fftSize();
 	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
 	setFftSize(fftSize);		
 }
@@ -202,13 +221,18 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return; 
 	}
 
-	if (m_fftChoiceAdapter.shouldChangeFft()) {
+	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {
 		m_fftSwitcher.switchFftSize();
 		return;
 	}
  
     if(m_shouldUpdateOverlapCount) {
         m_fftSwitcher.switchOverlapCount();
+        return;
+    }
+    
+    if(m_fftStyleChoiceAdapter.shouldChangeFftStyle()) {
+        m_fftSwitcher.switchFftStyle();
         return;
     }
     
@@ -305,24 +329,33 @@ void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener
 	m_versionCheckThread.startThread();
 }
 
-void SpectralAudioPlugin::initialiseDependencies() {
+void SpectralAudioPlugin::initialiseParameters() {
     
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
     
     auto fftSizesToRemove = m_dependencyFactory->fftSizesToNotInclude();
-    m_fftChoiceAdapter.remove(fftSizesToRemove);
+    m_fftSizeChoiceAdapter.remove(fftSizesToRemove);
 
     //m_audioProcessor->createParameters(parameters.get());
     parameters->createAndAddParameter(
         std::make_unique<AudioParameterChoice>(
-            "fft", "FFT Size", m_fftChoiceAdapter.fftStrings(), m_fftChoiceAdapter.currentIndex()
+            "fft", "FFT Size", m_fftSizeChoiceAdapter.fftStrings(), m_fftSizeChoiceAdapter.currentIndex()
         )
     );
     
-    auto fftChoices = (AudioParameterChoice*)parameters->getParameter("fft");
-    m_fftChoiceAdapter.listen(fftChoices);
+    auto fftSizeChoices = (AudioParameterChoice*)parameters->getParameter("fft");
+    m_fftSizeChoiceAdapter.listen(fftSizeChoices);
     
+    parameters->createAndAddParameter(
+        std::make_unique<AudioParameterChoice>(
+            "fftStyle", "FFT style", m_fftStyleChoiceAdapter.fftStyleStrings(), m_fftStyleChoiceAdapter.currentIndex()
+        )
+    );
+    
+    auto fftStyleChoices = (AudioParameterChoice*)parameters->getParameter("fftStyle");
+    m_fftStyleChoiceAdapter.listen(fftStyleChoices);
+
     auto valueTree = ValueTree(
         Identifier(
             this->getName().removeCharacters(" ")

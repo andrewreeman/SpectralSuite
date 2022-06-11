@@ -1,7 +1,7 @@
 #include "SSF_FFTProcessor.h"
 
-SSF_FFTProcessor::SSF_FFTProcessor(int size, int hops, int offset, int sRate, SharedTable wavetable)
-    : STFT(size, hops, offset, sRate), m_waveTable(wavetable), m_freq(0.0),
+SSF_FFTProcessor::SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, SharedTable wavetable)
+    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_waveTable(wavetable), m_freq(0.0),
     m_width(0.0), m_phase(0.0)
 {
     recalculateInternalParameters();
@@ -20,7 +20,7 @@ void SSF_FFTProcessor::spectral_process(const PolarVector &in, PolarVector &out,
 }
 
 bool SSF_FFTProcessor::setFFTSize(int newSize) {
-    bool result = STFT::setFFTSize(newSize);
+    bool result = StandardFFTProcessor::setFFTSize(newSize);
     recalculateInternalParameters();
     return result;
 }

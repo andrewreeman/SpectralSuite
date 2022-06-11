@@ -16,6 +16,7 @@ public:
     void paint (Graphics&) override;
     void resized() override;	
 					
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return valueTreeState; }
     const int getComponentHeight() override { return 120; }
     void onFftSizeChanged() override {
         controlPointComponent.notifyChanged();

@@ -1,5 +1,11 @@
 #include "SpectralAudioProcessorInteractor.h"
 
+SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
+: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2)
+{
+    m_phaseBuffer = std::make_shared<PhaseBuffer>(m_numChans * m_numOverlaps, 1024);
+}
+  
 int SpectralAudioProcessorInteractor::getFftSize()
 {
     return m_fftSize;
@@ -35,6 +41,7 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 {
 	m_fftHopSize = fftSize / m_numOverlaps;
     m_fftSize = fftSize;
+    m_phaseBuffer->requestResize(fftSize);
     
 	for (auto& spectralProcessChannel : m_spectralProcess) {
 		for(int i=0; i<spectralProcessChannel.size(); ++i) {			
@@ -58,7 +65,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
     m_spectralProcess.clear();
         
 	for (int chan = 0; chan < m_numChans; ++chan) {
-        m_spectralProcess.push_back(std::vector<std::unique_ptr<STFT>>());
+        m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
             m_spectralProcess.at(chan).push_back(
@@ -67,3 +74,5 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
         }
 	}
 }
+
+

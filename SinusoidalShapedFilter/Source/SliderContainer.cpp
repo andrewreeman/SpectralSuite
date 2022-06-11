@@ -5,6 +5,7 @@ SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeStat
 	phaseSlider(valueTreeState, textColour, textBoxHeight),
 	widthSlider(valueTreeState, textColour, textBoxHeight)
 {
+    this->valueTreeState = valueTreeState;
 	addAndMakeVisible(freqSlider);
 	addAndMakeVisible(phaseSlider);
 	addAndMakeVisible(widthSlider);

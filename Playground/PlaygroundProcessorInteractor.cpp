@@ -4,7 +4,7 @@
 #include "../../shared/utilities.h"
 #include "PlaygroundFFTProcessor.h"
 
-std::unique_ptr<STFT> PlaygroundProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount)
+std::unique_ptr<StandardFFTProcessor> PlaygroundProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount)
 {
     if(m_phaseBuffers.size() == 0) {
         for(int c = 0; c<channelCount; ++c) {
@@ -20,7 +20,7 @@ std::unique_ptr<STFT> PlaygroundProcessor::createSpectralProcess(int index, int 
     return std::make_unique<PlaygroundFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, phaseBuffer, m_fftThread);
 }
 
-void PlaygroundProcessor::prepareProcess(STFT * spectralProcessor)
+void PlaygroundProcessor::prepareProcess(StandardFFTProcessor * spectralProcessor)
 {
     auto processor = ((PlaygroundFFTProcessor*)spectralProcessor);
     auto usePvoc = m_params->getUsePvoc().getValue();

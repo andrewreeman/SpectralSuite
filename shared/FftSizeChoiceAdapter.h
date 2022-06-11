@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    FftChoiceAdapter.h
+    FftSizeChoiceAdapter.h
     Created: 29 Nov 2018 7:52:08pm
     Author:  rem_d
 
@@ -12,13 +12,14 @@
 
 #include "JuceHeader.h"
 
-class FftChoiceAdapter: AudioParameterChoice::Listener {
+//TODO: rename to FftSizeChoiceAdapter
+class FftSizeChoiceAdapter: AudioParameterChoice::Listener {
 public:
-	FftChoiceAdapter(int initialIndex);
+	FftSizeChoiceAdapter(int initialIndex);
 
 	int currentIndex() { return m_currentIndex; }
 	int fftSize();
-	bool shouldChangeFft();
+	bool shouldChangeFftSize();
 	StringArray fftStrings();	
 	void listen(AudioParameterChoice* parameter);	
 	void remove(Array<int> fftSizes);

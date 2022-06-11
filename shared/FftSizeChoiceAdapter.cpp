@@ -1,22 +1,22 @@
-#include "FftChoiceAdapter.h"
+#include "FftSizeChoiceAdapter.h"
 
-FftChoiceAdapter::FftChoiceAdapter(int initialIndex)
+FftSizeChoiceAdapter::FftSizeChoiceAdapter(int initialIndex)
 	: m_shouldChangeFft(false),
     m_currentIndex(initialIndex),
 	m_parameter(nullptr)
 {
-	for (int n = 7; n <= 20; n++) {
+	for (int n = 7; n <= 15; n++) {
 		m_ffts.add( (int)pow(2, n) );
 	}	
 }
 
-int FftChoiceAdapter::fftSize()
+int FftSizeChoiceAdapter::fftSize()
 {
 	jassert(m_currentIndex < m_ffts.size());
 	return m_ffts[m_currentIndex];
 }
 
-bool FftChoiceAdapter::shouldChangeFft()
+bool FftSizeChoiceAdapter::shouldChangeFftSize()
 {
 	if (m_shouldChangeFft) {
 		m_shouldChangeFft = false;
@@ -27,7 +27,7 @@ bool FftChoiceAdapter::shouldChangeFft()
 	}
 }
 
-StringArray FftChoiceAdapter::fftStrings()
+StringArray FftSizeChoiceAdapter::fftStrings()
 {
 	StringArray strings;
 
@@ -38,13 +38,13 @@ StringArray FftChoiceAdapter::fftStrings()
 	return strings;
 }
 
-void FftChoiceAdapter::listen(AudioParameterChoice * choiceParameter)
+void FftSizeChoiceAdapter::listen(AudioParameterChoice * choiceParameter)
 {
 	choiceParameter->addListener(this);	
 	m_parameter = choiceParameter;
 }
 
-void FftChoiceAdapter::remove(Array<int> fftSizes) {	
+void FftSizeChoiceAdapter::remove(Array<int> fftSizes) {
 	if (fftSizes.isEmpty()) { return; }
 
 	auto currentFftSize = fftSize();
@@ -62,7 +62,7 @@ void FftChoiceAdapter::remove(Array<int> fftSizes) {
 	
 }
 
-void FftChoiceAdapter::parameterValueChanged(int, float)
+void FftSizeChoiceAdapter::parameterValueChanged(int, float)
 {		
 	auto choiceIndex = m_parameter->getIndex();	
 	if (choiceIndex == m_currentIndex) { return; }

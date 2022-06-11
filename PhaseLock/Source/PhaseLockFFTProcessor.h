@@ -1,12 +1,15 @@
 #pragma once
 
-#include "../../shared/specprocess.h"
+#include "../../shared/PhaseVocoder.h"
 #include "LockState.h"
 #include "TransitionState.h"
 
-class PhaseLockFFTProcessor : public STFT {
+class PhaseLockFFTProcessor : public PhaseVocoder {
+private:
+    typedef PhaseVocoder super;
+
 public:
-	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate);
+	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
     
     void extracted(int bins, const PolarVector &in, PolarVector &out);
     
@@ -50,7 +53,8 @@ public:
 private:
     void doLock(int bins, const PolarVector &in, PolarVector &out);
     void doMorphTransition(PolarVector &out);
-
+    
+private:
 	std::vector<FftDecimal> m_lockedPhases;
     std::vector<FftDecimal> m_lockedMag;
     
@@ -69,8 +73,6 @@ private:
     float m_transitionPhaseCounter;
     float m_transitionPhaseEnd;
            
-    
-
     LockState m_lockPhaseState;
     LockState m_lockMagState;
     

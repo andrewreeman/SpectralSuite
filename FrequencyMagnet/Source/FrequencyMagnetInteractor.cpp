@@ -1,7 +1,7 @@
 #include "FrequencyMagnetInteractor.h"
 #include "FrequencyMagnetFFTProcessor.h"
 
-void FrequencyMagnetInteractor::prepareProcess(STFT* spectralProcess)
+void FrequencyMagnetInteractor::prepareProcess(StandardFFTProcessor* spectralProcess)
 {
 	auto mag = (FrequencyMagnetFFTProcessor*)spectralProcess;
 	mag->setFrequency(*m_freq);
@@ -11,9 +11,9 @@ void FrequencyMagnetInteractor::prepareProcess(STFT* spectralProcess)
 	mag->setUseLegacyHighFrequencyShift(value);
 }
 
-std::unique_ptr<STFT> FrequencyMagnetInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> FrequencyMagnetInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
 {
-	return std::make_unique<FrequencyMagnetFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate);
+	return std::make_unique<FrequencyMagnetFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
 void FrequencyMagnetInteractor::receivedMidi(MidiBuffer& midi) {
