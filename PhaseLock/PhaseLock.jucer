@@ -1,57 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<JUCERPROJECT id="WPt5si" name="Phase Lock" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.1.3" defines="VersionCode=9" pluginDesc="Locks the phase and/or locks the frequency"
-              pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021"
-              companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
-              pluginManufacturerCode="STPW" pluginCode="SPPL" jucerFormatVersion="1"
-              displaySplashScreen="1">
+<JUCERPROJECT id="WPt5si" name="Phase Lock" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.4" defines="VersionCode=9" pluginDesc="Locks the phase and/or locks the frequency" pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPPL" jucerFormatVersion="1" displaySplashScreen="1">
   <MAINGROUP id="NNl5AK" name="Phase Lock">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
-      <FILE id="GftT5o" name="TransitionState.cpp" compile="1" resource="0"
-            file="Source/TransitionState.cpp"/>
-      <FILE id="S4fzrk" name="TransitionState.h" compile="0" resource="0"
-            file="Source/TransitionState.h"/>
+      <FILE id="GftT5o" name="TransitionState.cpp" compile="1" resource="0" file="Source/TransitionState.cpp"/>
+      <FILE id="S4fzrk" name="TransitionState.h" compile="0" resource="0" file="Source/TransitionState.h"/>
       <FILE id="SCCrPZ" name="LockState.cpp" compile="1" resource="0" file="Source/LockState.cpp"/>
       <FILE id="uiQy3l" name="LockState.h" compile="0" resource="0" file="Source/LockState.h"/>
-      <FILE id="MEshHL" name="PhaseLockFFTProcessor.cpp" compile="1" resource="0"
-            file="Source/PhaseLockFFTProcessor.cpp"/>
-      <FILE id="RbTHOY" name="PhaseLockFFTProcessor.h" compile="0" resource="0"
-            file="Source/PhaseLockFFTProcessor.h"/>
-      <FILE id="A18fXT" name="PhaseLockInteractor.cpp" compile="1" resource="0"
-            file="Source/PhaseLockInteractor.cpp"/>
-      <FILE id="kk9wFC" name="PhaseLockInteractor.h" compile="0" resource="0"
-            file="Source/PhaseLockInteractor.h"/>
-      <FILE id="msUuS9" name="PhaseLockParameters.cpp" compile="1" resource="0"
-            file="Source/PhaseLockParameters.cpp"/>
-      <FILE id="vZxyUr" name="PhaseLockParameters.h" compile="0" resource="0"
-            file="Source/PhaseLockParameters.h"/>
-      <FILE id="RKurz6" name="SliderContainer.cpp" compile="1" resource="0"
-            file="Source/SliderContainer.cpp"/>
-      <FILE id="CrcvvE" name="SliderContainer.h" compile="0" resource="0"
-            file="Source/SliderContainer.h"/>
-      <FILE id="g7Czry" name="PhaseLockAudioPlugin.cpp" compile="1" resource="0"
-            file="Source/PhaseLockAudioPlugin.cpp"/>
-      <FILE id="ta4EJb" name="PhaseLockAudioPlugin.h" compile="0" resource="0"
-            file="Source/PhaseLockAudioPlugin.h"/>
+      <FILE id="MEshHL" name="PhaseLockFFTProcessor.cpp" compile="1" resource="0" file="Source/PhaseLockFFTProcessor.cpp"/>
+      <FILE id="RbTHOY" name="PhaseLockFFTProcessor.h" compile="0" resource="0" file="Source/PhaseLockFFTProcessor.h"/>
+      <FILE id="A18fXT" name="PhaseLockInteractor.cpp" compile="1" resource="0" file="Source/PhaseLockInteractor.cpp"/>
+      <FILE id="kk9wFC" name="PhaseLockInteractor.h" compile="0" resource="0" file="Source/PhaseLockInteractor.h"/>
+      <FILE id="msUuS9" name="PhaseLockParameters.cpp" compile="1" resource="0" file="Source/PhaseLockParameters.cpp"/>
+      <FILE id="vZxyUr" name="PhaseLockParameters.h" compile="0" resource="0" file="Source/PhaseLockParameters.h"/>
+      <FILE id="RKurz6" name="SliderContainer.cpp" compile="1" resource="0" file="Source/SliderContainer.cpp"/>
+      <FILE id="CrcvvE" name="SliderContainer.h" compile="0" resource="0" file="Source/SliderContainer.h"/>
+      <FILE id="g7Czry" name="PhaseLockAudioPlugin.cpp" compile="1" resource="0" file="Source/PhaseLockAudioPlugin.cpp"/>
+      <FILE id="ta4EJb" name="PhaseLockAudioPlugin.h" compile="0" resource="0" file="Source/PhaseLockAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
       <GROUP id="{03E87BE4-B582-75DC-87DD-B917EB0FAA42}" name="components">
-        <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0"
-              file="../shared/components/ControlPointComponent.cpp"/>
-        <FILE id="XV1FGk" name="ControlPointComponent.h" compile="0" resource="0"
-              file="../shared/components/ControlPointComponent.h"/>
-        <FILE id="fCgLNr" name="LicensesComponent.cpp" compile="1" resource="0"
-              file="../shared/components/LicensesComponent.cpp"/>
-        <FILE id="FiVVP0" name="LicensesComponent.h" compile="0" resource="0"
-              file="../shared/components/LicensesComponent.h"/>
+        <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0" file="../shared/components/ControlPointComponent.cpp"/>
+        <FILE id="XV1FGk" name="ControlPointComponent.h" compile="0" resource="0" file="../shared/components/ControlPointComponent.h"/>
+        <FILE id="lmoa90" name="LicensesComponent.cpp" compile="1" resource="0" file="../shared/components/LicensesComponent.cpp"/>
+        <FILE id="uXqO3H" name="LicensesComponent.h" compile="0" resource="0" file="../shared/components/LicensesComponent.h"/>
         <FILE id="CxupVI" name="Spline.cpp" compile="1" resource="0" file="../shared/components/Spline.cpp"/>
         <FILE id="GCHJPY" name="Spline.h" compile="0" resource="0" file="../shared/components/Spline.h"/>
       </GROUP>
-      <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1"
-            resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>
-      <FILE id="ghpeV9" name="SpectralAudioProcessorInteractor.h" compile="0"
-            resource="0" file="../shared/SpectralAudioProcessorInteractor.h"/>
+      <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1" resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>
+      <FILE id="ghpeV9" name="SpectralAudioProcessorInteractor.h" compile="0" resource="0" file="../shared/SpectralAudioProcessorInteractor.h"/>
       <FILE id="N3EJeT" name="Polar.cpp" compile="1" resource="0" file="../shared/Polar.cpp"/>
       <FILE id="lLaGO3" name="Polar.h" compile="0" resource="0" file="../shared/Polar.h"/>
       <FILE id="JagzeU" name="Types.cpp" compile="1" resource="0" file="../shared/Types.cpp"/>
@@ -60,66 +36,45 @@
       <FILE id="tfl9LO" name="FftThread.h" compile="0" resource="0" file="../shared/FftThread.h"/>
       <FILE id="AD8hie" name="AboutPage.cpp" compile="1" resource="0" file="../shared/AboutPage.cpp"/>
       <FILE id="Vq0P90" name="AboutPage.h" compile="0" resource="0" file="../shared/AboutPage.h"/>
-      <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
-            file="../shared/PluginParameters.h"/>
-      <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
-            resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
-      <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1"
-            resource="0" file="../shared/ParameterContainerComponent.cpp"/>
-      <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0"
-            resource="0" file="../shared/ParameterContainerComponent.h"/>
-      <FILE id="ECb8P2" name="SpectralAudioPluginUi.h" compile="0" resource="0"
-            file="../shared/SpectralAudioPluginUi.h"/>
-      <FILE id="S6H3F0" name="SpectralAudioPluginUi.cpp" compile="1" resource="0"
-            file="../shared/SpectralAudioPluginUi.cpp"/>
-      <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0"
-            resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
-      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0"
-            file="../shared/SpectralAudioPlugin.cpp"/>
-      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0"
-            file="../shared/SpectralAudioPlugin.h"/>
+      <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0" file="../shared/PluginParameters.h"/>
+      <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0" resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
+      <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1" resource="0" file="../shared/ParameterContainerComponent.cpp"/>
+      <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0" resource="0" file="../shared/ParameterContainerComponent.h"/>
+      <FILE id="ECb8P2" name="SpectralAudioPluginUi.h" compile="0" resource="0" file="../shared/SpectralAudioPluginUi.h"/>
+      <FILE id="S6H3F0" name="SpectralAudioPluginUi.cpp" compile="1" resource="0" file="../shared/SpectralAudioPluginUi.cpp"/>
+      <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0" resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
+      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0" file="../shared/SpectralAudioPlugin.cpp"/>
+      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0" file="../shared/SpectralAudioPlugin.h"/>
       <GROUP id="{04893BC4-7A15-CA0B-8D5A-195B244F0958}" name="Settings">
-        <FILE id="mlfkqO" name="SettingsPage.cpp" compile="1" resource="0"
-              file="../shared/SettingsPage.cpp"/>
+        <FILE id="mlfkqO" name="SettingsPage.cpp" compile="1" resource="0" file="../shared/SettingsPage.cpp"/>
         <FILE id="picqXi" name="SettingsPage.h" compile="0" resource="0" file="../shared/SettingsPage.h"/>
       </GROUP>
       <GROUP id="{F0BC6AE4-205E-C184-A8D6-A59EA97BEA6B}" name="Resources">
-        <FILE id="yJvFse" name="baseline-arrow_back-24px.svg" compile="0" resource="1"
-              file="../shared/Resources/baseline-arrow_back-24px.svg"/>
-        <FILE id="it33UD" name="baseline-info-24px.svg" compile="0" resource="1"
-              file="../shared/Resources/baseline-info-24px.svg"/>
-        <FILE id="lXt7IY" name="baseline-settings-20px.svg" compile="0" resource="1"
-              file="../shared/Resources/baseline-settings-20px.svg"/>
+        <FILE id="yJvFse" name="baseline-arrow_back-24px.svg" compile="0" resource="1" file="../shared/Resources/baseline-arrow_back-24px.svg"/>
+        <FILE id="it33UD" name="baseline-info-24px.svg" compile="0" resource="1" file="../shared/Resources/baseline-info-24px.svg"/>
+        <FILE id="lXt7IY" name="baseline-settings-20px.svg" compile="0" resource="1" file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
-        <FILE id="B66Vea" name="PhaseBuffer.h" compile="0" resource="0" file="../shared/PhaseBuffer.h"/>
-        <FILE id="bGsxZB" name="StandardFFTProcessor.cpp" compile="1" resource="0"
-              file="../shared/StandardFFTProcessor.cpp"/>
-        <FILE id="ljycnH" name="StandardFFTProcessor.h" compile="0" resource="0"
-              file="../shared/StandardFFTProcessor.h"/>
+        <FILE id="AQOYNm" name="StandardFFTProcessor.h" compile="0" resource="0" file="../shared/StandardFFTProcessor.h"/>
+        <FILE id="y6e76I" name="StandardFFTProcessor.cpp" compile="1" resource="0" file="../shared/StandardFFTProcessor.cpp"/>
+        <FILE id="DBXu6u" name="PhaseBuffer.h" compile="0" resource="0" file="../shared/PhaseBuffer.h"/>
         <FILE id="PvYG5x" name="wavetable.cpp" compile="1" resource="0" file="../shared/wavetable.cpp"/>
         <FILE id="ZCFI6Q" name="wavetable.h" compile="0" resource="0" file="../shared/wavetable.h"/>
         <FILE id="VxMagh" name="PhaseVocoder.h" compile="0" resource="0" file="../shared/PhaseVocoder.h"/>
-        <FILE id="rXj2te" name="PhaseVocoder.cpp" compile="1" resource="0"
-              file="../shared/PhaseVocoder.cpp"/>
+        <FILE id="rXj2te" name="PhaseVocoder.cpp" compile="1" resource="0" file="../shared/PhaseVocoder.cpp"/>
         <FILE id="bC4PvO" name="kissfft.hh" compile="0" resource="0" file="../shared/kissfft.hh"/>
         <FILE id="I57ppE" name="utilities.cpp" compile="1" resource="0" file="../shared/utilities.cpp"/>
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
-        <FILE id="Btjhbh" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
-              file="../shared/FftSizeChoiceAdapter.cpp"/>
-        <FILE id="SiyoJh" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
-              file="../shared/FftSizeChoiceAdapter.h"/>
-        <FILE id="dCPWXd" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0"
-              file="../shared/FftStyleChoiceAdapter.cpp"/>
-        <FILE id="wRDoZI" name="FftStyleChoiceAdapter.h" compile="0" resource="0"
-              file="../shared/FftStyleChoiceAdapter.h"/>
+        <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftSizeChoiceAdapter.cpp"/>
+        <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0" file="../shared/FftSizeChoiceAdapter.h"/>
+        <FILE id="SwhfQB" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftStyleChoiceAdapter.cpp"/>
+        <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0" file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
-        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
-              file="../shared/VersionCheck.cpp"/>
+        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0" file="../shared/VersionCheck.cpp"/>
         <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h"/>
         <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h"/>
       </GROUP>
@@ -128,11 +83,9 @@
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"
-                       headerPath="../../shared"/>
+        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;" headerPath="../../shared"/>
         <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
-        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#10;"
-                       useRuntimeLibDLL="0" winArchitecture="Win32"/>
+        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#10;" useRuntimeLibDLL="0" winArchitecture="Win32"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules"/>
@@ -180,8 +133,7 @@
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
-            useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

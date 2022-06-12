@@ -1,5 +1,7 @@
 % Spectral Suite
 
+## Version 2.1.4
+	* Can enable/disable 'Phase Vocoder' style fft in the settings for each plugin
 ## Version 2.1.3
 	* Descriptions on parameters
 	* Fixed Morph muting audio when FFT size changed
