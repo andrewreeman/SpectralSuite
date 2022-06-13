@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Playground" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.4" defines="VersionCode=10" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate." pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1">
+
+<JUCERPROJECT id="WPt5si" name="Playground" projectType="audioplug" displaySplashScreen="1"
+              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              version="2.1.4" defines="VersionCode=10" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+              pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021"
+              companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
+              pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1">
   <MAINGROUP id="NNl5AK" name="Playground">
     <GROUP id="{E11A4544-C473-A9D8-27C6-3240AE094866}" name="Source">
-      <FILE id="zMoi62" name="PlaygroundAudioPlugin.cpp" compile="1" resource="0" file="PlaygroundAudioPlugin.cpp"/>
-      <FILE id="HaP4Xb" name="PlaygroundAudioPlugin.h" compile="0" resource="0" file="PlaygroundAudioPlugin.h"/>
-      <FILE id="mRcrPA" name="PlaygroundParameters.cpp" compile="1" resource="0" file="PlaygroundParameters.cpp"/>
-      <FILE id="ioPH6k" name="PlaygroundParameters.h" compile="0" resource="0" file="PlaygroundParameters.h"/>
-      <FILE id="xiwHfA" name="PlaygroundProcessorInteractor.cpp" compile="1" resource="0" file="PlaygroundProcessorInteractor.cpp"/>
-      <FILE id="dhrZKa" name="PlaygroundProcessorInteractor.h" compile="0" resource="0" file="PlaygroundProcessorInteractor.h"/>
-      <FILE id="tIIi7J" name="PlaygroundFFTProcessor.cpp" compile="1" resource="0" file="PlaygroundFFTProcessor.cpp"/>
-      <FILE id="adNhd4" name="PlaygroundFFTProcessor.h" compile="0" resource="0" file="PlaygroundFFTProcessor.h"/>
+      <FILE id="zMoi62" name="PlaygroundAudioPlugin.cpp" compile="1" resource="0"
+            file="PlaygroundAudioPlugin.cpp"/>
+      <FILE id="HaP4Xb" name="PlaygroundAudioPlugin.h" compile="0" resource="0"
+            file="PlaygroundAudioPlugin.h"/>
+      <FILE id="mRcrPA" name="PlaygroundParameters.cpp" compile="1" resource="0"
+            file="PlaygroundParameters.cpp"/>
+      <FILE id="ioPH6k" name="PlaygroundParameters.h" compile="0" resource="0"
+            file="PlaygroundParameters.h"/>
+      <FILE id="xiwHfA" name="PlaygroundProcessorInteractor.cpp" compile="1"
+            resource="0" file="PlaygroundProcessorInteractor.cpp"/>
+      <FILE id="dhrZKa" name="PlaygroundProcessorInteractor.h" compile="0"
+            resource="0" file="PlaygroundProcessorInteractor.h"/>
+      <FILE id="tIIi7J" name="PlaygroundFFTProcessor.cpp" compile="1" resource="0"
+            file="PlaygroundFFTProcessor.cpp"/>
+      <FILE id="adNhd4" name="PlaygroundFFTProcessor.h" compile="0" resource="0"
+            file="PlaygroundFFTProcessor.h"/>
       <FILE id="v5cLBg" name="UiContainer.cpp" compile="1" resource="0" file="UiContainer.cpp"/>
       <FILE id="OAfOjP" name="UiContainer.h" compile="0" resource="0" file="UiContainer.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
       <GROUP id="{03E87BE4-B582-75DC-87DD-B917EB0FAA42}" name="components">
-        <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0" file="../shared/components/ControlPointComponent.cpp"/>
-        <FILE id="XV1FGk" name="ControlPointComponent.h" compile="0" resource="0" file="../shared/components/ControlPointComponent.h"/>
-        <FILE id="lmoa90" name="LicensesComponent.cpp" compile="1" resource="0" file="../shared/components/LicensesComponent.cpp"/>
-        <FILE id="uXqO3H" name="LicensesComponent.h" compile="0" resource="0" file="../shared/components/LicensesComponent.h"/>
+        <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0"
+              file="../shared/components/ControlPointComponent.cpp"/>
+        <FILE id="XV1FGk" name="ControlPointComponent.h" compile="0" resource="0"
+              file="../shared/components/ControlPointComponent.h"/>
+        <FILE id="lmoa90" name="LicensesComponent.cpp" compile="1" resource="0"
+              file="../shared/components/LicensesComponent.cpp"/>
+        <FILE id="uXqO3H" name="LicensesComponent.h" compile="0" resource="0"
+              file="../shared/components/LicensesComponent.h"/>
         <FILE id="CxupVI" name="Spline.cpp" compile="1" resource="0" file="../shared/components/Spline.cpp"/>
         <FILE id="GCHJPY" name="Spline.h" compile="0" resource="0" file="../shared/components/Spline.h"/>
       </GROUP>
-      <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1" resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>
-      <FILE id="ghpeV9" name="SpectralAudioProcessorInteractor.h" compile="0" resource="0" file="../shared/SpectralAudioProcessorInteractor.h"/>
+      <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1"
+            resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>
+      <FILE id="ghpeV9" name="SpectralAudioProcessorInteractor.h" compile="0"
+            resource="0" file="../shared/SpectralAudioProcessorInteractor.h"/>
       <FILE id="N3EJeT" name="Polar.cpp" compile="1" resource="0" file="../shared/Polar.cpp"/>
       <FILE id="lLaGO3" name="Polar.h" compile="0" resource="0" file="../shared/Polar.h"/>
       <FILE id="JagzeU" name="Types.cpp" compile="1" resource="0" file="../shared/Types.cpp"/>
@@ -32,75 +52,72 @@
       <FILE id="tfl9LO" name="FftThread.h" compile="0" resource="0" file="../shared/FftThread.h"/>
       <FILE id="AD8hie" name="AboutPage.cpp" compile="1" resource="0" file="../shared/AboutPage.cpp"/>
       <FILE id="Vq0P90" name="AboutPage.h" compile="0" resource="0" file="../shared/AboutPage.h"/>
-      <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0" file="../shared/PluginParameters.h"/>
-      <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0" resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
-      <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1" resource="0" file="../shared/ParameterContainerComponent.cpp"/>
-      <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0" resource="0" file="../shared/ParameterContainerComponent.h"/>
-      <FILE id="ECb8P2" name="SpectralAudioPluginUi.h" compile="0" resource="0" file="../shared/SpectralAudioPluginUi.h"/>
-      <FILE id="S6H3F0" name="SpectralAudioPluginUi.cpp" compile="1" resource="0" file="../shared/SpectralAudioPluginUi.cpp"/>
-      <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0" resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
-      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0" file="../shared/SpectralAudioPlugin.cpp"/>
-      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0" file="../shared/SpectralAudioPlugin.h"/>
+      <FILE id="PfiHmg" name="PluginParameters.h" compile="0" resource="0"
+            file="../shared/PluginParameters.h"/>
+      <FILE id="kzTswY" name="AudioValueTreeOnLoadListener.h" compile="0"
+            resource="0" file="../shared/AudioValueTreeOnLoadListener.h"/>
+      <FILE id="IYx7Bf" name="ParameterContainerComponent.cpp" compile="1"
+            resource="0" file="../shared/ParameterContainerComponent.cpp"/>
+      <FILE id="D0IWI4" name="ParameterContainerComponent.h" compile="0"
+            resource="0" file="../shared/ParameterContainerComponent.h"/>
+      <FILE id="ECb8P2" name="SpectralAudioPluginUi.h" compile="0" resource="0"
+            file="../shared/SpectralAudioPluginUi.h"/>
+      <FILE id="S6H3F0" name="SpectralAudioPluginUi.cpp" compile="1" resource="0"
+            file="../shared/SpectralAudioPluginUi.cpp"/>
+      <FILE id="PL4x5T" name="ParameterContainerComponentFactory.h" compile="0"
+            resource="0" file="../shared/ParameterContainerComponentFactory.h"/>
+      <FILE id="xNxbiz" name="SpectralAudioPlugin.cpp" compile="1" resource="0"
+            file="../shared/SpectralAudioPlugin.cpp"/>
+      <FILE id="qd4w1R" name="SpectralAudioPlugin.h" compile="0" resource="0"
+            file="../shared/SpectralAudioPlugin.h"/>
       <GROUP id="{04893BC4-7A15-CA0B-8D5A-195B244F0958}" name="Settings">
-        <FILE id="mlfkqO" name="SettingsPage.cpp" compile="1" resource="0" file="../shared/SettingsPage.cpp"/>
+        <FILE id="mlfkqO" name="SettingsPage.cpp" compile="1" resource="0"
+              file="../shared/SettingsPage.cpp"/>
         <FILE id="picqXi" name="SettingsPage.h" compile="0" resource="0" file="../shared/SettingsPage.h"/>
       </GROUP>
       <GROUP id="{F0BC6AE4-205E-C184-A8D6-A59EA97BEA6B}" name="Resources">
-        <FILE id="yJvFse" name="baseline-arrow_back-24px.svg" compile="0" resource="1" file="../shared/Resources/baseline-arrow_back-24px.svg"/>
-        <FILE id="it33UD" name="baseline-info-24px.svg" compile="0" resource="1" file="../shared/Resources/baseline-info-24px.svg"/>
-        <FILE id="lXt7IY" name="baseline-settings-20px.svg" compile="0" resource="1" file="../shared/Resources/baseline-settings-20px.svg"/>
+        <FILE id="yJvFse" name="baseline-arrow_back-24px.svg" compile="0" resource="1"
+              file="../shared/Resources/baseline-arrow_back-24px.svg"/>
+        <FILE id="it33UD" name="baseline-info-24px.svg" compile="0" resource="1"
+              file="../shared/Resources/baseline-info-24px.svg"/>
+        <FILE id="lXt7IY" name="baseline-settings-20px.svg" compile="0" resource="1"
+              file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
-        <FILE id="AQOYNm" name="StandardFFTProcessor.h" compile="0" resource="0" file="../shared/StandardFFTProcessor.h"/>
-        <FILE id="y6e76I" name="StandardFFTProcessor.cpp" compile="1" resource="0" file="../shared/StandardFFTProcessor.cpp"/>
+        <FILE id="AQOYNm" name="StandardFFTProcessor.h" compile="0" resource="0"
+              file="../shared/StandardFFTProcessor.h"/>
+        <FILE id="y6e76I" name="StandardFFTProcessor.cpp" compile="1" resource="0"
+              file="../shared/StandardFFTProcessor.cpp"/>
         <FILE id="DBXu6u" name="PhaseBuffer.h" compile="0" resource="0" file="../shared/PhaseBuffer.h"/>
         <FILE id="PvYG5x" name="wavetable.cpp" compile="1" resource="0" file="../shared/wavetable.cpp"/>
         <FILE id="ZCFI6Q" name="wavetable.h" compile="0" resource="0" file="../shared/wavetable.h"/>
         <FILE id="VxMagh" name="PhaseVocoder.h" compile="0" resource="0" file="../shared/PhaseVocoder.h"/>
-        <FILE id="rXj2te" name="PhaseVocoder.cpp" compile="1" resource="0" file="../shared/PhaseVocoder.cpp"/>
+        <FILE id="rXj2te" name="PhaseVocoder.cpp" compile="1" resource="0"
+              file="../shared/PhaseVocoder.cpp"/>
         <FILE id="bC4PvO" name="kissfft.hh" compile="0" resource="0" file="../shared/kissfft.hh"/>
         <FILE id="I57ppE" name="utilities.cpp" compile="1" resource="0" file="../shared/utilities.cpp"/>
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
-        <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftSizeChoiceAdapter.cpp"/>
-        <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0" file="../shared/FftSizeChoiceAdapter.h"/>
-        <FILE id="SwhfQB" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftStyleChoiceAdapter.cpp"/>
-        <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0" file="../shared/FftStyleChoiceAdapter.h"/>
+        <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftSizeChoiceAdapter.cpp"/>
+        <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftSizeChoiceAdapter.h"/>
+        <FILE id="SwhfQB" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftStyleChoiceAdapter.cpp"/>
+        <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
-        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0" file="../shared/VersionCheck.cpp"/>
+        <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
+              file="../shared/VersionCheck.cpp"/>
         <FILE id="zTomgG" name="VersionCheck.h" compile="0" resource="0" file="../shared/VersionCheck.h"/>
         <FILE id="ttgD0Z" name="VersionInfo.h" compile="0" resource="0" file="../shared/VersionInfo.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.17763.0">
-      <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;" headerPath="../../shared"/>
-        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\VST3\&quot;&#10;"/>
-        <CONFIGURATION isDebug="0" name="Release32" postbuildCommand="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\Program Files\VST3\&quot;&#10;" useRuntimeLibDLL="0" winArchitecture="Win32"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_events" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_graphics" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_data_structures" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_gui_basics" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_gui_extra" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_cryptography" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_video" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_opengl" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_basics" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_formats" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_processors" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="..\..\..\..\..\..\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_utils" path="..\..\..\..\..\..\JUCE\modules"/>
-      </MODULEPATHS>
-    </VS2017>
     <XCODE_MAC targetFolder="Builds/MacOSX" vst3Folder="../../../../../../Library/vst3/VST3_SDK">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" headerPath="../../shared"/>
@@ -124,12 +141,36 @@
         <MODULEPATH id="juce_audio_basics" path="../../juce"/>
       </MODULEPATHS>
     </XCODE_MAC>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../shared"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../shared"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_utils" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_opengl" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_video" path="C:\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2022>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
