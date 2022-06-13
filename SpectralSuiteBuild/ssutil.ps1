@@ -38,15 +38,15 @@ function Build-Release {
     $sharedCodeProject = $projectName + "_SharedCode"    
     $vst3Project = $projectName + "_VST3"
 
-    Write-Host "Building $solution"    
-    devenv.com $solution /Clean "Release" /Project $sharedCodeProject | Write-Host        t
-    devenv.com $solution /Clean "Release" /Project $vst3Project | Write-Host        
+    Write-Host "Building $solution for project $sharedCodeProject"    
+    devenv.com "$solution" /Clean "Release" /Project "$sharedCodeProject"
+    devenv.com "$solution" /Clean "Release" /Project "$vst3Project"
 
     echo "Building shared code 64 bit project for $projectName"
-    devenv.com /Build "Release" /Project $sharedCodeProject $solution | Write-Host    
+    devenv.com /Build "Release" /Project "$sharedCodeProject" "$solution"
     
     echo "Building vst3 64 bit project for $projectName"
-    devenv.com /Build "Release" /Project $vst3Project  $solution | Write-Host    
+    devenv.com /Build "Release" /Project "$vst3Project"  "$solution"
         
 
     $releaseDir = [IO.Path]::Combine($jucerFile, "..", "..", "Release")
