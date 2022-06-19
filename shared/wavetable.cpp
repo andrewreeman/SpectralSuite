@@ -192,7 +192,7 @@ T Table<T>::get_value(double _index){
             T vala = m_Table[index];
             
             int nextIndex = index + 1;
-            if(nextIndex > m_Table.size()) {
+            if(nextIndex == m_Table.size()) {
                 nextIndex = 0;
             }
             
