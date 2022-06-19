@@ -208,7 +208,10 @@ T Table<T>::get_value(double _index){
 
 template<typename T>
 void Table<T>::resize(int newSize) {
+    m_Size = newSize;
     m_Table.resize(newSize + 2, T());
+    m_interp = 1;
+    m_wrap = 1;
     init_shape(m_shape);
 }
 
