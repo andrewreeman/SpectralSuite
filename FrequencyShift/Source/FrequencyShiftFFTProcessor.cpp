@@ -24,7 +24,7 @@ void FrequencyShiftFFTProcessor::spectral_process(const PolarVector &in, PolarVe
     }
 }
 
-bool FrequencyShiftFFProcessor::setFFTSize(int newSize) {
+bool FrequencyShiftFFTProcessor::setFFTSize(int newSize) {
     bool success = PhaseVocoder::setFFTSize(newSize);
     if(success) {
         recalculateInternalParameters();
