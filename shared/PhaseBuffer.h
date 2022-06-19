@@ -12,6 +12,11 @@ public:
     }
     
     void requestResize(int newSize) {
+        if (prevPhase.size() == newSize) {
+            m_resizeRequestCount = 0;
+            return;
+        }
+
         m_resizeRequestCount++;
         
         if(m_resizeRequestCount == m_clientCount) {
