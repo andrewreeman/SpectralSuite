@@ -31,7 +31,7 @@ function Build-Release {
     # recreate
     Projucer.exe --resave $jucerFile | Write-Host
 
-    $solution = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio*", "*.sln")
+    $solution = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio2022*", "*.sln")
     $solution = Resolve-Path $solution        
     $projectName = (get-item $solution).BaseName
 
@@ -52,8 +52,9 @@ function Build-Release {
     $releaseDir = [IO.Path]::Combine($jucerFile, "..", "..", "Release")
     $releaseDir = Resolve-Path $releaseDir    
 
-    $vst3_64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio*", "x64", "Release", "VST3", "*.vst3")        
+    $vst3_64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio2022*", "x64", "Release", "VST3", "*.vst3")            
     $vst3_64Target = [IO.Path]::Combine($releaseDir, $projectName + ".vst3")
+    echo "Copying from $vst3_64 to $vst3_64Target"
     cp $vst3_64 $vst3_64Target
 }
 
