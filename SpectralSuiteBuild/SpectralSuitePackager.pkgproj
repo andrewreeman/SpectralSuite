@@ -676,7 +676,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.1.4</string>
+				<string>2.1.5</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1328,7 +1328,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.1.4</string>
+				<string>2.1.5</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1723,7 +1723,7 @@
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>Spectral Suite v2.1.4</string>
+			<string>Spectral Suite v2.1.5</string>
 			<key>PAYLOAD_ONLY</key>
 			<false/>
 			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>
