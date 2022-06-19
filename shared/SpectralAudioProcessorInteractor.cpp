@@ -1,4 +1,5 @@
 #include "SpectralAudioProcessorInteractor.h"
+#include "../../shared/PhaseVocoder.h"
 
 SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
 : m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2)
@@ -49,8 +50,11 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 			if (fftSize == spectralProcessChannel[i]->getFFTSize()) { continue; }
 
 			spectralProcessChannel[i]->setFFTSize(fftSize);
-			spectralProcessChannel[i]->setHopSize(m_fftHopSize);
-			spectralProcessChannel[i]->setOffset(m_fftHopSize * (i%m_numOverlaps));
+			spectralProcessChannel[i]->setHopSize(m_fftHopSize);	
+
+			// TODO: casting was the only way to ensure the correct setOffset method is called, even though PhaseVocoder overrides it
+			((PhaseVocoder*) spectralProcessChannel[i].get())->setOffset(m_fftHopSize * (i%m_numOverlaps));
+			//spectralProcessChannel[i]->setOffset(m_fftHopSize * (i%m_numOverlaps));
 		}
 	}
     
