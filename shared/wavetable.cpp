@@ -196,7 +196,7 @@ T Table<T>::get_value(double _index){
                 nextIndex = 0;
             }
             
-            T valb = m_Table[index+1 % m_Table.size()];
+            T valb = m_Table[nextIndex];
                         
             return utilities::interp_lin<T>(vala, valb, _index);
         } break;
