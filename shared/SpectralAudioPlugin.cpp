@@ -60,7 +60,7 @@ void SpectralAudioPlugin::switchFftSize()
 {
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
-    if(m_parameterUiComponent != nullptr) {
+    if(getActiveEditor() != nullptr && m_parameterUiComponent != nullptr) {
         m_parameterUiComponent->onFftSizeChanged();
     }
 }
@@ -78,11 +78,10 @@ void SpectralAudioPlugin::switchFftStyle()
             break;
     }
     
-    if(m_parameterUiComponent != nullptr) {
+    if(getActiveEditor() != nullptr && m_parameterUiComponent != nullptr) {
         m_parameterUiComponent->onFftStyleChanged();
     }
 }
-
 
 void SpectralAudioPlugin::switchOverlapCount() {
     m_audioProcessorInteractor->switchOverlapCount();

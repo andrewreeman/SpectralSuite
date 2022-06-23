@@ -40,6 +40,18 @@ void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* 
 
 void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 {
+    if(fftSize == m_fftSize) {
+        this->onFftSizeChanged();
+        return;
+    }
+    
+    if(fftSize > 32768 && m_numOverlaps > 2) {
+        setNumOverlaps(2);
+    }
+    else if(fftSize <= 32768 && m_numOverlaps == 2) {
+        setNumOverlaps(4);
+    }
+    
 	m_fftHopSize = fftSize / m_numOverlaps;
     m_fftSize = fftSize;
     m_phaseBuffer->requestResize(fftSize);
