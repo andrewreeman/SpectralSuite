@@ -110,6 +110,10 @@ void PhaseVocoder::doFFTWork() {
 }
 
 bool PhaseVocoder::setFFTSize(int newSize){
+    if(newSize > 32768) {
+        setUsePvoc(false);
+    }
+    
     bool status = StandardFFTProcessor::setFFTSize(newSize);
     phaseBuffer->requestResize(newSize/2);
     return status;
