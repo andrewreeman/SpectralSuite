@@ -5,7 +5,7 @@ FftSizeChoiceAdapter::FftSizeChoiceAdapter(int initialIndex)
     m_currentIndex(initialIndex),
 	m_parameter(nullptr)
 {
-	for (int n = 7; n <= 15; n++) {
+	for (int n = 7; n <= 20; n++) {
 		m_ffts.add( (int)pow(2, n) );
 	}	
 }
@@ -32,7 +32,12 @@ StringArray FftSizeChoiceAdapter::fftStrings()
 	StringArray strings;
 
 	for (int fft : m_ffts) {
-		strings.add(String(fft));
+        if(fft > 32768) {
+            strings.add(String(fft) + " (unstable)");
+        }
+        else {
+            strings.add(String(fft));
+        }
 	}
 	
 	return strings;
