@@ -1,5 +1,6 @@
 #include "PitchInfoParser.h"
 #include <cmath>
+#include <stdexcept>
 
 #ifdef DEBUG
     #include <iostream>
