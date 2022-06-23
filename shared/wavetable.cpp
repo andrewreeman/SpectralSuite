@@ -192,11 +192,11 @@ T Table<T>::get_value(double _index){
             T vala = m_Table[index];
             
             int nextIndex = index + 1;
-            if(nextIndex > m_Table.size()) {
+            if(nextIndex == m_Table.size()) {
                 nextIndex = 0;
             }
             
-            T valb = m_Table[index+1 % m_Table.size()];
+            T valb = m_Table[nextIndex];
                         
             return utilities::interp_lin<T>(vala, valb, _index);
         } break;
@@ -208,7 +208,10 @@ T Table<T>::get_value(double _index){
 
 template<typename T>
 void Table<T>::resize(int newSize) {
-    m_Table.resize(newSize, T());
+    m_Size = newSize;
+    m_Table.resize(newSize + 2, T());
+    m_interp = 1;
+    m_wrap = 1;
     init_shape(m_shape);
 }
 

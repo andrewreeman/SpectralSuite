@@ -46,6 +46,8 @@ private:
     int m_Size;
     std::vector<T> m_Table;
     int m_interp;
+    
+    // TODO: wrap is unused
     int m_wrap;
     int m_shape;
 };

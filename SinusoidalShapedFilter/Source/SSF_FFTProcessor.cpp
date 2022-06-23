@@ -20,7 +20,7 @@ void SSF_FFTProcessor::spectral_process(const PolarVector &in, PolarVector &out,
 }
 
 bool SSF_FFTProcessor::setFFTSize(int newSize) {
-    bool result = StandardFFTProcessor::setFFTSize(newSize);
+    bool result = PhaseVocoder::setFFTSize(newSize);
     recalculateInternalParameters();
     return result;
 }
