@@ -1,5 +1,7 @@
 % Spectral Suite
 
+## Version 2.1.5
+	* Fixed bugs with Phase Vocoder
 ## Version 2.1.4
 	* Can enable/disable 'Phase Vocoder' style fft in the settings for each plugin
 ## Version 2.1.3

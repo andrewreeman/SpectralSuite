@@ -23,7 +23,14 @@ public:
     PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer);
     ~PhaseVocoder() {}
     
-    virtual void setUsePvoc(bool usePvoc){ phaseBuffer->setUsePvoc(usePvoc); }
+    virtual void setUsePvoc(bool usePvoc){
+        if(this->m_fftSize > 32768) {
+            phaseBuffer->setUsePvoc(false);
+            return;
+        }
+        
+        phaseBuffer->setUsePvoc(usePvoc);
+    }
     
     virtual bool setFFTSize(int newSize) override;
     virtual void process(const FftDecimal* input, FftDecimal* output, int blockSize) override;
