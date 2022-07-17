@@ -338,19 +338,25 @@ void SpectralAudioPlugin::initialiseParameters() {
 
     //m_audioProcessor->createParameters(parameters.get());
     parameters->createAndAddParameter(
-        std::make_unique<AudioParameterChoice>(
-            "fft", "FFT Size", m_fftSizeChoiceAdapter.fftStrings(), m_fftSizeChoiceAdapter.currentIndex()
-        )
-    );
+                                      std::make_unique<AudioParameterChoice>(
+                                                                             ParameterID("fft", 1),
+                                                                             "FFT Size",
+                                                                             m_fftSizeChoiceAdapter.fftStrings(),
+                                                                             m_fftSizeChoiceAdapter.currentIndex()
+                                                                             )
+                                      );
     
     auto fftSizeChoices = (AudioParameterChoice*)parameters->getParameter("fft");
     m_fftSizeChoiceAdapter.listen(fftSizeChoices);
     
     parameters->createAndAddParameter(
-        std::make_unique<AudioParameterChoice>(
-            "fftStyle", "FFT style", m_fftStyleChoiceAdapter.fftStyleStrings(), m_fftStyleChoiceAdapter.currentIndex()
-        )
-    );
+                                      std::make_unique<AudioParameterChoice>(
+                                                                             ParameterID("fftStyle", 1),
+                                                                             "FFT style",
+                                                                             m_fftStyleChoiceAdapter.fftStyleStrings(),
+                                                                             m_fftStyleChoiceAdapter.currentIndex()
+                                                                             )
+                                      );
     
     auto fftStyleChoices = (AudioParameterChoice*)parameters->getParameter("fftStyle");
     m_fftStyleChoiceAdapter.listen(fftStyleChoices);

@@ -20,7 +20,7 @@ public:
         return valueTreeState.copyState();
     }
     
-	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {  		
+	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {
 		valueTreeState.createAndAddParameter(std::move(param));	
 	};
 
