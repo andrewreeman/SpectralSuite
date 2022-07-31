@@ -26,9 +26,7 @@ void ControlPointComponent::setInitialPoints(const Array<InitialPoint> initialPo
 }
 
 void ControlPointComponent::mouseDown (const MouseEvent& e) {
-    auto timeDelta = e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds();
-    if(timeDelta < 300) { return; }
-    
+        
     if (e.getNumberOfClicks() > 1 || e.mods.isAltDown()) {
         auto nearbyPoint = findNearbyPoint(e.getPosition(), nullptr);
         if(nearbyPoint == nullptr) { return; }
@@ -44,7 +42,11 @@ void ControlPointComponent::mouseDown (const MouseEvent& e) {
         points.remove(nearbyPoint);
         repaint();
     }
-    else if (points.size() == 0 || e.x > points.getLast().getX()) {
+    
+    auto timeDelta = e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds();
+    if(timeDelta < 300) { return; }
+
+    if (points.size() == 0 || e.x > points.getLast().getX()) {
         points.add (e.getPosition());
         repaint();
     }
