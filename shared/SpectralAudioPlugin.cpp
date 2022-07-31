@@ -53,6 +53,13 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {    
 	Logger::setCurrentLogger(nullptr);
+    if(this->m_versionCheckThread.isThreadRunning()) {
+        this->m_versionCheckThread.stopThread(20);
+    }
+    
+    if(this->m_fftSwitcher.isThreadRunning()) {
+        this->m_fftSwitcher.stopThread(20);
+    }
 }
 
 /* FFT Switcher methods */

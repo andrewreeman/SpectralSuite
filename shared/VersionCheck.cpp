@@ -6,6 +6,8 @@ void VersionCheckThread::run()
     if (urlInput == nullptr) { return; }
 
 	String jsonString = urlInput->readString();
+    if(this->threadShouldExit()) { return; }
+    
 	auto parsedJson = JSON::fromString(jsonString);	
 
 	String versionName = parsedJson.getProperty("version", String()).toString();
@@ -36,8 +38,7 @@ void VersionCheckThread::run()
 
 	if (code <= m_currentVersionCode) { return; }
 	if (m_listener == nullptr) { return; }				
-	
-    
+    if(this->threadShouldExit()) { return; }
     
     MessageManager::callAsync([versionName, releaseNotes, releaseUrl, this](){
         VersionInfo* versionInfo = new VersionInfo(versionName, releaseNotes, releaseUrl);
