@@ -50,7 +50,8 @@ protected:
         values.add(0);
         values.add(1);
         
-        return new ChoicePropertyComponent(valueTreeState->getParameterAsValue("fftStyle"), "FFT Style", choices, values);
+        String fftKey = "fftStyle";
+        return new ChoicePropertyComponent(valueTreeState->getParameterAsValue(fftKey), "FFT Style", choices, values);
     }
 
 private:

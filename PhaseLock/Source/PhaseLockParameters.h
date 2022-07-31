@@ -38,7 +38,7 @@ public:
     Array<juce::Point<int>> getControlPoints();
     
 private:
-    using ParameterKey = const std::string;
+    using ParameterKey = ParameterID;
 
     static ParameterKey KEY_PHASE_LOCK;
     static ParameterKey KEY_MAG_LOCK;
