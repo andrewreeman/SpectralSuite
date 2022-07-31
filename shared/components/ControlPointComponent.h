@@ -85,5 +85,6 @@ private:
     int outputResolution;
     PointXAxisComparator pointComparator;
     Listener* listener;
+    Time lastMouseClick;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ControlPointComponent)
 };
