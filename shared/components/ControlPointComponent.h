@@ -75,6 +75,7 @@ private:
     juce::Point<int>* findNearbyPoint(juce::Point<int> pointToCompare, int* out_nearestPointIndex);
     void movePointWithMouse(const juce::Point<int> &mouseDownPosition);
     void populateOutputValues();
+    bool shouldDebounce(const MouseEvent&);
 
     Array<juce::Point<int>> points;
     Array<InitialPoint> initialPoints;

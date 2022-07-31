@@ -43,8 +43,7 @@ void ControlPointComponent::mouseDown (const MouseEvent& e) {
         repaint();
     }
     
-    auto timeDelta = e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds();
-    if(timeDelta < 300) { return; }
+    if(shouldDebounce(e)) { return; }
 
     if (points.size() == 0 || e.x > points.getLast().getX()) {
         points.add (e.getPosition());
@@ -62,7 +61,7 @@ void ControlPointComponent::mouseDown (const MouseEvent& e) {
 }
 
 void ControlPointComponent::mouseUp(const MouseEvent &event) {
-    if((event.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds()) < 300) { return; }
+    if(shouldDebounce(event)) { return; }
     lastMouseClick = event.eventTime;
     
     ignoreUnused(event);
@@ -74,7 +73,7 @@ void ControlPointComponent::mouseUp(const MouseEvent &event) {
 
 void ControlPointComponent::mouseDrag (const MouseEvent& e)
 {
-    if((e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds()) < 300) { return; }
+    if(shouldDebounce(e)) { return; }
     
     juce::Point<int> mouseDownPosition = e.getPosition();
     if(draggedPoint != nullptr) {
@@ -300,4 +299,9 @@ void ControlPointComponent::setSourcePoints(Array<juce::Point<int>> points) {
     repaint();
     
     populateOutputValues();    
+}
+
+
+bool ControlPointComponent::shouldDebounce(const MouseEvent& e) {
+    return (e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds()) < 300;
 }
