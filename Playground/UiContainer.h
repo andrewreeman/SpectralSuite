@@ -12,7 +12,8 @@ public:
 
     const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 3; }
     void paint (Graphics&) override;
-    void resized() override;    
+    void resized() override;
+    std::shared_ptr<PluginParameters> getPluginParameters() override { return pluginParameters; }
 
     Array<PropertyComponent*> getSettingsProperties() override;
     void onPropertiesChanged() override;
