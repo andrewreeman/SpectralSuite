@@ -5,14 +5,14 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) :
 	m_lastRandomSeed(1)
 {
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"scramble",
+		ParameterID("scramble", 1),
 		"Scramble",
 		NormalisableRange<float>(0.0f, 1.0f), 0.1f, "",
 		AudioProcessorParameter::Category::genericParameter
 		));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"scatter",
+		ParameterID("scatter", 1),
 		"Scatter",
 		NormalisableRange<float>(0.0f, 1.0f), 0.4f, "",
 		AudioProcessorParameter::Category::genericParameter
@@ -20,7 +20,7 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) :
 
 	String freqHertzLabel = "Hz";
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"rate",
+		ParameterID("rate", 1),
 		"Rate",
 		NormalisableRange<float>(0.25f, 15.0f), 2.0f, "",
 		AudioProcessorParameter::Category::genericParameter,
@@ -29,7 +29,7 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) :
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterInt>(
-		"seed",
+		ParameterID("seed", 1),
 		"Random seed",
 		1, 
 		9999, 
