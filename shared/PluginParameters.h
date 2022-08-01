@@ -24,7 +24,7 @@ public:
 		valueTreeState.createAndAddParameter(std::move(param));	
 	};
 
-    AudioProcessorValueTreeState::SliderAttachment* createSliderAttachment(const ParameterID& parameterID, Slider& sliderToControl) {
+    AudioProcessorValueTreeState::SliderAttachment* createSliderAttachmentByParameterId(const ParameterID& parameterID, Slider& sliderToControl) {
         return createSliderAttachment(parameterID.getParamID(), sliderToControl);
     }
     
@@ -53,7 +53,7 @@ public:
 	}
     
     
-    Value getParameterAsValue(ParameterID paramId) const {
+    Value getParameterAsValueByParameterId(ParameterID paramId) const {
         return getParameterAsValue(paramId.getParamID());
     }
 
@@ -70,7 +70,7 @@ public:
     }
     
     
-    float* getRawParameterValue(ParameterID paramId) const {
+    float* getRawParameterValueByParameterId(ParameterID paramId) const {
         return getRawParameterValue(paramId.getParamID());
     }
 

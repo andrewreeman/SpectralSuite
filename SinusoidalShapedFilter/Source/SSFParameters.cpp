@@ -5,7 +5,7 @@ SSFParameters::SSFParameters(AudioProcessor * processor) : PluginParameters(proc
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
                                                                 ParameterID("freq", 1),
                                                                 "Frequency",
-                                                                NormalisableRange<float>(0.0f, 10.0f), 0.1f, "",
+                                                                NormalisableRange<float>(0.0f, 10.0f), 1.0f, "",
                                                                 AudioProcessorParameter::Category::genericParameter,
                                                                 [freqHertzLabel](float v, int) { return String(v, 2) + freqHertzLabel; },
                                                                 [freqHertzLabel](const String& text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); }
@@ -15,7 +15,7 @@ SSFParameters::SSFParameters(AudioProcessor * processor) : PluginParameters(proc
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
                                                                 ParameterID("phase", 1),
                                                                 "Phase",
-                                                                NormalisableRange<float>(0.0f, 1.0f), 0.01f, "",
+                                                                NormalisableRange<float>(0.0f, 1.0f), 1.01f, "",
                                                                 AudioProcessorParameter::Category::genericParameter//,
                                                                 //		[piLabel](float v, int) { return String(v, 2) + piLabel; },
                                                                 //		[piLabel](const String& text) { return text.dropLastCharacters(piLabel.length()).getFloatValue(); }
