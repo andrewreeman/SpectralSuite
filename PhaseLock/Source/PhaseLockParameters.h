@@ -10,29 +10,29 @@ public:
 
 	PhaseLockParameters(AudioProcessor* processor);
     
-	bool isPhaseLocked() const { return (bool)getParameterAsValue(KEY_PHASE_LOCK).getValue(); }
-    float* getPhaseMixParameter() const { return getRawParameterValue(KEY_PHASE_MIX); }
+	bool isPhaseLocked() const { return (bool)getParameterAsValueByParameterId(KEY_PHASE_LOCK).getValue(); }
+    float* getPhaseMixParameter() const { return getRawParameterValueByParameterId(KEY_PHASE_MIX); }
     
-    bool isFreqLocked() const { return (bool)getParameterAsValue(KEY_MAG_LOCK).getValue(); }
-    float* getMagMixParameter() const { return getRawParameterValue(KEY_MAG_MIX); }
+    bool isFreqLocked() const { return (bool)getParameterAsValueByParameterId(KEY_MAG_LOCK).getValue(); }
+    float* getMagMixParameter() const { return getRawParameterValueByParameterId(KEY_MAG_MIX); }
     
-    float* getMagTrackParameter() const { return getRawParameterValue(KEY_MAG_TRACK); }
-    float* getRandomPhaseParameter() const { return getRawParameterValue(KEY_RAND_PHASE); }
+    float* getMagTrackParameter() const { return getRawParameterValueByParameterId(KEY_MAG_TRACK); }
+    float* getRandomPhaseParameter() const { return getRawParameterValueByParameterId(KEY_RAND_PHASE); }
     
-    bool shouldMorphMagAndPhase() const { return (bool)getParameterAsValue(KEY_MORPH_MAG_AND_PHASE).getValue(); }
-    int getMorphDurationParameter() const { return (int)getParameterAsValue(KEY_MORPH_DURATION).getValue(); }
+    bool shouldMorphMagAndPhase() const { return (bool)getParameterAsValueByParameterId(KEY_MORPH_MAG_AND_PHASE).getValue(); }
+    int getMorphDurationParameter() const { return (int)getParameterAsValueByParameterId(KEY_MORPH_DURATION).getValue(); }
     
     PButtonAttachment createPhaseLockAttachment(ToggleButton& button) { return createButtonAttachment(KEY_PHASE_LOCK, button); }
-    PSliderAttachment createPhaseMixAttachment(Slider& slider) { return createSliderAttachment(KEY_PHASE_MIX, slider); }
+    PSliderAttachment createPhaseMixAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_PHASE_MIX, slider); }
     
     PButtonAttachment createMagLockAttachment(ToggleButton& button) { return createButtonAttachment(KEY_MAG_LOCK, button); }
-    PSliderAttachment createMagMixAttachment(Slider& slider) { return createSliderAttachment(KEY_MAG_MIX, slider); }
+    PSliderAttachment createMagMixAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MAG_MIX, slider); }
     
-    PSliderAttachment createMagTrackAttachment(Slider& slider) { return createSliderAttachment(KEY_MAG_TRACK, slider); }
-    PSliderAttachment createRandPhaseAttachment(Slider& slider) { return createSliderAttachment(KEY_RAND_PHASE, slider); }
+    PSliderAttachment createMagTrackAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MAG_TRACK, slider); }
+    PSliderAttachment createRandPhaseAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_RAND_PHASE, slider); }
         
     PButtonAttachment createMorphMagAndPhaseAttachment(ToggleButton& button){ return createButtonAttachment(KEY_MORPH_MAG_AND_PHASE, button); }
-    PSliderAttachment createMorphDurationAttachment(Slider& slider) { return createSliderAttachment(KEY_MORPH_DURATION, slider); }
+    PSliderAttachment createMorphDurationAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MORPH_DURATION, slider); }
         
     void setControlPoints(Array<float> controlPoints, Array<juce::Point<int>> sourcePoints);
     Array<juce::Point<int>> getControlPoints();
