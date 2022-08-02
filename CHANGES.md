@@ -1,5 +1,6 @@
 % Spectral Suite
-
+## Version 2.1.6
+	* Bug fixes
 ## Version 2.1.5
 	* Fixed bugs with Phase Vocoder
 ## Version 2.1.4
