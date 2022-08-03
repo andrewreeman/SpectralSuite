@@ -1,17 +1,17 @@
 #include "PhaseLockParameters.h"
 #include "PhaseLockInteractor.h"
 
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_PHASE_LOCK = "phaselock";
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_LOCK = "maglock";
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_PHASE_LOCK = ParameterID("phaselock", 1);
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_LOCK = ParameterID("maglock", 1);
 
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_PHASE_MIX = "phasemix";
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_MIX = "magmix";
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_PHASE_MIX = ParameterID("phasemix", 1);
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_MIX = ParameterID("magmix", 1);
 
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_TRACK = "magtrack";
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_RAND_PHASE = "randphase";
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MAG_TRACK = ParameterID("magtrack", 1);
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_RAND_PHASE = ParameterID("randphase", 1);
 
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MORPH_MAG_AND_PHASE = "morphmagphase";
-PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MORPH_DURATION = "morphduration";
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MORPH_MAG_AND_PHASE = ParameterID("morphmagphase", 1);
+PhaseLockParameters::ParameterKey PhaseLockParameters::KEY_MORPH_DURATION = ParameterID("morphduration", 1);
 
 PhaseLockParameters::PhaseLockParameters(AudioProcessor * processor) : 
 	PluginParameters(processor)

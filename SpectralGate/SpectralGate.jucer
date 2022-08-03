@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Spectral Gate" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.5" defines="VersionCode=11" pluginDesc="Only allow frequency components above or below a particular cut-off amplitude." pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPSG" jucerFormatVersion="1">
+<JUCERPROJECT id="WPt5si" name="Spectral Gate" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.6" defines="VersionCode=12" pluginDesc="Only allow frequency components above or below a particular cut-off amplitude." pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPSG" jucerFormatVersion="1">
   <MAINGROUP id="NNl5AK" name="Spectral Gate">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="o18mE5" name="SpectralGateInteractor.cpp" compile="1" resource="0" file="Source/SpectralGateInteractor.cpp"/>

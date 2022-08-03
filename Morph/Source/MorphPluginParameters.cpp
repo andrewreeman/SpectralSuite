@@ -14,6 +14,10 @@ MorphPluginParameters::MorphPluginParameters(AudioProcessor * processor) :
 
 
 void MorphPluginParameters::controlPointsChanged(Array<float> controlPoints, ControlPointComponent* component) {
+    
+    auto newState = copyState();
+    PluginParameters::replaceState(newState);
+    
     lastPoints = component->getSourcePoints();
     if(listener != nullptr) {
         listener->controlPointsChanged(controlPoints);
@@ -32,7 +36,7 @@ void MorphPluginParameters::replaceState(const ValueTree& newState) {
 ValueTree MorphPluginParameters::copyState() {
     ValueTree tree = PluginParameters::copyState();
     
-    if(controlPointComponent == nullptr) {
+    if(controlPointComponent == nullptr || !controlPointComponent->isShowing()) {
         return tree;
     }
         

@@ -20,14 +20,22 @@ public:
         return valueTreeState.copyState();
     }
     
-	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {  		
+	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {
 		valueTreeState.createAndAddParameter(std::move(param));	
 	};
 
+    AudioProcessorValueTreeState::SliderAttachment* createSliderAttachmentByParameterId(const ParameterID& parameterID, Slider& sliderToControl) {
+        return createSliderAttachment(parameterID.getParamID(), sliderToControl);
+    }
+    
 	AudioProcessorValueTreeState::SliderAttachment* createSliderAttachment(const String& parameterID, Slider& sliderToControl) {
 		return new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, parameterID, sliderToControl);
 	};
 
+    AudioProcessorValueTreeState::ButtonAttachment* createButtonAttachment(const ParameterID& parameterID, Button& buttonToControl) {
+        return createButtonAttachment(parameterID.getParamID(), buttonToControl);
+    }
+    
 	AudioProcessorValueTreeState::ButtonAttachment* createButtonAttachment(const String& parameterID, Button& buttonToControl) {
 		return new AudioProcessorValueTreeState::ButtonAttachment(valueTreeState, parameterID, buttonToControl);
 	};
@@ -43,6 +51,11 @@ public:
 	NormalisableRange<float> getParameterRange(StringRef paramID) const {
 		return valueTreeState.getParameterRange(paramID);
 	}
+    
+    
+    Value getParameterAsValueByParameterId(ParameterID paramId) const {
+        return getParameterAsValue(paramId.getParamID());
+    }
 
 	Value getParameterAsValue(String paramId) const {
 		return valueTreeState.getParameterAsValue(paramId);
@@ -54,6 +67,11 @@ public:
     
     void removeParameterListener (StringRef parameterID, juce::AudioProcessorValueTreeState::Listener* listener) {
         valueTreeState.removeParameterListener(parameterID, listener);
+    }
+    
+    
+    float* getRawParameterValueByParameterId(ParameterID paramId) const {
+        return getRawParameterValue(paramId.getParamID());
     }
 
 	float* getRawParameterValue(String paramId) const {

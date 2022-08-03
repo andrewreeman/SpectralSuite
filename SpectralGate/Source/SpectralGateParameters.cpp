@@ -3,7 +3,7 @@
 SpectralGateParameters::SpectralGateParameters(AudioProcessor * processor) : PluginParameters(processor) {
 	const String dbSuffix = " dB";
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"cutoff",
+		ParameterID("cutoff", 1),
 		"Cutoff",
 		NormalisableRange<float>(0.0f, 1.0f),
 		0.6f, "",
@@ -17,7 +17,7 @@ SpectralGateParameters::SpectralGateParameters(AudioProcessor * processor) : Plu
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"balance",
+        ParameterID("balance", 1),
 		"Weak/Strong Balance",
 		NormalisableRange<float>(0.0f, 1.0f), 0.7f, "",
 		AudioProcessorParameter::Category::genericParameter

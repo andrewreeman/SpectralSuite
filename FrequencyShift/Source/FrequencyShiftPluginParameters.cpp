@@ -18,7 +18,7 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 	const float increment = 1.0f;
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"shiftMinRange",
+		ParameterID("shiftMinRange", 1),
 		"Frequency shift minimum range",
 		NormalisableRange<float>(-20000, -10, increment), minRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
@@ -27,7 +27,7 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"shiftMaxRange",
+		ParameterID("shiftMaxRange", 1),
 		"Frequency shift maximum range",
 		NormalisableRange<float>(10, 20000, increment), maxRangeDefault, "",
 		AudioProcessorParameter::Category::genericParameter,
@@ -36,7 +36,7 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor * 
 	));
 
 	createAndAddParameter(std::make_unique<AudioParameterFloat>(
-		"shift",
+		ParameterID("shift", 1),
 		"Frequency shift",
 		NormalisableRange<float>(minRangeDefault, maxRangeDefault, increment), 0.0f, "",
 		AudioProcessorParameter::Category::genericParameter,

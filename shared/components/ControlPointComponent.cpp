@@ -13,14 +13,8 @@
 #include "Spline.h"
 
 //==============================================================================
-ControlPointComponent::ControlPointComponent()
+ControlPointComponent::ControlPointComponent() : draggedPoint(nullptr), draggedPointIndex(0), listener(nullptr), lastMouseClick(Time::getCurrentTime())
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-        
-        draggedPoint = nullptr;
-        draggedPointIndex = 0;
-        listener = nullptr;
 }
 
 ControlPointComponent::~ControlPointComponent()
@@ -32,8 +26,11 @@ void ControlPointComponent::setInitialPoints(const Array<InitialPoint> initialPo
 }
 
 void ControlPointComponent::mouseDown (const MouseEvent& e) {
+        
     if (e.getNumberOfClicks() > 1 || e.mods.isAltDown()) {
         auto nearbyPoint = findNearbyPoint(e.getPosition(), nullptr);
+        if(nearbyPoint == nullptr) { return; }
+        
         for(auto initialPoint : initialPoints) {
             if( pointComparator.compareElements(initialPoint.referencePoint, *nearbyPoint) == 0 ) {
                 if(initialPoint.isSticky()) {
@@ -45,7 +42,10 @@ void ControlPointComponent::mouseDown (const MouseEvent& e) {
         points.remove(nearbyPoint);
         repaint();
     }
-    else if (points.size() == 0 || e.x > points.getLast().getX()) {
+    
+    if(shouldDebounce(e)) { return; }
+
+    if (points.size() == 0 || e.x > points.getLast().getX()) {
         points.add (e.getPosition());
         repaint();
     }
@@ -61,6 +61,9 @@ void ControlPointComponent::mouseDown (const MouseEvent& e) {
 }
 
 void ControlPointComponent::mouseUp(const MouseEvent &event) {
+    if(shouldDebounce(event)) { return; }
+    lastMouseClick = event.eventTime;
+    
     ignoreUnused(event);
     draggedPoint = nullptr;
     draggedPointIndex = 0;
@@ -70,6 +73,8 @@ void ControlPointComponent::mouseUp(const MouseEvent &event) {
 
 void ControlPointComponent::mouseDrag (const MouseEvent& e)
 {
+    if(shouldDebounce(e)) { return; }
+    
     juce::Point<int> mouseDownPosition = e.getPosition();
     if(draggedPoint != nullptr) {
         movePointWithMouse(mouseDownPosition);
@@ -294,4 +299,9 @@ void ControlPointComponent::setSourcePoints(Array<juce::Point<int>> points) {
     repaint();
     
     populateOutputValues();    
+}
+
+
+bool ControlPointComponent::shouldDebounce(const MouseEvent& e) {
+    return (e.eventTime.toMilliseconds() - lastMouseClick.toMilliseconds()) < 300;
 }
