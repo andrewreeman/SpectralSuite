@@ -22,14 +22,27 @@ void SpectralGateFFTProcessor::setBalance(float balance) {
 
 void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out, int bins) {
     float mag;
+    float tilt = 0.2;
+    tilt = (tilt - 0.5f) * 2.f;
+    tilt = tilt = pow(tilt, 3);
 
     out[0]=in[0];
     for(int n = 1; n < bins; ++n){
+        float frac = (float)n/(float)bins;
+        frac = (frac - 0.5f) * 2.f;
+        
+        float highScaleOffset = tilt * frac;
+        float gateHigh = m_gate_high + highScaleOffset;
+        
+        float lowScaleOffset = tilt * frac * 0.8;
+        float gateLow = m_gate_low + lowScaleOffset;
+        
+        
         mag = in[n].m_mag;
-        if (mag >= m_gate_high){
+        if (mag >= gateHigh){
           out[n].m_mag = mag * m_balance_strong_scale;
         }
-        else if(mag < m_gate_low){
+        else if(mag < gateLow){
           out[n].m_mag = mag * m_balance_weak_scale;
         }
         else {
