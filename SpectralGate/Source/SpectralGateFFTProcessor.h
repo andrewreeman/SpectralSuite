@@ -12,10 +12,12 @@ public:
     
     void setCutOff(float cutOff);
     void setBalance(float balance);
+    void setTilt(float tilt);
     
 private:
     float m_cutOff;
     float m_balance;
+    float m_tilt;
     
     float m_gate_high;
     

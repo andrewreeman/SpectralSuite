@@ -9,7 +9,8 @@ class SpectralGateInteractor : public SpectralAudioProcessorInteractor {
 public:
 	SpectralGateInteractor(int numOverlaps, std::shared_ptr<SpectralGateParameters> params) : SpectralAudioProcessorInteractor(numOverlaps) {
 		m_cutOffParameter = params->getCutOffValuePointer();
-		m_balanceParameter = params->getBalanceValuePointer();		
+		m_balanceParameter = params->getBalanceValuePointer();
+        m_tiltParameter = params->getTiltPointer();
 	}
 
 	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
@@ -17,4 +18,5 @@ public:
 private:
 	float* m_cutOffParameter;	
 	float* m_balanceParameter;
+    float* m_tiltParameter;
 };
