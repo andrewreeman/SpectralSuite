@@ -24,10 +24,16 @@ SpectralGateParameters::SpectralGateParameters(AudioProcessor * processor) : Plu
 	));
     
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
-        ParameterID("tilt", 1),
+        ParameterID("tilt", 2),
         "Tilt",
         NormalisableRange<float>(0.0f, 1.0f), 0.5f, "",
         AudioProcessorParameter::Category::genericParameter
     ));
+    
+    createAndAddParameter(std::make_unique<AudioParameterBool>(
+                                                               ParameterID("enableTilt", 2),
+                                                               "Enable tilt",
+                                                               false
+                                                               ));
 }
 

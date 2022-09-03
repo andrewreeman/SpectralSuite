@@ -15,6 +15,7 @@ SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeStat
     tiltToggle.setColour(ToggleButton::ColourIds::textColourId, textColour);
     tiltToggle.setColour(ToggleButton::ColourIds::tickDisabledColourId, textColour);
     tiltToggle.setColour(ToggleButton::ColourIds::tickColourId, textColour);
+    tiltToggle.addListener(this);
     addAndMakeVisible(tiltToggle);
     
     addAndMakeVisible(tiltSlider);
@@ -22,6 +23,19 @@ SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeStat
 
 SliderContainer::~SliderContainer()
 {
+}
+
+
+void SliderContainer::buttonClicked (Button*) {
+    auto param = dynamic_cast<AudioParameterBool*>(this->pluginParameters->getParameter("enableTilt"));
+    if(param == nullptr) { return; }
+    
+    if(tiltToggle.getToggleState()) {
+        (*param) = true;
+    }
+    else {
+        (*param) = false;
+    }
 }
 
 void SliderContainer::paint (Graphics& g)

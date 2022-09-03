@@ -9,7 +9,7 @@
 //==============================================================================
 /*
 */
-class SliderContainer : public ParameterContainerComponent
+class SliderContainer : public ParameterContainerComponent, public Button::Listener
 {
 public:
 	SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
@@ -22,6 +22,7 @@ public:
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * SliderContainer::NUM_VERTICAL_COMPONENTS; }
     void paint (Graphics&) override;
     void resized() override;
+    void buttonClicked (Button*) override;
 
 private:
     static int const NUM_VERTICAL_COMPONENTS = 4;
