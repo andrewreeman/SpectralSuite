@@ -26,16 +26,13 @@ SliderContainer::~SliderContainer()
 }
 
 
-void SliderContainer::buttonClicked (Button*) {
+void SliderContainer::buttonClicked (Button* clickedButton) {
+    if(clickedButton != &tiltToggle) { return; }
+    
     auto param = dynamic_cast<AudioParameterBool*>(this->pluginParameters->getParameter("enableTilt"));
     if(param == nullptr) { return; }
     
-    if(tiltToggle.getToggleState()) {
-        (*param) = true;
-    }
-    else {
-        (*param) = false;
-    }
+    *param = tiltToggle.getToggleState();
 }
 
 void SliderContainer::paint (Graphics& g)
