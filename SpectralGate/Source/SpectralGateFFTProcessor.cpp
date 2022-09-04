@@ -1,7 +1,7 @@
 #include "SpectralGateFFTProcessor.h"
 
 SpectralGateFFTProcessor::SpectralGateFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer)
-    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_cutOff(0.0), m_balance(0.0)
+    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_cutOff(0.0), m_balance(0.0), m_tilt(0.5), m_tiltEnabled(false)
 {
     recalculateInternalParameters();
 }
@@ -24,6 +24,10 @@ void SpectralGateFFTProcessor::setTilt(float tilt) {
     if(tilt != m_tilt) {
         m_tilt = tilt;
     }
+}
+
+void SpectralGateFFTProcessor::setTiltEnabled(bool enabled) {
+    m_tiltEnabled = enabled;
 }
 
 void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out, int bins) {

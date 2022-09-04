@@ -13,11 +13,13 @@ public:
     void setCutOff(float cutOff);
     void setBalance(float balance);
     void setTilt(float tilt);
+    void setTiltEnabled(bool enabled);
     
 private:
     float m_cutOff;
     float m_balance;
     float m_tilt;
+    bool m_tiltEnabled;
     
     float m_gate_high;
     

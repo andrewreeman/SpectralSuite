@@ -7,6 +7,7 @@ void SpectralGateInteractor::prepareProcess(StandardFFTProcessor* spectralProces
 	gate->setCutOff(*m_cutOffParameter);
 	gate->setBalance(*m_balanceParameter);
     gate->setTilt(*m_tiltParameter);
+    
 }
 
 std::unique_ptr<StandardFFTProcessor> SpectralGateInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
