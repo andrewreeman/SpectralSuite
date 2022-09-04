@@ -38,9 +38,9 @@ SpectralGateParameters::SpectralGateParameters(AudioProcessor * processor) : Plu
 }
 
 bool SpectralGateParameters::getTiltEnabled() const {
-    auto tiltEnabledParam = dynamic_cast<AudioParameterBool*>(getParameter("tiltEnabled"));
+    auto tiltEnabledParam = dynamic_cast<AudioParameterBool*>(getParameter("enableTilt"));
     if(tiltEnabledParam != nullptr) {
-        return tiltEnabledParam;
+        return tiltEnabledParam->get();
     }
     else {
         return false;

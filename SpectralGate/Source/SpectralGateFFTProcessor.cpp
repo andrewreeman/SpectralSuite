@@ -34,6 +34,7 @@ void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVect
     float mag;
     out[0]=in[0];
     
+    // A better way is to multiply highScaleOffset and lowScaleOffset by 'tiltEnabled
     if(m_tiltEnabled) {
         float tilt = m_tilt;
         tilt = (tilt - 0.5f) * 2.f;
