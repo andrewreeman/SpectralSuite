@@ -32,31 +32,49 @@ void SpectralGateFFTProcessor::setTiltEnabled(bool enabled) {
 
 void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out, int bins) {
     float mag;
-    float tilt = m_tilt;
-    tilt = (tilt - 0.5f) * 2.f;
-//    tilt = tilt = pow(tilt, 3);
-
     out[0]=in[0];
-    for(int n = 1; n < bins; ++n){
-        float frac = (float)n/(float)bins;
-        float highScaleOffset = (frac - 0.5f) * 2.f * m_gate_high * tilt;
-        float gateHigh = m_gate_high + highScaleOffset;
+    
+    if(m_tiltEnabled) {
+        float tilt = m_tilt;
+        tilt = (tilt - 0.5f) * 2.f;
+        //    tilt = tilt = pow(tilt, 3);
         
-        float lowScaleOffset = highScaleOffset * 0.8;
-        float gateLow = m_gate_low + lowScaleOffset;
-        
-        
-        mag = in[n].m_mag;
-        if (mag >= gateHigh){
-          out[n].m_mag = mag * m_balance_strong_scale;
+        for(int n = 1; n < bins; ++n){
+            float frac = (float)n/(float)bins;
+            float highScaleOffset = (frac - 0.5f) * 2.f * m_gate_high * tilt;
+            float gateHigh = m_gate_high + highScaleOffset;
+            
+            float lowScaleOffset = highScaleOffset * 0.8;
+            float gateLow = m_gate_low + lowScaleOffset;
+            
+            
+            mag = in[n].m_mag;
+            if (mag >= gateHigh){
+                out[n].m_mag = mag * m_balance_strong_scale;
+            }
+            else if(mag < gateLow){
+                out[n].m_mag = mag * m_balance_weak_scale;
+            }
+            else {
+                out[n].m_mag = 0.f;
+            }
+            out[n].m_phase = in[n].m_phase;
         }
-        else if(mag < gateLow){
-          out[n].m_mag = mag * m_balance_weak_scale;
+    }
+    else {
+        for(int n = 1; n < bins; ++n){
+            mag = in[n].m_mag;
+            if (mag >= m_gate_high){
+                out[n].m_mag = mag * m_balance_strong_scale;
+            }
+            else if(mag < m_gate_low){
+                out[n].m_mag = mag * m_balance_weak_scale;
+            }
+            else {
+                out[n].m_mag = 0.f;
+            }
+            out[n].m_phase = in[n].m_phase;
         }
-        else {
-            out[n].m_mag = 0.f;
-        }
-        out[n].m_phase = in[n].m_phase;
     }
 };
 
