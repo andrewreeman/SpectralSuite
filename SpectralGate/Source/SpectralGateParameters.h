@@ -8,4 +8,6 @@ public:
 
 	float* getCutOffValuePointer() const { return getRawParameterValue("cutoff");  }
 	float* getBalanceValuePointer() const { return getRawParameterValue("balance"); }
+    float* getTiltPointer() const { return getRawParameterValue("tilt"); }
+    bool getTiltEnabled() const;
 };
