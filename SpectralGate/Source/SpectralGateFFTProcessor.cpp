@@ -38,7 +38,6 @@ void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVect
     if(m_tiltEnabled) {
         float tilt = m_tilt;
         tilt = (tilt - 0.5f) * 2.f;
-        //    tilt = tilt = pow(tilt, 3);
         
         for(int n = 1; n < bins; ++n){
             float frac = (float)n/(float)bins;
