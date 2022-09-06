@@ -1,4 +1,6 @@
 % Spectral Suite
+## Version 2.1.7
+	* Added 'tilt' parameter to Spectral Gate
 ## Version 2.1.6
 	* Bug fixes
 ## Version 2.1.5
