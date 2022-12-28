@@ -86,3 +86,13 @@ PhaseLock/JuceLibraryCode/
 SpectralSuiteBuild/package/
 
 SpectralSuite.xcworkspace/xcuserdata/
+
+# Vim
+*.swp
+*.un~
+*~
+
+spectral-suite/.vs
+spectral-suite/x64
+spectral-suite/SpectralSuiteInstaller/Debug
+spectral-suite/SpectralSuiteInstaller/Release
