@@ -19,6 +19,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_92BB955B68B94A0198F071D4B9FFAECB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -37,13 +43,21 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\SpectralSuiteInstaller.msi"
+        "OutputFilename" = "8:Release\\SpectralSuite.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -53,6 +67,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -93,7 +123,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_1C954F8D652241D29AF265439FAF3C56"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFilesFolder]\\Common Files\\VST3\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -129,25 +159,25 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SpectralSuiteInstaller"
-        "ProductCode" = "8:{1E177F91-FDE3-4C32-9FE2-CE4B46B857C5}"
-        "PackageCode" = "8:{88207A67-1472-4DF6-8DF1-5E7F89BAA9C7}"
+        "ProductName" = "8:Spectral Suite"
+        "ProductCode" = "8:{3C71A40B-FD5C-42D5-9AA9-EB1360F532B2}"
+        "PackageCode" = "8:{63EA97E3-0CB8-402C-BD66-82CBF98223BA}"
         "UpgradeCode" = "8:{5EB21440-7114-41E9-B405-48D7B7EFEBEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "ProductVersion" = "8:2.1.4"
+        "Manufacturer" = "8:Stepwise"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
+        "ARPHELPLINK" = "8:https://github.com/andrewreeman/SpectralSuite/issues"
         "Title" = "8:SpectralSuiteInstaller"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Andrew Reeman"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPCOMMENTS" = "8:The Spectral Suite is a collection of audio plugins that utilise the FFT algorithm to manipulate the spectral components of the input audio."
+        "ARPURLINFOABOUT" = "8:https://www.andrewreeman.com/spectralsuite"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -652,7 +682,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5076BD7F4DF946959A783C509A0D21BC"
             {
-            "SourcePath" = "8:..\\x64\\Debug\\VST3\\Spectral Gate.vst3"
+            "SourcePath" = "8:..\\Win32\\Release\\VST3\\Spectral Gate.vst3"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1C954F8D652241D29AF265439FAF3C56"
@@ -676,6 +706,36 @@
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
+                "ExcludeFilter" = "8:*.dll"
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_92BB955B68B94A0198F071D4B9FFAECB"
+            {
+            "SourcePath" = "8:..\\Win32\\Release\\VST3\\Bin Scrambler.vst3"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1C954F8D652241D29AF265439FAF3C56"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{AD263019-4B6B-46CA-A39E-01EC80DFF804}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                "ExcludeFilter" = "8:*.dll"
                 }
             }
         }
