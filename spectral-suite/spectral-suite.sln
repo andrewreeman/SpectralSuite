@@ -26,6 +26,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Magnet_VST3", "..
 		{A91AD5C7-4489-4917-B1A2-A2BD5AAA6A62} = {A91AD5C7-4489-4917-B1A2-A2BD5AAA6A62}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Shifter_SharedCode", "..\FrequencyShift\Builds\VisualStudio2022\Frequency Shifter_SharedCode.vcxproj", "{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Shifter_VST3", "..\FrequencyShift\Builds\VisualStudio2022\Frequency Shifter_VST3.vcxproj", "{74BB46B9-F596-44B5-A718-3F98B7492191}"
+	ProjectSection(ProjectDependencies) = postProject
+		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC} = {330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_SharedCode", "..\Morph\Builds\VisualStudio2022\Morph_SharedCode.vcxproj", "{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_VST3", "..\Morph\Builds\VisualStudio2022\Morph_VST3.vcxproj", "{0E00A46E-6241-45CA-9AE5-14D97FA0B287}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E} = {1A025CA1-C4E6-4EED-9686-9E7D9E57654E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -60,6 +74,22 @@ Global
 		{911854BC-29C9-4689-9426-AF90DDF9C30E}.Debug|x64.Build.0 = Debug|x64
 		{911854BC-29C9-4689-9426-AF90DDF9C30E}.Release|x64.ActiveCfg = Release|x64
 		{911854BC-29C9-4689-9426-AF90DDF9C30E}.Release|x64.Build.0 = Release|x64
+		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}.Debug|x64.ActiveCfg = Debug|x64
+		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}.Debug|x64.Build.0 = Debug|x64
+		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}.Release|x64.ActiveCfg = Release|x64
+		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}.Release|x64.Build.0 = Release|x64
+		{74BB46B9-F596-44B5-A718-3F98B7492191}.Debug|x64.ActiveCfg = Debug|x64
+		{74BB46B9-F596-44B5-A718-3F98B7492191}.Debug|x64.Build.0 = Debug|x64
+		{74BB46B9-F596-44B5-A718-3F98B7492191}.Release|x64.ActiveCfg = Release|x64
+		{74BB46B9-F596-44B5-A718-3F98B7492191}.Release|x64.Build.0 = Release|x64
+		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}.Debug|x64.ActiveCfg = Debug|x64
+		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}.Debug|x64.Build.0 = Debug|x64
+		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}.Release|x64.ActiveCfg = Release|x64
+		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}.Release|x64.Build.0 = Release|x64
+		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Debug|x64.ActiveCfg = Debug|x64
+		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Debug|x64.Build.0 = Debug|x64
+		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Release|x64.ActiveCfg = Release|x64
+		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
