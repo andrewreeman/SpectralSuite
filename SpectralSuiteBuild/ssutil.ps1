@@ -4,6 +4,7 @@ param( [switch]$build = $false )
 function Build-Release {
     param($jucerFile, $version)
 
+    # TODO: don't invoke this for every file
     $output = Invoke-WebRequest "http://andrewreeman.github.io/spectral_suite_publish.json"
     $json = $output.Content | ConvertFrom-Json
     
@@ -58,7 +59,7 @@ function Build-Release {
     cp $vst3_64 $vst3_64Target
 }
 
-
+$root = Get-Location
 $pluginJucerPath = Get-Location | Join-Path -ChildPath "../*/*.jucer"
 $pluginJucerPath = Resolve-Path -Path $pluginJucerPath
 $pluginJucerPaths = $pluginJucerPath | where {$_.ToString() -notlike "*SpectralSuiteBuild*"}
@@ -72,5 +73,9 @@ $version = $baseProjucer.JUCERPROJECT.version
 ForEach ($pluginPath in $pluginJucerPaths) {
     Build-Release $pluginPath $version
 }
+
+Set-Location $root
+Set-Location "spectral-suite"
+devenv.com "spectral-suite.sln" /build
 
 echo "Built release files"
