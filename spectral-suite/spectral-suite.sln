@@ -47,6 +47,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_VST3", "..\Phase
 		{D9E82143-7786-41D0-9308-EBA5AC12094C} = {D9E82143-7786-41D0-9308-EBA5AC12094C}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinusoidal Shaped Filter_SharedCode", "..\SinusoidalShapedFilter\Builds\VisualStudio2022\Sinusoidal Shaped Filter_SharedCode.vcxproj", "{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinusoidal Shaped Filter_VST3", "..\SinusoidalShapedFilter\Builds\VisualStudio2022\Sinusoidal Shaped Filter_VST3.vcxproj", "{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5} = {F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +112,14 @@ Global
 		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Debug|x64.Build.0 = Debug|x64
 		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Release|x64.ActiveCfg = Release|x64
 		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Release|x64.Build.0 = Release|x64
+		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}.Debug|x64.ActiveCfg = Debug|x64
+		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}.Debug|x64.Build.0 = Debug|x64
+		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}.Release|x64.ActiveCfg = Release|x64
+		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}.Release|x64.Build.0 = Release|x64
+		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Debug|x64.ActiveCfg = Debug|x64
+		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Debug|x64.Build.0 = Debug|x64
+		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Release|x64.ActiveCfg = Release|x64
+		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
