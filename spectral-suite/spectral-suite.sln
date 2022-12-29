@@ -40,6 +40,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_VST3", "..\Morph\Buil
 		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E} = {1A025CA1-C4E6-4EED-9686-9E7D9E57654E}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_SharedCode", "..\PhaseLock\Builds\VisualStudio2022\Phase Lock_SharedCode.vcxproj", "{D9E82143-7786-41D0-9308-EBA5AC12094C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_VST3", "..\PhaseLock\Builds\VisualStudio2022\Phase Lock_VST3.vcxproj", "{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9E82143-7786-41D0-9308-EBA5AC12094C} = {D9E82143-7786-41D0-9308-EBA5AC12094C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -90,6 +97,14 @@ Global
 		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Debug|x64.Build.0 = Debug|x64
 		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Release|x64.ActiveCfg = Release|x64
 		{0E00A46E-6241-45CA-9AE5-14D97FA0B287}.Release|x64.Build.0 = Release|x64
+		{D9E82143-7786-41D0-9308-EBA5AC12094C}.Debug|x64.ActiveCfg = Debug|x64
+		{D9E82143-7786-41D0-9308-EBA5AC12094C}.Debug|x64.Build.0 = Debug|x64
+		{D9E82143-7786-41D0-9308-EBA5AC12094C}.Release|x64.ActiveCfg = Release|x64
+		{D9E82143-7786-41D0-9308-EBA5AC12094C}.Release|x64.Build.0 = Release|x64
+		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Debug|x64.ActiveCfg = Debug|x64
+		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Debug|x64.Build.0 = Debug|x64
+		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Release|x64.ActiveCfg = Release|x64
+		{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
