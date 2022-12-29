@@ -4,6 +4,7 @@ param( [switch]$build = $false )
 function Build-Release {
     param($jucerFile, $version)
 
+    # TODO: don't invoke this for every file
     $output = Invoke-WebRequest "http://andrewreeman.github.io/spectral_suite_publish.json"
     $json = $output.Content | ConvertFrom-Json
     
@@ -58,7 +59,7 @@ function Build-Release {
     cp $vst3_64 $vst3_64Target
 }
 
-
+$root = Get-Location
 $pluginJucerPath = Get-Location | Join-Path -ChildPath "../*/*.jucer"
 $pluginJucerPath = Resolve-Path -Path $pluginJucerPath
 $pluginJucerPaths = $pluginJucerPath | where {$_.ToString() -notlike "*SpectralSuiteBuild*"}
@@ -72,5 +73,13 @@ $version = $baseProjucer.JUCERPROJECT.version
 ForEach ($pluginPath in $pluginJucerPaths) {
     Build-Release $pluginPath $version
 }
+
+Set-Location $root
+Set-Location "spectral-suite"
+# sometimes the exlude filters are ignored on when rebuilding and on the first 'build'. doing this 3 times ensures this eventually works, build after rebuild simply packages files
+# using Wix will probably fix this but not worth it yet
+devenv.com "spectral-suite.sln" /rebuild Release
+devenv.com "spectral-suite.sln" /build Release
+devenv.com "spectral-suite.sln" /build Release
 
 echo "Built release files"
