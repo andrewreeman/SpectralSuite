@@ -18,7 +18,7 @@ public:
 
     int currentIndex() { return m_currentIndex; }
     int overlapCount();
-    bool shouldChangeFftSize();
+    bool shouldChangeFftOverlaps();
     StringArray overlapStrings();
     void listen(AudioParameterChoice* parameter);
 

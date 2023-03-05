@@ -16,7 +16,7 @@ int FftOverlapsChoiceAdapter::overlapCount()
     return m_overlaps[m_currentIndex];
 }
 
-bool FftOverlapsChoiceAdapter::shouldChangeFftSize()
+bool FftOverlapsChoiceAdapter::shouldChangeFftOverlaps()
 {
     if (m_shouldChangeOverlap) {
         m_shouldChangeOverlap = false;

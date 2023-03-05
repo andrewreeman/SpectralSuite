@@ -31,9 +31,8 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
-    m_dependencyFactory(dependencies),
-    m_shouldUpdateOverlapCount(false)
-{			
+    m_dependencyFactory(dependencies)
+{
 	
 
 	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
@@ -107,7 +106,6 @@ void SpectralAudioPlugin::switchOverlapCount() {
 	}
 
 	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
-    m_shouldUpdateOverlapCount = false;
 }
 
 /* Public methods */
@@ -235,7 +233,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return;
 	}
  
-    if(m_shouldUpdateOverlapCount) {
+    if(m_fftOverlapsChoiceAdapter.shouldChangeFftOverlaps()) {
         m_fftSwitcher.switchOverlapCount();
         return;
     }

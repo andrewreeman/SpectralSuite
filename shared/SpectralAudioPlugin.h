@@ -92,11 +92,6 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;		
     
-    int getOverlapCount(){ return m_audioProcessorInteractor->getNumOverlaps(); }
-    
-    // TODO: this is unused as is all the overlap switch logic
-    void switchOverlapCountAsync() { m_shouldUpdateOverlapCount = true; };
-    
 	// FftSwitcher methods
     void switchFftSize() override;
     void switchFftStyle() override;
@@ -131,7 +126,5 @@ private:
 	VersionCheckThread m_versionCheckThread;
     std::unique_ptr<DependencyFactory> m_dependencyFactory;
  
-    bool m_shouldUpdateOverlapCount;
-
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpectralAudioPlugin)		
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpectralAudioPlugin)
 };
