@@ -248,7 +248,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 
 	const int hopSize = m_audioProcessorInteractor->getHopSize();
 	const int numChannels = buffer.getNumChannels();
-	float** audio = buffer.getArrayOfWritePointers();		
+	auto audio = buffer.getArrayOfWritePointers();
 	int numSamples = buffer.getNumSamples();
 	int ioVSTBuffers = 0;
 
