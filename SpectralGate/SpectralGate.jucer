@@ -109,6 +109,10 @@
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
+        <FILE id="EMo5R0" name="FftOverlapsChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftOverlapsChoiceAdapter.cpp"/>
+        <FILE id="ON152U" name="FftOverlapsChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftOverlapsChoiceAdapter.h"/>
         <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
               file="../shared/FftSizeChoiceAdapter.cpp"/>
         <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
