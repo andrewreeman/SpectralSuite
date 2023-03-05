@@ -3,6 +3,7 @@
 // avoiding circular declaration
 #include "SpectralAudioPluginUi.h"
 
+// TODO: should be index instead
 const int SpectralAudioPlugin::FFT_OVERLAPS = 4;
 const int SpectralAudioPlugin::INIT_FFT_INDEX = 4; // 2048 
 
@@ -25,6 +26,8 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 #endif
 	m_fftSizeChoiceAdapter(INIT_FFT_INDEX),
 	//parameters(*this, nullptr),
+
+    m_fftOverlapsChoiceAdapter(FFT_OVERLAPS - 1),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),

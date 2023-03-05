@@ -4,6 +4,7 @@
 #include "StandardFFTProcessor.h"
 #include "FftSizeChoiceAdapter.h"
 #include "FftStyleChoiceAdapter.h"
+#include "FftOverlapsChoiceAdapter.h"
 #include "FftSwitcher.h"
 #include "VersionCheck.h"
 #include "SpectralAudioProcessorInteractor.h"
@@ -116,6 +117,7 @@ private:
 
 	FftSizeChoiceAdapter m_fftSizeChoiceAdapter;
     FftStyleChoiceAdapter m_fftStyleChoiceAdapter;
+    FftOverlapsChoiceAdapter m_fftOverlapsChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
 	std::unique_ptr<FileLogger> m_logger;
