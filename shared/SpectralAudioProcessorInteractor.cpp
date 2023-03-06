@@ -74,7 +74,7 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 }
 
 void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
-    if(newOverlapCount < 1 ){ return; }
+    if(newOverlapCount < 1 || newOverlapCount > 8 ){ return; }
     
     m_numOverlaps = newOverlapCount;
     m_fftHopSize = getFftSize() / m_numOverlaps;

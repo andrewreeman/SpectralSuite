@@ -5,9 +5,10 @@ FftOverlapsChoiceAdapter::FftOverlapsChoiceAdapter(int initialIndex)
     m_currentIndex(initialIndex),
     m_parameter(nullptr)
 {
-    for (int n = 1; n <= 8; n++) {
-        m_overlaps.add(n);
-    }
+    m_overlaps.add(1);
+    m_overlaps.add(2);
+    m_overlaps.add(4);
+    m_overlaps.add(8);
 }
 
 int FftOverlapsChoiceAdapter::overlapCount()
@@ -44,7 +45,7 @@ void FftOverlapsChoiceAdapter::listen(AudioParameterChoice * choiceParameter)
     m_parameter = choiceParameter;
 }
 
-void FftOverlapsChoiceAdapter::parameterValueChanged(int, float)
+void FftOverlapsChoiceAdapter::parameterValueChanged(int athing, float anotherthing)
 {
     auto choiceIndex = m_parameter->getIndex();
     if (choiceIndex == m_currentIndex) { return; }

@@ -61,9 +61,8 @@ protected:
         StringArray choices = param->choices;
         
         Array<var> values;
-        auto valueStrings = param->getAllValueStrings();
-        for(int i=0; i<valueStrings.size(); ++i) {
-            values.add(valueStrings[i]);
+        for(int i=0; i<choices.size(); ++i) {
+            values.add(i);
         }
         
         return new ChoicePropertyComponent(valueTreeState->getParameterAsValue(fftKey), "FFT Overlap count", choices, values);

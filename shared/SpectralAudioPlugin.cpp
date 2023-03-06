@@ -27,7 +27,7 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_fftSizeChoiceAdapter(INIT_FFT_INDEX),
 	//parameters(*this, nullptr),
 
-    m_fftOverlapsChoiceAdapter(FFT_OVERLAPS - 1),
+    m_fftOverlapsChoiceAdapter(1),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
@@ -93,7 +93,8 @@ void SpectralAudioPlugin::switchFftStyle()
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
-    m_audioProcessorInteractor->switchOverlapCount();
+    int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
+    m_audioProcessorInteractor->setNumOverlaps(overlaps);
     
     const int hopSize = m_audioProcessorInteractor->getHopSize();
 	for(std::vector<float>& output : m_output)
