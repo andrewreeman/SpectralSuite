@@ -12,7 +12,6 @@
 
 #include "JuceHeader.h"
 
-//TODO: rename to FftSizeChoiceAdapter
 class FftSizeChoiceAdapter: AudioParameterChoice::Listener {
 public:
 	FftSizeChoiceAdapter(int initialIndex);
