@@ -73,12 +73,49 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
 void StandardFFTProcessor::fillHann(std::vector<FftDecimal>& table, int size){
     float w;
     float invert_Cos;
+    float max = size - 1;
     for(int n = 0; n < size; ++n){
         //hann window -- inverted cosine
-        w = (float)TWOPI * ( float(n)/float(size-1) );
+        w = (float)TWOPI * ( float(n)/max );
         invert_Cos = 1.f - cos(w);
         //normalise to 0 to 1
         table[n] = 0.5f * invert_Cos;
+    }
+}
+
+void StandardFFTProcessor::fillBlackmanWindow(std::vector<FftDecimal>& table, int size) {
+    float max = size - 1;
+    for(int n=0; n < size; ++n) {
+        float w1 = (float)TWOPI * (float(n)/max);
+        float w2 = (float)TWOPI*2.0 * (float(n)/max);
+        float c1 = 0.5 * cos(w1);
+        float c2 = 0.08 * cos(w2);
+        table[n] = 0.42 - (c1 + c2);
+    }
+}
+
+void StandardFFTProcessor::fillHamming(std::vector<FftDecimal>& table, int size) {
+    float max = size + 1.0;
+    for(int n=0; n < size; ++n) {
+        float w = (float)TWOPI * (float(n) / max);
+        table[n] = 0.53836 - 0.46164 * cos(w);
+    }
+}
+
+void StandardFFTProcessor::fillBlackmanHarris(std::vector<FftDecimal>& table, int size) {
+   // 0.35875-0.48829*cos(2*M_PI*i/(nsamples-1.0))+0.14128*cos(4*M_PI*i/(nsamples-1.0))-0.01168*cos(6*M_PI*i/(nsamples-1.0));
+    float max = size - 1;
+    for(int n=0; n<size; ++n) {
+        float increment = (float(n)/max);
+        float w1 = (float)TWOPI * increment;
+        float w2 = (float)TWOPI*2.0 * increment;
+        float w3 = (float)TWOPI*6.0 * increment;
+        
+        float c1 = 0.48829 * cos(w1);
+        float c2 = 0.14128 * cos(w2);
+        float c3 = 0.01168 * cos(w3);
+        
+        table[n] = 0.35875 - c1 + c2 - c3;
     }
 }
 

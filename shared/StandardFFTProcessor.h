@@ -54,6 +54,9 @@ protected:
     virtual void fill_in_passOut(const FftDecimal* audioInput, FftDecimal* processOutput, int blockSize);
     
     void fillHann(std::vector<FftDecimal>& table, int size);
+    void fillBlackmanWindow(std::vector<FftDecimal>& table, int size);
+    void fillHamming(std::vector<FftDecimal>& table, int size);
+    void fillBlackmanHarris(std::vector<FftDecimal>& table, int size);
     void float2Cpx(const std::vector<FftDecimal>& inFloat, std::vector<Cpx>& outCpx);
     void cpx2Float(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat);
     void normalise(std::vector<Cpx>& cpxInOut);
