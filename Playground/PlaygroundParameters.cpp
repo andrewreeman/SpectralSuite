@@ -30,9 +30,5 @@ PlaygroundParameters::PlaygroundParameters(SpectralAudioPlugin * processor) :
 
 void PlaygroundParameters::parameterChanged(const juce::String &parameterID, float newValue) {
     if(parameterID != SETTINGS_OVERLAP_NAME) { return; }
-
-    auto newOverlapCount = (int)getNumberOfOverlaps().getValue();
-    if(newOverlapCount != m_processor->getOverlapCount()) {
-        m_processor->switchOverlapCountAsync();
-    }
+    // this previously did something...now doesn't. who cares
 }

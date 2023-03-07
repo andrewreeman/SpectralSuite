@@ -15,7 +15,7 @@ void PhaseVocoder::doHannRotate(std::vector<FftDecimal>& inOut){
 	otherwise the input array will be writing to its own future points.	*/
     for(int i=0; i<m_fftSize; ++i){
         int rotatedIndex = (m_initialOffset+i) % m_fftSize;
-        temp[rotatedIndex] = inOut[i]*m_hann[i];
+        temp[rotatedIndex] = inOut[i]*m_window[i];
     }
 	// output
     for(int i=0; i<m_fftSize; ++i){
@@ -28,7 +28,7 @@ void PhaseVocoder::doHannUnrotate(const std::vector<Cpx>& inCpx, std::vector<Fft
        int rotatedIndex = utilities::wrap(i - m_initialOffset, m_fftSize); //if below 0 then wrap around.
         // previously was...
 //        int rotatedIndex (m_offset+i) % m_fftSize;
-        outFloat[i] = inCpx[rotatedIndex].real() * m_hann[i];        
+        outFloat[i] = inCpx[rotatedIndex].real() * m_window[i];        
     }
 }
 

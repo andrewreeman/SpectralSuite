@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Frequency Shifter" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.7" defines="VersionCode=13" pluginDesc="Shifts frequencies up and down" pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPFS" jucerFormatVersion="1">
+<JUCERPROJECT id="WPt5si" name="Frequency Shifter" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.8" defines="VersionCode=14" pluginDesc="Shifts frequencies up and down" pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPFS" jucerFormatVersion="1">
   <MAINGROUP id="NNl5AK" name="Frequency Shifter">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="HJgauP" name="FrequencyShiftPluginParameters.cpp" compile="1" resource="0" file="Source/FrequencyShiftPluginParameters.cpp"/>
@@ -51,6 +51,7 @@
         <FILE id="lXt7IY" name="baseline-settings-20px.svg" compile="0" resource="1" file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
+        <FILE id="g6uyNK" name="FftWindowType.h" compile="0" resource="0" file="../shared/FftWindowType.h"/>
         <FILE id="AQOYNm" name="StandardFFTProcessor.h" compile="0" resource="0" file="../shared/StandardFFTProcessor.h"/>
         <FILE id="y6e76I" name="StandardFFTProcessor.cpp" compile="1" resource="0" file="../shared/StandardFFTProcessor.cpp"/>
         <FILE id="DBXu6u" name="PhaseBuffer.h" compile="0" resource="0" file="../shared/PhaseBuffer.h"/>
@@ -63,11 +64,15 @@
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
+        <FILE id="YCTQbv" name="FftOverlapsChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftOverlapsChoiceAdapter.cpp"/>
+        <FILE id="KsgV8p" name="FftOverlapsChoiceAdapter.h" compile="0" resource="0" file="../shared/FftOverlapsChoiceAdapter.h"/>
         <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftSizeChoiceAdapter.cpp"/>
         <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0" file="../shared/FftSizeChoiceAdapter.h"/>
         <FILE id="SwhfQB" name="FftStyleChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftStyleChoiceAdapter.cpp"/>
         <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0" file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
+        <FILE id="uIwSmZ" name="FftWindowChoiceAdapter.cpp" compile="1" resource="0" file="../shared/FftWindowChoiceAdapter.cpp"/>
+        <FILE id="jVBnib" name="FftWindowChoiceAdapter.h" compile="0" resource="0" file="../shared/FftWindowChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0" file="../shared/VersionCheck.cpp"/>

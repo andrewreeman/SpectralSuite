@@ -13,7 +13,7 @@ public:
     };
         
     FftThread() : Thread("fftThread", 0) {
-        this->setPriority(Thread::realtimeAudioPriority);
+        this->setPriority(Thread::Priority::high);
     }        
     
     void run() override;

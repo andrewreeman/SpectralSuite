@@ -121,7 +121,7 @@ void PlaygroundFFTProcessor::doHannUnrotate(const std::vector<Cpx>& inCpx, std::
     }
     else {
         cpx2Float(inCpx, outFloat);
-        doHann(outFloat);
+        applyWindow(outFloat);
     }
 }
 

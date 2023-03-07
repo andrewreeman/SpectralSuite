@@ -47,11 +47,14 @@ public:
 	RangedAudioParameter* getParameter(String paramId) const {
 		return valueTreeState.getParameter(paramId);
 	}
+    
+    AudioParameterChoice* getParameterChoice(String paramId) const {
+        return (AudioParameterChoice*)(valueTreeState.getParameter(paramId));
+    }
 
 	NormalisableRange<float> getParameterRange(StringRef paramID) const {
 		return valueTreeState.getParameterRange(paramID);
 	}
-    
     
     Value getParameterAsValueByParameterId(ParameterID paramId) const {
         return getParameterAsValue(paramId.getParamID());

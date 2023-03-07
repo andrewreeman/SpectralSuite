@@ -3,6 +3,7 @@
 // avoiding circular declaration
 #include "SpectralAudioPluginUi.h"
 
+// TODO: should be index instead
 const int SpectralAudioPlugin::FFT_OVERLAPS = 4;
 const int SpectralAudioPlugin::INIT_FFT_INDEX = 4; // 2048 
 
@@ -25,12 +26,13 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 #endif
 	m_fftSizeChoiceAdapter(INIT_FFT_INDEX),
 	//parameters(*this, nullptr),
+
+    m_fftOverlapsChoiceAdapter(1),
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
-    m_dependencyFactory(dependencies),
-    m_shouldUpdateOverlapCount(false)
-{			
+    m_dependencyFactory(dependencies)
+{
 	
 
 	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
@@ -91,7 +93,8 @@ void SpectralAudioPlugin::switchFftStyle()
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
-    m_audioProcessorInteractor->switchOverlapCount();
+    int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
+    m_audioProcessorInteractor->setNumOverlaps(overlaps);
     
     const int hopSize = m_audioProcessorInteractor->getHopSize();
 	for(std::vector<float>& output : m_output)
@@ -104,7 +107,12 @@ void SpectralAudioPlugin::switchOverlapCount() {
 	}
 
 	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
-    m_shouldUpdateOverlapCount = false;
+}
+
+
+void SpectralAudioPlugin::switchFftWindowType() {
+    auto windowType = m_fftWindowChoiceAdapter.fftWindow();
+    m_audioProcessorInteractor->setWindowType(windowType);
 }
 
 /* Public methods */
@@ -232,7 +240,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		return;
 	}
  
-    if(m_shouldUpdateOverlapCount) {
+    if(m_fftOverlapsChoiceAdapter.shouldChangeFftOverlaps()) {
         m_fftSwitcher.switchOverlapCount();
         return;
     }
@@ -242,13 +250,18 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
         return;
     }
     
+    if(m_fftWindowChoiceAdapter.shouldChangeFftWindow()) {
+        m_fftSwitcher.switchWindowType();
+        return;
+    }
+    
     if(!midiBuffer.isEmpty()) {
         m_audioProcessorInteractor->receivedMidi(midiBuffer);
     }        
 
 	const int hopSize = m_audioProcessorInteractor->getHopSize();
 	const int numChannels = buffer.getNumChannels();
-	float** audio = buffer.getArrayOfWritePointers();		
+	auto audio = buffer.getArrayOfWritePointers();
 	int numSamples = buffer.getNumSamples();
 	int ioVSTBuffers = 0;
 
@@ -367,6 +380,32 @@ void SpectralAudioPlugin::initialiseParameters() {
     
     auto fftStyleChoices = (AudioParameterChoice*)parameters->getParameter("fftStyle");
     m_fftStyleChoiceAdapter.listen(fftStyleChoices);
+    
+    
+    parameters->createAndAddParameter(
+                                      std::make_unique<AudioParameterChoice>(
+                                                                             ParameterID("fftOverlaps", 1),
+                                                                             "FFT Overlap count",
+                                                                             m_fftOverlapsChoiceAdapter.overlapStrings(),
+                                                                             m_fftOverlapsChoiceAdapter.currentIndex()
+                                                                             )
+                                      );
+    
+    auto fftOverlapChoices = (AudioParameterChoice*)parameters->getParameter("fftOverlaps");
+    m_fftOverlapsChoiceAdapter.listen(fftOverlapChoices);
+    
+    parameters->createAndAddParameter(
+                                      std::make_unique<AudioParameterChoice>(
+                                                                             ParameterID("fftWindow", 1),
+                                                                             "FFT Window type",
+                                                                             m_fftWindowChoiceAdapter.fftWindowStrings(),
+                                                                             m_fftWindowChoiceAdapter.currentIndex()
+                                                                             )
+                                      );
+    
+    auto fftWindowChoices = (AudioParameterChoice*)parameters->getParameter("fftWindow");
+    m_fftWindowChoiceAdapter.listen(fftWindowChoices);
+    
 
     auto valueTree = ValueTree(
         Identifier(

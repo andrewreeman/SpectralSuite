@@ -9,11 +9,12 @@ public:
 		virtual void switchFftSize() = 0;
         virtual void switchOverlapCount() = 0;
         virtual void switchFftStyle() = 0;
+        virtual void switchFftWindowType() = 0;
         virtual ~FftSwitcher(){};
 	};
 
 	FftSwitcherThread(FftSwitcher* fftSwitcher)
-        : Thread("fftSwitcherThread", 0), m_fftSwitcher(fftSwitcher), m_switchFft(false), m_switchFftStyle(false), m_switchOverlaps(false) {}
+        : Thread("fftSwitcherThread", 0), m_fftSwitcher(fftSwitcher), m_switchFft(false), m_switchFftStyle(false), m_switchOverlaps(false), m_switchWindow(false) {}
     
     /// Thread
     /// Do not call this directly. Instead call `switchFftSize` or `switchOverlapCount`
@@ -29,6 +30,10 @@ public:
         else if(m_switchFftStyle) {
             m_switchFftStyle = false;
             m_fftSwitcher->switchFftStyle();
+        }
+        else if(m_switchWindow) {
+            m_switchWindow = false;
+            m_fftSwitcher->switchFftWindowType();
         }
 	}
  
@@ -47,11 +52,17 @@ public:
         m_switchOverlaps = true;
         startThread();
     }
+    
+    void switchWindowType() {
+        m_switchWindow = true;
+        startThread();
+    }
 
 private:
 	FftSwitcher* m_fftSwitcher;
     bool m_switchFft;
     bool m_switchFftStyle;
     bool m_switchOverlaps;
+    bool m_switchWindow;
     
 };

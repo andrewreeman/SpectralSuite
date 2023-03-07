@@ -20,7 +20,7 @@ public:
     
     void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
     std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount) override;
-    void switchOverlapCount() override;
+    void switchOverlapCount();
             
 
 private:
