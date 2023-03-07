@@ -103,7 +103,6 @@ void StandardFFTProcessor::fillHamming(std::vector<FftDecimal>& table, int size)
 }
 
 void StandardFFTProcessor::fillBlackmanHarris(std::vector<FftDecimal>& table, int size) {
-   // 0.35875-0.48829*cos(2*M_PI*i/(nsamples-1.0))+0.14128*cos(4*M_PI*i/(nsamples-1.0))-0.01168*cos(6*M_PI*i/(nsamples-1.0));
     float max = size - 1;
     for(int n=0; n<size; ++n) {
         float increment = (float(n)/max);

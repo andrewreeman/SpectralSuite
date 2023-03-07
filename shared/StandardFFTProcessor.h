@@ -14,6 +14,7 @@
 #include "FftThread.h"
 #include "Polar.h"
 #include "Types.h"
+#include "FftWindowType.h"
 #endif
 
 #ifndef __constants__
