@@ -383,6 +383,18 @@ void SpectralAudioPlugin::initialiseParameters() {
     auto fftOverlapChoices = (AudioParameterChoice*)parameters->getParameter("fftOverlaps");
     m_fftOverlapsChoiceAdapter.listen(fftOverlapChoices);
     
+    parameters->createAndAddParameter(
+                                      std::make_unique<AudioParameterChoice>(
+                                                                             ParameterID("fftWindow", 1),
+                                                                             "FFT Window type",
+                                                                             m_fftWindowChoiceAdapter.fftWindowStrings(),
+                                                                             m_fftWindowChoiceAdapter.currentIndex()
+                                                                             )
+                                      );
+    
+    auto fftWindowChoices = (AudioParameterChoice*)parameters->getParameter("fftWindow");
+    m_fftWindowChoiceAdapter.listen(fftWindowChoices);
+    
 
     auto valueTree = ValueTree(
         Identifier(
