@@ -95,6 +95,7 @@
               file="../shared/Resources/baseline-settings-20px.svg"/>
       </GROUP>
       <GROUP id="{1721A1CF-BA58-44A1-C899-0990436B24DA}" name="Audio">
+        <FILE id="VJX3Re" name="FftWindowType.h" compile="0" resource="0" file="../shared/FftWindowType.h"/>
         <FILE id="AQOYNm" name="StandardFFTProcessor.h" compile="0" resource="0"
               file="../shared/StandardFFTProcessor.h"/>
         <FILE id="y6e76I" name="StandardFFTProcessor.cpp" compile="1" resource="0"
@@ -110,6 +111,10 @@
         <FILE id="ZKZmNz" name="utilities.h" compile="0" resource="0" file="../shared/utilities.h"/>
       </GROUP>
       <GROUP id="{229F84F1-78C2-520B-4F89-34BFA4CBF0E6}" name="FftSwitcher">
+        <FILE id="mAS4wM" name="FftOverlapsChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftOverlapsChoiceAdapter.cpp"/>
+        <FILE id="qNOuU4" name="FftOverlapsChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftOverlapsChoiceAdapter.h"/>
         <FILE id="NrQU8y" name="FftSizeChoiceAdapter.cpp" compile="1" resource="0"
               file="../shared/FftSizeChoiceAdapter.cpp"/>
         <FILE id="xVdSPf" name="FftSizeChoiceAdapter.h" compile="0" resource="0"
@@ -119,6 +124,10 @@
         <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0"
               file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
+        <FILE id="AueoK1" name="FftWindowChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftWindowChoiceAdapter.cpp"/>
+        <FILE id="gCsN1Y" name="FftWindowChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftWindowChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"
