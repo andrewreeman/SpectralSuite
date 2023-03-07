@@ -109,6 +109,12 @@ void SpectralAudioPlugin::switchOverlapCount() {
 	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
 }
 
+
+void SpectralAudioPlugin::switchFftWindowType() {
+    auto windowType = m_fftWindowChoiceAdapter.fftWindow();
+    m_audioProcessorInteractor->setWindowType(windowType);
+}
+
 /* Public methods */
 
 const String SpectralAudioPlugin::getName() const
@@ -241,6 +247,11 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     
     if(m_fftStyleChoiceAdapter.shouldChangeFftStyle()) {
         m_fftSwitcher.switchFftStyle();
+        return;
+    }
+    
+    if(m_fftWindowChoiceAdapter.shouldChangeFftWindow()) {
+        m_fftSwitcher.switchWindowType();
         return;
     }
     

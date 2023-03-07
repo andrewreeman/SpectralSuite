@@ -96,7 +96,8 @@ public:
 	// FftSwitcher methods
     void switchFftSize() override;
     void switchFftStyle() override;
-    void switchOverlapCount() override;    
+    void switchOverlapCount() override;
+    void switchFftWindowType() override;
 
 	void checkForUpdates(VersionCheckThread::Listener* onUpdateAvailableListener);
 

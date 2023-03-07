@@ -4,6 +4,7 @@
 #include "StandardFFTProcessor.h"
 #include "PluginParameters.h"
 #include "PhaseBuffer.h"
+#include "FftWindowType.h"
 
 class SpectralAudioProcessorInteractor {
 public:
@@ -30,6 +31,7 @@ public:
 	void setFftSize(int fftSize);
     void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); };
     void setNumOverlaps(int newOverlapCount);
+    void setWindowType(FftWindowType newWindowType);
 
 protected:	
 	std::vector< std::vector<std::unique_ptr<StandardFFTProcessor>> > m_spectralProcess;
