@@ -38,6 +38,7 @@
             file="Source/SpectralGateAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
+      <FILE id="c7LfSt" name="FftWindowType.h" compile="0" resource="0" file="../shared/FftWindowType.h"/>
       <GROUP id="{03E87BE4-B582-75DC-87DD-B917EB0FAA42}" name="components">
         <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0"
               file="../shared/components/ControlPointComponent.cpp"/>
@@ -122,6 +123,10 @@
         <FILE id="YN1COf" name="FftStyleChoiceAdapter.h" compile="0" resource="0"
               file="../shared/FftStyleChoiceAdapter.h"/>
         <FILE id="d9cRaX" name="FftSwitcher.h" compile="0" resource="0" file="../shared/FftSwitcher.h"/>
+        <FILE id="pEwcNC" name="FftWindowChoiceAdapter.cpp" compile="1" resource="0"
+              file="../shared/FftWindowChoiceAdapter.cpp"/>
+        <FILE id="NzSrjG" name="FftWindowChoiceAdapter.h" compile="0" resource="0"
+              file="../shared/FftWindowChoiceAdapter.h"/>
       </GROUP>
       <GROUP id="{8C4593A2-5749-81BC-4209-1E91FB6BF0A1}" name="VersionCheck">
         <FILE id="IDFKqF" name="VersionCheck.cpp" compile="1" resource="0"

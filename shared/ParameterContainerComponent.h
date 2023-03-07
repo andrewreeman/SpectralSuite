@@ -28,6 +28,7 @@ public:
         
         settings.add(fftStylePropertyComponent(pluginParameters));
         settings.add(fftOverlapsPropertyComponent(pluginParameters));
+        settings.add(fftWindowPropertyComponent(pluginParameters));
         
         return settings;
 	}
@@ -67,6 +68,21 @@ protected:
         
         return new ChoicePropertyComponent(valueTreeState->getParameterAsValue(fftKey), "FFT Overlap count", choices, values);
     }
+    
+    PropertyComponent* fftWindowPropertyComponent(std::shared_ptr<PluginParameters> valueTreeState) {
+        String fftKey = "fftWindow";
+        AudioParameterChoice* param = valueTreeState->getParameterChoice(fftKey);
+        StringArray choices = param->choices;
+        
+        Array<var> values;
+        for(int i=0; i<choices.size(); ++i) {
+            values.add(i);
+        }
+        
+        return new ChoicePropertyComponent(valueTreeState->getParameterAsValue(fftKey), "FFT window type", choices, values);
+    }
+    
+    
 private:
     // This just needs to be declared: https://forum.juce.com/t/no-button-tooltips-in-juce-widgets-demo/36479/5
     // for showing tooltips

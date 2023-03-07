@@ -91,4 +91,11 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
 	}
 }
 
+void SpectralAudioProcessorInteractor::setWindowType(FftWindowType windowType) {
+    for(auto& processes : m_spectralProcess) {
+        for(auto& p : processes) {
+            p->setWindowType(windowType);
+        }
+    }
+}
 
