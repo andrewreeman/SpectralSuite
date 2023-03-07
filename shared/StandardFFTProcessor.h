@@ -36,7 +36,8 @@ protected:
     float m_invSize; // 1/FFT
     int m_hopsize;
     int m_offset; // m_offset is used for the initial offset of the STFT instances. This allows overlapping
-    std::vector<FftDecimal> m_hann;
+    FftWindowType m_windowType;
+    std::vector<FftDecimal> m_window;
     std::vector<FftDecimal> m_input; // audio input ...
     std::vector<Cpx> m_cpxInput; // ...converted to complex...
     std::vector<Cpx>m_fftOut; //... perform fft  ...
@@ -54,14 +55,15 @@ protected:
     // fill the inputs and pass to the outputs
     virtual void fill_in_passOut(const FftDecimal* audioInput, FftDecimal* processOutput, int blockSize);
     
+    void fillWindow(std::vector<FftDecimal>& table, int size);
     void fillHann(std::vector<FftDecimal>& table, int size);
-    void fillBlackmanWindow(std::vector<FftDecimal>& table, int size);
+    void fillBlackman(std::vector<FftDecimal>& table, int size);
     void fillHamming(std::vector<FftDecimal>& table, int size);
     void fillBlackmanHarris(std::vector<FftDecimal>& table, int size);
     void float2Cpx(const std::vector<FftDecimal>& inFloat, std::vector<Cpx>& outCpx);
     void cpx2Float(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat);
     void normalise(std::vector<Cpx>& cpxInOut);
-    void doHann(std::vector<FftDecimal>& inOut);
+    void applyWindow(std::vector<FftDecimal>& inOut);
 
 public:
 
@@ -81,6 +83,9 @@ public:
 
     void setSampleRate(int newRate){ m_sRate = newRate;}
     int getSampleRate() const { return m_sRate; }
+    
+    void setWindowType(FftWindowType newType);
+    FftWindowType getWindowType() const { return m_windowType; }
 
     virtual bool setFFTSize(int newSize);
     int getFFTSize() const { return m_fftSize; }

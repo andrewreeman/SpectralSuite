@@ -5,12 +5,12 @@
 
 StandardFFTProcessor::StandardFFTProcessor(int size, int hopSize, int offset, int sRate) :
     m_sRate(sRate), m_fftSize(size), m_halfSize(size / 2), m_invSize(1.f/float(size)),
-    m_hopsize(hopSize), m_offset(offset), m_hann(size), m_input(size),
+    m_hopsize(hopSize), m_offset(offset), m_windowType(FftWindowType::HANN), m_window(size), m_input(size),
     m_cpxInput(size), m_fftOut(size), m_polarIn(m_halfSize),m_polarOut(m_halfSize),
     m_ifftin(size), m_cpxOutput(size), m_output(size),
     fft(new kissfft<FftDecimal>(m_fftSize, false)), ifft(new kissfft<FftDecimal> (m_fftSize, true))
 {
-    fillHann(m_hann, m_fftSize);
+    fillWindow(m_window, m_fftSize);
 }
 
 
@@ -21,7 +21,7 @@ void StandardFFTProcessor::process(const FftDecimal* input, FftDecimal* output, 
 
     // when the input buffer reaches the fft block size we can fft
     if( m_offset >= m_fftSize ){
-        doHann(m_input);
+        applyWindow(m_input);
         // here is a good location for a zero padding function
        // zeroPadding(m_input, int(m_fftSize*0.8));
        //m_input.resize(m_fftSize, 0.f);
@@ -40,9 +40,15 @@ void StandardFFTProcessor::process(const FftDecimal* input, FftDecimal* output, 
         ifft->transform(&m_ifftin[0], &m_cpxOutput[0]);
                 
         cpx2Float(m_cpxOutput, m_output);
-        doHann(m_output);
+        applyWindow(m_output);
         m_offset = 0; //reset count
     }
+}
+
+void StandardFFTProcessor::setWindowType(FftWindowType newType) {
+    m_windowType = newType;
+    m_window.clear();
+    fillWindow(m_window, m_fftSize);
 }
 
 bool StandardFFTProcessor::setFFTSize(int newSize){
@@ -55,9 +61,9 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
     m_cpxInput.resize(newSize, emptyCpx);
     m_output.resize(newSize, 0.f);
     m_fftOut.resize(newSize, emptyCpx);
-    m_hann.resize(newSize, 0.f);
+    m_window.resize(newSize, 0.f);
 
-    fillHann(m_hann, newSize);
+    fillWindow(m_window, newSize);
 
     Polar<FftDecimal> emptyPolar(0.f, 0.f);
     m_polarOut.resize(newSize, emptyPolar);
@@ -69,6 +75,27 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
     return true;
 }
 
+
+void StandardFFTProcessor::fillWindow(std::vector<FftDecimal>& table, int size){
+    switch(m_windowType) {
+        case FftWindowType::HANN: {
+            fillHann(table, size);
+            break;
+        }
+        case BLACKMAN: {
+            fillBlackman(table, size);
+            break;
+        }
+        case HAMMING: {
+            fillHamming(table, size);
+            break;
+        }
+        case BLACKMAN_HARRIS: {
+            fillBlackmanHarris(table, size);
+            break;
+        }
+    }
+}
 
 void StandardFFTProcessor::fillHann(std::vector<FftDecimal>& table, int size){
     float w;
@@ -83,7 +110,7 @@ void StandardFFTProcessor::fillHann(std::vector<FftDecimal>& table, int size){
     }
 }
 
-void StandardFFTProcessor::fillBlackmanWindow(std::vector<FftDecimal>& table, int size) {
+void StandardFFTProcessor::fillBlackman(std::vector<FftDecimal>& table, int size) {
     float max = size - 1;
     for(int n=0; n < size; ++n) {
         float w1 = (float)TWOPI * (float(n)/max);
@@ -158,9 +185,9 @@ void StandardFFTProcessor::fill_in_passOut(const FftDecimal* audioInput, FftDeci
 }
 
 
-void StandardFFTProcessor::doHann(std::vector<FftDecimal>& inOut){
+void StandardFFTProcessor::applyWindow(std::vector<FftDecimal>& inOut){
   for(int i=0; i<m_fftSize; ++i){
-    inOut[i] *= m_hann[i];
+    inOut[i] *= m_window[i];
   }
 }
 
