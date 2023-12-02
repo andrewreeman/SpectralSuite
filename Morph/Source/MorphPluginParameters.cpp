@@ -9,6 +9,7 @@
 
 MorphPluginParameters::MorphPluginParameters(AudioProcessor * processor) :
     PluginParameters(processor),    
+    didSetInitialAudioState(false),
     controlPointComponent(nullptr)
 {}
 
@@ -30,6 +31,14 @@ void MorphPluginParameters::replaceState(const ValueTree& newState) {
     auto morphPoints = getMorphPointsFromState(newState);    
     if(!morphPoints.isEmpty()) {
         controlPointComponent->setSourcePoints(morphPoints);
+    }
+    
+    // TODO: this is an ugly hack because we are using replaceState internally thus we are using it in 2 places. We only want the below to run when called externaly
+    if(!didSetInitialAudioState) {
+        didSetInitialAudioState = true;
+        if(listener != nullptr) {
+            
+        }
     }
 }
 
@@ -95,4 +104,8 @@ Array<juce::Point<int>> MorphPluginParameters::getMorphPointsFromState(ValueTree
     }
     
     return points;
+}
+
+void MorphPluginParameters::setAudioMorphPointsOnState(Array<float> audioMorphPoints, ValueTree state) {
+    
 }

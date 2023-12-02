@@ -25,9 +25,11 @@ public:
     void controlPointsChanged (Array<float> controlPoints, ControlPointComponent* component) override;
 private:
     Array<juce::Point<int>> getMorphPointsFromState(ValueTree state);
+    void setAudioMorphPointsOnState(Array<float> audioMorphPoints, ValueTree state);
     
     Array<juce::Point<int>> lastPoints;
     Listener* listener;
+    bool didSetInitialAudioState;
     
     // TODO: this should really not be here. It is only here to query and set the parameters
     ControlPointComponent* controlPointComponent;

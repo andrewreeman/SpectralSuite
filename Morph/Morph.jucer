@@ -39,6 +39,9 @@
               file="../shared/components/LicensesComponent.h"/>
         <FILE id="CxupVI" name="Spline.cpp" compile="1" resource="0" file="../shared/components/Spline.cpp"/>
         <FILE id="GCHJPY" name="Spline.h" compile="0" resource="0" file="../shared/components/Spline.h"/>
+        <FILE id="fMzlwN" name="SplineHelper.cpp" compile="1" resource="0"
+              file="../shared/components/SplineHelper.cpp"/>
+        <FILE id="YemFAq" name="SplineHelper.h" compile="0" resource="0" file="../shared/components/SplineHelper.h"/>
       </GROUP>
       <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1"
             resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>
