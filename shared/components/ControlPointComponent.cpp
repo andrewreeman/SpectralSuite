@@ -247,7 +247,7 @@ void ControlPointComponent::populateOutputValues() {
     double bottom = (double)getLocalBounds().getBottom();
     auto output = SplineHelper::getAudioSplineValues(points, bottom);
     outputValues.clearQuick();
-    outputValues.addArray(output, output.size());
+    outputValues.addArray(output);
 //    if(points.size() < 2) { return ; }
 //    
 //    const int resolution = 128;

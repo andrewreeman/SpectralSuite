@@ -28,7 +28,9 @@ void MorphPluginParameters::controlPointsChanged(Array<float> controlPoints, Con
 void MorphPluginParameters::replaceState(const ValueTree& newState) {
     PluginParameters::replaceState(newState);
     
-    auto morphPoints = getMorphPointsFromState(newState);    
+    // TODO: the problem is that we are storing the UI values in the state
+    // We should be storing the audio values instead and mapping this to the UI when required
+    auto morphPoints = getMorphPointsFromState(newState);
     if(!morphPoints.isEmpty()) {
         controlPointComponent->setSourcePoints(morphPoints);
     }
