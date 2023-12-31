@@ -6,6 +6,7 @@
 
 #include "MorphPluginParameters.h"
 #include "MorphInteractor.h"
+#include "../../shared/components/SplineHelper.h"
 
 MorphPluginParameters::MorphPluginParameters(AudioProcessor * processor) :
     PluginParameters(processor),    
@@ -13,13 +14,14 @@ MorphPluginParameters::MorphPluginParameters(AudioProcessor * processor) :
     controlPointComponent(nullptr)
 {}
 
-
 void MorphPluginParameters::controlPointsChanged(Array<float> controlPoints, ControlPointComponent* component) {
+    
+    lastPoints = component->getSourcePoints();
+    this->lastPointsV2.setPointsAndScale(component->getSourcePoints(), component->getBounds().getBottom());
     
     auto newState = copyState();
     PluginParameters::replaceState(newState);
     
-    lastPoints = component->getSourcePoints();
     if(listener != nullptr) {
         listener->controlPointsChanged(controlPoints);
     }
@@ -28,39 +30,43 @@ void MorphPluginParameters::controlPointsChanged(Array<float> controlPoints, Con
 void MorphPluginParameters::replaceState(const ValueTree& newState) {
     PluginParameters::replaceState(newState);
     
-    // TODO: the problem is that we are storing the UI values in the state
-    // We should be storing the audio values instead and mapping this to the UI when required
-    auto morphPoints = getMorphPointsFromState(newState);
-    if(!morphPoints.isEmpty()) {
-        controlPointComponent->setSourcePoints(morphPoints);
+    bool paramsEmptyBeforePopulate = this->lastPointsV2.isEmpty();
+    
+    setPointsFromState(newState, this->lastPointsV2);
+    if(!lastPointsV2.points.isEmpty() && controlPointComponent != nullptr) {
+        controlPointComponent->setSourcePoints(lastPointsV2.points);
     }
     
     // TODO: this is an ugly hack because we are using replaceState internally thus we are using it in 2 places. We only want the below to run when called externaly
-    if(!didSetInitialAudioState) {
+    bool paramsDidChange = paramsEmptyBeforePopulate && !this->lastPointsV2.isEmpty();
+    if(!didSetInitialAudioState || paramsDidChange) {
         didSetInitialAudioState = true;
-        if(listener != nullptr) {
-            
-        }
+        this->triggerControlPointsChanged();
     }
+}
+
+void MorphPluginParameters::triggerControlPointsChanged() {
+    if(listener != nullptr && !lastPointsV2.points.isEmpty()) {
+        auto audioValues = SplineHelper::getAudioSplineValues(lastPointsV2.points, lastPointsV2.yScale);
+        listener->controlPointsChanged(audioValues);
+    };
 }
 
 ValueTree MorphPluginParameters::copyState() {
     ValueTree tree = PluginParameters::copyState();
     
-    if(controlPointComponent == nullptr || !controlPointComponent->isShowing()) {
-        return tree;
-    }
-        
     if (tree.getChildWithName("pointTree").isValid()) {
         tree.removeChild(tree.getChildWithName("pointTree"), nullptr);
     }
     
     ValueTree pointTree("pointTree");
     
-    auto points = controlPointComponent->getSourcePoints();    
+    auto points = lastPointsV2.points;
     if(points.isEmpty()) {
         return tree;
     }
+    
+    pointTree.setProperty("ylimit", lastPointsV2.yScale, nullptr);
     
     for(auto& point : points) {
         ValueTree valuePoint ("point");
@@ -77,20 +83,34 @@ ValueTree MorphPluginParameters::copyState() {
 void MorphPluginParameters::setControlPointComponent(ControlPointComponent* component) {
     component->setListener(this);
     this->controlPointComponent = component;
-    auto morphPoints = getMorphPointsFromState(getState());
+    this->setPointsFromState(getState(), this->lastPointsV2);
     
-    if(!morphPoints.isEmpty()) {
-        component->setSourcePoints(morphPoints);
+    if(!lastPointsV2.points.isEmpty()) {
+        component->setSourcePoints(lastPointsV2.points);
     }
 }
 
-Array<juce::Point<int>> MorphPluginParameters::getMorphPointsFromState(ValueTree state) {
-    if(controlPointComponent == nullptr || !state.getChildWithName("pointTree").isValid()) {
-        return Array<juce::Point<int>>();
+void MorphPluginParameters::setPointsFromState(ValueTree state, ControlPoints &controlPoints) {
+    auto xmlStr = state.toXmlString();
+    if(!state.getChildWithName("pointTree").isValid()) {
+        controlPoints.clear();
+        return;
     }
     
-    
     auto pointTree = state.getChildWithName("pointTree");
+    
+    int yLimit;
+    if (pointTree.hasProperty("ylimit"))
+    {
+        yLimit = pointTree.getPropertyAsValue("ylimit", nullptr).getValue();
+    }
+    else if(controlPointComponent != nullptr) {
+        yLimit = controlPointComponent->getLocalBounds().getBottom();
+    }
+    else {
+        controlPoints.clear();
+        return;
+    }
     
     Array<juce::Point<int>> points;
     for(int i=0; i<pointTree.getNumChildren(); ++i) {
@@ -105,7 +125,7 @@ Array<juce::Point<int>> MorphPluginParameters::getMorphPointsFromState(ValueTree
         points.add(point);
     }
     
-    return points;
+    controlPoints.setPointsAndScale(points, yLimit);
 }
 
 void MorphPluginParameters::setAudioMorphPointsOnState(Array<float> audioMorphPoints, ValueTree state) {

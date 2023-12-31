@@ -7,7 +7,7 @@
 
 class MorphInteractor : public SpectralAudioProcessorInteractor, MorphPluginParameters::Listener {
 public:
-	MorphInteractor(int numOverlaps, std::shared_ptr<MorphPluginParameters> params) : SpectralAudioProcessorInteractor(numOverlaps) {		
+	MorphInteractor(int numOverlaps, std::shared_ptr<MorphPluginParameters> params) : SpectralAudioProcessorInteractor(numOverlaps), m_morphParams(params) {		
         params->setListener(this);
         m_morphPointsChanged = false;
         
@@ -27,6 +27,7 @@ private:
     
     juce::Array<int>* pWriteArray;
     juce::Array<int>* pReadArray;
-    
     bool m_morphPointsChanged;
+    
+    std::shared_ptr<MorphPluginParameters> m_morphParams;
 };

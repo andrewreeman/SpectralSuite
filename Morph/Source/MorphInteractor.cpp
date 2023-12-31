@@ -8,6 +8,11 @@ void MorphInteractor::prepareProcess(StandardFFTProcessor* spectralProcessor)
         m_morphPointsChanged = false;
         std::swap(pReadArray, pWriteArray);
     }
+    // TODO: pre calc half size
+    else if(pReadArray->size() != (this->getFftSize() / 2 ))
+    {
+        m_morphParams->triggerControlPointsChanged();
+    }
 }
 
 std::unique_ptr<StandardFFTProcessor> MorphInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)

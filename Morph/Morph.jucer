@@ -8,6 +8,7 @@
               pluginManufacturerCode="STPW" pluginCode="SPMO" jucerFormatVersion="1">
   <MAINGROUP id="NNl5AK" name="Morph">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
+      <FILE id="ZD3sxq" name="ControlPoints.h" compile="0" resource="0" file="Source/ControlPoints.h"/>
       <FILE id="HJgauP" name="MorphPluginParameters.cpp" compile="1" resource="0"
             file="Source/MorphPluginParameters.cpp"/>
       <FILE id="SYcJcz" name="MorphInteractor.cpp" compile="1" resource="0"
