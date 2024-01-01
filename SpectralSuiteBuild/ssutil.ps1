@@ -53,7 +53,7 @@ function Build-Release {
     $releaseDir = [IO.Path]::Combine($jucerFile, "..", "..", "Release")
     $releaseDir = Resolve-Path $releaseDir    
 
-    $vst3_64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio2022*", "x64", "Release", "VST3", "*.vst3")            
+    $vst3_64 = [IO.Path]::Combine($jucerFile, "..", "Builds", "VisualStudio2022", "x64", "Release", "VST3", $projectName + ".vst3", "Contents", "x86_64-win", "*.vst3")
     $vst3_64Target = [IO.Path]::Combine($releaseDir, $projectName + ".vst3")
     echo "Copying from $vst3_64 to $vst3_64Target"
     cp $vst3_64 $vst3_64Target

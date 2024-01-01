@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spectral Gate_VST3", "..\SpectralGate\Builds\VisualStudio2022\Spectral Gate_VST3.vcxproj", "{ECD1FF1B-E262-F10B-D196-7267794FB3D6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2F984515-77A7-DB7A-6151-B2BD85E9C085} = {2F984515-77A7-DB7A-6151-B2BD85E9C085}
+		{3A0D81D8-6578-4E00-AA4C-388E8E7047AC} = {3A0D81D8-6578-4E00-AA4C-388E8E7047AC}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spectral Gate_SharedCode", "..\SpectralGate\Builds\VisualStudio2022\Spectral Gate_SharedCode.vcxproj", "{2F984515-77A7-DB7A-6151-B2BD85E9C085}"
@@ -15,6 +16,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bin Scrambler_VST3", "..\BinScrambler\Builds\VisualStudio2022\Bin Scrambler_VST3.vcxproj", "{AD263019-4B6B-46CA-A39E-01EC80DFF804}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E0CE24AB-E4E5-4F60-ADA9-19EC4055024B} = {E0CE24AB-E4E5-4F60-ADA9-19EC4055024B}
+		{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB} = {EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bin Scrambler_SharedCode", "..\BinScrambler\Builds\VisualStudio2022\Bin Scrambler_SharedCode.vcxproj", "{E0CE24AB-E4E5-4F60-ADA9-19EC4055024B}"
@@ -23,6 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Magnet_SharedCode
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Magnet_VST3", "..\FrequencyMagnet\Builds\VisualStudio2022\Frequency Magnet_VST3.vcxproj", "{911854BC-29C9-4689-9426-AF90DDF9C30E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{68DD897F-D0B2-44B1-ADAE-F506E845FB05} = {68DD897F-D0B2-44B1-ADAE-F506E845FB05}
 		{A91AD5C7-4489-4917-B1A2-A2BD5AAA6A62} = {A91AD5C7-4489-4917-B1A2-A2BD5AAA6A62}
 	EndProjectSection
 EndProject
@@ -31,6 +34,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Shifter_VST3", "..\FrequencyShift\Builds\VisualStudio2022\Frequency Shifter_VST3.vcxproj", "{74BB46B9-F596-44B5-A718-3F98B7492191}"
 	ProjectSection(ProjectDependencies) = postProject
 		{330F5AAE-DDE0-40A0-BCEB-B88DE31921DC} = {330F5AAE-DDE0-40A0-BCEB-B88DE31921DC}
+		{DF651130-3668-408C-92B4-3A690BC8BD5A} = {DF651130-3668-408C-92B4-3A690BC8BD5A}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_SharedCode", "..\Morph\Builds\VisualStudio2022\Morph_SharedCode.vcxproj", "{1A025CA1-C4E6-4EED-9686-9E7D9E57654E}"
@@ -38,12 +42,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_VST3", "..\Morph\Builds\VisualStudio2022\Morph_VST3.vcxproj", "{0E00A46E-6241-45CA-9AE5-14D97FA0B287}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A025CA1-C4E6-4EED-9686-9E7D9E57654E} = {1A025CA1-C4E6-4EED-9686-9E7D9E57654E}
+		{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961} = {9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_SharedCode", "..\PhaseLock\Builds\VisualStudio2022\Phase Lock_SharedCode.vcxproj", "{D9E82143-7786-41D0-9308-EBA5AC12094C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_VST3", "..\PhaseLock\Builds\VisualStudio2022\Phase Lock_VST3.vcxproj", "{EF9C9F4A-9168-47C1-B4AF-0A6FFD1E23A6}"
 	ProjectSection(ProjectDependencies) = postProject
+		{913A4A44-FFD5-49F6-A1D2-14E3C53F1106} = {913A4A44-FFD5-49F6-A1D2-14E3C53F1106}
 		{D9E82143-7786-41D0-9308-EBA5AC12094C} = {D9E82143-7786-41D0-9308-EBA5AC12094C}
 	EndProjectSection
 EndProject
@@ -51,8 +57,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinusoidal Shaped Filter_Sh
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinusoidal Shaped Filter_VST3", "..\SinusoidalShapedFilter\Builds\VisualStudio2022\Sinusoidal Shaped Filter_VST3.vcxproj", "{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}"
 	ProjectSection(ProjectDependencies) = postProject
+		{612AFC96-EE2A-4597-ACB8-1D794C1959DA} = {612AFC96-EE2A-4597-ACB8-1D794C1959DA}
 		{F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5} = {F2DE1233-89EA-44A2-A7B5-03F47B5EFCA5}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bin Scrambler_VST3ManifestHelper", "..\BinScrambler\Builds\VisualStudio2022\Bin Scrambler_VST3ManifestHelper.vcxproj", "{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Magnet_VST3ManifestHelper", "..\FrequencyMagnet\Builds\VisualStudio2022\Frequency Magnet_VST3ManifestHelper.vcxproj", "{68DD897F-D0B2-44B1-ADAE-F506E845FB05}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frequency Shifter_VST3ManifestHelper", "..\FrequencyShift\Builds\VisualStudio2022\Frequency Shifter_VST3ManifestHelper.vcxproj", "{DF651130-3668-408C-92B4-3A690BC8BD5A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Morph_VST3ManifestHelper", "..\Morph\Builds\VisualStudio2022\Morph_VST3ManifestHelper.vcxproj", "{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phase Lock_VST3ManifestHelper", "..\PhaseLock\Builds\VisualStudio2022\Phase Lock_VST3ManifestHelper.vcxproj", "{913A4A44-FFD5-49F6-A1D2-14E3C53F1106}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinusoidal Shaped Filter_VST3ManifestHelper", "..\SinusoidalShapedFilter\Builds\VisualStudio2022\Sinusoidal Shaped Filter_VST3ManifestHelper.vcxproj", "{612AFC96-EE2A-4597-ACB8-1D794C1959DA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spectral Gate_VST3ManifestHelper", "..\SpectralGate\Builds\VisualStudio2022\Spectral Gate_VST3ManifestHelper.vcxproj", "{3A0D81D8-6578-4E00-AA4C-388E8E7047AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +141,34 @@ Global
 		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Debug|x64.Build.0 = Debug|x64
 		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Release|x64.ActiveCfg = Release|x64
 		{2DF8E604-F2CD-4B56-9B4E-2466F1B81395}.Release|x64.Build.0 = Release|x64
+		{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}.Debug|x64.ActiveCfg = Debug|x64
+		{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}.Debug|x64.Build.0 = Debug|x64
+		{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}.Release|x64.ActiveCfg = Release|x64
+		{EEB2B4C3-647A-73D9-34D0-CFE0A53A70AB}.Release|x64.Build.0 = Release|x64
+		{68DD897F-D0B2-44B1-ADAE-F506E845FB05}.Debug|x64.ActiveCfg = Debug|x64
+		{68DD897F-D0B2-44B1-ADAE-F506E845FB05}.Debug|x64.Build.0 = Debug|x64
+		{68DD897F-D0B2-44B1-ADAE-F506E845FB05}.Release|x64.ActiveCfg = Release|x64
+		{68DD897F-D0B2-44B1-ADAE-F506E845FB05}.Release|x64.Build.0 = Release|x64
+		{DF651130-3668-408C-92B4-3A690BC8BD5A}.Debug|x64.ActiveCfg = Debug|x64
+		{DF651130-3668-408C-92B4-3A690BC8BD5A}.Debug|x64.Build.0 = Debug|x64
+		{DF651130-3668-408C-92B4-3A690BC8BD5A}.Release|x64.ActiveCfg = Release|x64
+		{DF651130-3668-408C-92B4-3A690BC8BD5A}.Release|x64.Build.0 = Release|x64
+		{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}.Debug|x64.ActiveCfg = Debug|x64
+		{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}.Debug|x64.Build.0 = Debug|x64
+		{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}.Release|x64.ActiveCfg = Release|x64
+		{9BFF2BC5-A0FD-4CFD-8C11-76C7D816A961}.Release|x64.Build.0 = Release|x64
+		{913A4A44-FFD5-49F6-A1D2-14E3C53F1106}.Debug|x64.ActiveCfg = Debug|x64
+		{913A4A44-FFD5-49F6-A1D2-14E3C53F1106}.Debug|x64.Build.0 = Debug|x64
+		{913A4A44-FFD5-49F6-A1D2-14E3C53F1106}.Release|x64.ActiveCfg = Release|x64
+		{913A4A44-FFD5-49F6-A1D2-14E3C53F1106}.Release|x64.Build.0 = Release|x64
+		{612AFC96-EE2A-4597-ACB8-1D794C1959DA}.Debug|x64.ActiveCfg = Debug|x64
+		{612AFC96-EE2A-4597-ACB8-1D794C1959DA}.Debug|x64.Build.0 = Debug|x64
+		{612AFC96-EE2A-4597-ACB8-1D794C1959DA}.Release|x64.ActiveCfg = Release|x64
+		{612AFC96-EE2A-4597-ACB8-1D794C1959DA}.Release|x64.Build.0 = Release|x64
+		{3A0D81D8-6578-4E00-AA4C-388E8E7047AC}.Debug|x64.ActiveCfg = Debug|x64
+		{3A0D81D8-6578-4E00-AA4C-388E8E7047AC}.Debug|x64.Build.0 = Debug|x64
+		{3A0D81D8-6578-4E00-AA4C-388E8E7047AC}.Release|x64.ActiveCfg = Release|x64
+		{3A0D81D8-6578-4E00-AA4C-388E8E7047AC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
