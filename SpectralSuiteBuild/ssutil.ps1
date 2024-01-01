@@ -75,7 +75,7 @@ ForEach ($pluginPath in $pluginJucerPaths) {
 }
 
 Set-Location $root
-Set-Location "spectral-suite"
+Set-Location "..\spectral-suite"
 # sometimes the exlude filters are ignored on when rebuilding and on the first 'build'. doing this 3 times ensures this eventually works, build after rebuild simply packages files
 # using Wix will probably fix this but not worth it yet
 devenv.com "spectral-suite.sln" /rebuild Release
