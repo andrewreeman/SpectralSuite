@@ -16,10 +16,8 @@ public:
 	}
 		
 	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
-    
 	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans) override;
-		
-    void controlPointsChanged(Array<float> controlPoints) override;    
+    void controlPointsChanged(Array<float> controlPoints) override;
 
 private:
     juce::Array<int> pointsArray1;
