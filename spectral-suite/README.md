@@ -1,0 +1,1 @@
+When running the installer project, remember to increase the version number first. This can be done via the properties tab or by pressing F4 on the installer project. Change the version number which should also re-generate a new product code.
