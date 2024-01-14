@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="WPt5si" name="Morph" projectType="audioplug" displaySplashScreen="1"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.1.8" defines="VersionCode=14" pluginDesc="Manipulate the shape of the frequency content"
+              version="2.1.9" defines="VersionCode=15" pluginDesc="Manipulate the shape of the frequency content"
               pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021"
               companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
               pluginManufacturerCode="STPW" pluginCode="SPMO" jucerFormatVersion="1">
@@ -40,9 +40,9 @@
               file="../shared/components/LicensesComponent.h"/>
         <FILE id="CxupVI" name="Spline.cpp" compile="1" resource="0" file="../shared/components/Spline.cpp"/>
         <FILE id="GCHJPY" name="Spline.h" compile="0" resource="0" file="../shared/components/Spline.h"/>
-        <FILE id="fMzlwN" name="SplineHelper.cpp" compile="1" resource="0"
+        <FILE id="IQaDrI" name="SplineHelper.cpp" compile="1" resource="0"
               file="../shared/components/SplineHelper.cpp"/>
-        <FILE id="YemFAq" name="SplineHelper.h" compile="0" resource="0" file="../shared/components/SplineHelper.h"/>
+        <FILE id="S1ngSP" name="SplineHelper.h" compile="0" resource="0" file="../shared/components/SplineHelper.h"/>
       </GROUP>
       <FILE id="UNPTWI" name="SpectralAudioProcessorInteractor.cpp" compile="1"
             resource="0" file="../shared/SpectralAudioProcessorInteractor.cpp"/>

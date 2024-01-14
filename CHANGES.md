@@ -1,4 +1,6 @@
 % Spectral Suite
+## Version 2.1.9
+    * Fixed issue with morph playing no audio when UI not shown
 ## Version 2.1.8
     * Added overlap count and window settings
 ## Version 2.1.7
