@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Phase Lock" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.8" defines="VersionCode=14" pluginDesc="Locks the phase and/or locks the frequency" pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPPL" jucerFormatVersion="1" displaySplashScreen="1">
+<JUCERPROJECT id="WPt5si" name="Phase Lock" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.9" defines="VersionCode=15" pluginDesc="Locks the phase and/or locks the frequency" pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="SPPL" jucerFormatVersion="1" displaySplashScreen="1">
   <MAINGROUP id="NNl5AK" name="Phase Lock">
     <GROUP id="{C7CC9691-F182-4F70-85C0-972905B94E77}" name="Source">
       <FILE id="GftT5o" name="TransitionState.cpp" compile="1" resource="0" file="Source/TransitionState.cpp"/>
