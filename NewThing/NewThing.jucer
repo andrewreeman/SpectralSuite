@@ -8,17 +8,18 @@
               displaySplashScreen="1">
   <MAINGROUP id="NNl5AK" name="Base">
     <GROUP id="{E11A4544-C473-A9D8-27C6-3240AE094866}" name="Source">
-      <FILE id="zMoi62" name="BaseAudioPlugin.cpp" compile="1" resource="0"
-            file="BaseAudioPlugin.cpp"/>
-      <FILE id="HaP4Xb" name="BaseAudioPlugin.h" compile="0" resource="0"
-            file="BaseAudioPlugin.h"/>
-      <FILE id="mRcrPA" name="BaseParameters.cpp" compile="1" resource="0"
-            file="BaseParameters.cpp"/>
-      <FILE id="ioPH6k" name="BaseParameters.h" compile="0" resource="0"
-            file="BaseParameters.h"/>
-      <FILE id="xiwHfA" name="BaseProcessor.cpp" compile="1" resource="0"
-            file="BaseProcessor.cpp"/>
-      <FILE id="dhrZKa" name="BaseProcessor.h" compile="0" resource="0" file="BaseProcessor.h"/>
+      <FILE id="zMoi62" name="NewThingAudioPlugin.cpp" compile="1" resource="0"
+            file="NewThingAudioPlugin.cpp"/>
+      <FILE id="HaP4Xb" name="NewThingAudioPlugin.h" compile="0" resource="0"
+            file="NewThingAudioPlugin.h"/>
+      <FILE id="mRcrPA" name="NewThingParameters.cpp" compile="1" resource="0"
+            file="NewThingParameters.cpp"/>
+      <FILE id="ioPH6k" name="NewThingParameters.h" compile="0" resource="0"
+            file="NewThingParameters.h"/>
+      <FILE id="xiwHfA" name="NewThingProcessor.cpp" compile="1" resource="0"
+            file="NewThingProcessor.cpp"/>
+      <FILE id="dhrZKa" name="NewThingProcessor.h" compile="0" resource="0"
+            file="NewThingProcessor.h"/>
       <FILE id="v5cLBg" name="UiContainer.cpp" compile="1" resource="0" file="UiContainer.cpp"/>
       <FILE id="OAfOjP" name="UiContainer.h" compile="0" resource="0" file="UiContainer.h"/>
     </GROUP>
