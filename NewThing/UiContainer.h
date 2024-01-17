@@ -2,12 +2,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../shared/ParameterContainerComponent.h"
-#include "BaseParameters.h"
+#include "NewThingParameters.h"
 
 class UiContainer : public ParameterContainerComponent
 {
 public:
-    UiContainer(std::shared_ptr<BaseParameters> valueTreeState, Colour textColour, int textBoxHeight);
+    UiContainer(std::shared_ptr<NewThingParameters> valueTreeState, Colour textColour, int textBoxHeight);
     ~UiContainer();
 
     std::shared_ptr<PluginParameters> getPluginParameters() override { return pluginParameters; }
@@ -18,7 +18,7 @@ public:
 private:
     Slider mixSlider;
     Label mixLabel;
-    std::shared_ptr<BaseParameters> pluginParameters;
+    std::shared_ptr<NewThingParameters> pluginParameters;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment;        
         
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UiContainer)

@@ -1,4 +1,4 @@
-#include "BaseAudioPlugin.h"
+#include "NewThingAudioPlugin.h"
 
 class Factory : public SpectralAudioPlugin::DependencyFactory {
 public:
@@ -7,15 +7,15 @@ public:
     };
     
     std::shared_ptr<PluginParameters> createParams(SpectralAudioPlugin *plugin) override {
-        m_baseParams = std::make_shared<BaseParameters>(plugin);
+        m_baseParams = std::make_shared<NewThingParameters>(plugin);
         return m_baseParams;
     };
     
     std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin *plugin) override {
-        return std::make_unique<BaseProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, m_baseParams);
+        return std::make_unique<NewThingProcessor>(SpectralAudioPlugin::FFT_OVERLAPS, m_baseParams);
     }
 private:
-    std::shared_ptr<BaseParameters> m_baseParams;
+    std::shared_ptr<NewThingParameters> m_baseParams;
 };
 
 // This creates new instances of the plugin..

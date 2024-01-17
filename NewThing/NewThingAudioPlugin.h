@@ -1,9 +1,9 @@
 #pragma once
 #include "JuceHeader.h"
 
-#include "BaseProcessor.h"
+#include "NewThingProcessor.h"
 #include "UiContainer.h"
-#include "BaseParameters.h"
+#include "NewThingParameters.h"
 
 #include "../../shared/SpectralAudioPlugin.h"
 #include "../../shared/SpectralAudioPluginUi.h"

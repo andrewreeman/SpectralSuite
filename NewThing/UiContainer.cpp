@@ -1,6 +1,6 @@
 #include "UiContainer.h"
 
-UiContainer::UiContainer(std::shared_ptr<BaseParameters> valueTreeState, Colour textColour, int) :    pluginParameters(valueTreeState)
+UiContainer::UiContainer(std::shared_ptr<NewThingParameters> valueTreeState, Colour textColour, int) :    pluginParameters(valueTreeState)
 {
     mixLabel.setText("Mix", NotificationType::dontSendNotification);
     mixLabel.setColour(Label::ColourIds::textColourId, textColour);    

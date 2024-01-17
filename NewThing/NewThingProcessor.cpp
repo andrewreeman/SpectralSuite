@@ -1,4 +1,4 @@
-#include "BaseProcessor.h"
+#include "NewThingProcessor.h"
 #include "../../shared/PhaseVocoder.h"
 #include "../../shared/PhaseBuffer.h"
 
@@ -16,13 +16,13 @@ public:
     };
 };
 
-std::unique_ptr<StandardFFTProcessor> BaseProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount)
+std::unique_ptr<StandardFFTProcessor> NewThingProcessor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int channel, int channelCount)
 {
     return std::make_unique<emptyProcess>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
-void BaseProcessor::prepareProcess(StandardFFTProcessor * spectralProcessor)
+void NewThingProcessor::prepareProcess(StandardFFTProcessor * spectralProcessor)
 {
     auto processor = ((emptyProcess*)spectralProcessor);
-    // TODO: set the parameters of the processor from the BaseParameters class
+    // TODO: set the parameters of the processor from the NewThingParameters class
 }

@@ -1,6 +1,6 @@
-#include "BaseParameters.h"
+#include "NewThingParameters.h"
 
-BaseParameters::BaseParameters(AudioProcessor * processor) :
+NewThingParameters::NewThingParameters(AudioProcessor * processor) :
     PluginParameters(processor)
 {
     createAndAddParameter(
