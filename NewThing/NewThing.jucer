@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="Base" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.1.9" defines="VersionCode=15" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+<JUCERPROJECT id="WPt5si" name="New Thing" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              version="2.1.9" defines="VersionCode=15" pluginDesc="A description for the new thing plugin"
               pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2022"
               companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
               pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1"
               displaySplashScreen="1">
-  <MAINGROUP id="NNl5AK" name="Base">
+  <MAINGROUP id="NNl5AK" name="New Thing">
     <GROUP id="{E11A4544-C473-A9D8-27C6-3240AE094866}" name="Source">
       <FILE id="zMoi62" name="NewThingAudioPlugin.cpp" compile="1" resource="0"
             file="NewThingAudioPlugin.cpp"/>
