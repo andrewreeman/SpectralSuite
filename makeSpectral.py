@@ -62,9 +62,8 @@ class Jucer:
 class Base(Jucer):
 
 	def manip_description(self, dt:str) -> str:
-		dt = self.swit(dt, 
-			'pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."',
-			f'pluginDesc="{self.desc}"')
+		dt = self.swit(dt, 'pluginDesc="BaseDescription"', f'pluginDesc="{self.desc}"')
+		dt = self.swit(dt, 'MAINGROUP id="NNl5AK" name="Base"', f'MAINGROUP id="NNl5AK" name="{self.name}"')
 		return dt
 
 	@override
