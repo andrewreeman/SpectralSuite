@@ -9,7 +9,7 @@ E.g: `alias projucer=~/Documents/Personal/JUCE/Projucer.app/Contents/MacOS/Proju
 
 
 ### Making a new plugin
-The boilerplate code for a new plugin is handled for you with a python script.
+The boilerplate code for a new plugin is handled for you with a python script. This uses python 3.12 or higher.
 ```bash
 --> py makeSpectral.py -h
 usage: makeSpectral.py [-h] -p PATH -n NAME [-d DESCRIPTION] [-v {True,False}]
