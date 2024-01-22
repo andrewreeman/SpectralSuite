@@ -142,6 +142,7 @@ class Processor_H(Abstract_JucerFile):
 		dt = self.swit(dt, 
 			'BaseProcessor(int numOverlaps, std::shared_ptr<BaseParameters> params)', 
 			f'{self.name}Processor(int numOverlaps, std::shared_ptr<BaseParameters> params)')
+        dt = self.swit(dt, 'std::shared_ptr<BaseParameters> params', f'std::shared_ptr<{self.name}Parameters> params')
 		dt = self.swit(dt, 'std::shared_ptr<BaseParameters> m_params', f'std::shared_ptr<{self.name}Parameters> m_params')
 		return dt
 
