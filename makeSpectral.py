@@ -21,7 +21,7 @@ class Cmd:
 		self.path = p.pop() if p else None
 		self.name = n.pop() if n else None
 		self.description = d.pop() if d else None
-		self.verbose = v.pop() if v else False
+		self.verbose = v.pop() if type(v) is list else v
 
 class Abstract_JucerFile:
 
@@ -63,13 +63,16 @@ class Base(Abstract_JucerFile):
 
 	def manip_description(self, dt:str) -> str:
 		dt = self.swit(dt, 'pluginDesc="BaseDescription"', f'pluginDesc="{self.desc}"')
-		dt = self.swit(dt, 'name="BaseTitle"', f'name="{self.name}"')
 		return dt
 
 	@override
 	def manip(self, dt : str) -> str:
 		if self.desc:
 			dt = self.manip_description(dt)
+
+		dt = self.swit(dt, 'name="BaseTitle"', f'name="{self.name}"')
+		dt = self.swit(dt, 'name="BaseTitle"', f'name="{self.name}"')
+
 		dt = self.swit(dt, 'name="BaseAudioPlugin.cpp"', f'name="{self.name}AudioPlugin.cpp"')
 		dt = self.swit(dt, 'file="BaseAudioPlugin.cpp"', f'file="{self.name}AudioPlugin.cpp"')
 		dt = self.swit(dt, 'name="BaseAudioPlugin.h"', f'name="{self.name}AudioPlugin.h"')
@@ -139,10 +142,9 @@ class Processor_H(Abstract_JucerFile):
 		dt = self.swit(dt, 
 			'class BaseProcessor : public SpectralAudioProcessorInteractor',
 			f'class {self.name}Processor : public SpectralAudioProcessorInteractor')
-		dt = self.swit(dt, 
-			'BaseProcessor(int numOverlaps, std::shared_ptr<BaseParameters> params)', 
-			f'{self.name}Processor(int numOverlaps, std::shared_ptr<BaseParameters> params)')
-        dt = self.swit(dt, 'std::shared_ptr<BaseParameters> params', f'std::shared_ptr<{self.name}Parameters> params')
+		dt = self.swit(dt,
+			'BaseProcessor(int numOverlaps, std::shared_ptr<BaseParameters> params)',
+			f'{self.name}Processor(int numOverlaps, std::shared_ptr<{self.name}Parameters> params)')
 		dt = self.swit(dt, 'std::shared_ptr<BaseParameters> m_params', f'std::shared_ptr<{self.name}Parameters> m_params')
 		return dt
 
@@ -239,7 +241,6 @@ def copy_boilerplate_files_to_new_plugin(new_plugin_directory : str) -> List[str
 def main():
 	args = get_args()
 	cmds = Cmd(args.path, args.name, args.description, args.verbose)
-
 	copy_errors = copy_boilerplate_files_to_new_plugin(cmds.path)
 	if cmds.verbose:
 		print(f"Populated {cmds.path} with boilerplate files")
