@@ -25,7 +25,7 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, /*std::shared_ptr<ParameterContainerComponent>*/ ParameterContainerComponent* parameterContainer);
+	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::unique_ptr<ParameterContainerComponent>& parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================
@@ -35,11 +35,17 @@ public:
 
 	// VersionCheckThread::Listener methods
 	void onNewVersionAvailable(VersionInfo* versionInfo) override;		
-
 	// Inherited via AudioValueTreeStateOnLoadListener
 	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {
 		parameterContainer->onAudioValueTreeStateLoadedFromXmlState(newState, xmlState);
-	}	
+	}
+    void onFftSizeChanged() {
+        parameterContainer->onFftSizeChanged();
+    }
+    
+    void onFftStyleChanged() {
+        parameterContainer->onFftStyleChanged();
+    }
 private:
 	enum Messages {
 		UPDATE_AVAILABLE
@@ -59,8 +65,8 @@ private:
 	Label title;
     
 	const int parameterContainerHeight;
-//	std::shared_ptr<ParameterContainerComponent> parameterContainer;
-	ParameterContainerComponent* parameterContainer;
+	std::unique_ptr<ParameterContainerComponent> parameterContainer;
+//	ParameterContainerComponent* parameterContainer;
 	
     Viewport parameterViewPort;
 	Label fftComboLabel;

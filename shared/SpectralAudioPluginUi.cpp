@@ -3,7 +3,7 @@
 SpectralAudioPluginUi::SpectralAudioPluginUi(
     SpectralAudioPlugin& p,
     PluginParameters* valueTreeState,
-    ParameterContainerComponent* _parameterContainer
+    std::unique_ptr<ParameterContainerComponent>& _parameterContainer
 )
 	:
     AudioProcessorEditor(&p),
@@ -12,7 +12,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
     aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
     settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted)
 {				
-	this->parameterContainer = _parameterContainer;
+    this->parameterContainer = std::move(_parameterContainer);
 	
 	auto primaryTextColour = Colour::fromString(TEXT_COLOUR);
 	title.setText(JucePlugin_Name, NotificationType::dontSendNotification);
@@ -20,7 +20,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	title.setFont(20.0);
 	addAndMakeVisible(title);        
 
-    parameterViewPort.setViewedComponent(this->parameterContainer);
+    parameterViewPort.setViewedComponent(this->parameterContainer.get());
     addAndMakeVisible(parameterViewPort);
 
 	fftComboLabel.setText("FFT Size", NotificationType::dontSendNotification);
@@ -51,7 +51,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	
 	Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
 	if (!settings.isEmpty()) {
-		settingsPage.setListener(this->parameterContainer);
+		settingsPage.setListener(this->parameterContainer.get());
 		settingsPage.setProperties(settings);
 
 		std::unique_ptr<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
