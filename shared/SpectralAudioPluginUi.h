@@ -25,7 +25,8 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::unique_ptr<ParameterContainerComponent>& parameterContainer);
+//	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, std::unique_ptr<ParameterContainerComponent>& parameterContainer);
+    SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, ParameterContainerComponent* parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================
@@ -65,8 +66,8 @@ private:
 	Label title;
     
 	const int parameterContainerHeight;
-	std::unique_ptr<ParameterContainerComponent> parameterContainer;
-//	ParameterContainerComponent* parameterContainer;
+//	std::unique_ptr<ParameterContainerComponent> parameterContainer;
+	ParameterContainerComponent* parameterContainer;
 	
     Viewport parameterViewPort;
 	Label fftComboLabel;
@@ -77,6 +78,8 @@ private:
 	SettingsPage settingsPage;	
 	AboutPage aboutPage;
 
+    std::unique_ptr<Drawable> infoIcon;
+    std::unique_ptr<Drawable> settingsIcon;
 	//std::unique_ptr<VersionInfo> versionInfo;
 	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)	

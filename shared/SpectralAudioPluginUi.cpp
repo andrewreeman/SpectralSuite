@@ -3,7 +3,8 @@
 SpectralAudioPluginUi::SpectralAudioPluginUi(
     SpectralAudioPlugin& p,
     PluginParameters* valueTreeState,
-    std::unique_ptr<ParameterContainerComponent>& _parameterContainer
+//    std::unique_ptr<ParameterContainerComponent>& _parameterContainer
+    ParameterContainerComponent* _parameterContainer
 )
 	:
     AudioProcessorEditor(&p),
@@ -12,7 +13,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
     aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
     settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted)
 {				
-    this->parameterContainer = std::move(_parameterContainer);
+    this->parameterContainer = _parameterContainer;
 	
 	auto primaryTextColour = Colour::fromString(TEXT_COLOUR);
 	title.setText(JucePlugin_Name, NotificationType::dontSendNotification);
@@ -20,7 +21,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	title.setFont(20.0);
 	addAndMakeVisible(title);        
 
-    parameterViewPort.setViewedComponent(this->parameterContainer.get());
+    parameterViewPort.setViewedComponent(this->parameterContainer);
     addAndMakeVisible(parameterViewPort);
 
 	fftComboLabel.setText("FFT Size", NotificationType::dontSendNotification);
@@ -39,10 +40,10 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	fftComboBoxAttachment.reset( valueTreeState->createComboBoxAttachment("fft", fftComboBox) );//new ComboBoxAttachment(valueTreeState, "fft", fftComboBox));        
 	addAndMakeVisible(fftComboBox);
 	
-	std::unique_ptr<Drawable> infoIcon = Drawable::createFromImageData(BinaryData::baselineinfo24px_svg, BinaryData::baselineinfo24px_svgSize);
+	infoIcon = Drawable::createFromImageData(BinaryData::baselineinfo24px_svg, BinaryData::baselineinfo24px_svgSize);
 	infoIcon->replaceColour(Colours::black, primaryTextColour);
 			
-    aboutButton.setImages(infoIcon.release());
+    aboutButton.setImages(infoIcon.get());
 	aboutButton.onClick = [this]() {
 		this->aboutClicked();
 	};
@@ -51,12 +52,12 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	
 	Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
 	if (!settings.isEmpty()) {
-		settingsPage.setListener(this->parameterContainer.get());
+		settingsPage.setListener(this->parameterContainer);
 		settingsPage.setProperties(settings);
 
-		std::unique_ptr<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
+		settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
 		settingsIcon->replaceColour(Colours::black, primaryTextColour);
-        settingsButton.setImages(settingsIcon.release());
+        settingsButton.setImages(settingsIcon.get());
 		settingsButton.onClick = [this]() {
 			this->settingsClicked();
 		};

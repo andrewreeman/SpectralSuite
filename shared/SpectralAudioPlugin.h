@@ -31,7 +31,8 @@ public:
         
         virtual std::shared_ptr<PluginParameters> createParams(SpectralAudioPlugin* plugin) = 0;
 //        virtual std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin* plugin) = 0;
-        virtual std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin* plugin) = 0;
+//        virtual std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin* plugin) = 0;
+        virtual ParameterContainerComponent* createUi(SpectralAudioPlugin* plugin) = 0;
         virtual std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin* plugin) = 0;
         virtual Array<int> fftSizesToNotInclude() { return Array<int>(); };
     };
