@@ -3,16 +3,13 @@
 SpectralAudioPluginUi::SpectralAudioPluginUi(
     SpectralAudioPlugin& p,
     PluginParameters* valueTreeState,
-//    std::unique_ptr<ParameterContainerComponent>& _parameterContainer
     ParameterContainerComponent* _parameterContainer
-)
-	:
+) :
     AudioProcessorEditor(&p),
-	valueTreeState(valueTreeState),
     parameterContainerHeight(_parameterContainer->getComponentHeight()),
     aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
     settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted)
-{				
+{
     this->parameterContainer = _parameterContainer;
 	
 	auto primaryTextColour = Colour::fromString(TEXT_COLOUR);
@@ -49,8 +46,8 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	};
 
 	addAndMakeVisible(&aboutButton);
-	
-	Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
+    
+    Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
 	if (!settings.isEmpty()) {
 		settingsPage.setListener(this->parameterContainer);
 		settingsPage.setProperties(settings);
@@ -64,11 +61,9 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 
 		addAndMakeVisible(&settingsButton);		
 		addChildComponent(&settingsPage);
-	}	
+	}
 
 	addChildComponent(&aboutPage);
-    
-
 	setSize(300, 220 + parameterContainerHeight);
 }
 
@@ -109,10 +104,9 @@ void SpectralAudioPluginUi::resized()
 	auto iconSize = titleHeight;	
 	aboutButton.setBounds(getWidth() - iconSize, 0, iconSize, iconSize);	
 	settingsButton.setBounds(aboutButton.getBounds().getX(), aboutButton.getBounds().getBottom(), iconSize, iconSize);
-	
+
 	aboutPage.setBounds(getBounds());
 	settingsPage.setBounds(getBounds());
-    
 }
 
 void SpectralAudioPluginUi::handleCommandMessage(int messageId)
@@ -135,9 +129,10 @@ void SpectralAudioPluginUi::aboutClicked()
 }
 
 void SpectralAudioPluginUi::settingsClicked() {	
-	const Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
-	if (settings.isEmpty()) { return; }
-		
-	settingsPage.setProperties(settings);		
-	settingsPage.setVisible(true);		
+    // TODO: ensure we do not need to set the properties here, we should not need to
+    //	const Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
+//	if (settings.isEmpty()) { return; }
+    
+//    settingsPage.setProperties(settings);
+	settingsPage.setVisible(true);
 }

@@ -43,6 +43,6 @@ private:
 	PropertyPanel propertyPanel;
 	DrawableButton backButton;
 	Listener* listener;
-
+    std::unique_ptr<Drawable> settingsIcon;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsPage)
 };

@@ -29,6 +29,7 @@ private:
 	HyperlinkButton downloadLink;
 	HyperlinkButton emailLink;
     LicensesComponent licenses;
-	
+    std::unique_ptr<Drawable> navigateBackIcon;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutPage)
 };

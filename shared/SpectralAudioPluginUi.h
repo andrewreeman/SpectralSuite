@@ -36,10 +36,12 @@ public:
 
 	// VersionCheckThread::Listener methods
 	void onNewVersionAvailable(VersionInfo* versionInfo) override;		
-	// Inherited via AudioValueTreeStateOnLoadListener
+    
+    // Inherited via AudioValueTreeStateOnLoadListener
 	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {
 		parameterContainer->onAudioValueTreeStateLoadedFromXmlState(newState, xmlState);
 	}
+    
     void onFftSizeChanged() {
         parameterContainer->onFftSizeChanged();
     }
@@ -60,13 +62,11 @@ private:
 	void settingsClicked();
 
 	const int textBoxHeight = 30;
-	const PluginParameters* valueTreeState;
 
 	bool hasInit = false;
-	Label title;
     
+    Label title;
 	const int parameterContainerHeight;
-//	std::unique_ptr<ParameterContainerComponent> parameterContainer;
 	ParameterContainerComponent* parameterContainer;
 	
     Viewport parameterViewPort;
@@ -80,7 +80,6 @@ private:
 
     std::unique_ptr<Drawable> infoIcon;
     std::unique_ptr<Drawable> settingsIcon;
-	//std::unique_ptr<VersionInfo> versionInfo;
 	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)	
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)
 };

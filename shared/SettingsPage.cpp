@@ -9,10 +9,10 @@ SettingsPage::SettingsPage() :
     // initialise any special settings that your component needs.	
 	addAndMakeVisible(&propertyPanel);
 
-	std::unique_ptr<Drawable> settingsIcon = Drawable::createFromImageData(BinaryData::baselinearrow_back24px_svg, BinaryData::baselinearrow_back24px_svgSize);
+	settingsIcon = Drawable::createFromImageData(BinaryData::baselinearrow_back24px_svg, BinaryData::baselinearrow_back24px_svgSize);
 	settingsIcon->replaceColour(Colours::black, Colours::white);
 
-    backButton.setImages(settingsIcon.release());
+    backButton.setImages(settingsIcon.get());
 	backButton.onClick = [this]() {
 		this->backButtonClicked();
 	};

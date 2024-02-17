@@ -7,13 +7,13 @@ AboutPage::AboutPage()
 	: backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
 {
 	
-    std::unique_ptr<Drawable> navigateBackIcon = Drawable::createFromImageData(
-                                                                               BinaryData::baselinearrow_back24px_svg,
-                                                                               BinaryData::baselinearrow_back24px_svgSize
-                                                                               );
+    navigateBackIcon = Drawable::createFromImageData(
+                                                     BinaryData::baselinearrow_back24px_svg,
+                                                     BinaryData::baselinearrow_back24px_svgSize
+                                                     );
 	navigateBackIcon->replaceColour(Colours::black, Colours::white);
 
-    backButton.setImages(navigateBackIcon.release());
+    backButton.setImages(navigateBackIcon.get());
 	backButton.onClick = [this]() {
 		this->setVisible(false);
 	};
