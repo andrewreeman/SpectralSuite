@@ -8,7 +8,9 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
     AudioProcessorEditor(&p),
     parameterContainerHeight(_parameterContainer->getComponentHeight()),
     aboutButton("infoButton", DrawableButton::ButtonStyle::ImageFitted),
-    settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted)
+    settingsButton("settingsButton", DrawableButton::ButtonStyle::ImageFitted),
+    settingsPage(resourceRepository),
+    aboutPage(resourceRepository)
 {
     this->parameterContainer = _parameterContainer;
 	

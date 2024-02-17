@@ -3,17 +3,11 @@
 
 
 //==============================================================================
-LicensesComponent::LicensesComponent()
+LicensesComponent::LicensesComponent(ResourceRepository& resources)
     : backButton("backButton", DrawableButton::ButtonStyle::ImageFitted)
 {
     
-    navigateBackIcon = Drawable::createFromImageData(
-                                                     BinaryData::baselinearrow_back24px_svg,
-                                                     BinaryData::baselinearrow_back24px_svgSize
-                                                     );
-    navigateBackIcon->replaceColour(Colours::black, Colours::white);
-
-    backButton.setImages(navigateBackIcon.get());
+    backButton.setImages(resources.getNavigateBackIcon());
     backButton.onClick = [this]() {
         this->setVisible(false);
     };

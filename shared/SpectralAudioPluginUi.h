@@ -9,6 +9,7 @@
 #include "ParameterContainerComponent.h"
 #include "PluginParameters.h"
 #include "AboutPage.h"
+#include "ResourceRepository.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -75,6 +76,7 @@ private:
 	std::unique_ptr<ComboBoxAttachment> fftComboBoxAttachment;	
 	DrawableButton aboutButton;	
 	DrawableButton settingsButton;
+    ResourceRepository resourceRepository;
 	SettingsPage settingsPage;	
 	AboutPage aboutPage;
 

@@ -1,7 +1,7 @@
 #include "SettingsPage.h"
 
 //==============================================================================
-SettingsPage::SettingsPage() :	
+SettingsPage::SettingsPage(ResourceRepository& resources) :
 	backButton("backButton", DrawableButton::ButtonStyle::ImageFitted),
 	listener(nullptr)
 {
@@ -9,10 +9,7 @@ SettingsPage::SettingsPage() :
     // initialise any special settings that your component needs.	
 	addAndMakeVisible(&propertyPanel);
 
-	settingsIcon = Drawable::createFromImageData(BinaryData::baselinearrow_back24px_svg, BinaryData::baselinearrow_back24px_svgSize);
-	settingsIcon->replaceColour(Colours::black, Colours::white);
-
-    backButton.setImages(settingsIcon.get());
+    backButton.setImages(resources.getNavigateBackIcon());
 	backButton.onClick = [this]() {
 		this->backButtonClicked();
 	};
