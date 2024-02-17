@@ -15,24 +15,14 @@ SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeStat
     tiltToggle.setColour(ToggleButton::ColourIds::textColourId, textColour);
     tiltToggle.setColour(ToggleButton::ColourIds::tickDisabledColourId, textColour);
     tiltToggle.setColour(ToggleButton::ColourIds::tickColourId, textColour);
-    tiltToggle.addListener(this);
     addAndMakeVisible(tiltToggle);
+    m_tiltButtonAttachment.reset(valueTreeState->createButtonAttachment(juce::String{ "enableTilt" }, tiltToggle));
     
     addAndMakeVisible(tiltSlider);
 }
 
-SliderContainer::~SliderContainer()
-{
-}
-
-
-void SliderContainer::buttonClicked (Button* clickedButton) {
-    if(clickedButton != &tiltToggle) { return; }
-    
-    auto param = dynamic_cast<AudioParameterBool*>(this->pluginParameters->getParameter("enableTilt"));
-    if(param == nullptr) { return; }
-    
-    *param = tiltToggle.getToggleState();
+SliderContainer::~SliderContainer() {
+    m_tiltButtonAttachment = nullptr;
 }
 
 void SliderContainer::paint (Graphics& g)
