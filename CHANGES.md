@@ -1,4 +1,7 @@
 % Spectral Suite
+## Version 2.1.10
+    * Contribution by a5632645 fixed spectral gate tilt checkbox issue
+    * Fixed some memory leaks
 ## Version 2.1.9
     * Fixed issue with morph playing no audio when UI not shown
 ## Version 2.1.8
