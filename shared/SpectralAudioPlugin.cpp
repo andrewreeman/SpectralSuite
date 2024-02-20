@@ -69,8 +69,9 @@ void SpectralAudioPlugin::switchFftSize()
 {
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
-    if(getActiveEditor() != nullptr && m_parameterUiComponent != nullptr) {
-        m_parameterUiComponent->onFftSizeChanged();
+    if(getActiveEditor() != nullptr) {
+        SpectralAudioPluginUi* ui = (SpectralAudioPluginUi*)getActiveEditor();
+        ui->onFftSizeChanged();
     }
 }
 void SpectralAudioPlugin::switchFftStyle()
@@ -87,8 +88,9 @@ void SpectralAudioPlugin::switchFftStyle()
             break;
     }
     
-    if(getActiveEditor() != nullptr && m_parameterUiComponent != nullptr) {
-        m_parameterUiComponent->onFftStyleChanged();
+    if(getActiveEditor() != nullptr) {
+        SpectralAudioPluginUi* ui = (SpectralAudioPluginUi*)getActiveEditor();
+        ui->onFftStyleChanged();
     }
 }
 
@@ -290,8 +292,8 @@ bool SpectralAudioPlugin::hasEditor() const
 
 AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 {
-    m_parameterUiComponent = m_dependencyFactory->createUi(this);
-	return new SpectralAudioPluginUi(*this, parameters.get(), m_parameterUiComponent);
+    auto uiComponent = m_dependencyFactory->createUi(this);
+	return new SpectralAudioPluginUi(*this, parameters.get(), uiComponent);
 }
 
 //==============================================================================

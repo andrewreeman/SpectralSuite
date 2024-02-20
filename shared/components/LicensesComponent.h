@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "../ResourceRepository.h"
 
 //==============================================================================
 /*
@@ -8,7 +9,7 @@
 class LicensesComponent : public Component
 {
 public:
-    LicensesComponent();
+    LicensesComponent(ResourceRepository& resources);
     ~LicensesComponent();
 
     void paint (Graphics&) override;

@@ -9,6 +9,7 @@
 #include "ParameterContainerComponent.h"
 #include "PluginParameters.h"
 #include "AboutPage.h"
+#include "ResourceRepository.h"
 
 // Themes
 constexpr auto TEXT_COLOUR = "d7000000";
@@ -25,7 +26,7 @@ class SpectralAudioPluginUi :
 	public AudioValueTreeStateOnLoadListener
 {
 public:	    
-	SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, /*std::shared_ptr<ParameterContainerComponent>*/ ParameterContainerComponent* parameterContainer);
+    SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, ParameterContainerComponent* parameterContainer);
     ~SpectralAudioPluginUi();
 
     //==============================================================================
@@ -35,11 +36,19 @@ public:
 
 	// VersionCheckThread::Listener methods
 	void onNewVersionAvailable(VersionInfo* versionInfo) override;		
-
-	// Inherited via AudioValueTreeStateOnLoadListener
+    
+    // Inherited via AudioValueTreeStateOnLoadListener
 	virtual void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override {
 		parameterContainer->onAudioValueTreeStateLoadedFromXmlState(newState, xmlState);
-	}	
+	}
+    
+    void onFftSizeChanged() {
+        parameterContainer->onFftSizeChanged();
+    }
+    
+    void onFftStyleChanged() {
+        parameterContainer->onFftStyleChanged();
+    }
 private:
 	enum Messages {
 		UPDATE_AVAILABLE
@@ -53,13 +62,11 @@ private:
 	void settingsClicked();
 
 	const int textBoxHeight = 30;
-	const PluginParameters* valueTreeState;
 
 	bool hasInit = false;
-	Label title;
     
+    Label title;
 	const int parameterContainerHeight;
-//	std::shared_ptr<ParameterContainerComponent> parameterContainer;
 	ParameterContainerComponent* parameterContainer;
 	
     Viewport parameterViewPort;
@@ -68,10 +75,12 @@ private:
 	std::unique_ptr<ComboBoxAttachment> fftComboBoxAttachment;	
 	DrawableButton aboutButton;	
 	DrawableButton settingsButton;
+    ResourceRepository resourceRepository;
 	SettingsPage settingsPage;	
 	AboutPage aboutPage;
 
-	//std::unique_ptr<VersionInfo> versionInfo;
+    std::unique_ptr<Drawable> infoIcon;
+    std::unique_ptr<Drawable> settingsIcon;
 	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)	
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpectralAudioPluginUi)
 };

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "ResourceRepository.h"
 
 //==============================================================================
 /*
@@ -24,7 +25,7 @@ public:
         virtual ~Listener(){};
 	};
 
-    SettingsPage();
+    SettingsPage(ResourceRepository& resources);
     ~SettingsPage();
 
     void paint (Graphics&) override;
@@ -43,6 +44,5 @@ private:
 	PropertyPanel propertyPanel;
 	DrawableButton backButton;
 	Listener* listener;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsPage)
 };

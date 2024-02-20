@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="WPt5si" name="Base" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.1.9" defines="VersionCode=15" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate."
+<JUCERPROJECT id="WPt5si" name="BaseTitle" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              version="2.1.10" defines="VersionCode=16" pluginDesc="BaseDescription"
               pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2022"
               companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
               pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1"
               displaySplashScreen="1">
-  <MAINGROUP id="NNl5AK" name="Base">
+  <MAINGROUP id="NNl5AK" name="BaseTitle">
     <GROUP id="{E11A4544-C473-A9D8-27C6-3240AE094866}" name="Source">
       <FILE id="zMoi62" name="BaseAudioPlugin.cpp" compile="1" resource="0"
             file="BaseAudioPlugin.cpp"/>
@@ -23,6 +23,10 @@
       <FILE id="OAfOjP" name="UiContainer.h" compile="0" resource="0" file="UiContainer.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
+      <FILE id="bjaZGf" name="ResourceRepository.h" compile="0" resource="0"
+            file="../shared/ResourceRepository.h"/>
+      <FILE id="RNhCeX" name="SpectralPluginUiInterface.h" compile="0" resource="0"
+            file="../shared/SpectralPluginUiInterface.h"/>
       <GROUP id="{03E87BE4-B582-75DC-87DD-B917EB0FAA42}" name="components">
         <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0"
               file="../shared/components/ControlPointComponent.cpp"/>
