@@ -29,6 +29,8 @@
             file="Source/MorphAudioPlugin.h"/>
     </GROUP>
     <GROUP id="{E5C1B45D-D688-A3CE-9297-B7AE13670632}" name="Shared">
+      <FILE id="lCFeyo" name="ResourceRepository.h" compile="0" resource="0"
+            file="../shared/ResourceRepository.h"/>
       <GROUP id="{03E87BE4-B582-75DC-87DD-B917EB0FAA42}" name="components">
         <FILE id="snoig1" name="ControlPointComponent.cpp" compile="1" resource="0"
               file="../shared/components/ControlPointComponent.cpp"/>
