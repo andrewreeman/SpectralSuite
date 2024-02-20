@@ -2,6 +2,7 @@
 
 #include "JuceHeader.h"
 #include "VersionInfo.h"
+#include "ResourceRepository.h"
 #include "components/LicensesComponent.h"
 
 //TODO: all components should be in shared/components folder
@@ -12,7 +13,7 @@
 class AboutPage    : public Component
 {
 public:
-    AboutPage();
+    AboutPage(ResourceRepository& resources);
     ~AboutPage();
 
     void paint (Graphics&) override;
@@ -29,6 +30,6 @@ private:
 	HyperlinkButton downloadLink;
 	HyperlinkButton emailLink;
     LicensesComponent licenses;
-	
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutPage)
 };

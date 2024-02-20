@@ -2,9 +2,11 @@
 
 class Factory : public SpectralAudioPlugin::DependencyFactory {
 public:
-    ParameterContainerComponent * createUi(SpectralAudioPlugin *plugin) override {
+//    std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin *plugin) override {
+    ParameterContainerComponent* createUi(SpectralAudioPlugin *plugin) override {
+//        return std::make_unique<UiContainer>(m_baseParams, Colour::fromString(TEXT_COLOUR), 30);
         return new UiContainer(m_baseParams, Colour::fromString(TEXT_COLOUR), 30);
-    };
+};
     
     std::shared_ptr<PluginParameters> createParams(SpectralAudioPlugin *plugin) override {
         m_baseParams = std::make_shared<BaseParameters>(plugin);
