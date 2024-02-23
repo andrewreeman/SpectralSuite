@@ -3,12 +3,7 @@
 
 PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) : StandardFFTProcessor(size, hops, offset, sRate), m_initialOffset(offset)
 {
-    /*
-    * StandardFFTProcessor Consturtor has already alloc a iff
-    * Why alloc there again?
-    * if use raw pointer this would cause memory leak!
-    */
-    // ifft = new kissfft<FftDecimal> (size, true);
+    ifft = new kissfft<FftDecimal> (size, true);
     phaseBuffer = _phaseBuffer;
 }
 

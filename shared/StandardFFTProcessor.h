@@ -46,8 +46,8 @@ protected:
     std::vector<Cpx> m_ifftin; // ... convert to  complex and perform ifft ...
     std::vector<Cpx> m_cpxOutput; // ... output of ifft ...
     std::vector<FftDecimal> m_output; // ... convert to float and pass to output
-    std::unique_ptr<kissfft<FftDecimal>> fft;
-    std::unique_ptr<kissfft<FftDecimal>> ifft;
+    kissfft<FftDecimal>* fft;
+    kissfft<FftDecimal>* ifft;
     
     // deletes the kissfft objects and creates new ones of the new size
     int newFFT(int newSize);
@@ -72,8 +72,13 @@ public:
     StandardFFTProcessor(int size, int hops, int offset, int sRate);
 
     virtual ~StandardFFTProcessor(){
-        fft = nullptr;
-        ifft = nullptr;
+        if(fft != nullptr) {
+            delete fft;
+        }
+        
+        if(ifft != nullptr) {
+            delete ifft;
+        }
     }
 
     void setSampleRate(int newRate){ m_sRate = newRate;}

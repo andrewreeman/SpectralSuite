@@ -12,7 +12,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
     settingsPage(resourceRepository),
     aboutPage(resourceRepository)
 {
-    this->parameterContainer.reset(_parameterContainer);
+    this->parameterContainer = _parameterContainer;
 	
 	auto primaryTextColour = Colour::fromString(TEXT_COLOUR);
 	title.setText(JucePlugin_Name, NotificationType::dontSendNotification);
@@ -20,7 +20,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	title.setFont(20.0);
 	addAndMakeVisible(title);        
 
-    parameterViewPort.setViewedComponent(this->parameterContainer.get());
+    parameterViewPort.setViewedComponent(this->parameterContainer);
     addAndMakeVisible(parameterViewPort);
 
 	fftComboLabel.setText("FFT Size", NotificationType::dontSendNotification);
@@ -51,7 +51,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
     
     Array<PropertyComponent*> settings = this->parameterContainer->getSettingsProperties();
 	if (!settings.isEmpty()) {
-		settingsPage.setListener(this->parameterContainer.get());
+		settingsPage.setListener(this->parameterContainer);
 		settingsPage.setProperties(settings);
 
 		settingsIcon = Drawable::createFromImageData(BinaryData::baselinesettings20px_svg, BinaryData::baselinesettings20px_svgSize);
@@ -71,7 +71,6 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 
 SpectralAudioPluginUi::~SpectralAudioPluginUi()
 {
-    parameterContainer = nullptr;
 }
 
 //==============================================================================
