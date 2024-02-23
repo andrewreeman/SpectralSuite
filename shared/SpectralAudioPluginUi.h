@@ -67,7 +67,7 @@ private:
     
     Label title;
 	const int parameterContainerHeight;
-	ParameterContainerComponent* parameterContainer;
+	std::unique_ptr<ParameterContainerComponent> parameterContainer;
 	
     Viewport parameterViewPort;
 	Label fftComboLabel;

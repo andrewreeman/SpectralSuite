@@ -8,7 +8,7 @@ StandardFFTProcessor::StandardFFTProcessor(int size, int hopSize, int offset, in
     m_hopsize(hopSize), m_offset(offset), m_windowType(FftWindowType::HANN), m_window(size), m_input(size),
     m_cpxInput(size), m_fftOut(size), m_polarIn(m_halfSize),m_polarOut(m_halfSize),
     m_ifftin(size), m_cpxOutput(size), m_output(size),
-    fft(new kissfft<FftDecimal>(m_fftSize, false)), ifft(new kissfft<FftDecimal> (m_fftSize, true))
+    fft(std::make_unique<kissfft<FftDecimal>>(m_fftSize, false)), ifft(std::make_unique<kissfft<FftDecimal>>(m_fftSize, true))
 {
     fillWindow(m_window, m_fftSize);
 }
@@ -145,13 +145,8 @@ void StandardFFTProcessor::fillBlackmanHarris(std::vector<FftDecimal>& table, in
     }
 }
 
-int StandardFFTProcessor::newFFT(int newSize){
-    if(fft != nullptr) {
-        delete fft;
-        fft = nullptr;
-    }
-    
-    fft = new kissfft<FftDecimal>(newSize, false);
+int StandardFFTProcessor::newFFT(int newSize){    
+    fft = std::make_unique<kissfft<FftDecimal>>(newSize, false);
 
 // TODO: for the time stretching plugin we only will delete the inverse fft array when the stretch amount changes
 //    if(ifft != nullptr) {
@@ -160,11 +155,7 @@ int StandardFFTProcessor::newFFT(int newSize){
 //    }
     //ifft = new kissfft<float>(524288, true);
 
-    if(ifft != nullptr) {
-       delete ifft;
-       ifft = nullptr;
-    }
-    ifft = new kissfft<FftDecimal>(newSize, true);
+    ifft = std::make_unique<kissfft<FftDecimal>>(newSize, true);
     
     if(fft == nullptr || ifft == nullptr) return 1;
     return 0;
