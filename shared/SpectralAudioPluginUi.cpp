@@ -71,7 +71,6 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 
 SpectralAudioPluginUi::~SpectralAudioPluginUi()
 {
-    parameterContainer = nullptr;
 }
 
 //==============================================================================
