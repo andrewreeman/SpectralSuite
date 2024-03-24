@@ -15,7 +15,7 @@ module ProjucerProject
         other_projects.each { |p|
             p.set_version(version)
             p.set_version_code(version_code)
-            p.set_shared_group(shared_group)
+            #p.set_shared_group(shared_group)
         }
     end
 
