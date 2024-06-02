@@ -33,28 +33,11 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
     m_dependencyFactory(dependencies)
 {
-	
-
-	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
-	//	.getChildFile("spectral_suite" + Time::getCurrentTime().formatted("%Y-%m-%d_%H-%M-%S"))
-	//	.withFileExtension(".log")
-	//	.getNonexistentSibling(),
-	//	"Log started", 0);
-
-	File logFile = FileLogger::getSystemLogFileFolder().getChildFile("SpectralSuite").getChildFile("spectral_suite.log");
-	m_logger = std::unique_ptr<FileLogger>(
-		new FileLogger(
-		logFile,
-			"Log started"
-		)
-	);
-	Logger::setCurrentLogger(m_logger.get());
     this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {    
-	Logger::setCurrentLogger(nullptr);
     if(this->m_versionCheckThread.isThreadRunning()) {
         this->m_versionCheckThread.stopThread(20);
     }
@@ -184,6 +167,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {    
 	m_output.clear();
 	m_input.clear();
+    
 	for (
 		int outputChannelCount = getBusesLayout().getMainOutputChannels();		
 		outputChannelCount > 0;
@@ -193,10 +177,11 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 		m_output.push_back(std::vector<float>());
 		m_input.push_back(std::vector<float>());
 	}
-
-	const int fftSize = m_fftSizeChoiceAdapter.fftSize();
-	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
-	setFftSize(fftSize);		
+    
+    const int fftSize = m_fftSizeChoiceAdapter.fftSize();
+	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());
+    
+	setFftSize(fftSize);
 }
 
 void SpectralAudioPlugin::releaseResources()
@@ -232,9 +217,9 @@ void SpectralAudioPlugin::emptyOutputs() {
 
 void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiBuffer)
 {
-	if (m_fftSwitcher.isThreadRunning()) {        
+	if (m_fftSwitcher.isThreadRunning()) {
 		m_internalBufferReadWriteIndex = 0;
-		return; 
+		return;
 	}
 
 	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {

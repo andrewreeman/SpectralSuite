@@ -118,8 +118,6 @@ private:
     FftWindowChoiceAdapter m_fftWindowChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
 	
-	std::unique_ptr<FileLogger> m_logger;
-	
 	// io buffers: TODO n chan
 	int m_internalBufferReadWriteIndex;
 	std::vector<std::vector<float>> m_input;
