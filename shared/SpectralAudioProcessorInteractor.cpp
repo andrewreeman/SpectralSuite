@@ -29,8 +29,13 @@ void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* 
 	jassert(input->at(0).size() > 0);
 	jassert(input->size() == output->size());
 	jassert(input->size() == m_spectralProcess.size());
-
+    
 	for (int chan = 0; chan < input->size(); chan++) {
+        if (input->at(chan).size() == 0)
+        {
+            continue;
+        }
+        
 		for (auto& spectralProcessOverlap : m_spectralProcess.at(chan)) {
 			prepareProcess(spectralProcessOverlap.get());
 			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
@@ -74,13 +79,22 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 }
 
 void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
-    if(newOverlapCount < 1 || newOverlapCount > 8 ){ return; }
-    
+    if (
+        newOverlapCount < 1 ||
+        newOverlapCount > 8 ||
+        (m_numOverlaps == newOverlapCount && m_spectralProcess.size() == newOverlapCount * m_numChans)) {
+        return;
+    }
+
     m_numOverlaps = newOverlapCount;
     m_fftHopSize = getFftSize() / m_numOverlaps;
-    m_spectralProcess.clear();
-        
+    
 	for (int chan = 0; chan < m_numChans; ++chan) {
+        if (m_spectralProcess.size() > chan)
+        {
+            m_spectralProcess.at(chan).clear();
+        }
+        
         m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
