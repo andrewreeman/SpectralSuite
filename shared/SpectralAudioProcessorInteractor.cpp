@@ -2,7 +2,7 @@
 #include "../../shared/PhaseVocoder.h"
 
 SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
-: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2)
+: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false)
 {
     m_phaseBuffer = std::make_shared<PhaseBuffer>(m_numChans * m_numOverlaps, 1024);
 }
@@ -14,10 +14,12 @@ int SpectralAudioProcessorInteractor::getFftSize()
 
 void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate, int channelCount)
 {
+    m_isPreparingToPlay = true;
     m_fftSize = fftSize;
     m_numChans = channelCount;
 	m_sampleRate = sampleRate;
     setNumOverlaps(m_numOverlaps);
+    m_isPreparingToPlay = false;
 }
 
 void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
@@ -119,6 +121,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
 void SpectralAudioProcessorInteractor::setWindowType(FftWindowType windowType) {
     for(auto& processes : m_spectralProcess) {
         for(auto& p : processes) {
+            if (isPreparingToPlay()) { return; }
             p->setWindowType(windowType);
         }
     }

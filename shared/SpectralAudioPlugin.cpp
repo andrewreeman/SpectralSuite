@@ -50,6 +50,8 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
+    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
     if(getActiveEditor() != nullptr) {
@@ -59,6 +61,8 @@ void SpectralAudioPlugin::switchFftSize()
 }
 void SpectralAudioPlugin::switchFftStyle()
 {
+    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+
     FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
     switch(style) {
         case FftStyle::DEFAULT:
@@ -78,6 +82,8 @@ void SpectralAudioPlugin::switchFftStyle()
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
+    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+
     int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
     m_audioProcessorInteractor->setNumOverlaps(overlaps);
     
@@ -96,6 +102,8 @@ void SpectralAudioPlugin::switchOverlapCount() {
 
 
 void SpectralAudioPlugin::switchFftWindowType() {
+    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    
     auto windowType = m_fftWindowChoiceAdapter.fftWindow();
     m_audioProcessorInteractor->setWindowType(windowType);
 }

@@ -107,6 +107,7 @@ private:
 	void emptyOutputs();
 	void setFftSize(int fftSize);
     void initialiseParameters();
+    bool isPreparingToPlay() const { return m_audioProcessorInteractor->isPreparingToPlay(); }
 			
 	std::shared_ptr<PluginParameters> parameters;
 //    std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;
