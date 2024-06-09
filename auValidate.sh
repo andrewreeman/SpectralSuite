@@ -14,4 +14,7 @@
 #auval -strict -v aumf SPPL STPW
 
 # Sinusoidal Sharped Filer
-auval -strict -v aumf SPSS STPW
+#auval -strict -v aumf SPSS STPW
+
+# Spectral Gate
+auval -strict -v aumf SPSG STPW
