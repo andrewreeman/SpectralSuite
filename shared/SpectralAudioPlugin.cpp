@@ -50,7 +50,8 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
-    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    if (isInvalidFftModificationState()) { return; }
+//    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
 
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
@@ -61,7 +62,7 @@ void SpectralAudioPlugin::switchFftSize()
 }
 void SpectralAudioPlugin::switchFftStyle()
 {
-    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    if (isInvalidFftModificationState()) { return; }
 
     FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
     switch(style) {
@@ -82,27 +83,51 @@ void SpectralAudioPlugin::switchFftStyle()
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
-    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    if (isInvalidFftModificationState()) { return; }
 
     int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
     m_audioProcessorInteractor->setNumOverlaps(overlaps);
     
     const int hopSize = m_audioProcessorInteractor->getHopSize();
-	for(std::vector<float>& output : m_output)
-	{
-		output.resize(hopSize, 0.f);
-	}
-	for(std::vector<float>& input : m_input)
-	{
-		input.resize(hopSize, 0.f);
-	}
-
+    
+    for(std::vector<float>& output : m_output)
+    {
+        if (output.size() == hopSize)
+        {
+            continue;
+        }
+        
+        if (isInvalidFftModificationState()) { return; }
+        // Because we switch overlaps on a different thread m_output might be empty when we resize
+        // Which means we no longer own the output vector
+        // output vector expected to only be empty if we have been destructed
+        // TODO: use mutex when modifying fft buffers
+        if (!m_output.empty() && !output.empty())
+        {
+            output.resize(hopSize, 0.f);
+        }
+    }
+    
+    for(std::vector<float>& input : m_input)
+    {
+        if (input.size() == hopSize)
+        {
+            continue;
+        }
+ 
+        if (isInvalidFftModificationState()) { return; }
+        if (!m_input.empty() && !input.empty())
+        {
+            input.resize(hopSize, 0.f);
+        }
+    }
+    
 	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
 }
 
 
 void SpectralAudioPlugin::switchFftWindowType() {
-    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    if (isInvalidFftModificationState()) { return; }
     
     auto windowType = m_fftWindowChoiceAdapter.fftWindow();
     m_audioProcessorInteractor->setWindowType(windowType);
@@ -322,6 +347,8 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 }
 
 void SpectralAudioPlugin::setFftSize(int size) {	
+    if (isInvalidFftModificationState()) { return; }
+    
 	m_audioProcessorInteractor->setFftSize(size);
 	const int hopSize = m_audioProcessorInteractor->getHopSize();
 
@@ -344,7 +371,6 @@ void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener
 }
 
 void SpectralAudioPlugin::initialiseParameters() {
-    
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
     

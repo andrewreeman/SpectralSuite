@@ -1,3 +1,4 @@
+// TODO: check if this class is unused
 
 #include "FftThread.h"
 

@@ -2,7 +2,7 @@
 #include "../../shared/PhaseVocoder.h"
 
 SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
-: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false)
+: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false), m_isPlaying(false)
 {
     m_phaseBuffer = std::make_shared<PhaseBuffer>(m_numChans * m_numOverlaps, 1024);
 }
@@ -24,6 +24,7 @@ void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate
 
 void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
 {	
+    m_isPlaying = true;
 	//need to take pointer to vector of vector of float
 	jassert(input != nullptr);
 	jassert(output != nullptr);
@@ -43,6 +44,7 @@ void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* 
 			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
 		}
 	}
+    m_isPlaying = false;
 }
 
 void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
@@ -100,17 +102,28 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
     m_numOverlaps = newOverlapCount;
     m_fftHopSize = getFftSize() / m_numOverlaps;
     
-    // TODO: we
     for (auto& processesPerChannel : m_spectralProcess) {
         processesPerChannel.clear();
     }
     
-    m_spectralProcess.clear();
+    // TODO: sometimes this is called from the fft switcher thread and we being destroyed while creating new allocations
+    // If spectral process is empty then we may be destroyed and should not clear the buffer. Using a lock instead may prevent us needing to do these hacky checks
+    if (!m_spectralProcess.empty())
+    {
+        m_spectralProcess.clear();
+    }
     
 	for (int chan = 0; chan < m_numChans; ++chan) {
         m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
+            // TODO: sometimes this is called from the fft switcher thread and we being destroyed while creating new allocations
+            // If spectral process is empty then we should not continue here. Using a lock instead may prevent us needing to do these hacky checks
+            if (m_spectralProcess.empty())
+            {
+                return;
+            }
+            
             m_spectralProcess.at(chan).push_back(
                 createSpectralProcess(specProcess, m_fftSize, m_fftHopSize, m_sampleRate, m_numOverlaps, chan, m_numChans)
             );
