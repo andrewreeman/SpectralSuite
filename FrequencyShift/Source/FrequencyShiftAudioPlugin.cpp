@@ -36,10 +36,10 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     // To debug AUval
 //#if DEBUG
-//    while (!Process::isRunningUnderDebugger())
-//    {
-//        Thread::sleep(250);
-//    }
+    while (!Process::isRunningUnderDebugger())
+    {
+        Thread::sleep(250);
+    }
 //#endif
     
 	return new SpectralAudioPlugin(

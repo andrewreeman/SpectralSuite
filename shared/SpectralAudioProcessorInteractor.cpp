@@ -2,7 +2,7 @@
 #include "../../shared/PhaseVocoder.h"
 
 SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
-: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false), m_isPlaying(false)
+: m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false), m_isPlaying(false), m_setOverlapsCallCount(0)
 {
     m_phaseBuffer = std::make_shared<PhaseBuffer>(m_numChans * m_numOverlaps, 1024);
 }
@@ -83,6 +83,9 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 }
 
 void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
+    int newOverlapCallCount = (m_setOverlapsCallCount + 1) % 100;
+    m_setOverlapsCallCount = newOverlapCallCount;
+    
     if (newOverlapCount < 1 ||newOverlapCount > 8) {
         return;
     }
@@ -98,22 +101,30 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
            return;
        }
    }
+    
+    if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
 
     m_numOverlaps = newOverlapCount;
     m_fftHopSize = getFftSize() / m_numOverlaps;
     
     for (auto& processesPerChannel : m_spectralProcess) {
-        processesPerChannel.clear();
+        if (!processesPerChannel.empty())
+        {
+            if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
+            processesPerChannel.clear();
+        }
     }
     
     // TODO: sometimes this is called from the fft switcher thread and we being destroyed while creating new allocations
     // If spectral process is empty then we may be destroyed and should not clear the buffer. Using a lock instead may prevent us needing to do these hacky checks
     if (!m_spectralProcess.empty())
     {
+        if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
         m_spectralProcess.clear();
     }
     
 	for (int chan = 0; chan < m_numChans; ++chan) {
+        if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
         m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
@@ -123,6 +134,8 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
             {
                 return;
             }
+            
+            if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
             
             m_spectralProcess.at(chan).push_back(
                 createSpectralProcess(specProcess, m_fftSize, m_fftHopSize, m_sampleRate, m_numOverlaps, chan, m_numChans)

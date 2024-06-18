@@ -46,6 +46,7 @@ private:
     int m_fftSize;
     bool m_isPreparingToPlay;
     bool m_isPlaying;
+    int m_setOverlapsCallCount;
     
     std::shared_ptr<PhaseBuffer> m_phaseBuffer;
 };
