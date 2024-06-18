@@ -39,6 +39,11 @@ void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* 
             continue;
         }
         
+        if (m_spectralProcess.size() <= chan)
+        {
+            continue;
+        }
+        
 		for (auto& spectralProcessOverlap : m_spectralProcess.at(chan)) {
 			prepareProcess(spectralProcessOverlap.get());
 			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
