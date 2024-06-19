@@ -107,7 +107,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
        }
    }
     
-    if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
+    if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
 
     m_numOverlaps = newOverlapCount;
     m_fftHopSize = getFftSize() / m_numOverlaps;
@@ -115,7 +115,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
     for (auto& processesPerChannel : m_spectralProcess) {
         if (!processesPerChannel.empty())
         {
-            if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
+            if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
             processesPerChannel.clear();
         }
     }
@@ -124,12 +124,12 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
     // If spectral process is empty then we may be destroyed and should not clear the buffer. Using a lock instead may prevent us needing to do these hacky checks
     if (!m_spectralProcess.empty())
     {
-        if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
+        if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
         m_spectralProcess.clear();
     }
     
 	for (int chan = 0; chan < m_numChans; ++chan) {
-        if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
+        if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
         m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
         for (int specProcess = 0; specProcess < m_numOverlaps; specProcess++) {
@@ -140,8 +140,8 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
                 return;
             }
             
-            if (m_setOverlapsCallCount != newOverlapCount) { /* race detected */ return;}
-            
+            if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
+
             m_spectralProcess.at(chan).push_back(
                 createSpectralProcess(specProcess, m_fftSize, m_fftHopSize, m_sampleRate, m_numOverlaps, chan, m_numChans)
             );
