@@ -32,6 +32,8 @@ public:
     void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); };
     void setNumOverlaps(int newOverlapCount);
     void setWindowType(FftWindowType newWindowType);
+    bool isPreparingToPlay() const { return m_isPreparingToPlay; }
+    bool isPlaying() const { return m_isPlaying; }
 
 protected:	
 	std::vector< std::vector<std::unique_ptr<StandardFFTProcessor>> > m_spectralProcess;
@@ -42,6 +44,9 @@ private:
 	int m_fftHopSize;
     int m_numChans;
     int m_fftSize;
+    bool m_isPreparingToPlay;
+    bool m_isPlaying;
+    int m_setOverlapsCallCount;
     
     std::shared_ptr<PhaseBuffer> m_phaseBuffer;
 };

@@ -33,28 +33,11 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
     m_dependencyFactory(dependencies)
 {
-	
-
-	//FileLogger* logger = new FileLogger(FileLogger::getSystemLogFileFolder().getChildFile("logs")
-	//	.getChildFile("spectral_suite" + Time::getCurrentTime().formatted("%Y-%m-%d_%H-%M-%S"))
-	//	.withFileExtension(".log")
-	//	.getNonexistentSibling(),
-	//	"Log started", 0);
-
-	File logFile = FileLogger::getSystemLogFileFolder().getChildFile("SpectralSuite").getChildFile("spectral_suite.log");
-	m_logger = std::unique_ptr<FileLogger>(
-		new FileLogger(
-		logFile,
-			"Log started"
-		)
-	);
-	Logger::setCurrentLogger(m_logger.get());
     this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {    
-	Logger::setCurrentLogger(nullptr);
     if(this->m_versionCheckThread.isThreadRunning()) {
         this->m_versionCheckThread.stopThread(20);
     }
@@ -67,6 +50,9 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
+    if (isInvalidFftModificationState()) { return; }
+//    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
     if(getActiveEditor() != nullptr) {
@@ -76,6 +62,8 @@ void SpectralAudioPlugin::switchFftSize()
 }
 void SpectralAudioPlugin::switchFftStyle()
 {
+    if (isInvalidFftModificationState()) { return; }
+
     FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
     switch(style) {
         case FftStyle::DEFAULT:
@@ -95,24 +83,52 @@ void SpectralAudioPlugin::switchFftStyle()
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
+    if (isInvalidFftModificationState()) { return; }
+
     int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
     m_audioProcessorInteractor->setNumOverlaps(overlaps);
     
     const int hopSize = m_audioProcessorInteractor->getHopSize();
-	for(std::vector<float>& output : m_output)
-	{
-		output.resize(hopSize, 0.f);
-	}
-	for(std::vector<float>& input : m_input)
-	{
-		input.resize(hopSize, 0.f);
-	}
-
+    
+    for(std::vector<float>& output : m_output)
+    {
+        if (output.size() == hopSize)
+        {
+            continue;
+        }
+        
+        if (isInvalidFftModificationState()) { return; }
+        // Because we switch overlaps on a different thread m_output might be empty when we resize
+        // Which means we no longer own the output vector
+        // output vector expected to only be empty if we have been destructed
+        // TODO: use mutex when modifying fft buffers
+        if (!m_output.empty() && !output.empty())
+        {
+            output.resize(hopSize, 0.f);
+        }
+    }
+    
+    for(std::vector<float>& input : m_input)
+    {
+        if (input.size() == hopSize)
+        {
+            continue;
+        }
+ 
+        if (isInvalidFftModificationState()) { return; }
+        if (!m_input.empty() && !input.empty())
+        {
+            input.resize(hopSize, 0.f);
+        }
+    }
+    
 	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
 }
 
 
 void SpectralAudioPlugin::switchFftWindowType() {
+    if (isInvalidFftModificationState()) { return; }
+    
     auto windowType = m_fftWindowChoiceAdapter.fftWindow();
     m_audioProcessorInteractor->setWindowType(windowType);
 }
@@ -184,6 +200,7 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {    
 	m_output.clear();
 	m_input.clear();
+    
 	for (
 		int outputChannelCount = getBusesLayout().getMainOutputChannels();		
 		outputChannelCount > 0;
@@ -193,10 +210,11 @@ void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 		m_output.push_back(std::vector<float>());
 		m_input.push_back(std::vector<float>());
 	}
-
-	const int fftSize = m_fftSizeChoiceAdapter.fftSize();
-	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());	
-	setFftSize(fftSize);		
+    
+    const int fftSize = m_fftSizeChoiceAdapter.fftSize();
+	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());
+    
+	setFftSize(fftSize);
 }
 
 void SpectralAudioPlugin::releaseResources()
@@ -232,9 +250,9 @@ void SpectralAudioPlugin::emptyOutputs() {
 
 void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiBuffer)
 {
-	if (m_fftSwitcher.isThreadRunning()) {        
+	if (m_fftSwitcher.isThreadRunning()) {
 		m_internalBufferReadWriteIndex = 0;
-		return; 
+		return;
 	}
 
 	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {
@@ -329,6 +347,8 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 }
 
 void SpectralAudioPlugin::setFftSize(int size) {	
+    if (isInvalidFftModificationState()) { return; }
+    
 	m_audioProcessorInteractor->setFftSize(size);
 	const int hopSize = m_audioProcessorInteractor->getHopSize();
 
@@ -351,7 +371,6 @@ void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener
 }
 
 void SpectralAudioPlugin::initialiseParameters() {
-    
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
     

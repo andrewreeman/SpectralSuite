@@ -19,6 +19,8 @@ public:
     /// Thread
     /// Do not call this directly. Instead call `switchFftSize` or `switchOverlapCount`
 	void run() override {
+        if (threadShouldExit()) { return; }
+        
         if(m_switchFft) {
             m_switchFft = false;
             m_fftSwitcher->switchFftSize();

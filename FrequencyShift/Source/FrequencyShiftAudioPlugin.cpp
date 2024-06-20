@@ -34,6 +34,14 @@ private:
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
+    // To debug AUval
+//#if DEBUG
+//    while (!Process::isRunningUnderDebugger())
+//    {
+//        Thread::sleep(250);
+//    }
+//#endif
+    
 	return new SpectralAudioPlugin(
 		new Factory()
 	);
