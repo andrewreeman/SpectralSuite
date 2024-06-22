@@ -250,57 +250,57 @@ void SpectralAudioPlugin::emptyOutputs() {
 
 void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiBuffer)
 {
-	if (m_fftSwitcher.isThreadRunning()) {
-		m_internalBufferReadWriteIndex = 0;
-		return;
-	}
-
-	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {
-		m_fftSwitcher.switchFftSize();
-		return;
-	}
- 
-    if(m_fftOverlapsChoiceAdapter.shouldChangeFftOverlaps()) {
-        m_fftSwitcher.switchOverlapCount();
-        return;
-    }
-    
-    if(m_fftStyleChoiceAdapter.shouldChangeFftStyle()) {
-        m_fftSwitcher.switchFftStyle();
-        return;
-    }
-    
-    if(m_fftWindowChoiceAdapter.shouldChangeFftWindow()) {
-        m_fftSwitcher.switchWindowType();
-        return;
-    }
-    
-    if(!midiBuffer.isEmpty()) {
-        m_audioProcessorInteractor->receivedMidi(midiBuffer);
-    }        
-
-	const int hopSize = m_audioProcessorInteractor->getHopSize();
-	const int numChannels = buffer.getNumChannels();
-	auto audio = buffer.getArrayOfWritePointers();
-	int numSamples = buffer.getNumSamples();
-	int ioVSTBuffers = 0;
-
-	while (numSamples--) {		
-		if (m_internalBufferReadWriteIndex >= hopSize) {
-			m_internalBufferReadWriteIndex = 0;
-			emptyOutputs();
-			m_audioProcessorInteractor->process(&m_input, &m_output);
-		}
-
-		for (int channel = 0; channel < numChannels; channel++)
-		{
-			m_input[channel][m_internalBufferReadWriteIndex] = audio[channel][ioVSTBuffers];
-			audio[channel][ioVSTBuffers] = m_output[channel][m_internalBufferReadWriteIndex];
-		}
-		
-		ioVSTBuffers++;
-		m_internalBufferReadWriteIndex++;	
-	}			
+//	if (m_fftSwitcher.isThreadRunning()) {
+//		m_internalBufferReadWriteIndex = 0;
+//		return;
+//	}
+//
+//	if (m_fftSizeChoiceAdapter.shouldChangeFftSize()) {
+//		m_fftSwitcher.switchFftSize();
+//		return;
+//	}
+// 
+//    if(m_fftOverlapsChoiceAdapter.shouldChangeFftOverlaps()) {
+//        m_fftSwitcher.switchOverlapCount();
+//        return;
+//    }
+//    
+//    if(m_fftStyleChoiceAdapter.shouldChangeFftStyle()) {
+//        m_fftSwitcher.switchFftStyle();
+//        return;
+//    }
+//    
+//    if(m_fftWindowChoiceAdapter.shouldChangeFftWindow()) {
+//        m_fftSwitcher.switchWindowType();
+//        return;
+//    }
+//    
+//    if(!midiBuffer.isEmpty()) {
+//        m_audioProcessorInteractor->receivedMidi(midiBuffer);
+//    }        
+//
+//	const int hopSize = m_audioProcessorInteractor->getHopSize();
+//	const int numChannels = buffer.getNumChannels();
+//	auto audio = buffer.getArrayOfWritePointers();
+//	int numSamples = buffer.getNumSamples();
+//	int ioVSTBuffers = 0;
+//
+//	while (numSamples--) {		
+//		if (m_internalBufferReadWriteIndex >= hopSize) {
+//			m_internalBufferReadWriteIndex = 0;
+//			emptyOutputs();
+//			m_audioProcessorInteractor->process(&m_input, &m_output);
+//		}
+//
+//		for (int channel = 0; channel < numChannels; channel++)
+//		{
+//			m_input[channel][m_internalBufferReadWriteIndex] = audio[channel][ioVSTBuffers];
+//			audio[channel][ioVSTBuffers] = m_output[channel][m_internalBufferReadWriteIndex];
+//		}
+//		
+//		ioVSTBuffers++;
+//		m_internalBufferReadWriteIndex++;	
+//	}			
 }
 
 bool SpectralAudioPlugin::hasEditor() const
