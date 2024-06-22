@@ -25,30 +25,30 @@ void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate
 void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
 {	
     m_isPlaying = true;
-	//need to take pointer to vector of vector of float
-	jassert(input != nullptr);
-	jassert(output != nullptr);
-	jassert(input->size() > 0);
-	jassert(input->at(0).size() > 0);
-	jassert(input->size() == output->size());
-	jassert(input->size() == m_spectralProcess.size());
-    
-	for (int chan = 0; chan < input->size(); chan++) {
-        if (input->at(chan).size() == 0)
-        {
-            continue;
-        }
-        
-        if (m_spectralProcess.size() <= chan)
-        {
-            continue;
-        }
-        
-		for (auto& spectralProcessOverlap : m_spectralProcess.at(chan)) {
-			prepareProcess(spectralProcessOverlap.get());
-			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
-		}
-	}
+//	//need to take pointer to vector of vector of float
+//	jassert(input != nullptr);
+//	jassert(output != nullptr);
+//	jassert(input->size() > 0);
+//	jassert(input->at(0).size() > 0);
+//	jassert(input->size() == output->size());
+//	jassert(input->size() == m_spectralProcess.size());
+//    
+//	for (int chan = 0; chan < input->size(); chan++) {
+//        if (input->at(chan).size() == 0)
+//        {
+//            continue;
+//        }
+//        
+//        if (m_spectralProcess.size() <= chan)
+//        {
+//            continue;
+//        }
+//        
+//		for (auto& spectralProcessOverlap : m_spectralProcess.at(chan)) {
+//			prepareProcess(spectralProcessOverlap.get());
+//			spectralProcessOverlap->process(input->at(chan).data(), output->at(chan).data(), m_fftHopSize);			
+//		}
+//	}
     m_isPlaying = false;
 }
 
