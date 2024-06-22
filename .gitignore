@@ -83,6 +83,8 @@ SpectralSuite-v2\.0\.2\.zip
 PhaseLock/Builds/
 
 PhaseLock/JuceLibraryCode/
+FrequencyMagnet-8k/JuceLibraryCode/
+FrequencyMagnet-8k/Builds/
 SpectralSuiteBuild/package/
 
 SpectralSuite.xcworkspace/xcuserdata/
