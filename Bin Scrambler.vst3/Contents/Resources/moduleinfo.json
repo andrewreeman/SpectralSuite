@@ -1,0 +1,58 @@
+{
+  "Name": "Bin Scrambler",
+  "Version": "2.1.11",
+  "Factory Info": {
+    "Vendor": "Stepwise",
+    "URL": "www.andrewreeman.com",
+    "E-Mail": "andrew.reeman@gmail.com",
+    "Flags": {
+      "Unicode": true,
+      "Classes Discardable": false,
+      "Component Non Discardable": false,
+    },
+  },
+  "Classes": [
+    {
+      "CID": "ABCDEF019182FAEB5354505753504253",
+      "Category": "Audio Module Class",
+      "Name": "Bin Scrambler",
+      "Vendor": "Stepwise",
+      "Version": "2.1.11",
+      "SDKVersion": "VST 3.7.11",
+      "Sub Categories": [
+        "Fx",
+      ],
+      "Class Flags": 0,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+    {
+      "CID": "ABCDEF011234ABCD5354505753504253",
+      "Category": "Component Controller Class",
+      "Name": "Bin Scrambler",
+      "Vendor": "Stepwise",
+      "Version": "2.1.11",
+      "SDKVersion": "VST 3.7.11",
+      "Sub Categories": [
+        "Fx",
+      ],
+      "Class Flags": 0,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+    {
+      "CID": "ABCDEF01C0DEF00D5354505753504253",
+      "Category": "Plugin Compatibility Class",
+      "Name": "Bin Scrambler",
+      "Vendor": "Stepwise",
+      "Version": "2.1.11",
+      "SDKVersion": "VST 3.7.11",
+      "Class Flags": 0,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+  ],
+}
