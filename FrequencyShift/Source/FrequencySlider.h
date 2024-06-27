@@ -24,7 +24,6 @@ public:
 	void onPropertiesChanged() override;	
 	void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override;
     
-
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 	Slider frequencyShift;

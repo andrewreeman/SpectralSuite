@@ -49,3 +49,7 @@ void FreqSlider::resized()
 //	freq.setBounds(0, y, getWidth(), getHeight() / 2);
     freq.setBounds(0, y, getWidth(), getHeight() - y);
 }
+
+void FreqSlider::setRange (double newMin, double newMax, double newInt) {
+  freq.setRange(newMin, newMax, newInt);
+}

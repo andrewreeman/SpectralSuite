@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../shared/PluginParameters.h"
+#include "FreqSlider.h"
 
 class FrequencyMagnetParameters : public PluginParameters {
 public:
@@ -13,4 +14,5 @@ public:
  
     void setFrequency(float frequency);
     void setWidth(float width);
+    void updateValue(FreqSlider* frequencyMagSlider, double valueToUpdateTo);
 };
