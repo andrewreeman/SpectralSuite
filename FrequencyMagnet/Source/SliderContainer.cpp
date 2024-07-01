@@ -52,14 +52,13 @@ Array<PropertyComponent*> SliderContainer::getSettingsProperties()
 
     const NormalisableRange<float> shiftUpRange = this->params->getParameterRange("magMaxRange");
     SliderPropertyComponent* shiftMaxRangeValue = new SliderPropertyComponent(params->getParameterAsValue("magMaxRange"), "Freq mag max", shiftUpRange.start, shiftUpRange.end, shiftUpRange.interval, shiftUpRange.skew);
-
+    
     settingsPropertyComponents.add(shiftMinRangeValue);
     settingsPropertyComponents.add(shiftMaxRangeValue);
     settingsPropertyComponents.addArray(ParameterContainerComponent::getSettingsProperties());
     
 	return settingsPropertyComponents;
 }
-
 
 void SliderContainer::onPropertiesChanged()
 {
