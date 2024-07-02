@@ -23,13 +23,6 @@ SettingsPage::~SettingsPage()
 
 void SettingsPage::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (Colours::grey);
@@ -40,7 +33,6 @@ void SettingsPage::paint (Graphics& g)
         
     g.drawText ("Settings", getLocalBounds() + juce::Point<int>(0, 10),
                 Justification::centredTop, true);   // draw some placeholder text
-	
 }
 
 

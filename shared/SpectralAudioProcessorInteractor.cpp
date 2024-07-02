@@ -17,6 +17,11 @@ void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate
     m_isPreparingToPlay = true;
     m_fftSize = fftSize;
     m_numChans = channelCount;
+    
+    if (m_sampleRate != sampleRate && !m_spectralProcess.empty()) {
+        m_spectralProcess.clear();
+    }
+    
 	m_sampleRate = sampleRate;
     setNumOverlaps(m_numOverlaps);
     m_isPreparingToPlay = false;

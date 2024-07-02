@@ -11,6 +11,7 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;	
+    void setRange (double newMin, double newMax, double newInt);
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 
