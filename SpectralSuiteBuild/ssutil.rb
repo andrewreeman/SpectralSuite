@@ -37,7 +37,7 @@ if projects.empty?
 end
 
 projects.each do |f|    
-    if f.include?('SpectralGateBuild') || f.include?('Base.xcodeproj') || f.include?('Playground') 
+    if f.include?('SpectralGateBuild') || f.include?('BaseTitle.xcodeproj') || f.include?('Playground') 
         next
     end            
     project_name = File.basename(f, '.xcodeproj')                
