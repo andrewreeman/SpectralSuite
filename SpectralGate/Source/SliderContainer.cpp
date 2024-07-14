@@ -42,7 +42,7 @@ void SliderContainer::resized()
     balanceSlider.setBounds(0, y, sliderWidth, sliderHeight);
     
     y += balanceSlider.getHeight();
-    tiltToggle.setBounds(0, y, 50, 50);
+    tiltToggle.setBounds(0, y, 100, 50);
     
     y += tiltToggle.getHeight();
     
