@@ -198,6 +198,18 @@ void SpectralAudioPlugin::changeProgramName (int, const String&)
 
 void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {    
+    int waitCount = 0;
+    while (m_fftSwitcher.isBusy() && waitCount < 100)
+    {
+        waitCount++;
+        Thread::sleep(100);
+    }
+    
+    if (m_fftSwitcher.isBusy())
+    {
+        return;
+    }
+    
 	m_output.clear();
 	m_input.clear();
     
@@ -250,7 +262,7 @@ void SpectralAudioPlugin::emptyOutputs() {
 
 void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiBuffer)
 {
-	if (m_fftSwitcher.isThreadRunning()) {
+	if (m_fftSwitcher.isBusy() || m_audioProcessorInteractor->isPreparingToPlay()) {
 		m_internalBufferReadWriteIndex = 0;
 		return;
 	}

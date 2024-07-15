@@ -59,6 +59,10 @@ public:
         m_switchWindow = true;
         startThread();
     }
+    
+    bool isBusy() {
+        return m_switchFft || m_switchFftStyle || m_switchOverlaps || m_switchWindow || isThreadRunning();
+    }
 
 private:
 	FftSwitcher* m_fftSwitcher;
