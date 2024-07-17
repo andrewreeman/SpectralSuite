@@ -14,6 +14,7 @@ int SpectralAudioProcessorInteractor::getFftSize()
 
 void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate, int channelCount)
 {
+    auto wasPreparingToPlay = m_isPreparingToPlay;
     m_isPreparingToPlay = true;
     m_fftSize = fftSize;
     m_numChans = channelCount;

@@ -1,4 +1,7 @@
 % Spectral Suite
+## Version 2.1.11
+    * Fix au validation so plugins should work better in Logic on Mac
+    * Added max and min settings for frequency magnet
 ## Version 2.1.10
     * Contribution by a5632645 fixed spectral gate tilt checkbox issue
     * Fixed some memory leaks
