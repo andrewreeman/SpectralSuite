@@ -12,10 +12,6 @@
 #include "ParameterContainerComponentFactory.h"
 #include "PluginParameters.h"
 
-//==============================================================================
-/**
-*/
-
 class SpectralAudioPluginUi;
 
 class SpectralAudioPlugin : public AudioProcessor, private FftSwitcherThread::FftSwitcher
@@ -30,8 +26,6 @@ public:
         virtual ~DependencyFactory(){};
         
         virtual std::shared_ptr<PluginParameters> createParams(SpectralAudioPlugin* plugin) = 0;
-//        virtual std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin* plugin) = 0;
-//        virtual std::unique_ptr<ParameterContainerComponent> createUi(SpectralAudioPlugin* plugin) = 0;
         virtual ParameterContainerComponent* createUi(SpectralAudioPlugin* plugin) = 0;
         virtual std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin* plugin) = 0;
         virtual Array<int> fftSizesToNotInclude() { return Array<int>(); };
@@ -107,18 +101,24 @@ private:
 	void emptyOutputs();
 	void setFftSize(int fftSize);
     void initialiseParameters();
-			
-	std::shared_ptr<PluginParameters> parameters;
-//    std::unique_ptr<ParameterContainerComponent> m_parameterUiComponent;
-	std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
+    bool isPreparingToPlay() const { return m_audioProcessorInteractor->isPreparingToPlay(); }
+    bool isInvalidFftModificationState() const {
+        return
+            m_fftSwitcher.threadShouldExit()
+            || m_audioProcessorInteractor->isPreparingToPlay()
+            || m_audioProcessorInteractor->isPlaying()
+            || m_output.empty()
+            || m_input.empty();
+    };
+    
+    std::shared_ptr<PluginParameters> parameters;
+    std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
 
 	FftSizeChoiceAdapter m_fftSizeChoiceAdapter;
     FftStyleChoiceAdapter m_fftStyleChoiceAdapter;
     FftOverlapsChoiceAdapter m_fftOverlapsChoiceAdapter;
     FftWindowChoiceAdapter m_fftWindowChoiceAdapter;
 	FftSwitcherThread m_fftSwitcher;
-	
-	std::unique_ptr<FileLogger> m_logger;
 	
 	// io buffers: TODO n chan
 	int m_internalBufferReadWriteIndex;

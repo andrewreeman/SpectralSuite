@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="WPt5si" name="BaseTitle" projectType="audioplug" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="2.1.10" defines="VersionCode=16" pluginDesc="BaseDescription"
+              version="2.1.11" defines="VersionCode=17" pluginDesc="BaseDescription"
               pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2022"
               companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com"
               pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1"

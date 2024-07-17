@@ -14,6 +14,15 @@ void FrequencyMagnetFFTProcessor::spectral_process(const PolarVector &in, PolarV
     const float widthLimit = 1.f-pow(m_widthBias, 0.125f); // this is the lower limit for the width (less width, narrower band ... higher volume!)
     
     int target_bin = (int)((m_freq / (float)this->getSampleRate()) * (float)m_fftSize);
+    if (target_bin > bins)
+    {
+        for(int i=0; i<bins; ++i)
+        {
+            out[i] = in[i];
+        }
+        
+        return;
+    }
     float width = m_width;
     width = utilities::clip(width, widthLimit, 1.f);
     width = pow(width, widthBias);

@@ -31,5 +31,9 @@ std::unique_ptr<StandardFFTProcessor> SSFInteractor::createSpectralProcess(
 }
 
 void SSFInteractor::onFftSizeChanged(){
+    if(m_wavetable == nullptr) {
+        m_wavetable = std::make_shared<Table<float> >(getFftSize() / 2, 1, 1);
+    }
+    
     m_wavetable->resize(getFftSize() / 2);
 }

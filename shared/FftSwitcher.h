@@ -19,6 +19,8 @@ public:
     /// Thread
     /// Do not call this directly. Instead call `switchFftSize` or `switchOverlapCount`
 	void run() override {
+        if (threadShouldExit()) { return; }
+        
         if(m_switchFft) {
             m_switchFft = false;
             m_fftSwitcher->switchFftSize();
@@ -56,6 +58,10 @@ public:
     void switchWindowType() {
         m_switchWindow = true;
         startThread();
+    }
+    
+    bool isBusy() {
+        return m_switchFft || m_switchFftStyle || m_switchOverlaps || m_switchWindow || isThreadRunning();
     }
 
 private:

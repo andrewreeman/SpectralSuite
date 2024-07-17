@@ -38,7 +38,7 @@ public:
 
 	//Array<PropertyComponent*> createSliders(int howMany);
 
-private:
+//private:
 	void backButtonClicked();
 
 	PropertyPanel propertyPanel;

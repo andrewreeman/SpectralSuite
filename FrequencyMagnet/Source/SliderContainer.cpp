@@ -46,7 +46,29 @@ Array<PropertyComponent*> SliderContainer::getSettingsProperties()
 
 	Array<PropertyComponent*> settingsPropertyComponents;
 	settingsPropertyComponents.add(useLegacyHighFrequencyShiftMode);
+    
+    const NormalisableRange<float> shiftDownRange = this->params->getParameterRange("magMinRange");
+    SliderPropertyComponent* shiftMinRangeValue = new SliderPropertyComponent(params->getParameterAsValue("magMinRange"), "Freq mag min", shiftDownRange.start, shiftDownRange.end, shiftDownRange.interval, shiftDownRange.skew);
+
+    const NormalisableRange<float> shiftUpRange = this->params->getParameterRange("magMaxRange");
+    SliderPropertyComponent* shiftMaxRangeValue = new SliderPropertyComponent(params->getParameterAsValue("magMaxRange"), "Freq mag max", shiftUpRange.start, shiftUpRange.end, shiftUpRange.interval, shiftUpRange.skew);
+    
+    settingsPropertyComponents.add(shiftMinRangeValue);
+    settingsPropertyComponents.add(shiftMaxRangeValue);
     settingsPropertyComponents.addArray(ParameterContainerComponent::getSettingsProperties());
     
 	return settingsPropertyComponents;
+}
+
+void SliderContainer::onPropertiesChanged()
+{
+    AudioParameterFloat* freqParam = (AudioParameterFloat*)this->params->getParameter("freq");
+    this->params->updateValue(&freqSlider, freqParam->get());
+}
+
+void SliderContainer::onAudioValueTreeStateLoadedFromXmlState(PluginParameters*, XmlElement* xmlState)
+{
+    AudioParameterFloat* shiftParam = (AudioParameterFloat*)this->params->getParameter("freq");
+    const double originalShiftValue = xmlState->getChildByAttribute("id", "freq")->getDoubleAttribute("value", shiftParam->get());
+    this->params->updateValue(&freqSlider, originalShiftValue);
 }

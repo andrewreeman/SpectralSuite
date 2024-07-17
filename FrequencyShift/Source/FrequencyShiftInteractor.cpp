@@ -18,13 +18,11 @@ std::unique_ptr<StandardFFTProcessor> FrequencyShiftInteractor::createSpectralPr
 
 float FrequencyShiftInteractor::getShift()
 {
-	{
-		if (m_shift != nullptr) {
-			return *m_shift;
-		}
-		else {
-			return 0.0;
-		}
-	}
+    if (m_shift != nullptr) {
+        return *m_shift;
+    }
+    else {
+        return 0.0;
+    }
 }
 

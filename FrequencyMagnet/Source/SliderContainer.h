@@ -21,6 +21,8 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 	Array<PropertyComponent*> getSettingsProperties() override;			
+    void onPropertiesChanged() override;
+    void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override;
 
 private:
 	FreqSlider freqSlider;
