@@ -72,8 +72,9 @@ SpectralSuiteBuild/package/
 **/MacOSX/build/*
 
 # Visual studio files
-**/VisualStudio2022/*
-**/VisualStudio2017/*
+**/VisualStudio2022/.vs/*
+**/VisualStudio2022/x64/*
+#**/VisualStudio2017/*
 
 
 # Vim
