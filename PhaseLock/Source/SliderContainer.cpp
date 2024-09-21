@@ -111,6 +111,7 @@ void SliderContainer::resized()
     m_morphDurationSeconds.setBounds(area.removeFromTop(sliderHeight));
 }
 
+// TODO: remove this, there are no controlpoints in phase lock
 void SliderContainer::controlPointsChanged(Array<float> outputValues, ControlPointComponent* component) {
     // get source points
     // set source points and output values on plugin parameter object

@@ -6,6 +6,8 @@
 #include "PhaseBuffer.h"
 #include "FftWindowType.h"
 
+class SpectralAudioPlugin;
+
 class SpectralAudioProcessorInteractor {
 public:
     SpectralAudioProcessorInteractor(int numOverlaps);
@@ -25,8 +27,13 @@ public:
 	virtual void prepareProcess(StandardFFTProcessor*) {}	
 	virtual void onFftSizeChanged() {};	
 	
-    virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
-	
+    /// Can be overridden if needs to query plugin
+    virtual void process(SpectralAudioPlugin* plugin, std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output)
+    {
+        this->process(input, output);
+    }
+    void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
+
 	void prepareToPlay(int fftSize, int sampleRate, int channelCount);			
 	void setFftSize(int fftSize);
     void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); };

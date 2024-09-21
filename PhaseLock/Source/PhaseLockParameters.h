@@ -22,6 +22,8 @@ public:
     bool shouldMorphMagAndPhase() const { return (bool)getParameterAsValueByParameterId(KEY_MORPH_MAG_AND_PHASE).getValue(); }
     int getMorphDurationParameter() const { return (int)getParameterAsValueByParameterId(KEY_MORPH_DURATION).getValue(); }
     
+    bool willContinuePlayingWhenSilentInput() const { return isFreqLocked() || shouldMorphMagAndPhase(); }
+    
     PButtonAttachment createPhaseLockAttachment(ToggleButton& button) { return createButtonAttachment(KEY_PHASE_LOCK, button); }
     PSliderAttachment createPhaseMixAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_PHASE_MIX, slider); }
     
@@ -34,6 +36,7 @@ public:
     PButtonAttachment createMorphMagAndPhaseAttachment(ToggleButton& button){ return createButtonAttachment(KEY_MORPH_MAG_AND_PHASE, button); }
     PSliderAttachment createMorphDurationAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MORPH_DURATION, slider); }
         
+    // TODO: remove this, there are no controlpoints in phase lock
     void setControlPoints(Array<float> controlPoints, Array<juce::Point<int>> sourcePoints);
     Array<juce::Point<int>> getControlPoints();
     

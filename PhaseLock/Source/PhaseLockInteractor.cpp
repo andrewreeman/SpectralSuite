@@ -9,6 +9,27 @@ std::unique_ptr<StandardFFTProcessor> PhaseLockInteractor::createSpectralProcess
 	return std::make_unique<PhaseLockFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
+void PhaseLockInteractor::process(SpectralAudioPlugin *plugin, std::vector<std::vector<float>> *input, std::vector<std::vector<float>> *output)
+{
+    if (m_params->willContinuePlayingWhenSilentInput())
+    {
+        auto* playhead = plugin->getPlayHead();
+        if(playhead != nullptr)
+        {
+            auto position = playhead->getPosition();
+            if(position.hasValue()) 
+            {
+                if(!position->getIsPlaying())
+                {
+                    return;
+                }
+            }
+        }
+    }
+    this->SpectralAudioProcessorInteractor::process(input, output);
+}
+
+
 void PhaseLockInteractor::prepareProcess(StandardFFTProcessor * spectralProcessor)
 {
     auto processor = ((PhaseLockFFTProcessor*)spectralProcessor);
