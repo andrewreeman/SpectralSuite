@@ -86,3 +86,5 @@ spectral-suite/.vs
 spectral-suite/x64
 spectral-suite/SpectralSuiteInstaller/Debug
 spectral-suite/SpectralSuiteInstaller/Release
+
+PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj/xcshareddata/xcschemes/Phase Lock - VST3.xcscheme
