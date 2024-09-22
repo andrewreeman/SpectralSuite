@@ -44,7 +44,7 @@ MacOS intel (14.6.1)
 Projucer (7)
 [Packages](http://s.sudre.free.fr/Software/Packages/about.html) (1.2.9) to build the installer.
 
-
+##### Steps
 Update the project version in `SpectralSuiteBuild` `Base.jucer` file. 
 In the preprocessor definitions increment the `VersionCode`.
 Update `CHANGES.md` with the latest changes.
@@ -63,4 +63,8 @@ Build a package that can be used for installing. This will be located in
 Visual Studio 2022
 Powershell
 
+##### Steps
+Open Developer Powershell
+Navigate to `SpectralSuiteBuild`.
+Then run `ssutil.ps1`
 

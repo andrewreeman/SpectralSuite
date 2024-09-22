@@ -32,7 +32,7 @@ public:
     {
         this->process(input, output);
     }
-    void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
+    virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output);
 
 	void prepareToPlay(int fftSize, int sampleRate, int channelCount);			
 	void setFftSize(int fftSize);
