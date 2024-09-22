@@ -66,7 +66,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>C:\JUCE\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;C:\JUCE\modules;../../shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;VersionCode=17;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.11;JUCE_APP_VERSION_HEX=0x2010b;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;VersionCode=18;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.12;JUCE_APP_VERSION_HEX=0x2010c;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -80,7 +80,7 @@
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>C:\JUCE\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;C:\JUCE\modules;../../shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;VersionCode=17;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.11;JUCE_APP_VERSION_HEX=0x2010b;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;VersionCode=18;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.12;JUCE_APP_VERSION_HEX=0x2010c;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
       <OutputFile>$(OutDir)\Spectral Gate.dll</OutputFile>
@@ -111,7 +111,7 @@ if not exist &quot;$(OutDir)\\Spectral Gate.vst3\Contents\x86_64-win\&quot; del 
 copy /Y &quot;$(OutDir)\Spectral Gate.dll&quot; &quot;$(OutDir)\Spectral Gate.vst3\Contents\x86_64-win\Spectral Gate.vst3&quot;
 del /s /q &quot;$(OutDir)/Spectral Gate.vst3\Contents\moduleinfo.json&quot;
 if not exist &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\&quot; del /s /q &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources&quot; &amp;&amp; mkdir &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources&quot;
-&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.11&quot; -path &quot;$(OutDir)/Spectral Gate.vst3&quot; -output &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\moduleinfo.json&quot;</Command>
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.12&quot; -path &quot;$(OutDir)/Spectral Gate.vst3&quot; -output &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\moduleinfo.json&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,7 +125,7 @@ if not exist &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\&quot; del /s
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>C:\JUCE\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;C:\JUCE\modules;../../shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;VersionCode=17;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.11;JUCE_APP_VERSION_HEX=0x2010b;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;VersionCode=18;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.12;JUCE_APP_VERSION_HEX=0x2010c;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -139,7 +139,7 @@ if not exist &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\&quot; del /s
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>C:\JUCE\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;C:\JUCE\modules;../../shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;VersionCode=17;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.11;JUCE_APP_VERSION_HEX=0x2010b;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;VersionCode=18;JUCER_VS2022_78A503E=1;JUCE_APP_VERSION=2.1.12;JUCE_APP_VERSION_HEX=0x2010c;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
       <OutputFile>$(OutDir)\Spectral Gate.dll</OutputFile>
@@ -171,7 +171,7 @@ if not exist &quot;$(OutDir)\\Spectral Gate.vst3\Contents\x86_64-win\&quot; del 
       <Command>copy /Y &quot;$(OutDir)\Spectral Gate.dll&quot; &quot;$(OutDir)\Spectral Gate.vst3\Contents\x86_64-win\Spectral Gate.vst3&quot;
 del /s /q &quot;$(OutDir)/Spectral Gate.vst3\Contents\moduleinfo.json&quot;
 if not exist &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\&quot; del /s /q &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources&quot; &amp;&amp; mkdir &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources&quot;
-&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.11&quot; -path &quot;$(OutDir)/Spectral Gate.vst3&quot; -output &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\moduleinfo.json&quot;</Command>
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.12&quot; -path &quot;$(OutDir)/Spectral Gate.vst3&quot; -output &quot;$(OutDir)/Spectral Gate.vst3\Contents\Resources\moduleinfo.json&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

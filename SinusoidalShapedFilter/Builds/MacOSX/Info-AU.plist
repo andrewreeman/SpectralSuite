@@ -18,9 +18,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.1.11</string>
+    <string>2.1.12</string>
     <key>CFBundleVersion</key>
-    <string>2.1.11</string>
+    <string>2.1.12</string>
     <key>NSHumanReadableCopyright</key>
     <string>2021</string>
     <key>NSHighResolutionCapable</key>
@@ -41,7 +41,7 @@
         <key>subtype</key>
         <string>SPSS</string>
         <key>version</key>
-        <integer>131339</integer>
+        <integer>131340</integer>
         <key>resourceUsage</key>
         <dict>
           <key>network.client</key>
