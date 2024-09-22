@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="WPt5si" name="Playground" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.11" defines="VersionCode=17" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate." pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1">
+<JUCERPROJECT id="WPt5si" name="Playground" projectType="audioplug" displaySplashScreen="1" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn" version="2.1.12" defines="VersionCode=18" pluginDesc="This plugin will scramble the frequency components of a signal at a provided range and rate." pluginFormats="buildAU,buildVST3" companyName="Stepwise" companyCopyright="2021" companyWebsite="www.andrewreeman.com" companyEmail="andrew.reeman@gmail.com" pluginManufacturerCode="STPW" pluginCode="AAAA" jucerFormatVersion="1">
   <MAINGROUP id="NNl5AK" name="Playground">
     <GROUP id="{E11A4544-C473-A9D8-27C6-3240AE094866}" name="Source">
       <FILE id="zMoi62" name="PlaygroundAudioPlugin.cpp" compile="1" resource="0" file="PlaygroundAudioPlugin.cpp"/>

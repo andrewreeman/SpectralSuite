@@ -301,7 +301,7 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 		if (m_internalBufferReadWriteIndex >= hopSize) {
 			m_internalBufferReadWriteIndex = 0;
 			emptyOutputs();
-			m_audioProcessorInteractor->process(&m_input, &m_output);
+			m_audioProcessorInteractor->process(this, &m_input, &m_output);
 		}
 
 		for (int channel = 0; channel < numChannels; channel++)
