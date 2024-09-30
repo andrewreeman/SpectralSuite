@@ -2,6 +2,7 @@
 #include "JuceHeader.h"
 #include "NullLogger.h"
 
+// LoggerRef only exists to clear up the current Logger when destroyed
 class LoggerRef {
     public:
     LoggerRef(Logger* logger) : m_loggerRef(logger) {}
@@ -13,6 +14,7 @@ class LoggerRef {
     
     private:
     std::unique_ptr<Logger> m_loggerRef;
+    
     
 };
 

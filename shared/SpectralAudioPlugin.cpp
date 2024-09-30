@@ -39,7 +39,6 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {
-    Logger::setCurrentLogger(nullptr);
     if(this->m_versionCheckThread.isThreadRunning()) {
         this->m_versionCheckThread.stopThread(20);
     }
@@ -52,8 +51,11 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
-    if (isInvalidFftModificationState()) { return; }
-//    if (m_audioProcessorInteractor->isPreparingToPlay()) { return; }
+    Logger::writeToLog("[switchFftSize] called");
+    if (isInvalidFftModificationState()) {
+        Logger::writeToLog("Invalid fft modification state");
+        return;
+    }
 
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
@@ -199,7 +201,8 @@ void SpectralAudioPlugin::changeProgramName (int, const String&)
 }
 
 void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
-{    
+{
+    Logger::writeToLog("[prepareToPlay]");
     int waitCount = 0;
     while (m_fftSwitcher.isBusy() && waitCount < 100)
     {
@@ -360,8 +363,12 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 	}
 }
 
-void SpectralAudioPlugin::setFftSize(int size) {	
-    if (isInvalidFftModificationState()) { return; }
+void SpectralAudioPlugin::setFftSize(int size) {
+    Logger::writeToLog("[setFftSize] called");
+    if (isInvalidFftModificationState()) {
+        Logger::writeToLog("Invalid fft modification state");
+        return;
+    }
     
 	m_audioProcessorInteractor->setFftSize(size);
 	const int hopSize = m_audioProcessorInteractor->getHopSize();
@@ -385,6 +392,8 @@ void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener
 }
 
 void SpectralAudioPlugin::initialiseParameters() {
+    Logger::writeToLog("[initialiseParameters] called");
+    
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);
     
