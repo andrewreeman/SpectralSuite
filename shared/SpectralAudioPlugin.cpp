@@ -31,13 +31,15 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 	m_fftSwitcher(this),
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
-    m_dependencyFactory(dependencies)
+    m_dependencyFactory(dependencies),
+    m_loggerRef(LoggerFactory::createLoggerReference())
 {
     this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
-{    
+{
+    Logger::setCurrentLogger(nullptr);
     if(this->m_versionCheckThread.isThreadRunning()) {
         this->m_versionCheckThread.stopThread(20);
     }
