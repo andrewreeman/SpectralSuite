@@ -20,10 +20,6 @@ class LoggerRef {
 
 class LoggerFactory {
     public:
-    static File getLoggerFolder() {
-        return FileLogger::getSystemLogFileFolder().getChildFile("SpectralSuite");
-    }
-    
     static LoggerRef* createLoggerReference() {
 #if (JUCE_DEBUG)
         auto fileName = (String("SpectralSuite_") + ProjectInfo::projectName).replace(" ", "") + ".log";
