@@ -51,7 +51,7 @@ SpectralAudioPlugin::~SpectralAudioPlugin()
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
-    Logger::writeToLog("[switchFftSize] called");
+    Logger::writeToLog("[switchFftSize]");
     if (isInvalidFftModificationState()) {
         Logger::writeToLog("Invalid fft modification state");
         return;
@@ -333,7 +333,8 @@ AudioProcessorEditor* SpectralAudioPlugin::createEditor()
 
 //==============================================================================
 void SpectralAudioPlugin::getStateInformation (MemoryBlock& destData)
-{    
+{
+    Logger::writeToLog("[getStateInformation]");
 	auto state = parameters->copyState();
 	//AudioParameterFloat* shift = (AudioParameterFloat*)parameters->getParameter("shift");
 	//AudioParameterFloat* min = (AudioParameterFloat*)parameters.getParameter("shiftMinRange");
@@ -350,7 +351,8 @@ void SpectralAudioPlugin::getStateInformation (MemoryBlock& destData)
 }
 
 void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes)
-{ 
+{
+    Logger::writeToLog("[setStateInformation]");
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
 	if ( xmlState.get() == nullptr ) { return; }
@@ -364,7 +366,7 @@ void SpectralAudioPlugin::setStateInformation (const void* data, int sizeInBytes
 }
 
 void SpectralAudioPlugin::setFftSize(int size) {
-    Logger::writeToLog("[setFftSize] called");
+    Logger::writeToLog("[setFftSize]");
     if (isInvalidFftModificationState()) {
         Logger::writeToLog("Invalid fft modification state");
         return;
@@ -387,12 +389,13 @@ void SpectralAudioPlugin::setFftSize(int size) {
 }
 
 void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener) {
+    Logger::writeToLog("[checkForUpdates]");
 	m_versionCheckThread.setListener(listener);
 	m_versionCheckThread.startThread();
 }
 
 void SpectralAudioPlugin::initialiseParameters() {
-    Logger::writeToLog("[initialiseParameters] called");
+    Logger::writeToLog("[initialiseParameters]");
     
     parameters = m_dependencyFactory->createParams(this);
     m_audioProcessorInteractor = m_dependencyFactory->createProcessor(this);

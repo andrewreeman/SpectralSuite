@@ -20,11 +20,16 @@ class LoggerRef {
 
 class LoggerFactory {
     public:
+    static File getLoggerFolder() {
+        return FileLogger::getSystemLogFileFolder().getChildFile("SpectralSuite");
+    }
+    
     static LoggerRef* createLoggerReference() {
 #if (JUCE_DEBUG)
-        auto appData = File::getSpecialLocation(File::userApplicationDataDirectory);
-        auto specSuiteLog = appData.getChildFile("SpectralSuite/spectral-suite-debug.log");
-        auto loggerRef = new LoggerRef(new FileLogger(specSuiteLog, "Start of spectral suite log"));
+        auto fileName = (String("SpectralSuite_") + ProjectInfo::projectName).replace(" ", "") + ".log";
+        auto welcome = String("Start of spectral suite log for ") + ProjectInfo::projectName + ", version: " + ProjectInfo::versionString;
+        auto fileLogger = FileLogger::createDefaultAppLogger("SpectralSuite", fileName, welcome, 1024 * 1024 * 30); // 30mb
+        auto loggerRef = new LoggerRef(fileLogger);
 #else
         auto loggerRef = new LoggerRef(new NullLogger());
 #endif
