@@ -1,0 +1,28 @@
+# Root EditorConfig file
+root = true
+
+# General settings for all files
+[*]
+indent_style = space       # Use spaces for indentation
+indent_size = 4            # Indent using 4 spaces
+charset = utf-8            # File encoding
+end_of_line = lf           # Use LF (Unix) line endings
+insert_final_newline = true  # Ensure file ends with a newline
+trim_trailing_whitespace = true  # Remove any trailing whitespaces
+
+# C++ specific settings
+[*.cpp]
+indent_style = space
+indent_size = 4
+
+[*.hpp]
+indent_style = space
+indent_size = 4
+
+[*.h]
+indent_style = space
+indent_size = 4
+
+# Makefile-specific settings
+[Makefile]
+indent_style = tab  # Makefiles need tabs, not spaces
