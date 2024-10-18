@@ -15,6 +15,23 @@ cmake_minimum_required(VERSION 3.22)
 
 project(MORPH VERSION 2.1.12)
 
+# Download the dependencies to the same folder as the project.
+# If you want to install them system wide, set CPM_SOURCE_CACHE with the path to the dependencies
+# either as an environment variable or pass it to the cmake script with -DCPM_SOURCE_CACHE=<path>.
+set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
+
+# Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
+include(cmake/cpm.cmake)
+
+# This commands downloads AND configures JUCE. It sets up some variables, like JUCE_SOURCE_DIR.
+CPMAddPackage(
+    NAME JUCE
+    GIT_TAG 8.0.2
+    VERSION 8.0.2
+    GITHUB_REPOSITORY juce-framework/JUCE
+    SOURCE_DIR ${LIB_DIR}/juce
+)
+
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
 # included JUCE directly in your source tree (perhaps as a submodule), you'll need to tell CMake to
@@ -22,7 +39,7 @@ project(MORPH VERSION 2.1.12)
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 # or
-add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
+#add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
 # If you are building a VST2 or AAX plugin, CMake needs to be told where to find these SDKs on your
 # system. This setup should be done before calling `juce_add_plugin`.
