@@ -9,12 +9,11 @@
 # information can be found in the CMake docs.
 
 cmake_minimum_required(VERSION 3.22)
-
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
 
-project(MORPH VERSION 0.0.1)
+project(MORPH VERSION 2.1.12)
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -41,17 +40,23 @@ juce_add_plugin(Morph
     # VERSION ...                               # Set this if the plugin version is different to the project version
     # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
     # ICON_SMALL ...
-    # COMPANY_NAME ...                          # Specify the name of the plugin's author
-    # IS_SYNTH TRUE/FALSE                       # Is this a synth or an effect?
-    # NEEDS_MIDI_INPUT TRUE/FALSE               # Does the plugin need midi input?
-    # NEEDS_MIDI_OUTPUT TRUE/FALSE              # Does the plugin need midi output?
+    COMPANY_NAME Stepwise                          # Specify the name of the plugin's author
+    COMPANY_COPYRIGHT 2021
+    COMPANY_WEBSITE www.andrewreeman.com
+    COMPANY_EMAIL andrew.reeman@gmail.com
+    DESCRIPTION "Manipulate the shape of the frequency content"
+    IS_SYNTH FALSE                       # Is this a synth or an effect?
+    NEEDS_MIDI_INPUT TRUE # Does the plugin need midi input?
+    NEEDS_MIDI_OUTPUT TRUE # Does the plugin need midi output?
     # IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
     # EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
     # COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
-    PLUGIN_MANUFACTURER_CODE Juce               # A four-character manufacturer id with at least one upper-case character
-    PLUGIN_CODE Dem0                            # A unique four-character plugin id with exactly one upper-case character
+    PLUGIN_MANUFACTURER_CODE STPW               # A four-character manufacturer id with at least one upper-case character
+    PLUGIN_CODE SPMO                            # A unique four-character plugin id with exactly one upper-case character
     # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
     FORMATS AU VST3 # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
+    VST3_CATEGORIES Fx
+    AU_MAIN_TYPE kAudioUnitType_MusicEffect
     PRODUCT_NAME "Morph")        # The name of the final executable, which can differ from the target name
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
@@ -60,11 +65,6 @@ juce_add_plugin(Morph
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# TODO: fix company name
-# TODO: fix version
-# TODO: fix plugin manufacturer
-# TODO: fix plugin code
-# TODO: fix any other properties
 # TODO: point to single shared JUCE directory for all plugins
 # TODO: try on windows
 # TODO: try ninja build...and research wtf this is 
@@ -73,6 +73,7 @@ juce_add_plugin(Morph
 # TODO: read all JUCE api docs for this
 # TODO: borrow ideas from here: https://github.com/JanWilczek/audio-plugin-template
 
+target_compile_features(Morph INTERFACE cxx_std_17)
 juce_generate_juce_header(Morph)
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
