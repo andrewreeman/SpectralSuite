@@ -82,7 +82,6 @@ juce_add_plugin(Morph
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# TODO: point to single shared JUCE directory for all plugins
 # TODO: try on windows
 # TODO: try ninja build...and research wtf this is 
 # TODO: refactor...use cmakelists in shared and expose library
