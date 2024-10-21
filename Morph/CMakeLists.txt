@@ -82,12 +82,12 @@ juce_add_plugin(Morph
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# TODO: try on windows
-# TODO: try ninja build...and research wtf this is 
 # TODO: refactor...use cmakelists in shared and expose library
 # TODO: read this file...check every comment by JUCE and remove if actioned
 # TODO: read all JUCE api docs for this
 # TODO: borrow ideas from here: https://github.com/JanWilczek/audio-plugin-template
+
+include(../shared/shared.cmake)
 
 target_compile_features(Morph INTERFACE cxx_std_17)
 juce_generate_juce_header(Morph)
@@ -110,74 +110,7 @@ target_sources(Morph
     Source/MorphPluginParameters.cpp
     Source/MorphSlider.h
     Source/MorphSlider.cpp
-
-    ../shared/AboutPage.h
-    ../shared/AboutPage.cpp
-
-    ../shared/AudioValueTreeOnLoadListener.h
-    ../shared/FftInteractor.h
-    ../shared/FftOverlapsChoiceAdapter.h
-    ../shared/FftSizeChoiceAdapter.h
-    ../shared/FftStyleChoiceAdapter.h
-    ../shared/FftSwitcher.h
-    ../shared/FftThread.h
-    ../shared/FftWindowChoiceAdapter.h
-    ../shared/FftWindowType.h
-    ../shared/NullLogger.h
-    ../shared/ParameterContainerComponent.h
-    ../shared/ParameterContainerComponentFactory.h
-    ../shared/PhaseBuffer.h
-    ../shared/PhaseVocoder.h
-    ../shared/PluginParameters.h
-    ../shared/Polar.h
-    ../shared/ResourceRepository.h
-    ../shared/SettingsPage.h
-    ../shared/SpectralAudioPlugin.h
-    ../shared/SpectralAudioPluginUi.h
-    ../shared/SpectralAudioProcessorInteractor.h
-    ../shared/SpectralPluginUiInterface.h
-    ../shared/StandardFFTProcessor.h
-    ../shared/Types.h
-    ../shared/VersionCheck.h
-    ../shared/VersionInfo.h
-    ../shared/delaybuffer.h
-    ../shared/editorshowupdateinterface.h
-    ../shared/utilities.h
-    ../shared/wavetable.h
-
-    ../shared/FftInteractor.cpp
-    ../shared/FftOverlapsChoiceAdapter.cpp
-    ../shared/FftSizeChoiceAdapter.cpp
-    ../shared/FftStyleChoiceAdapter.cpp
-    ../shared/FftThread.cpp
-    ../shared/FftWindowChoiceAdapter.cpp
-    ../shared/ParameterContainerComponent.cpp
-    ../shared/PhaseVocoder.cpp
-    ../shared/Polar.cpp
-    ../shared/SettingsPage.cpp
-    ../shared/SpectralAudioPlugin.cpp
-    ../shared/SpectralAudioPluginUi.cpp
-    ../shared/SpectralAudioProcessorInteractor.cpp
-    ../shared/StandardFFTProcessor.cpp
-    ../shared/Types.cpp
-    ../shared/VersionCheck.cpp
-    ../shared/editorshowupdateinterface.cpp
-    ../shared/utilities.cpp
-    ../shared/wavetable.cpp
-
-    ../shared/components/ControlPointComponent.h
-    ../shared/components/LicensesComponent.h
-    ../shared/components/Spline.h
-    ../shared/components/SplineHelper.h
-
-    ../shared/components/ControlPointComponent.cpp
-    ../shared/components/LicensesComponent.cpp
-    ../shared/components/Spline.cpp
-    ../shared/components/SplineHelper.cpp
-
-    ../shared/logging/NullLogger.h
-    ../shared/logging/LoggerFactory.h
-    ../shared/logging/LoggerFactory.cpp
+    ${SHARED_SOURCES}
 )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
