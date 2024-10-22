@@ -82,10 +82,11 @@ juce_add_plugin(Morph
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# TODO: refactor...use cmakelists in shared and expose library
 # TODO: read this file...check every comment by JUCE and remove if actioned
 # TODO: read all JUCE api docs for this
 # TODO: borrow ideas from here: https://github.com/JanWilczek/audio-plugin-template
+# TODO: root level CMakeLists.txt calling Morph one
+# TODO: all plugins
 
 include(../shared/shared.cmake)
 
@@ -135,11 +136,7 @@ target_compile_definitions(Morph
 # the SOURCES argument should be followed by a list of source files that should be built into the
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
-juce_add_binary_data(MorphData SOURCES
-    "../shared/resources/baseline-arrow_back-24px.svg" 
-    "../shared/resources/baseline-info-24px.svg"
-    "../shared/resources/baseline-settings-20px.svg"
-)
+juce_add_binary_data(MorphData SOURCES ${SHARED_RESOURCES})
 #
 # `target_link_librari################################es` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_audio_utils` module. Inter-module

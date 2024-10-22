@@ -1,3 +1,13 @@
+#TODO: very strange having '../shared' prefix. Is there a way to avoid this?
+#TODO: add as a static library instead, but had trouble adding juce header
+
+set(
+    SHARED_RESOURCES
+    "../shared/resources/baseline-arrow_back-24px.svg" 
+    "../shared/resources/baseline-info-24px.svg"
+    "../shared/resources/baseline-settings-20px.svg"
+)
+
 set(
     SHARED_SOURCES
 
