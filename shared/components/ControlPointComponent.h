@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #define POINTS_ARE_CLOSE(p1,p2)  p1->getDistanceFrom(p2) < 20
 
 //==============================================================================

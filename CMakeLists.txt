@@ -15,4 +15,9 @@ include(shared/shared.cmake)
 set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
 
 add_subdirectory(Morph)
+add_subdirectory(BinScrambler)
 
+
+# TODO: set all global properties for add_plugin here
+# TODO: function to call add_plugin
+# TODO: all plugins
