@@ -1,19 +1,3 @@
-
-cmake_minimum_required(VERSION 3.22)
-project(Morph VERSION 2.1.12)
-
-set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-include(cmake/cpm.cmake)
-CPMAddPackage(
-    NAME JUCE
-    GIT_TAG 8.0.2
-    VERSION 8.0.2
-    GITHUB_REPOSITORY juce-framework/JUCE
-    SOURCE_DIR ${LIB_DIR}/juce
-)
-
-include(../shared/shared.cmake)
-
 # juce_set_aax_sdk_path(...)
 
 juce_add_plugin(Morph
@@ -35,11 +19,8 @@ juce_add_plugin(Morph
     AU_MAIN_TYPE kAudioUnitType_MusicEffect
     PRODUCT_NAME "Morph")
 
-# TODO: borrow ideas from here: https://github.com/JanWilczek/audio-plugin-template
-# TODO: root level CMakeLists.txt calling Morph one
 # TODO: all plugins
 
-set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
 
 target_compile_features(Morph INTERFACE cxx_std_17)
 juce_generate_juce_header(Morph)
