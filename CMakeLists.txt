@@ -62,8 +62,7 @@ endfunction()
 
 add_subdirectory(Morph)
 add_subdirectory(BinScrambler)
+add_subdirectory(FrequencyMagnet)
 
 
-# TODO: check plugin code and plist file. this not appear to be generated. Load
-# in DAW and check plugin code 
 # TODO: all plugins
