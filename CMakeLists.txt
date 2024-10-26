@@ -60,10 +60,17 @@ target_link_libraries(${name}
 
 endfunction()
 
-add_subdirectory(Morph)
 add_subdirectory(BinScrambler)
 add_subdirectory(FrequencyMagnet)
 add_subdirectory(FrequencyShift)
+add_subdirectory(Morph)
+add_subdirectory(PhaseLock)
 
 
 # TODO: all plugins
+# TODO: update README
+
+# TODO: add shared as a static library instead, but had trouble adding juce
+# header. Confirm can debug ok etc
+
+# TODO: very strange shared resources having '../shared' prefix. Is there a way to avoid this?
