@@ -1,4 +1,3 @@
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "FrequencySlider.h"
 
 //==============================================================================
