@@ -20,7 +20,6 @@ set(
     "../shared/FftThread.h"
     "../shared/FftWindowChoiceAdapter.h"
     "../shared/FftWindowType.h"
-    "../shared/NullLogger.h"
     "../shared/ParameterContainerComponent.h"
     "../shared/ParameterContainerComponentFactory.h"
     "../shared/PhaseBuffer.h"
