@@ -65,7 +65,7 @@ add_subdirectory(FrequencyMagnet)
 add_subdirectory(FrequencyShift)
 add_subdirectory(Morph)
 add_subdirectory(PhaseLock)
-
+add_subdirectory(SinusoidalShapedFilter)
 
 # TODO: all plugins
 # TODO: update README
