@@ -63,6 +63,7 @@ endfunction()
 add_subdirectory(Morph)
 add_subdirectory(BinScrambler)
 add_subdirectory(FrequencyMagnet)
+add_subdirectory(FrequencyShift)
 
 
 # TODO: all plugins
