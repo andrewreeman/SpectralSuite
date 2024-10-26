@@ -66,9 +66,7 @@ add_subdirectory(FrequencyShift)
 add_subdirectory(Morph)
 add_subdirectory(PhaseLock)
 add_subdirectory(SinusoidalShapedFilter)
-
-# TODO: all plugins
-# TODO: update README
+add_subdirectory(SpectralGate)
 
 # TODO: add shared as a static library instead, but had trouble adding juce
 # header. Confirm can debug ok etc

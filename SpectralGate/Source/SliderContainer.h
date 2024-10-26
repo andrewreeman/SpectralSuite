@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/ParameterContainerComponent.h"
 #include "CutOffSlider.h"
 #include "BalanceSlider.h"

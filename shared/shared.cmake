@@ -1,5 +1,3 @@
-#TODO: very strange having '../shared' prefix. Is there a way to avoid this?
-#TODO: add as a static library instead, but had trouble adding juce header
 
 set(
     SHARED_RESOURCES
