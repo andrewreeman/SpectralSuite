@@ -11,7 +11,6 @@
 #include "SpectralAudioProcessorInteractor.h"
 #include "ParameterContainerComponentFactory.h"
 #include "PluginParameters.h"
-#include "logging/LoggerFactory.h"
 
 class SpectralAudioPluginUi;
 
@@ -129,7 +128,6 @@ private:
 	//SpectralAudioPluginUi* m_ui;	
 	VersionCheckThread m_versionCheckThread;
     std::unique_ptr<DependencyFactory> m_dependencyFactory;
-    std::unique_ptr<LoggerRef> m_loggerRef;
  
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpectralAudioPlugin)
 };
