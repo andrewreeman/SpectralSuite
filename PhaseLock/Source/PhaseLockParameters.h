@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../shared/PluginParameters.h"
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 class PhaseLockParameters : public PluginParameters {
 public:
@@ -35,10 +35,6 @@ public:
         
     PButtonAttachment createMorphMagAndPhaseAttachment(ToggleButton& button){ return createButtonAttachment(KEY_MORPH_MAG_AND_PHASE, button); }
     PSliderAttachment createMorphDurationAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MORPH_DURATION, slider); }
-        
-    // TODO: remove this, there are no controlpoints in phase lock
-    void setControlPoints(Array<float> controlPoints, Array<juce::Point<int>> sourcePoints);
-    Array<juce::Point<int>> getControlPoints();
     
 private:
     using ParameterKey = ParameterID;

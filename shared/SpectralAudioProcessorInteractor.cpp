@@ -1,5 +1,5 @@
 #include "SpectralAudioProcessorInteractor.h"
-#include "../../shared/PhaseVocoder.h"
+#include "PhaseVocoder.h"
 
 SpectralAudioProcessorInteractor::SpectralAudioProcessorInteractor(int numOverlaps)
 : m_numOverlaps(numOverlaps), m_sampleRate(48000), m_fftHopSize(0), m_numChans(2), m_isPreparingToPlay(false), m_isPlaying(false), m_setOverlapsCallCount(0)

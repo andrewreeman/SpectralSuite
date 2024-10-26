@@ -1,11 +1,10 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/ParameterContainerComponent.h"
-#include "ControlPointComponent.h"
 #include "PhaseLockParameters.h"
 
-class SliderContainer : public ParameterContainerComponent, ControlPointComponent::Listener
+class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(std::shared_ptr<PhaseLockParameters> valueTreeState, Colour textColour, int textBoxHeight);
@@ -15,9 +14,6 @@ public:
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 5; }
     void paint (Graphics&) override;
     void resized() override;
-    
-    void controlPointsChanged(Array<float> outputValues, ControlPointComponent* component) override;
-    void onAudioValueTreeStateLoadedFromXmlState(PluginParameters*, XmlElement*) override;
 
 private:	
 	using ButtonAttachment = juce::AudioProcessorValueTreeState::ButtonAttachment;

@@ -32,7 +32,15 @@ NEWNAMEAudioPlugin.cpp	NEWNAMEParameters.h	UiContainer.cpp
 NEWNAMEAudioPlugin.h	NEWNAMEProcessor.cpp	UiContainer.h
 ```
 
+### Develop plugins
+The plugins are in a CMake project so a single project containing all plugins
+can be created. `mkdir build && cd build && cmake ..`. Use `-G` and select a
+[generator](https://cmake.org/cmake/help/latest/variable/CMAKE_GENERATOR.html) for a particular generator. 
+
 ### Building plugins for release 
+This section was written before the projects were migrated to CMake so can most
+likely be rewritten. Building a release for all plugins should be as simple as
+`cd build && cmake --build . --config Release`
 Build must be performed on MacOS and Windows.
 
 #### MacOS

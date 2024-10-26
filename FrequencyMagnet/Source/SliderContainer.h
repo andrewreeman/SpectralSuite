@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "FreqSlider.h"
 #include "WidthSlider.h"
 #include "BiasSlider.h"

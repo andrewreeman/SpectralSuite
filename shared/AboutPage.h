@@ -1,6 +1,5 @@
 #pragma once
 
-#include "JuceHeader.h"
 #include "VersionInfo.h"
 #include "ResourceRepository.h"
 #include "components/LicensesComponent.h"

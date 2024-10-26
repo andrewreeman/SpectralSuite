@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "ScatterSlider.h"
 #include "ScrambleSlider.h"
 #include "RateSlider.h"
