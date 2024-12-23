@@ -1,0 +1,96 @@
+Dockerfile 
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+Gin/*
+
+Archive/*
+
+BinScrambler/JuceLibraryCode/
+
+FrequencyMagnet/JuceLibraryCode/
+
+FrequencyShift/JuceLibraryCode/
+
+Playground/JuceLibraryCode/
+
+shared/public\.sdk/
+
+shared/vstgui/
+
+shared/pluginterfaces/
+
+Sinusoidal Shaped Filter/JuceLibraryCode/
+
+SpectralGate/JuceLibraryCode/
+
+SSF/JuceLibraryCode/
+
+SpectralSuiteBuild/JuceLibraryCode/
+
+SinusoidalShapedFilter/JuceLibraryCode/
+
+Morph/JuceLibraryCode/
+Release/
+
+SpectralSuite-latest\.zip
+
+SpectralSuite-v2\.0\.2\.zip
+
+*DS_Store
+
+PhaseLock/JuceLibraryCode/
+SpectralSuiteBuild/package/
+
+# Xcode files
+**/xcuserdata/*
+**/MacOSX/build/*
+
+# Visual studio files
+**/VisualStudio2022/.vs/*
+**/VisualStudio2022/x64/*
+#**/VisualStudio2017/*
+
+
+# Vim
+*.swp
+*.un~
+*~
+
+spectral-suite/.vs
+spectral-suite/x64
+spectral-suite/SpectralSuiteInstaller/Debug
+spectral-suite/SpectralSuiteInstaller/Release
+
+PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj/xcshareddata/xcschemes/Phase Lock - VST3.xcscheme
+
+# cmake
+build
+libs/juce
