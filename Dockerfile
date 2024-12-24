@@ -1,3 +1,4 @@
+# TODO: see if we can use a smaller image
 FROM ubuntu:latest
 
 RUN apt update
@@ -18,9 +19,9 @@ RUN export CC=gcc && export CXX=gcc
 
 RUN mkdir /ss && cd /ss
 
-COPY . .
+COPY . /ss
 
-RUN mkdir build-unix && cd /ss/build-unix && cmake ..
+RUN mkdir /ss/build-unix && cd /ss/build-unix && cmake ..
 RUN cd /ss/build-unix && cmake build . && make
 RUN cd /ss/build-unix && mkdir artefacts \
     && cp -r "BinScrambler/BinScrambler_artefacts/VST3/Bin Scrambler.vst3/" artefacts/ \
