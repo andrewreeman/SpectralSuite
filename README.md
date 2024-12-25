@@ -76,3 +76,12 @@ Open Developer Powershell
 Navigate to `SpectralSuiteBuild`.
 Then run `ssutil.ps1`
 
+#### Linux
+##### Prerequisites
+Docker
+
+Can be run on any system with Docker. Tested on Mac.
+On terminal, navigate to `SpectralSuiteBuild`.
+Then run `buildLinux.sh`
+The release files will then be in top level `release/linux-x86_64` folder
+
