@@ -1,3 +1,4 @@
+# For building on ubuntu. Should be used with SpectralSuiteBuild/buildLinux.sh
 FROM ubuntu:24.04
 
 RUN apt update
@@ -11,17 +12,9 @@ RUN apt install -y libasound2-dev libjack-jackd2-dev \
         libglu1-mesa-dev mesa-common-dev \
         cmake make gcc g++ git
 
-# TODO: investigate why using ENV for the vars results in ' undefined reference
-# to symbol 'exp@@GLIBC_2.29' errors during make. So currently we use 'RUN
-# export' instead
-#ENV CC=gcc
-#ENV CXX=gcc
-RUN export CC=gcc && export CXX=gcc
+ENV CC=gcc
+ENV CXX=g++
 WORKDIR /ss
-
-#RUN mkdir /ss && cd /ss
-
-# COPY . /ss
 
 # TODO: populate this list automatically when new plugin created 
 COPY shared shared
