@@ -14,7 +14,7 @@ AboutPage::AboutPage(ResourceRepository& resources) :
 	};
         
     description.setText(JucePlugin_Desc, NotificationType::dontSendNotification);
-    description.setFont(16.0);
+    description.setFont(FontOptions().withPointHeight(16.0));
 	
 	aboutMessageSection1.setJustificationType(Justification::topLeft);	
 	aboutMessageSection2.setJustificationType(Justification::topLeft);
