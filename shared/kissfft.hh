@@ -49,7 +49,7 @@ struct traits
     std::vector<cpx_type> _twiddles;
 
 
-    const cpx_type twiddle(int i) { return _twiddles[i]; }
+    const cpx_type twiddle(unsigned long i) { return _twiddles[(int)i]; }
 };
 
 }
@@ -120,14 +120,12 @@ class kissfft
         void C_FIXDIV( cpx_type & ,int ) {} // NO-OP for float types
         scalar_type S_MUL( const scalar_type & a,const scalar_type & b) { return a*b;}
 
-#pragma warning(suppress: 4244)
         scalar_type HALF_OF( const scalar_type & a) { return a*.5;}
         void C_MULBYSCALAR(cpx_type & c,const scalar_type & a) {c*=a;}
 
         void kf_bfly2( cpx_type * Fout, const size_t fstride, int m)
         {
             for (int k=0;k<m;++k) {
-#pragma warning(suppress: 4267)
                 cpx_type t = Fout[m+k] * _traits.twiddle(k*fstride);
                 Fout[m+k] = Fout[k] - t;
                 Fout[k] += t;
@@ -140,11 +138,8 @@ class kissfft
             int negative_if_inverse = _inverse * -2 +1;
             for (size_t k=0;k<m;++k) {
 
-#pragma warning(suppress: 4267)
                 scratch[0] = Fout[k+m] * _traits.twiddle(k*fstride);
-#pragma warning(suppress: 4267)
                 scratch[1] = Fout[k+2*m] * _traits.twiddle(k*fstride*2);
-#pragma warning(suppress: 4267)
                 scratch[2] = Fout[k+3*m] * _traits.twiddle(k*fstride*3);
                 scratch[5] = Fout[k] - scratch[1];
 
