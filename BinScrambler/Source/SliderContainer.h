@@ -11,7 +11,7 @@ class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(std::shared_ptr<BinScramblerParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~SliderContainer();
+    ~SliderContainer() override;
 
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 3; }
     void paint (Graphics&) override;

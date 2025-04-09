@@ -10,7 +10,7 @@ class BalanceSlider : public Component
 {
 public:
     BalanceSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~BalanceSlider();
+    ~BalanceSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;

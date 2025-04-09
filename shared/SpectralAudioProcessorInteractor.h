@@ -28,13 +28,13 @@ public:
 		    int channel,
 		    int channelCount) = 0;
 
-    virtual void receivedMidi(MidiBuffer& midiBuffer){};
+    virtual void receivedMidi(MidiBuffer&){}
     virtual void prepareProcess(StandardFFTProcessor*) {}	
-    virtual void onFftSizeChanged() {};	
+    virtual void onFftSizeChanged() {}	
 	
     /// Can be overridden if needs to query plugin
     virtual void process(
-		    SpectralAudioPlugin* plugin,
+		    SpectralAudioPlugin*,
 		    std::vector<std::vector<float>>* input,
 		    std::vector<std::vector<float>>* output)
     {
@@ -45,7 +45,7 @@ public:
 
     void prepareToPlay(int fftSize, int sampleRate, int channelCount);
     void setFftSize(int fftSize);
-    void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); };
+    void usePvoc(bool usePvoc) { m_phaseBuffer->setUsePvoc(usePvoc); }
     void setNumOverlaps(int newOverlapCount);
     void setWindowType(FftWindowType newWindowType);
     bool isPreparingToPlay() const { return m_isPreparingToPlay; }

@@ -62,11 +62,11 @@ namespace utilities{
     template <class T>
 	T interp_lin(T a, T b, float index) {		
 		int intPart = (int)index;
-		float factor = index - intPart;
+		float factor = index - (float)intPart;
 
 		// if negative then invert the factor
 		if (factor < 0.0) {
-			factor += 1.0;
+			factor += 1.f;
 		}
 
 		float diff = (float)(b - a);
@@ -80,7 +80,7 @@ namespace utilities{
             return b;
         }
         
-		float factor = index - intPart;
+		float factor = index - (float)intPart;
         if(intPart < indexLow || factor == 0.f) {
             return a;
         }
@@ -88,7 +88,7 @@ namespace utilities{
 
 		// if negative then invert the factor
 		if (factor < 0.0) {
-			factor += 1.0;
+			factor += 1.f;
 		}
 
 		float diff = (float)(b - a);
@@ -122,14 +122,14 @@ namespace utilities{
     }
 
     template<class T>
-    void vector_Low2HighDistribute(std::vector<T>& in, int distAmount, int distRange){	
+    void vector_Low2HighDistribute(std::vector<T>& in, const int distAmount, int distRange){
         const size_t size = in.size();
-		if (distRange > (int)size / 2) distRange = ((int)size) / 2;
+		// TODO: should we be using distRange instead of size, it's unused ??
+		if (distRange > static_cast<int>(size) / 2) distRange = static_cast<int>(size) / 2;
 
-		long index;
-        for(long i=0; i<size/5; ++i){
-			index = i + (long)size;
-            if(rand()%100 >= distAmount) in[index/5] = in[rand()%size/5];
+        for(size_t i=0; i<size/5; ++i){
+			const size_t index = i + size;
+            if(rand()%100 >= distAmount) in[(index/5)] = in[( static_cast<size_t>(rand())%size /5)];
         }
     }
 

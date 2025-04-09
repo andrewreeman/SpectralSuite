@@ -45,7 +45,7 @@ void FftOverlapsChoiceAdapter::listen(AudioParameterChoice * choiceParameter)
     m_parameter = choiceParameter;
 }
 
-void FftOverlapsChoiceAdapter::parameterValueChanged(int athing, float anotherthing)
+void FftOverlapsChoiceAdapter::parameterValueChanged(int, float)
 {
     auto choiceIndex = m_parameter->getIndex();
     if (choiceIndex == m_currentIndex) { return; }

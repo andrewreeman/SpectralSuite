@@ -19,7 +19,7 @@ public:
     void replaceState(const ValueTree& newState) override;
     ValueTree copyState() override;    	
 		
-    void setListener(Listener* listener){this->listener = listener;}
+    void setListener(Listener* aListener){this->listener = aListener;}
     void setControlPointComponent(ControlPointComponent* component);
     void triggerControlPointsChanged();
     Array<juce::Point<int>> getLastPoints() const { return lastPoints; }

@@ -12,11 +12,11 @@ public:
         }
     }
     
-    ParameterContainerComponent * createUi(SpectralAudioPlugin *plugin) override {
+    ParameterContainerComponent * createUi(SpectralAudioPlugin*) override {
         return new MorphSlider(m_params, Colour::fromString(TEXT_COLOUR), 30);
     }
     
-    std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin* plugin) override {
+    std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin*) override {
         return std::make_unique<MorphInteractor>(SpectralAudioPlugin::FFT_OVERLAPS, m_params);
     }
     

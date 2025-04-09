@@ -44,7 +44,7 @@ Array<float> getAudioSplineValues(Array<juce::Point<int>> points, float yLimit) 
     outputValues.clearQuick();
     Spline spline (dpoints);
     double bottom = (double)yLimit;
-    if(bottom == 0) { return outputValues; }
+    if(bottom == 0.f) { return outputValues; }
     
     for (float x = (float)points.getFirst().getX(); x < (float)points.getLast().getX(); x += increment)
     {
@@ -60,7 +60,7 @@ Array<float> getAudioSplineValues(Array<juce::Point<int>> points, float yLimit) 
             y = bottom;
         }
         
-        outputValues.add((bottom - float(y)) / bottom);
+        outputValues.add(((float)bottom - float(y)) / (float)bottom);
     }
     
     return outputValues;

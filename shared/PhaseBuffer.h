@@ -4,7 +4,7 @@
 class PhaseBuffer {
 public:
     PhaseBuffer(int clientCount, int initialSize) : m_clientCount(clientCount), m_resizeRequestCount(0), m_usePvoc(false) {
-        prevPhase.resize(initialSize, 0.f);
+        prevPhase.resize((unsigned long)initialSize, 0.f);
     }
     
     bool isAvailable() {
@@ -12,7 +12,7 @@ public:
     }
     
     void requestResize(int newSize) {
-        if (prevPhase.size() == newSize) {
+        if (prevPhase.size() == (unsigned long)newSize) {
             m_resizeRequestCount = 0;
             return;
         }
@@ -20,7 +20,7 @@ public:
         m_resizeRequestCount++;
         
         if(m_resizeRequestCount == m_clientCount) {
-            prevPhase.resize(newSize, 0.f);
+            prevPhase.resize((unsigned long)newSize, 0.f);
             m_resizeRequestCount = 0;
         }
     }

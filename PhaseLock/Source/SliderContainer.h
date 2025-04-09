@@ -8,7 +8,7 @@ class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(std::shared_ptr<PhaseLockParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~SliderContainer();
+    ~SliderContainer() override;
 
     std::shared_ptr<PluginParameters> getPluginParameters() override { return m_pluginParameters; }
 	const int getComponentHeight() override { return ParameterContainerComponent::getComponentHeight() * 5; }

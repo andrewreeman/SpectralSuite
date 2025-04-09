@@ -8,9 +8,9 @@
 **/
 class PluginParameters {
 public:
-	PluginParameters(AudioProcessor* audioProcessor) : valueTreeState(*audioProcessor, nullptr) {};
+	PluginParameters(AudioProcessor* audioProcessor) : valueTreeState(*audioProcessor, nullptr) {}
     
-    virtual ~PluginParameters(){};
+    virtual ~PluginParameters(){}
 	
     virtual void replaceState(const ValueTree& newState) {
         valueTreeState.replaceState(newState);
@@ -22,7 +22,7 @@ public:
     
 	void createAndAddParameter(std::unique_ptr<RangedAudioParameter> param) {
 		valueTreeState.createAndAddParameter(std::move(param));	
-	};
+	}
 
     AudioProcessorValueTreeState::SliderAttachment* createSliderAttachmentByParameterId(const ParameterID& parameterID, Slider& sliderToControl) {
         return createSliderAttachment(parameterID.getParamID(), sliderToControl);
@@ -30,7 +30,7 @@ public:
     
 	AudioProcessorValueTreeState::SliderAttachment* createSliderAttachment(const String& parameterID, Slider& sliderToControl) {
 		return new AudioProcessorValueTreeState::SliderAttachment(valueTreeState, parameterID, sliderToControl);
-	};
+	}
 
     AudioProcessorValueTreeState::ButtonAttachment* createButtonAttachment(const ParameterID& parameterID, Button& buttonToControl) {
         return createButtonAttachment(parameterID.getParamID(), buttonToControl);
@@ -38,11 +38,11 @@ public:
     
 	AudioProcessorValueTreeState::ButtonAttachment* createButtonAttachment(const String& parameterID, Button& buttonToControl) {
 		return new AudioProcessorValueTreeState::ButtonAttachment(valueTreeState, parameterID, buttonToControl);
-	};
+	}
 
 	AudioProcessorValueTreeState::ComboBoxAttachment* createComboBoxAttachment(const String& parameterID, ComboBox& comboBoxToControl) {
 		return new AudioProcessorValueTreeState::ComboBoxAttachment(valueTreeState, parameterID, comboBoxToControl);
-	};
+	}
 	
 	RangedAudioParameter* getParameter(String paramId) const {
 		return valueTreeState.getParameter(paramId);
@@ -72,7 +72,6 @@ public:
         valueTreeState.removeParameterListener(parameterID, listener);
     }
     
-    
     float* getRawParameterValueByParameterId(ParameterID paramId) const {
         return getRawParameterValue(paramId.getParamID());
     }
@@ -88,8 +87,6 @@ public:
     UndoManager* getUndoManager() const {
         return valueTreeState.undoManager;
     }
-    
-    
 
 private:
 	AudioProcessorValueTreeState valueTreeState;

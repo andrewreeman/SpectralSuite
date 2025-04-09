@@ -38,7 +38,7 @@ void SpectralAudioProcessorInteractor::process(std::vector<std::vector<float>>* 
 	jassert(input->size() == output->size());
 	jassert(input->size() == m_spectralProcess.size());
     
-	for (int chan = 0; chan < input->size(); chan++) {
+	for (size_t chan = 0; chan < input->size(); chan++) {
         if (input->at(chan).size() == 0)
         {
             continue;
@@ -76,7 +76,7 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
     m_phaseBuffer->requestResize(fftSize);
     
 	for (auto& spectralProcessChannel : m_spectralProcess) {
-		for(int i=0; i<spectralProcessChannel.size(); ++i) {			
+		for(size_t i=0; i<spectralProcessChannel.size(); ++i) {
 			
 			if (fftSize == spectralProcessChannel[i]->getFFTSize()) { continue; }
 
@@ -84,7 +84,7 @@ void SpectralAudioProcessorInteractor::setFftSize(int fftSize)
 			spectralProcessChannel[i]->setHopSize(m_fftHopSize);	
 
 			// TODO: casting was the only way to ensure the correct setOffset method is called, even though PhaseVocoder overrides it
-			((PhaseVocoder*) spectralProcessChannel[i].get())->setOffset(m_fftHopSize * (i%m_numOverlaps));
+			((PhaseVocoder*) spectralProcessChannel[i].get())->setOffset(m_fftHopSize * ((int)i%m_numOverlaps));
 			//spectralProcessChannel[i]->setOffset(m_fftHopSize * (i%m_numOverlaps));
 		}
 	}
@@ -100,8 +100,8 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
         return;
     }
     
-    if (m_spectralProcess.size() == m_numChans && m_numChans > 0) {
-       if (m_spectralProcess.at(0).size() == newOverlapCount)
+    if (m_spectralProcess.size() == (size_t)m_numChans && m_numChans > 0) {
+       if (m_spectralProcess.at(0).size() == (size_t)newOverlapCount)
        {
            if (m_numOverlaps != newOverlapCount)
            {
@@ -133,7 +133,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
         m_spectralProcess.clear();
     }
     
-	for (int chan = 0; chan < m_numChans; ++chan) {
+	for (size_t chan = 0; chan < (size_t)m_numChans; ++chan) {
         if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
         m_spectralProcess.push_back(std::vector<std::unique_ptr<StandardFFTProcessor>>());
         
@@ -148,7 +148,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
             if (m_setOverlapsCallCount != newOverlapCallCount) { /* race detected */ return;}
 
             m_spectralProcess.at(chan).push_back(
-                createSpectralProcess(specProcess, m_fftSize, m_fftHopSize, m_sampleRate, m_numOverlaps, chan, m_numChans)
+                createSpectralProcess(specProcess, m_fftSize, m_fftHopSize, m_sampleRate, m_numOverlaps, (int)chan, m_numChans)
             );
         }
 	}

@@ -11,5 +11,5 @@ public:
 	virtual ParameterContainerComponent* create(PluginParameters* treeState) = 0;
 	virtual const int getComponentHeight() { return 80; }
     
-    virtual ~ParameterContainerComponentFactory(){};
+    virtual ~ParameterContainerComponentFactory(){}
 };

@@ -24,12 +24,12 @@ public:
 public:
     class DependencyFactory {
     public:
-        virtual ~DependencyFactory(){};
+        virtual ~DependencyFactory(){}
         
         virtual std::shared_ptr<PluginParameters> createParams(SpectralAudioPlugin* plugin) = 0;
         virtual ParameterContainerComponent* createUi(SpectralAudioPlugin* plugin) = 0;
         virtual std::unique_ptr<SpectralAudioProcessorInteractor> createProcessor(SpectralAudioPlugin* plugin) = 0;
-        virtual Array<int> fftSizesToNotInclude() { return Array<int>(); };
+        virtual Array<int> fftSizesToNotInclude() { return Array<int>(); }
     };
     
 //	class Dependencies {
@@ -54,7 +54,7 @@ public:
 		//std::unique_ptr<SpectralAudioProcessor> audioProcessor, 
 		//std::unique_ptr<ParameterContainerComponentFactory> parameterComponentFactory,		
 	);
-    ~SpectralAudioPlugin();
+    ~SpectralAudioPlugin() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -110,7 +110,7 @@ private:
             || m_audioProcessorInteractor->isPlaying()
             || m_output.empty()
             || m_input.empty();
-    };
+    }
     
     std::shared_ptr<PluginParameters> parameters;
     std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;

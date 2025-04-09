@@ -74,7 +74,7 @@ SliderContainer::~SliderContainer()
 {
 }
 
-void SliderContainer::paint (Graphics& g)
+void SliderContainer::paint (Graphics&)
 {
 }
 

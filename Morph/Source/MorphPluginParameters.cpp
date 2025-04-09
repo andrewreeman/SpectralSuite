@@ -128,6 +128,6 @@ void MorphPluginParameters::setPointsFromState(ValueTree state, ControlPoints &c
     controlPoints.setPointsAndScale(points, yLimit);
 }
 
-void MorphPluginParameters::setAudioMorphPointsOnState(Array<float> audioMorphPoints, ValueTree state) {
+void MorphPluginParameters::setAudioMorphPointsOnState(Array<float>, ValueTree) {
     
 }

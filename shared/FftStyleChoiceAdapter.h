@@ -29,7 +29,7 @@ public:
 
     // Inherited via Listener
     void parameterValueChanged(int, float) override;
-    void parameterGestureChanged(int, bool) override {};
+    void parameterGestureChanged(int, bool) override {}
 private:
     bool m_shouldChangeFftStyle;
     FftStyle m_currentStyle;

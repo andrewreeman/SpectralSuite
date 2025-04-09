@@ -1,13 +1,13 @@
 #include "FrequencySlider.h"
 
 //==============================================================================
-FrequencySlider::FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
+FrequencySlider::FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> aValueTreeState, Colour textColour, int textBoxHeight)
 {
 	frequencyShift.setSliderStyle(Slider::LinearHorizontal);
 		
-	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState->getParameter("shift");	
-	//const AudioParameterFloat* minRange = (AudioParameterFloat*)valueTreeState->getParameter("shiftMinRange");
-	//const AudioParameterFloat* maxRange = (AudioParameterFloat*)valueTreeState->getParameter("shiftMaxRange");
+	//AudioParameterFloat* shift = (AudioParameterFloat*)aValueTreeState->getParameter("shift");	
+	//const AudioParameterFloat* minRange = (AudioParameterFloat*)aValueTreeState->getParameter("shiftMinRange");
+	//const AudioParameterFloat* maxRange = (AudioParameterFloat*)aValueTreeState->getParameter("shiftMaxRange");
 	//	
 	//shift->range.start = minRange->get();
 	//shift->range.end = maxRange->get();	
@@ -22,12 +22,12 @@ FrequencySlider::FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters>
     frequencyShift.setTooltip("How much to shift the frequencies by");
 	addAndMakeVisible(&frequencyShift);
 	
-	frequencyShiftAttachment.reset(valueTreeState->createSliderAttachment("shift", frequencyShift));//  new SliderAttachment(valueTreeState, "shift", frequencyShift));
+	frequencyShiftAttachment.reset(aValueTreeState->createSliderAttachment("shift", frequencyShift));//  new SliderAttachment(aValueTreeState, "shift", frequencyShift));
 
-	this->valueTreeState = valueTreeState;
+	this->valueTreeState = aValueTreeState;
 	//this->onPropertiesChanged();
 
-	//AudioParameterFloat* shift = (AudioParameterFloat*)valueTreeState.getParameter("shift");
+	//AudioParameterFloat* shift = (AudioParameterFloat*)aValueTreeState.getParameter("shift");
 	//shift->shiftDownRange.start = -600;	
 	//frequencyShift.setRange(-600, shiftDownRange.end, shiftDownRange.interval);
 }

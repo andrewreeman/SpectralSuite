@@ -7,7 +7,7 @@ class FreqSlider : public Component
 {
 public:
     FreqSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~FreqSlider();
+    ~FreqSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;	

@@ -1,11 +1,11 @@
 #include "SliderContainer.h"
 
-SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight) :
-	freqSlider(valueTreeState, textColour, textBoxHeight),
-	phaseSlider(valueTreeState, textColour, textBoxHeight),
-	widthSlider(valueTreeState, textColour, textBoxHeight)
+SliderContainer::SliderContainer(std::shared_ptr<PluginParameters> aValueTreeState, Colour textColour, int textBoxHeight) :
+	freqSlider(aValueTreeState, textColour, textBoxHeight),
+	phaseSlider(aValueTreeState, textColour, textBoxHeight),
+	widthSlider(aValueTreeState, textColour, textBoxHeight)
 {
-    this->valueTreeState = valueTreeState;
+    this->valueTreeState = aValueTreeState;
 	addAndMakeVisible(freqSlider);
 	addAndMakeVisible(phaseSlider);
 	addAndMakeVisible(widthSlider);

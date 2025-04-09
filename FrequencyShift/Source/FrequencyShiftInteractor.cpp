@@ -9,7 +9,7 @@ void FrequencyShiftInteractor::prepareProcess(StandardFFTProcessor* spectralProc
 	shifter->setShift(getShift());
 }
 
-std::unique_ptr<StandardFFTProcessor> FrequencyShiftInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> FrequencyShiftInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int, int)
 {
     
     auto phaseBuffer = this->getPhaseBuffer();

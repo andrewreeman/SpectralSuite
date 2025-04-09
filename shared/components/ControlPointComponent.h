@@ -51,7 +51,7 @@ public:
     };
     
     ControlPointComponent();
-    ~ControlPointComponent();
+    ~ControlPointComponent() override {}
 
     void paint (Graphics&) override;
     void resized() override;
