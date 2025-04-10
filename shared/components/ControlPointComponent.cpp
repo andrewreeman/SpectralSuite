@@ -18,12 +18,8 @@ ControlPointComponent::ControlPointComponent() : draggedPoint(nullptr), draggedP
 {
 }
 
-ControlPointComponent::~ControlPointComponent()
-{
-}
-
-void ControlPointComponent::setInitialPoints(const Array<InitialPoint> initialPoints) {
-    this->initialPoints = initialPoints;
+void ControlPointComponent::setInitialPoints(const Array<InitialPoint> aInitialPoints) {
+    this->initialPoints = aInitialPoints;
 }
 
 void ControlPointComponent::mouseDown (const MouseEvent& e) {
@@ -143,7 +139,7 @@ void ControlPointComponent::paint (Graphics& g)
 
     g.setColour (Colours::blue);
     for (auto pt : points)
-        g.fillEllipse (pt.getX() - 4.0f, pt.getY() - 4.0f, 8.0f, 8.0f);
+        g.fillEllipse ((float)pt.getX() - 4.f, (float)pt.getY() - 4.f, 8.0f, 8.0f);
 
     if (points.isEmpty())
         g.drawText ("Click from left to right to add points.\n Double click to remove.", getLocalBounds(), Justification::centred);
@@ -226,7 +222,7 @@ int ControlPointComponent::clipX(int newX, int pointIndex) {
     return newX;
 }
 
-int ControlPointComponent::clipY(int newY, int pointIndex) {
+int ControlPointComponent::clipY(int newY, int) {
     auto padding = 0;
     auto bounds = getBounds();
     auto bottom = bounds.getBottom() - padding;
@@ -244,15 +240,15 @@ int ControlPointComponent::clipY(int newY, int pointIndex) {
 }
 
 void ControlPointComponent::populateOutputValues() {
-    double bottom = (double)getLocalBounds().getBottom();
+    float bottom = (float)getLocalBounds().getBottom();
     auto output = SplineHelper::getAudioSplineValues(points, bottom);
     outputValues.clearQuick();
     outputValues.addArray(output);
     notifyChanged();
 }
 
-void ControlPointComponent::setSourcePoints(Array<juce::Point<int>> points) {
-    this->points = points;
+void ControlPointComponent::setSourcePoints(Array<juce::Point<int>> aPoints) {
+    this->points = aPoints;
     repaint();
     
     populateOutputValues();    

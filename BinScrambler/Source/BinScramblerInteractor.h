@@ -8,7 +8,7 @@
 
 class BinScramblerInteractor : public SpectralAudioProcessorInteractor {
 public:
-    BinScramblerInteractor(int numOverlaps, std::shared_ptr<BinScramblerParameters> params);
+    BinScramblerInteractor(int numOverlaps, const std::shared_ptr<BinScramblerParameters> &params);
 
 	virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output) override;
 	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
@@ -16,8 +16,8 @@ public:
 	void onFftSizeChanged() override;	
 
 private:
-    float getFreq() const { return *m_rateParameter; };
-    float getMaxPhase() const { return (int)( (float)getSampleRate() / getFreq()); };
+    float getFreq() const { return *m_rateParameter; }
+    float getMaxPhase() const { return static_cast<float>(static_cast<int>(static_cast<float>(getSampleRate()) / getFreq())); }
     bool shouldRecalculateInternalParameters() const;
     
     void recalculateInternalParameters();

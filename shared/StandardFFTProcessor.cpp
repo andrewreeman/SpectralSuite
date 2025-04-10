@@ -5,9 +5,9 @@
 
 StandardFFTProcessor::StandardFFTProcessor(int size, int hopSize, int offset, int sRate) :
     m_sRate(sRate), m_fftSize(size), m_halfSize(size / 2), m_invSize(1.f/float(size)),
-    m_hopsize(hopSize), m_offset(offset), m_windowType(FftWindowType::HANN), m_window(size), m_input(size),
-    m_cpxInput(size), m_fftOut(size), m_polarIn(m_halfSize),m_polarOut(m_halfSize),
-    m_ifftin(size), m_cpxOutput(size), m_output(size),
+    m_hopsize(hopSize), m_offset(offset), m_windowType(FftWindowType::HANN), m_window((size_t)size), m_input((size_t)size),
+    m_cpxInput((size_t)size), m_fftOut((size_t)size), m_polarIn((size_t)m_halfSize),m_polarOut((size_t)m_halfSize),
+    m_ifftin((size_t)size), m_cpxOutput((size_t)size), m_output((size_t)size),
     fft(std::make_unique<kissfft<FftDecimal>>(m_fftSize, false)), ifft(std::make_unique<kissfft<FftDecimal>>(m_fftSize, true))
 {
     fillWindow(m_window, m_fftSize);
@@ -57,19 +57,19 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
     m_invSize = 1.f/(float)newSize;
 
     Cpx emptyCpx(0, 0);
-    m_input.resize(newSize, 0.f);
-    m_cpxInput.resize(newSize, emptyCpx);
-    m_output.resize(newSize, 0.f);
-    m_fftOut.resize(newSize, emptyCpx);
-    m_window.resize(newSize, 0.f);
+    m_input.resize((size_t)newSize, 0.f);
+    m_cpxInput.resize((size_t)newSize, emptyCpx);
+    m_output.resize((size_t)newSize, 0.f);
+    m_fftOut.resize((size_t)newSize, emptyCpx);
+    m_window.resize((size_t)newSize, 0.f);
 
     fillWindow(m_window, newSize);
 
     Polar<FftDecimal> emptyPolar(0.f, 0.f);
-    m_polarOut.resize(newSize, emptyPolar);
-    m_polarIn.resize(newSize, emptyPolar);
-    m_ifftin.resize(newSize, emptyCpx);
-    m_cpxOutput.resize(newSize, emptyCpx);
+    m_polarOut.resize((size_t )newSize, emptyPolar);
+    m_polarIn.resize((size_t)newSize, emptyPolar);
+    m_ifftin.resize((size_t)newSize, emptyCpx);
+    m_cpxOutput.resize((size_t)newSize, emptyCpx);
     if(newFFT(newSize) == 1) return false;
 
     return true;
@@ -100,48 +100,48 @@ void StandardFFTProcessor::fillWindow(std::vector<FftDecimal>& table, int size){
 void StandardFFTProcessor::fillHann(std::vector<FftDecimal>& table, int size){
     float w;
     float invert_Cos;
-    float max = size - 1;
+    float max = (float)size - 1.f;
     for(int n = 0; n < size; ++n){
         //hann window -- inverted cosine
         w = (float)TWOPI * ( float(n)/max );
         invert_Cos = 1.f - cos(w);
         //normalise to 0 to 1
-        table[n] = 0.5f * invert_Cos;
+        table[(size_t)n] = 0.5f * invert_Cos;
     }
 }
 
 void StandardFFTProcessor::fillBlackman(std::vector<FftDecimal>& table, int size) {
-    float max = size - 1;
+    float max = (float)size - 1.f;
     for(int n=0; n < size; ++n) {
         float w1 = (float)TWOPI * (float(n)/max);
-        float w2 = (float)TWOPI*2.0 * (float(n)/max);
-        float c1 = 0.5 * cos(w1);
-        float c2 = 0.08 * cos(w2);
-        table[n] = 0.42 - (c1 + c2);
+        float w2 = (float)TWOPI*2.f * (float(n)/max);
+        float c1 = 0.5f * cosf(w1);
+        float c2 = 0.08f * cosf(w2);
+        table[(size_t)n] = 0.42f - (c1 + c2);
     }
 }
 
 void StandardFFTProcessor::fillHamming(std::vector<FftDecimal>& table, int size) {
-    float max = size + 1.0;
+    float max = (float)size + 1.f;
     for(int n=0; n < size; ++n) {
         float w = (float)TWOPI * (float(n) / max);
-        table[n] = 0.53836 - 0.46164 * cos(w);
+        table[(size_t)n] = 0.53836f - 0.46164f * cosf(w);
     }
 }
 
 void StandardFFTProcessor::fillBlackmanHarris(std::vector<FftDecimal>& table, int size) {
-    float max = size - 1;
+    float max = (float)size - 1.f;
     for(int n=0; n<size; ++n) {
         float increment = (float(n)/max);
         float w1 = (float)TWOPI * increment;
-        float w2 = (float)TWOPI*2.0 * increment;
-        float w3 = (float)TWOPI*6.0 * increment;
+        float w2 = (float)TWOPI*2.f * increment;
+        float w3 = (float)TWOPI*6.f * increment;
         
-        float c1 = 0.48829 * cos(w1);
-        float c2 = 0.14128 * cos(w2);
-        float c3 = 0.01168 * cos(w3);
+        float c1 = 0.48829f * cosf(w1);
+        float c2 = 0.14128f * cosf(w2);
+        float c3 = 0.01168f * cosf(w3);
         
-        table[n] = 0.35875 - c1 + c2 - c3;
+        table[(size_t)n] = 0.35875f - c1 + c2 - c3;
     }
 }
 
@@ -178,32 +178,32 @@ void StandardFFTProcessor::fill_in_passOut(const FftDecimal* audioInput, FftDeci
 
 void StandardFFTProcessor::applyWindow(std::vector<FftDecimal>& inOut){
   for(int i=0; i<m_fftSize; ++i){
-    inOut[i] *= m_window[i];
+    inOut[(size_t)i] *= m_window[(size_t)i];
   }
 }
 
 void StandardFFTProcessor::float2Cpx(const std::vector<FftDecimal>& inFloat, std::vector<Cpx>& outCpx){
   for(int i=0; i<m_fftSize; ++i){
-	outCpx[i].real(inFloat[i]);    
-	outCpx[i].imag(0.f);
+	outCpx[(size_t)i].real(inFloat[(size_t)i]);    
+	outCpx[(size_t)i].imag(0.f);
   }
 }
 
 void StandardFFTProcessor::cpx2Float(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat){
   for(int i=0; i<m_fftSize; ++i){
-    outFloat[i] = inCpx[i].real();
+    outFloat[(size_t)i] = inCpx[(size_t)i].real();
   }
 }
 
 void StandardFFTProcessor::normalise(std::vector<Cpx>& cmpxInOut){
     
-    float scale = m_invSize * 2.0;
+    float scale = m_invSize * 2.f;
 	for(int i=0; i<m_halfSize; ++i){	  		
-        float normalisedRealValue = cmpxInOut[i].real() * scale;
-		cmpxInOut[i].real(normalisedRealValue);
+        float normalisedRealValue = cmpxInOut[(size_t)i].real() * scale;
+		cmpxInOut[(size_t)i].real(normalisedRealValue);
 
-        float normalisedImaginaryValue = cmpxInOut[i].imag() * scale;
-		cmpxInOut[i].imag(normalisedImaginaryValue);
+        float normalisedImaginaryValue = cmpxInOut[(size_t)i].imag() * scale;
+		cmpxInOut[(size_t)i].imag(normalisedImaginaryValue);
 	}
     
 }

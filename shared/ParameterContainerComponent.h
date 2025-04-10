@@ -15,7 +15,7 @@ class ParameterContainerComponent :
 {
 public:
     ParameterContainerComponent();
-    ~ParameterContainerComponent();
+    ~ParameterContainerComponent() override;
 
 	virtual const int getComponentHeight() { return 80; }
     virtual std::shared_ptr<PluginParameters> getPluginParameters() = 0;

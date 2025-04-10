@@ -1,10 +1,10 @@
 #include "PhaseVocoder.h"
 #include "utilities.h"
 
-PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) : StandardFFTProcessor(size, hops, offset, sRate), m_initialOffset(offset)
+PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, const std::shared_ptr<PhaseBuffer> &_phaseBuffer) : StandardFFTProcessor(size, hops, offset, sRate), m_initialOffset(offset)
 {
     /*
-    * StandardFFTProcessor Consturtor has already alloc an iff
+    * StandardFFTProcessor Constructor has already alloc an iff
     * Why alloc here again?
     * if use raw pointer here this would cause memory leak!
     */
@@ -14,37 +14,38 @@ PhaseVocoder::PhaseVocoder(int size, int hops, int offset, int sRate, std::share
 
 
 void PhaseVocoder::doHannRotate(std::vector<FftDecimal>& inOut){
-    std::vector<FftDecimal> temp(m_fftSize);
+    std::vector<FftDecimal> temp(static_cast<size_t>(m_fftSize));
 
 	/* We are using the bridge of the temp array to store the rotated input
 	otherwise the input array will be writing to its own future points.	*/
     for(int i=0; i<m_fftSize; ++i){
-        int rotatedIndex = (m_initialOffset+i) % m_fftSize;
-        temp[rotatedIndex] = inOut[i]*m_window[i];
+        const int rotatedIndex = (m_initialOffset+i) % m_fftSize;
+        temp[static_cast<size_t>(rotatedIndex)] = inOut[static_cast<size_t>(i)]*m_window[static_cast<size_t>(i)];
     }
 	// output
-    for(int i=0; i<m_fftSize; ++i){
+    for(size_t i=0; i<static_cast<size_t>(m_fftSize); ++i){
         inOut[i] = temp[i];
     }
 }
 
-void PhaseVocoder::doHannUnrotate(const std::vector<Cpx>& inCpx, std::vector<FftDecimal>& outFloat){
-    for(int i=0; i<m_fftSize; ++i){
-       int rotatedIndex = utilities::wrap(i - m_initialOffset, m_fftSize); //if below 0 then wrap around.
+void PhaseVocoder::doHannUnrotate(const std::vector<Cpx> &inCpx, std::vector<FftDecimal> &outFloat) {
+    for (int i = 0; i < m_fftSize; ++i) {
+        const auto rotatedIndex = static_cast<size_t>(utilities::wrap(i - m_initialOffset, m_fftSize));
+        //if below 0 then wrap around.
         // previously was...
-//        int rotatedIndex (m_offset+i) % m_fftSize;
-        outFloat[i] = inCpx[rotatedIndex].real() * m_window[i];        
+        //        int rotatedIndex (m_offset+i) % m_fftSize;
+        outFloat[static_cast<size_t>(i)] = inCpx[rotatedIndex].real() * m_window[static_cast<size_t>(i)];
     }
 }
 
-void PhaseVocoder::phaseDiff2Hertz(PolarVector& inOut){
+void PhaseVocoder::phaseDiff2Hertz(PolarVector &inOut) {
 
     /*  For each bin the difference in phase will be related to the strongest frequency content of that bin.
     If there is no difference then the true frequency will be the center frequency of the bin.  */
     float fac = (float)m_sRate / ((float)m_hopsize * (float)TWOPI ); // radians to hertz factor.
     float scl= (float)TWOPI * ( (float)m_hopsize / float(m_fftSize) ); // Size in radians of the hopsize.
 
-    for(int n = 0; n < m_halfSize; ++n){
+    for(size_t n = 0; n < (size_t)m_halfSize; ++n){
         float phi = inOut[n].m_phase;
         float delta = phi - phaseBuffer->prevPhase[n];
         
@@ -62,7 +63,7 @@ void PhaseVocoder::hertzDiff2Phase(PolarVector& inOut){
     float fac = (float)m_hopsize * ( (float)TWOPI / (float)m_sRate ); //used for scaling the hertz to radians
     float scl= (float)m_sRate / float(m_fftSize); //used to determine the center frequency for each bin.
 
-    for(int i = 0; i < m_halfSize; ++i){
+    for(size_t i = 0; i < (size_t)m_halfSize; ++i){
         float delta = (inOut[i].m_phase - float(i) * scl) * fac;
         // difference between the pre spec process and the post spec process phases
         float phi = phaseBuffer->prevPhase[i] + delta;

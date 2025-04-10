@@ -96,7 +96,7 @@ void SpectralAudioPlugin::switchOverlapCount() {
     
     for(std::vector<float>& output : m_output)
     {
-        if (output.size() == hopSize)
+        if (output.size() == static_cast<size_t>(hopSize))
         {
             continue;
         }
@@ -108,13 +108,13 @@ void SpectralAudioPlugin::switchOverlapCount() {
         // TODO: use mutex when modifying fft buffers
         if (!m_output.empty() && !output.empty())
         {
-            output.resize(hopSize, 0.f);
+            output.resize(static_cast<size_t>(hopSize), 0.f);
         }
     }
     
     for(std::vector<float>& input : m_input)
     {
-        if (input.size() == hopSize)
+        if (input.size() == static_cast<size_t>(hopSize))
         {
             continue;
         }
@@ -122,7 +122,7 @@ void SpectralAudioPlugin::switchOverlapCount() {
         if (isInvalidFftModificationState()) { return; }
         if (!m_input.empty() && !input.empty())
         {
-            input.resize(hopSize, 0.f);
+            input.resize(static_cast<size_t>(hopSize), 0.f);
         }
     }
     
@@ -309,10 +309,10 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 			m_audioProcessorInteractor->process(this, &m_input, &m_output);
 		}
 
-		for (int channel = 0; channel < numChannels; channel++)
+		for (size_t channel = 0; channel < static_cast<size_t>(numChannels); channel++)
 		{
-			m_input[channel][m_internalBufferReadWriteIndex] = audio[channel][ioVSTBuffers];
-			audio[channel][ioVSTBuffers] = m_output[channel][m_internalBufferReadWriteIndex];
+			m_input[channel][static_cast<size_t>(m_internalBufferReadWriteIndex)] = audio[channel][ioVSTBuffers];
+			audio[channel][ioVSTBuffers] = m_output[channel][static_cast<size_t>(m_internalBufferReadWriteIndex)];
 		}
 		
 		ioVSTBuffers++;
@@ -373,7 +373,7 @@ void SpectralAudioPlugin::setFftSize(int size) {
     }
     
 	m_audioProcessorInteractor->setFftSize(size);
-	const int hopSize = m_audioProcessorInteractor->getHopSize();
+	const size_t hopSize = static_cast<size_t>(m_audioProcessorInteractor->getHopSize());
 
 	for(std::vector<float>& output : m_output)
 	{
@@ -385,7 +385,7 @@ void SpectralAudioPlugin::setFftSize(int size) {
 		input.resize(hopSize, 0.f);
 	}
 
-	setLatencySamples(size + hopSize);
+	setLatencySamples(size + static_cast<int>(hopSize));
 }
 
 void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener) {

@@ -6,15 +6,15 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 include(cmake/cpm.cmake)
 CPMAddPackage(
     NAME JUCE
-    GIT_TAG 8.0.2
-    VERSION 8.0.2
+    GIT_TAG 8.0.6
+    VERSION 8.0.6
     GITHUB_REPOSITORY juce-framework/JUCE
     SOURCE_DIR ${LIB_DIR}/juce
 )
 
 include(shared/shared.cmake)
 set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
-
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 function (add_plugin name description code displayName)
     juce_add_plugin("${name}"

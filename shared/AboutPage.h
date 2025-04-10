@@ -13,7 +13,7 @@ class AboutPage    : public Component
 {
 public:
     AboutPage(ResourceRepository& resources);
-    ~AboutPage();
+    ~AboutPage() override;
 
     void paint (Graphics&) override;
     void resized() override;

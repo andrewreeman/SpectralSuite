@@ -19,7 +19,7 @@ void SSFInteractor::prepareProcess(StandardFFTProcessor* spectralProcess) {
 
 std::unique_ptr<StandardFFTProcessor> SSFInteractor::createSpectralProcess(
     int index, int fftSize, int hopSize, int sampleRate,
-    int numOverlaps, int chan, int numChans
+    int numOverlaps, int, int
 )
 {
     if(m_wavetable == nullptr) {

@@ -17,8 +17,8 @@ void MorphFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out
         return;        
     }
     
-    for(unsigned int i=0; i<halfSize; ++i) {
-        auto mappedIndex = (*pMorphPoints)[i];        
-        out[mappedIndex] = in[i];
+    for(int i=0; i < halfSize; ++i) {
+        const auto mappedIndex = (*pMorphPoints)[i];
+        out[static_cast<size_t>(mappedIndex)] = in[static_cast<size_t>(i)];
     }    
 }

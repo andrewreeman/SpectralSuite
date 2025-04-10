@@ -7,7 +7,7 @@ class BiasSlider : public Component
 {
 public:
     BiasSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~BiasSlider();
+    ~BiasSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;

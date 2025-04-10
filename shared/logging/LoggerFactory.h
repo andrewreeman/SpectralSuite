@@ -7,7 +7,7 @@ class LoggerRef {
     public:
     LoggerRef(Logger* logger) : m_loggerRef(logger) {}
     
-    Logger* get() const { return m_loggerRef.get(); };
+    Logger* get() const { return m_loggerRef.get(); }
     ~LoggerRef() {
         Logger::setCurrentLogger(nullptr);
     }

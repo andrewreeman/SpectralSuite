@@ -7,7 +7,7 @@ class RateSlider : public Component
 {
 public:
 	RateSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-	~RateSlider();
+	~RateSlider() override;
 
 	void paint(Graphics&) override;
 	void resized() override;

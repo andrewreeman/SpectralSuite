@@ -10,8 +10,8 @@
 class FrequencySlider : public ParameterContainerComponent	
 {
 public:
-    FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~FrequencySlider();
+    FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> aValueTreeState, Colour textColour, int textBoxHeight);
+    ~FrequencySlider() override;
     
     std::shared_ptr<PluginParameters> getPluginParameters() override {
         return valueTreeState;

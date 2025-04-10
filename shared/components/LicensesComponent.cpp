@@ -88,5 +88,5 @@ void LicensesComponent::configureLicenseView() {
     licenses.setMultiLine(true);
     licenses.setEnabled(false);
     licenses.setText(licenseInfo, NotificationType::dontSendNotification);
-    licenses.setFont(16.0);
+    licenses.setFont(FontOptions().withPointHeight(16.0));
 }

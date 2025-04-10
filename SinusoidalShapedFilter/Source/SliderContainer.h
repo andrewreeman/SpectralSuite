@@ -10,7 +10,7 @@ class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~SliderContainer();
+    ~SliderContainer() override;
     
     std::shared_ptr<PluginParameters> getPluginParameters() override {
         return valueTreeState;

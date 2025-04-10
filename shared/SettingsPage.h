@@ -22,11 +22,11 @@ public:
 	class Listener {
 	public:
 		virtual void onPropertiesChanged() = 0;
-        virtual ~Listener(){};
+        virtual ~Listener(){}
 	};
 
     SettingsPage(ResourceRepository& resources);
-    ~SettingsPage();
+    ~SettingsPage() override;
 
     void paint (Graphics&) override;
     void resized() override;

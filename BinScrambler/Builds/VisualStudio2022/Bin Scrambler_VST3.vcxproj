@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Project DefaultTargets="Build"
+         ToolsVersion="17.0"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -11,27 +14,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AD263019-4B6B-46CA-A39E-01EC80DFF804}</ProjectGuid>
+    <ProjectGuid>{ECD1FF1B-E262-F10B-D196-7267794FB3D6}</ProjectGuid>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"
+                 Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v143</PlatformToolset>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"
+                 Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v143</PlatformToolset>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+  <ImportGroup Label="ExtensionSettings"/>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform"/>
   </ImportGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
@@ -41,11 +48,15 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Bin Scrambler</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PostBuildEventUseInBuild>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Platform)\$(Configuration)\VST3\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\VST3\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Bin Scrambler</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -53,7 +64,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName />
+      <HeaderFileName/>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -93,18 +104,58 @@
       <AdditionalDependencies>Bin Scrambler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist "$(OutDir)\\Bin Scrambler.vst3\" del /s /q "$(OutDir)\\Bin Scrambler.vst3" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3"
-if not exist "$(OutDir)\\Bin Scrambler.vst3\Contents\" del /s /q "$(OutDir)\\Bin Scrambler.vst3\Contents" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3\Contents"
-if not exist "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win\" del /s /q "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win"
+      <Command>if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;x86&quot; if defined PROCESSOR_ARCHITEW6432 (
+    echo : Warning: Toolchain configuration issue! You are using a 32-bit toolchain to compile a 64-bit target on a 64-bit system. This may cause problems with the build system. To resolve this, use the x64 version of MSBuild. You can invoke it directly at: &quot;&lt;VisualStudioPathHere&gt;/MSBuild/Current/Bin/amd64/MSBuild.exe&quot; Or, use the &quot;x64 Native Tools Command Prompt&quot; script.
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3&quot;
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3\Contents&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3\Contents&quot;
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win&quot;
+)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(TargetDir)*.vst3" "C:\Program Files\Common Files\VST3\"
-
-copy /Y "$(OutDir)\Bin Scrambler.dll" "$(OutDir)\Bin Scrambler.vst3\Contents\x86_64-win\Bin Scrambler.vst3"
-del /s /q "$(OutDir)/Bin Scrambler.vst3\Contents\moduleinfo.json"
-if not exist "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\" del /s /q "$(OutDir)/Bin Scrambler.vst3\Contents\Resources" &amp;&amp; mkdir "$(OutDir)/Bin Scrambler.vst3\Contents\Resources"
-"$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe" -create -version "2.1.12" -path "$(OutDir)/Bin Scrambler.vst3" -output "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json"</Command>
+      <Command>xcopy /Y &quot;$(TargetDir)*.vst3&quot; &quot;C:\Program Files\Common Files\VST3\&quot;
+copy /Y &quot;$(OutDir)\Bin Scrambler.dll&quot; &quot;$(OutDir)\Bin Scrambler.vst3\Contents\x86_64-win\Bin Scrambler.vst3&quot;
+set manifest_generated=0
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;ARM64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;AMD64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if %manifest_generated% equ 0 (
+    goto :_arch_mismatch
+)
+goto :_continue
+:_generate_manifest
+if exist &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot; (
+    del /s /q &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot;
+)
+if not exist &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\&quot; (
+    mkdir &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\&quot;
+)
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.12&quot; -path &quot;$(OutDir)/Bin Scrambler.vst3&quot; -output &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot;
+if %ERRORLEVEL% equ 0 (
+    echo : Info: Successfully generated a manifest for Bin Scrambler
+    goto :_continue
+) else (
+    echo : Info: The manifest helper failed
+    goto :_continue
+)
+:_arch_mismatch
+echo : Info: VST3 manifest generation is disabled for Bin Scrambler because a AMD64 manifest helper cannot run on a host system processor detected to be $(PROCESSOR_ARCHITECTURE).
+:_continue
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -113,7 +164,7 @@ if not exist "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\" del /s /q "$(Out
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName />
+      <HeaderFileName/>
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -155,30 +206,71 @@ if not exist "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\" del /s /q "$(Out
       <AdditionalDependencies>Bin Scrambler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>if not exist "$(OutDir)\\Bin Scrambler.vst3\" del /s /q "$(OutDir)\\Bin Scrambler.vst3" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3"
-if not exist "$(OutDir)\\Bin Scrambler.vst3\Contents\" del /s /q "$(OutDir)\\Bin Scrambler.vst3\Contents" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3\Contents"
-if not exist "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win\" del /s /q "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win" &amp;&amp; mkdir "$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win"
+      <Command>if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;x86&quot; if defined PROCESSOR_ARCHITEW6432 (
+    echo : Warning: Toolchain configuration issue! You are using a 32-bit toolchain to compile a 64-bit target on a 64-bit system. This may cause problems with the build system. To resolve this, use the x64 version of MSBuild. You can invoke it directly at: &quot;&lt;VisualStudioPathHere&gt;/MSBuild/Current/Bin/amd64/MSBuild.exe&quot; Or, use the &quot;x64 Native Tools Command Prompt&quot; script.
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3&quot;
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3\Contents&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3\Contents&quot;
+)
+if not exist &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win\&quot; (
+    del /s /q &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win&quot;
+    mkdir &quot;$(OutDir)\\Bin Scrambler.vst3\Contents\x86_64-win&quot;
+)
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y "$(OutDir)\Bin Scrambler.dll" "$(OutDir)\Bin Scrambler.vst3\Contents\x86_64-win\Bin Scrambler.vst3"
-del /s /q "$(OutDir)/Bin Scrambler.vst3\Contents\moduleinfo.json"
-if not exist "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\" del /s /q "$(OutDir)/Bin Scrambler.vst3\Contents\Resources" &amp;&amp; mkdir "$(OutDir)/Bin Scrambler.vst3\Contents\Resources"
-"$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe" -create -version "2.1.12" -path "$(OutDir)/Bin Scrambler.vst3" -output "$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json"</Command>
+      <Command>copy /Y &quot;$(OutDir)\Bin Scrambler.dll&quot; &quot;$(OutDir)\Bin Scrambler.vst3\Contents\x86_64-win\Bin Scrambler.vst3&quot;
+set manifest_generated=0
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;ARM64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;AMD64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if %manifest_generated% equ 0 (
+    goto :_arch_mismatch
+)
+goto :_continue
+:_generate_manifest
+if exist &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot; (
+    del /s /q &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot;
+)
+if not exist &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\&quot; (
+    mkdir &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\&quot;
+)
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.1.12&quot; -path &quot;$(OutDir)/Bin Scrambler.vst3&quot; -output &quot;$(OutDir)/Bin Scrambler.vst3\Contents\Resources\moduleinfo.json&quot;
+if %ERRORLEVEL% equ 0 (
+    echo : Info: Successfully generated a manifest for Bin Scrambler
+    goto :_continue
+) else (
+    echo : Info: The manifest helper failed
+    goto :_continue
+)
+:_arch_mismatch
+echo : Info: VST3 manifest generation is disabled for Bin Scrambler because a AMD64 manifest helper cannot run on a host system processor detected to be $(PROCESSOR_ARCHITECTURE).
+:_continue
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_VST3.cpp" />
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_VST3.cpp"/>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup/>
   <ItemGroup>
-    <ResourceCompile Include=".\resources.rc" />
+    <ResourceCompile Include=".\resources.rc"/>
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
 </Project>

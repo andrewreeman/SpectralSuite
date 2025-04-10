@@ -10,7 +10,7 @@ public:
         virtual void switchOverlapCount() = 0;
         virtual void switchFftStyle() = 0;
         virtual void switchFftWindowType() = 0;
-        virtual ~FftSwitcher(){};
+        virtual ~FftSwitcher(){}
 	};
 
 	FftSwitcherThread(FftSwitcher* fftSwitcher)

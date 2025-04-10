@@ -16,7 +16,7 @@ public:
 	
 	// AudioProcessorParameter listener methods
 	void parameterValueChanged(int, float) override;
-	void parameterGestureChanged(int, bool) override {};
+	void parameterGestureChanged(int, bool) override {}
 
 private:
 	void updateSRand();

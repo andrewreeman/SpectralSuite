@@ -20,8 +20,8 @@ protected:
     
 public:
 
-    PhaseVocoder(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer);
-    ~PhaseVocoder() {}
+    PhaseVocoder(int size, int hops, int offset, int sRate, const std::shared_ptr<PhaseBuffer> &_phaseBuffer);
+    ~PhaseVocoder() override {}
     
     virtual void setUsePvoc(bool usePvoc){
         if(this->m_fftSize > 32768) {
