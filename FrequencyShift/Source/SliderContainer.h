@@ -26,9 +26,10 @@ public:
     void resized() override;
 
 private:
-    static int const NUM_VERTICAL_COMPONENTS = 1;
+    static constexpr int NUM_VERTICAL_COMPONENTS = 2;
     std::shared_ptr<PluginParameters> pluginParameters;
 	FrequencySlider freqSlider;
+    Slider scaleSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderContainer)
 };

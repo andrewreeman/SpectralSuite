@@ -5,6 +5,11 @@ SliderContainer::SliderContainer(std::shared_ptr<FrequencyShiftPluginParameters>
 {
     this->pluginParameters = valueTreeState;
 	addAndMakeVisible(freqSlider);
+
+	scaleSlider.setSliderStyle(Slider::LinearHorizontal);
+	scaleSlider.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
+	scaleSlider.setTooltip("How much to scale the frequencies by");
+	addAndMakeVisible(scaleSlider);
 }
 
 SliderContainer::~SliderContainer() {
@@ -22,4 +27,6 @@ void SliderContainer::resized()
 	int y = 0;
     
     freqSlider.setBounds(0, y, sliderWidth, sliderHeight);
+    y = freqSlider.getBottom() + 10;
+	scaleSlider.setBounds(0, y, getWidth(), sliderHeight);
 }

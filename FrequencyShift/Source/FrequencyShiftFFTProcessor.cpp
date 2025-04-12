@@ -20,19 +20,19 @@ void FrequencyShiftFFTProcessor::spectral_process(const PolarVector &in, PolarVe
 
     std::fill(out.begin(), out.end(), Polar(0.f, 0.f));
     if (!approximatelyEqual(m_scale, 0.f)) {
-        for (auto i = 0; i < in.size(); ++i) {
+        for (size_t i = 0; i < in.size(); ++i) {
             out[static_cast<size_t>(static_cast<float>(i) * m_scale)] = in[i];
         }
     }
 
     if (m_binShift != 0) {
-        for (auto i = start; i < end; ++i) {
+        for (size_t i = start; i < end; ++i) {
             out[i + static_cast<size_t>(binShift)] = in[i];
         }
     }
 }
 
-bool FrequencyShiftFFTProcessor::setFFTSize(int newSize) {
+bool FrequencyShiftFFTProcessor::setFFTSize(const int newSize) {
     bool success = PhaseVocoder::setFFTSize(newSize);
     if(success) {
         recalculateInternalParameters();
