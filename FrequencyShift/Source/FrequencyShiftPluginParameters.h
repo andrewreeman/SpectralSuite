@@ -8,4 +8,5 @@ public:
 	void updateValue(Slider* frequencyShiftSlider, double valueToUpdateTo) const;
 	
 	float* getShiftValuePointer() const { return getRawParameterValue("shift"); }
+	float* getScaleValuePointer() const { return getRawParameterValue("scale"); }
 };
