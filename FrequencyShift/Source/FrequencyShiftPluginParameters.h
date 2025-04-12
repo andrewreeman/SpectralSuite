@@ -2,10 +2,10 @@
 
 #include "../../shared/PluginParameters.h"
 
-class FrequencyShiftPluginParameters : public PluginParameters {
+class FrequencyShiftPluginParameters final : public PluginParameters {
 public:
-	FrequencyShiftPluginParameters(AudioProcessor* processor);
-	void updateValue(Slider* frequencyShiftSlider, double valueToUpdateTo);
+	explicit FrequencyShiftPluginParameters(AudioProcessor* processor);
+	void updateValue(Slider* frequencyShiftSlider, double valueToUpdateTo) const;
 	
 	float* getShiftValuePointer() const { return getRawParameterValue("shift"); }
 };

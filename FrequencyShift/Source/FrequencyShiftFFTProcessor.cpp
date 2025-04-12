@@ -19,7 +19,7 @@ void FrequencyShiftFFTProcessor::spectral_process(const PolarVector &in, PolarVe
     const long binShift = m_binShift;
 
     std::fill(out.begin(), out.end(), Polar(0.f, 0.f));
-    if (approximatelyEqual(m_scale, 0.f)) {
+    if (!approximatelyEqual(m_scale, 0.f)) {
         for (auto i = 0; i < in.size(); ++i) {
             out[static_cast<size_t>(static_cast<float>(i) * m_scale)] = in[i];
         }
