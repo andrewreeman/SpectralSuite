@@ -2,7 +2,6 @@
 
 #include "JuceHeader.h"
 #include "FrequencyShiftPluginParameters.h"
-#include "../../shared/SettingsPage.h"
 #include "../../shared/ParameterContainerComponent.h"
 
 
@@ -29,7 +28,6 @@ private:
 	Slider frequencyShift;
 	std::unique_ptr<SliderAttachment> frequencyShiftAttachment;
 	std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState;
-
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySlider)	
 };

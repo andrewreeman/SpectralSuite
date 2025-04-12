@@ -1,19 +1,20 @@
 #include "SliderContainer.h"
 
-SliderContainer::SliderContainer(std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState, Colour textColour, int textBoxHeight) :
+SliderContainer::SliderContainer(const std::shared_ptr<FrequencyShiftPluginParameters> &valueTreeState, const Colour textColour, const int textBoxHeight) :
 	freqSlider(valueTreeState, textColour, textBoxHeight)
 {
     this->pluginParameters = valueTreeState;
 	addAndMakeVisible(freqSlider);
 
 	scaleSlider.setSliderStyle(Slider::LinearHorizontal);
+	scaleSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxAbove, false, 100, textBoxHeight);
 	scaleSlider.setColour(Slider::ColourIds::textBoxTextColourId, textColour);
 	scaleSlider.setTooltip("How much to scale the frequencies by");
+	scaleAttachment.reset(valueTreeState->createSliderAttachment("scale", scaleSlider));
 	addAndMakeVisible(scaleSlider);
 }
 
-SliderContainer::~SliderContainer() {
-}
+SliderContainer::~SliderContainer() = default;
 
 void SliderContainer::paint (Graphics& g)
 {
@@ -22,8 +23,8 @@ void SliderContainer::paint (Graphics& g)
 
 void SliderContainer::resized()
 {
-    int sliderHeight = getHeight() / SliderContainer::NUM_VERTICAL_COMPONENTS;
-    int sliderWidth = getWidth();
+    const int sliderHeight = getHeight() / SliderContainer::NUM_VERTICAL_COMPONENTS;
+    const int sliderWidth = getWidth();
 	int y = 0;
     
     freqSlider.setBounds(0, y, sliderWidth, sliderHeight);

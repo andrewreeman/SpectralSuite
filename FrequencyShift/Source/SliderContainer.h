@@ -14,7 +14,7 @@
 class SliderContainer : public ParameterContainerComponent
 {
 public:
-	SliderContainer(std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
+	SliderContainer(const std::shared_ptr<FrequencyShiftPluginParameters> &valueTreeState, Colour textColour, int textBoxHeight);
     ~SliderContainer() override;
 
     std::shared_ptr<PluginParameters> getPluginParameters() override {
@@ -27,9 +27,12 @@ public:
 
 private:
     static constexpr int NUM_VERTICAL_COMPONENTS = 2;
+	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+
     std::shared_ptr<PluginParameters> pluginParameters;
 	FrequencySlider freqSlider;
     Slider scaleSlider;
+	std::unique_ptr<SliderAttachment> scaleAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderContainer)
 };
