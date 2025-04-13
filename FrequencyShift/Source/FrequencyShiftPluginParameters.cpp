@@ -60,7 +60,7 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor *p
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
         ParameterID("scale", 1),
         "Frequency scale",
-        NormalisableRange(0.001f, 4.f),
+        NormalisableRange(0.25f, 3.f, 0.001f, 0.5f, false),
         1.f,
         AudioParameterFloatAttributes()
         .withLabel("")
