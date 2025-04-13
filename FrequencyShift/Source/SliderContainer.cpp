@@ -23,7 +23,7 @@ void SliderContainer::paint (Graphics& g)
 
 void SliderContainer::resized()
 {
-    const int sliderHeight = getHeight() / SliderContainer::NUM_VERTICAL_COMPONENTS;
+    const int sliderHeight = getHeight() / NUM_VERTICAL_COMPONENTS;
     const int sliderWidth = getWidth();
 	int y = 0;
     

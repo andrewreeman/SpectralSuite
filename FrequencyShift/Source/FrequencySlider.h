@@ -24,7 +24,8 @@ public:
 	void onAudioValueTreeStateLoadedFromXmlState(PluginParameters* newState, XmlElement* xmlState) override;
     
 private:
-	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
+	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+	Label frequencyShiftLabel;
 	Slider frequencyShift;
 	std::unique_ptr<SliderAttachment> frequencyShiftAttachment;
 	std::shared_ptr<FrequencyShiftPluginParameters> valueTreeState;
