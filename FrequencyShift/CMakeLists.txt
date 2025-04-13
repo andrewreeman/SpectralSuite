@@ -17,5 +17,7 @@ target_sources(FreqShift
         Source/FrequencySlider.cpp
         Source/SliderContainer.h
         Source/SliderContainer.cpp
+        Source/ScaleSlider.h
+        Source/ScaleSlider.cpp
         ${SHARED_SOURCES}
 )

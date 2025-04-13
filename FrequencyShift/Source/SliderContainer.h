@@ -1,17 +1,12 @@
-//
-// Created by Andrew Reeman on 10/04/2025.
-//
-
 #pragma once
 
 #include "JuceHeader.h"
 #include "../../shared/ParameterContainerComponent.h"
 #include "FrequencyShiftPluginParameters.h"
 #include "FrequencySlider.h"
-//==============================================================================
-/*
-*/
-class SliderContainer : public ParameterContainerComponent
+#include "ScaleSlider.h"
+
+class SliderContainer final : public ParameterContainerComponent
 {
 public:
 	SliderContainer(const std::shared_ptr<FrequencyShiftPluginParameters> &valueTreeState, Colour textColour, int textBoxHeight);
@@ -31,8 +26,7 @@ private:
 
     std::shared_ptr<PluginParameters> pluginParameters;
 	FrequencySlider freqSlider;
-    Slider scaleSlider;
-	std::unique_ptr<SliderAttachment> scaleAttachment;
+	ScaleSlider scaleSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderContainer)
 };

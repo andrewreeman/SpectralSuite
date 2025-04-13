@@ -4,9 +4,7 @@
 #include "FrequencyShiftPluginParameters.h"
 #include "../../shared/ParameterContainerComponent.h"
 
-
-//==============================================================================
-class FrequencySlider : public ParameterContainerComponent	
+class FrequencySlider final : public ParameterContainerComponent
 {
 public:
     FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters> aValueTreeState, Colour textColour, int textBoxHeight);
