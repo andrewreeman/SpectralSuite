@@ -16,12 +16,15 @@ void FrequencyShiftFFTProcessor::spectral_process(const PolarVector &in, PolarVe
 
     const auto start = static_cast<size_t>(m_shiftStartIndex);
     const auto end = static_cast<size_t>(m_shiftEndIndex);
+    const auto scaleEnd = in.size();
     const long binShift = m_binShift;
 
     std::fill(out.begin(), out.end(), Polar(0.f, 0.f));
     if (!approximatelyEqual(m_scale, 0.f)) {
         for (size_t i = 0; i < in.size(); ++i) {
-            out[static_cast<size_t>(static_cast<float>(i) * m_scale)] = in[i];
+            if (const auto newIndex = static_cast<size_t>(static_cast<float>(i) * m_scale); newIndex < scaleEnd) {
+                out[newIndex] = in[i];
+            }
         }
     }
 
