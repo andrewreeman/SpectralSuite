@@ -56,14 +56,24 @@ FrequencyShiftPluginParameters::FrequencyShiftPluginParameters(AudioProcessor *p
             return text.dropLastCharacters(shiftHertzLabel.length()).getFloatValue();
         })
     ));
+
+    createAndAddParameter(std::make_unique<AudioParameterFloat>(
+        ParameterID("scale", 1),
+        "Frequency scale",
+        NormalisableRange(0.25f, 3.f, 0.001f, 0.5f, false),
+        1.f,
+        AudioParameterFloatAttributes()
+        .withLabel("")
+        .withCategory(AudioProcessorParameter::Category::genericParameter)
+    ));
 }
 
-void FrequencyShiftPluginParameters::updateValue(Slider *frequencyShiftSlider, double valueToUpdateTo) {
-    AudioParameterFloat *shiftParam = (AudioParameterFloat *) getParameter("shift");
-    float currentValue = (float) valueToUpdateTo;
+void FrequencyShiftPluginParameters::updateValue(Slider *frequencyShiftSlider, const double valueToUpdateTo) const {
+    const auto shiftParam = dynamic_cast<AudioParameterFloat *>(getParameter("shift"));
+    auto currentValue = static_cast<float>(valueToUpdateTo);
 
-    const AudioParameterFloat *lowestValueParam = (AudioParameterFloat *) getParameter("shiftMinRange");
-    const AudioParameterFloat *highestValueParam = (AudioParameterFloat *) getParameter("shiftMaxRange");
+    const AudioParameterFloat *lowestValueParam = dynamic_cast<AudioParameterFloat *>(getParameter("shiftMinRange"));
+    const AudioParameterFloat *highestValueParam = dynamic_cast<AudioParameterFloat *>(getParameter("shiftMaxRange"));
 
     const float lowestValue = lowestValueParam->get();
     const float highestValue = highestValueParam->get();

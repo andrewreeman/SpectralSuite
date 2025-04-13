@@ -24,6 +24,10 @@ FrequencySlider::FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters>
 	
 	frequencyShiftAttachment.reset(aValueTreeState->createSliderAttachment("shift", frequencyShift));//  new SliderAttachment(aValueTreeState, "shift", frequencyShift));
 
+	frequencyShiftLabel.setText("Shift", NotificationType::dontSendNotification);
+	frequencyShiftLabel.attachToComponent(&frequencyShift, false);
+	frequencyShiftLabel.setColour(Label::ColourIds::textColourId, textColour);
+
 	this->valueTreeState = aValueTreeState;
 	//this->onPropertiesChanged();
 
@@ -32,9 +36,7 @@ FrequencySlider::FrequencySlider(std::shared_ptr<FrequencyShiftPluginParameters>
 	//frequencyShift.setRange(-600, shiftDownRange.end, shiftDownRange.interval);
 }
 
-FrequencySlider::~FrequencySlider()
-{
-}
+FrequencySlider::~FrequencySlider()= default;
 
 void FrequencySlider::paint(Graphics& g)
 {
@@ -42,8 +44,11 @@ void FrequencySlider::paint(Graphics& g)
 }
 
 void FrequencySlider::resized()
-{    
-	frequencyShift.setBounds(0, 0, getWidth(), getHeight());
+{
+	int y = 0;
+	frequencyShiftLabel.setBounds(0, y, getWidth() / 3, 30);
+	y += frequencyShiftLabel.getBounds().getBottom() + 10;
+	frequencyShift.setBounds(0, y, getWidth(), static_cast<int>(static_cast<float>(getHeight()) / 1.8f));
 }
 
 void FrequencySlider::onPropertiesChanged()
