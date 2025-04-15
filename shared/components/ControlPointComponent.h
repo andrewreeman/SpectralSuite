@@ -83,7 +83,6 @@ private:
     juce::Point<int>* draggedPoint;
     Array<float> outputValues;
     int draggedPointIndex;
-    int outputResolution;
     PointXAxisComparator pointComparator;
     Listener* listener;
     Time lastMouseClick;
