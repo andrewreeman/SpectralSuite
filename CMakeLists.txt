@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpectralSuite VERSION 2.2.00)
+project(SpectralSuite VERSION 2.2.0)
 SET(VERSION_CODE 19)
 
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)

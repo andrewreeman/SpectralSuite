@@ -1,4 +1,6 @@
 % Spectral Suite
+## Version 2.2.0
+    * Added 'Scale' parameter to Frequency Shift
 ## Version 2.1.12
     * Fix bug in phase lock where audio would continue playing even when
       playhead is stopped

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -r test-release
+rm -r -f test-release
 mkdir -p test-release/MacOSX/AU
 mkdir -p test-release/MacOSX/VST3
 
