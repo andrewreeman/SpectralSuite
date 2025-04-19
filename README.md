@@ -32,7 +32,15 @@ NEWNAMEAudioPlugin.cpp	NEWNAMEParameters.h	UiContainer.cpp
 NEWNAMEAudioPlugin.h	NEWNAMEProcessor.cpp	UiContainer.h
 ```
 
+### Develop plugins
+The plugins are in a CMake project so a single project containing all plugins
+can be created. `mkdir build && cd build && cmake ..`. Use `-G` and select a
+[generator](https://cmake.org/cmake/help/latest/variable/CMAKE_GENERATOR.html) for a particular generator. 
+
 ### Building plugins for release 
+This section was written before the projects were migrated to CMake so can most
+likely be rewritten. Building a release for all plugins should be as simple as
+`cd build && cmake --build . --config Release`
 Build must be performed on MacOS and Windows.
 
 #### MacOS
@@ -67,4 +75,13 @@ Powershell
 Open Developer Powershell
 Navigate to `SpectralSuiteBuild`.
 Then run `ssutil.ps1`
+
+#### Linux
+##### Prerequisites
+Docker
+
+Can be run on any system with Docker. Tested on Mac.
+On terminal, navigate to `SpectralSuiteBuild`.
+Then run `buildLinux.sh`
+The release files will then be in top level `release/linux-x86_64` folder
 

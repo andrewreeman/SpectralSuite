@@ -6,8 +6,8 @@
 namespace PitchInfoParser {
 
 struct PitchInfo {
-    float frequency;
-    int midiNote;
+    float frequency = 0.f;
+    int midiNote = 0;
     std::string pitchName;
     
     bool isEmpty() {

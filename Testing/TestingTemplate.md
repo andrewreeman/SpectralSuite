@@ -1,5 +1,5 @@
 # Version
-2.1.XX
+2.2.XX
 
 # Reaper - Mac
 ## AU
@@ -61,34 +61,7 @@
 - [] Load/Save presets
 
 # Logic Pro - Mac
-## AU
-### Spectral Gate
-- [] All parameters work
-- [] Load/Save presets
-
-### Bin Scrambler
-- [] All parameters work
-- [] Load/Save presets
-
-### Morph
-- [] All parameters work
-- [] Load/Save presets
-
-### Frequency Magnet
-- [] All parameters work
-- [] Load/Save presets
-
-### Frequency Shifter
-- [] All parameters work
-- [] Load/Save presets
-
-### Phase Lock
-- [] All parameters work
-- [] Load/Save presets
-
-### Sinusoidal Shaped Filter
-- [] All parameters work
-- [] Load/Save presets
+# Cannot test, trial expired. No free usage
 
 # FL Studio - Mac
 # Cannot test parameter saving and loading on trial

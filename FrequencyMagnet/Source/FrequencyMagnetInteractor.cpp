@@ -11,18 +11,19 @@ void FrequencyMagnetInteractor::prepareProcess(StandardFFTProcessor* spectralPro
 	mag->setUseLegacyHighFrequencyShift(value);
 }
 
-std::unique_ptr<StandardFFTProcessor> FrequencyMagnetInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> FrequencyMagnetInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int, int)
 {
 	return std::make_unique<FrequencyMagnetFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer());
 }
 
 void FrequencyMagnetInteractor::receivedMidi(MidiBuffer& midi) {
     MidiMessage message;
-    int time;
 
-    for(MidiBuffer::Iterator i(midi); i.getNextEvent(message, time);) {
+    for (const MidiMessageMetadata metadata : midi)
+    {
+        message = metadata.getMessage();
         if(message.isNoteOn()) {
-            m_params->setFrequency(message.getMidiNoteInHertz(message.getNoteNumber()));
+            m_params->setFrequency((float)MidiMessage::getMidiNoteInHertz(message.getNoteNumber()));
         }
         else if(message.isControllerOfType(1)) { // mod wheel controller
             m_params->setWidth((float)message.getControllerValue() / 127.f);

@@ -7,21 +7,21 @@ SpectralGateFFTProcessor::SpectralGateFFTProcessor(int size, int hops, int offse
 }
 
 void SpectralGateFFTProcessor::setCutOff(float cutoff) {
-    if(cutoff != m_cutOff) {
+    if(!exactlyEqual(cutoff, m_cutOff)) {
         m_cutOff = cutoff;
         recalculateInternalParameters();
     }
 }
 
 void SpectralGateFFTProcessor::setBalance(float balance) {
-    if(balance != m_balance) {
+    if(!exactlyEqual(balance, m_balance)) {
         m_balance = balance;
         recalculateInternalParameters();
     }
 }
 
 void SpectralGateFFTProcessor::setTilt(float tilt) {
-    if(tilt != m_tilt) {
+    if(!exactlyEqual(tilt, m_tilt   )) {
         m_tilt = tilt;
     }
 }
@@ -39,12 +39,12 @@ void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVect
         float tilt = m_tilt;
         tilt = (tilt - 0.5f) * 2.f;
         
-        for(int n = 1; n < bins; ++n){
-            float frac = (float)n/(float)bins;
-            float highScaleOffset = (frac - 0.5f) * 2.f * m_gate_high * tilt;
-            float gateHigh = m_gate_high + highScaleOffset;
+        for(size_t n = 1; n < static_cast<size_t>(bins); ++n){
+            const float frac = static_cast<float>(n)/static_cast<float>(bins);
+            const float highScaleOffset = (frac - 0.5f) * 2.f * m_gate_high * tilt;
+            const float gateHigh = m_gate_high + highScaleOffset;
             
-            float lowScaleOffset = highScaleOffset * 0.8;
+            float lowScaleOffset = highScaleOffset * 0.8f;
             float gateLow = m_gate_low + lowScaleOffset;
             
             
@@ -62,7 +62,7 @@ void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVect
         }
     }
     else {
-        for(int n = 1; n < bins; ++n){
+        for(size_t n = 1; n < static_cast<size_t>(bins); ++n){
             mag = in[n].m_mag;
             if (mag >= m_gate_high){
                 out[n].m_mag = mag * m_balance_strong_scale;
@@ -76,11 +76,11 @@ void SpectralGateFFTProcessor::spectral_process(const PolarVector &in, PolarVect
             out[n].m_phase = in[n].m_phase;
         }
     }
-};
+}
 
 void SpectralGateFFTProcessor::recalculateInternalParameters() {
-    m_gate_high = pow(m_cutOff, 10);
+    m_gate_high = powf(m_cutOff, 10);
     m_gate_low = m_cutOff * 0.6f;
     m_balance_strong_scale = powf(m_balance, 3.f);
-    m_balance_weak_scale = pow(1.f-m_balance, 4.f);
+    m_balance_weak_scale = powf(1.f-m_balance, 4.f);
 }

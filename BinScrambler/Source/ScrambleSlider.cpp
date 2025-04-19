@@ -32,6 +32,6 @@ void ScrambleSlider::resized()
 	int y = 0;
 	balanceLabel.setBounds(0, y, getWidth() / 3, 30);
 
-	y += balanceLabel.getBounds().getBottom() + 10;;
+	y += balanceLabel.getBounds().getBottom() + 10;
 	balance.setBounds(0, y, getWidth(), getHeight() / 2);
 }

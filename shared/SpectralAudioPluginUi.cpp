@@ -17,7 +17,7 @@ SpectralAudioPluginUi::SpectralAudioPluginUi(
 	auto primaryTextColour = Colour::fromString(TEXT_COLOUR);
 	title.setText(JucePlugin_Name, NotificationType::dontSendNotification);
 	title.setColour(Label::ColourIds::textColourId, primaryTextColour);
-	title.setFont(20.0);
+    title.setFont(FontOptions().withPointHeight(20.0));
 	addAndMakeVisible(title);        
 
     parameterViewPort.setViewedComponent(this->parameterContainer);

@@ -1,10 +1,10 @@
 #include "PhaseLockFFTProcessor.h"
 #include "../../shared/utilities.h"
 
-float phaseLockGenerateRandomNumber() {
-    float r = rand() % 1000;
-    float p = (r / 1000.f) * TWOPI;
-    return p - PI;
+static float phaseLockGenerateRandomNumber() {
+    float r = static_cast<float>(rand() % 1000);
+    float p = (float)((r / 1000.f) * TWOPI);
+    return p - (float)PI;
 }
 
 PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer) :
@@ -14,11 +14,12 @@ PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int
         m_phaseMix(1.0),
         m_magMix(1.0),
         m_magTrack(0.0),
+        m_randomPhaseMix(0.f),
+        m_morphDurationSeconds(1),
         m_transitionMagCounter(0.0),
         m_transitionMagEnd(0.0),
         m_transitionPhaseCounter(0.0),
         m_transitionPhaseEnd(0.0),
-        m_morphDurationSeconds(1),
         m_transitionPhaseState(sRate, size),
         m_transitionMagState(sRate, size)
         {}
@@ -31,7 +32,7 @@ void PhaseLockFFTProcessor::spectral_process(const PolarVector& in, PolarVector&
 void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector &out) {
     if (m_lockPhaseState.shouldTransitionToOn()) {
         m_lockedPhases.clear();
-        for (int i = 0; i < bins; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
             m_lockedPhases.push_back(in[i].m_phase);
         }
         
@@ -40,7 +41,7 @@ void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector 
     
     if (m_lockMagState.shouldTransitionToOn()) {
         m_lockedMag.clear();
-        for (int i = 0; i < bins; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
             m_lockedMag.push_back(in[i].m_mag);
         }
         
@@ -55,7 +56,7 @@ void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector 
         }
     }
     
-    float maxLockedMag = 0.1;
+    float maxLockedMag = 0.1f;
     for(auto& lockedBin : m_lockedMag) {
         if(lockedBin > maxLockedMag) {
             maxLockedMag = lockedBin;
@@ -63,39 +64,38 @@ void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector 
     }
     
     float scale = maxMag / maxLockedMag;
-    scale = scale + (-(scale - 1) * (1.0 - m_magTrack));
+    scale = scale + (-(scale - 1.f) * (1.0f - m_magTrack));
     float magMix = m_magMix;
     float randPhaseMix = m_randomPhaseMix;
     
     if(m_lockPhaseState.isOn() && m_lockMagState.isOn()) {
-        for (int i = 0; i < bins; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
             float inPhase = in[i].m_phase;
             out[i].m_phase = inPhase + ((m_lockedPhases.at(i) - inPhase) * m_phaseMix);
             
             float inMag = in[i].m_mag;
             out[i].m_mag = (inMag + ((m_lockedMag.at(i) - inMag) * magMix)) * scale;
-            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.0 - randPhaseMix) * out[i].m_phase);
-        }
+            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.f - randPhaseMix) * out[i].m_phase); }
     }
     else if(m_lockPhaseState.isOn() && m_lockMagState.isOff()) {
-        for (int i = 0; i < bins; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
             out[i] = in[i];
             float inPhase = in[i].m_phase;
             out[i].m_phase = inPhase + ((m_lockedPhases.at(i) - inPhase) * m_phaseMix);
-            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.0 - randPhaseMix) * out[i].m_phase);
+            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.f - randPhaseMix) * out[i].m_phase);
         }
     }
     else if(m_lockPhaseState.isOff() && m_lockMagState.isOn()) {
-        for (int i = 0; i < bins; ++i) {
-            float inMag = in[i].m_mag;
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
+            const float inMag = in[i].m_mag;
             out[i].m_mag = (inMag + ((m_lockedMag.at(i) - inMag) * magMix)) * scale;
-            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber() ) + ((1.0 - randPhaseMix) * in[i].m_phase);
+            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber() ) + ((1.f - randPhaseMix) * in[i].m_phase);
         }
     }
     else {
-        for (int i = 0; i < bins; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
             out[i] = in[i];
-            out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.0 - randPhaseMix) * out[i].m_phase);
+            out[i].m_phase = randPhaseMix * phaseLockGenerateRandomNumber() + ((1.f - randPhaseMix) * out[i].m_phase);
         }
     }
 }
@@ -123,25 +123,26 @@ void PhaseLockFFTProcessor::doMorphTransition(PolarVector &out) {
     }
     
     if(!m_transitionMagState.isOff() && !m_transitionPhaseState.isOff()) {
-        float phaseInterpolateFactor = m_transitionPhaseState.next(); //std::min<float>(1.f, m_transitionPhaseCounter / m_transitionPhaseEnd);
-        float magInterpolateFactor = m_transitionMagState.next(); //std::min<float>(1.f, m_transitionMagCounter / m_transitionMagEnd);
+        const float phaseInterpolateFactor = m_transitionPhaseState.next(); //std::min<float>(1.f, m_transitionPhaseCounter / m_transitionPhaseEnd);
+        const float magInterpolateFactor = m_transitionMagState.next(); //std::min<float>(1.f, m_transitionMagCounter / m_transitionMagEnd);
         
-        for(int i=0; i < m_targetMags.size(); ++i) {
+        for(size_t i=0; i < m_targetMags.size(); ++i) {
             out[i].m_mag = utilities::interp_lin_normalised<float>(out[i].m_mag, m_targetMags[i], magInterpolateFactor);
             out[i].m_phase = utilities::interp_lin_normalised<float>(out[i].m_phase, m_targetPhases[i], phaseInterpolateFactor);
         }
     }
 }
 
-bool PhaseLockFFTProcessor::setFFTSize(int newSize) {
-    m_lockedPhases.resize(newSize);
-    m_lockedMag.resize(newSize);
+bool PhaseLockFFTProcessor::setFFTSize(const int newSize) {
+    const size_t newVectorSize = static_cast<size_t>(newSize);
+    m_lockedPhases.resize(newVectorSize);
+    m_lockedMag.resize(newVectorSize);
     
     m_lockPhaseState.reset();
     m_lockMagState.reset();
     
-    m_targetPhases.resize(newSize);
-    m_targetMags.resize(newSize);
+    m_targetPhases.resize(newVectorSize);
+    m_targetMags.resize(newVectorSize);
     
     m_transitionPhaseState.setSampleRateAndBlockSize(getSampleRate(), newSize);
     m_transitionMagState.setSampleRateAndBlockSize(getSampleRate(), newSize);

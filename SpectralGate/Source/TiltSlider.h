@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/PluginParameters.h"
 
 //==============================================================================
@@ -8,7 +8,7 @@ class TiltSlider : public Component
 {
 public:
     TiltSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~TiltSlider();
+    ~TiltSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;

@@ -16,7 +16,7 @@ void FrequencyMagnetFFTProcessor::spectral_process(const PolarVector &in, PolarV
     int target_bin = (int)((m_freq / (float)this->getSampleRate()) * (float)m_fftSize);
     if (target_bin > bins)
     {
-        for(int i=0; i<bins; ++i)
+        for(size_t i=0; i<(size_t)bins; ++i)
         {
             out[i] = in[i];
         }
@@ -31,24 +31,24 @@ void FrequencyMagnetFFTProcessor::spectral_process(const PolarVector &in, PolarV
     float index_below;
     float index_above;
 
-    std::vector<Polar<FftDecimal> > temp(bins);
+    std::vector<Polar<FftDecimal> > temp((size_t)bins);
     utilities::emptyPolar(temp);
     utilities::emptyPolar(out);
 
     long nextIndexBelow;
     //This loop will work on the frequencies below the target freq.
-    for(int i=0; i<target_bin; ++i){
-        line = float(i)/target_bin;
+    for(size_t i=0; i<(size_t)target_bin; ++i){
+        line = float(i)/(float)target_bin;
         // The less width the more convex shape the line will become. Biasing towards one value. If width is zero index will always be one.
         
         // scale
         index_below = (pow(line, width*8.f / 8.f) * (float)target_bin);
 
-        temp[(int)index_below].m_mag += in[i].m_mag;
+        temp[(size_t)index_below].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
         
         nextIndexBelow = (long)index_below + 1l;
-        out[(int)index_below].m_mag = utilities::interp_lin(temp[(int)index_below].m_mag, temp[nextIndexBelow].m_mag, (float)index_below);
+        out[(size_t)index_below].m_mag = utilities::interp_lin(temp[(size_t)index_below].m_mag, temp[(size_t)nextIndexBelow].m_mag, (float)index_below);
     }
 
     if(target_bin < 1) target_bin = 1;
@@ -56,13 +56,13 @@ void FrequencyMagnetFFTProcessor::spectral_process(const PolarVector &in, PolarV
     const int range = bins - target_bin;
     
     long nextIndexAbove;
-    for(int i=target_bin; i<bins; ++i){
+    for(auto i=(size_t)target_bin; i<(size_t)bins; ++i){
         /*out[i].m_phase = in[i].m_phase;
         out[i].m_mag = in[i].m_mag;
         continue;*/
         
         // norm_index will run from 0 - Range.
-        int norm_index = i-target_bin;
+        int norm_index = (int)i-target_bin;
         line = float(norm_index)/float(range);
         
         // scale
@@ -72,12 +72,12 @@ void FrequencyMagnetFFTProcessor::spectral_process(const PolarVector &in, PolarV
             index_above += (float)target_bin;
         }
 
-        index_above = utilities::clip(index_above, 1.f, out.size() - 1.f);
+        index_above = utilities::clip(index_above, 1.f, (float)out.size() - 1.f);
 
-        temp[(int)index_above].m_mag += in[i].m_mag;
+        temp[(size_t)index_above].m_mag += in[i].m_mag;
         out[i].m_phase = in[i].m_phase;
 
         nextIndexAbove = (long)index_above - 1l;
-        out[(int)index_above].m_mag = utilities::interp_lin(temp[(int)index_above].m_mag, temp[nextIndexAbove].m_mag, index_above);
+        out[(size_t)index_above].m_mag = utilities::interp_lin(temp[(size_t)index_above].m_mag, temp[(size_t)nextIndexAbove].m_mag, index_above);
     }
 }

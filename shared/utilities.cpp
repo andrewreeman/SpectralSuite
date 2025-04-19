@@ -15,7 +15,7 @@ namespace utilities {
 	}
 
     void car2Pol(std::vector<Cpx> cpxIn, PolarVector& polOut, int size){
-        for(int i=0; i<size; ++i){
+        for(size_t i=0; i<(size_t)size; ++i){
             polOut[i].m_mag = abs(cpxIn[i]);
             polOut[i].m_phase = arg(cpxIn[i]);
         }
@@ -26,15 +26,15 @@ namespace utilities {
 
         float mag;
         float phase;
-        long invertedIndex;
+        size_t invertedIndex;
 
-        for(int i=0; i<size; ++i){
+        for(size_t i=0; i<(size_t)size; ++i){
             mag = polarIn[i].m_mag;
             phase = polarIn[i].m_phase;
             cpxOut[i] = std::polar(mag, phase);
             
             //and perform the reflection here.
-            invertedIndex = invertedindexMax - (long)i;
+            invertedIndex = (size_t)invertedindexMax - i;
             cpxOut[invertedIndex] = 0.f;
         }
     }

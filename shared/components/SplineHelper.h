@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 namespace SplineHelper {
     Array<float> getAudioSplineValues(Array<juce::Point<int>> points, float yLimit);

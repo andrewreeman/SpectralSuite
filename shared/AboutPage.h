@@ -1,6 +1,5 @@
 #pragma once
 
-#include "JuceHeader.h"
 #include "VersionInfo.h"
 #include "ResourceRepository.h"
 #include "components/LicensesComponent.h"
@@ -14,7 +13,7 @@ class AboutPage    : public Component
 {
 public:
     AboutPage(ResourceRepository& resources);
-    ~AboutPage();
+    ~AboutPage() override;
 
     void paint (Graphics&) override;
     void resized() override;

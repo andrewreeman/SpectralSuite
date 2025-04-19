@@ -1,5 +1,6 @@
 #pragma once
 
+#include "JuceHeader.h"
 #include "../../shared/PhaseVocoder.h"
 
 class MorphFFTProcessor : public PhaseVocoder {

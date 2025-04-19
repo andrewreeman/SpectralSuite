@@ -25,9 +25,9 @@ void FftThread::run() {
            yield();
        }
    }
-};
+}
 
-void FftThread::removeWorker(FftWorker* worker) {
+void FftThread::removeWorker(FftWorker*) {
     // Lazy...removing all workers instead as we know that this will eventually be called by all destructors
     m_workers.clear();
 }

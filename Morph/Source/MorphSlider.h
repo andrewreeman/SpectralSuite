@@ -11,7 +11,7 @@ class MorphSlider : public ParameterContainerComponent
 {
 public:
     MorphSlider(std::shared_ptr<MorphPluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~MorphSlider();
+    ~MorphSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;	

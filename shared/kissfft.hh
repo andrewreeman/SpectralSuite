@@ -23,7 +23,7 @@ struct traits
             std::vector<int> & stageRadix, 
             std::vector<int> & stageRemainder )
     {
-        _twiddles.resize(nfft);
+        _twiddles.resize(static_cast<size_t>(nfft));
         fill_twiddles( &_twiddles[0],nfft,inverse);
         dst = _twiddles;
 
@@ -49,7 +49,7 @@ struct traits
     std::vector<cpx_type> _twiddles;
 
 
-    const cpx_type twiddle(int i) { return _twiddles[i]; }
+    const cpx_type twiddle(unsigned long i) { return _twiddles[i]; }
 };
 
 }
@@ -78,10 +78,9 @@ class kissfft
     private:
         void kf_work( int stage,cpx_type * Fout, const cpx_type * f, size_t fstride,size_t in_stride)
         {
-            int p = _stageRadix[stage];
-            int m = _stageRemainder[stage];
+            int p = _stageRadix[(size_t)stage];
+            int m = _stageRemainder[(size_t)stage];
             cpx_type * Fout_beg = Fout;
-#pragma warning(suppress: 26451)
             cpx_type * Fout_end = Fout + p*m;
 
             if (m==1) {
@@ -95,7 +94,7 @@ class kissfft
                     // DFT of size m*p performed by doing
                     // p instances of smaller DFTs of size m, 
                     // each one takes a decimated version of the input
-                    kf_work(stage+1, Fout , f, fstride*p,in_stride);                    
+                    kf_work(stage+1, Fout , f, fstride*static_cast<size_t>(p),in_stride);
                     f += fstride*in_stride;
                 }while( (Fout += m) != Fout_end );
             }
@@ -105,9 +104,9 @@ class kissfft
             // recombine the p smaller DFTs
             switch (p) {
                 case 2: kf_bfly2(Fout,fstride,m); break;
-                case 3: kf_bfly3(Fout,fstride,m); break;
-                case 4: kf_bfly4(Fout,fstride,m); break;
-                case 5: kf_bfly5(Fout,fstride,m); break;
+                case 3: kf_bfly3(Fout,fstride,static_cast<size_t>(m)); break;
+                case 4: kf_bfly4(Fout,fstride,static_cast<size_t>(m)); break;
+                case 5: kf_bfly5(Fout,fstride,static_cast<size_t>(m)); break;
                 default: kf_bfly_generic(Fout,fstride,m,p); break;
             }
         }
@@ -120,15 +119,13 @@ class kissfft
         void C_FIXDIV( cpx_type & ,int ) {} // NO-OP for float types
         scalar_type S_MUL( const scalar_type & a,const scalar_type & b) { return a*b;}
 
-#pragma warning(suppress: 4244)
-        scalar_type HALF_OF( const scalar_type & a) { return a*.5;}
+        scalar_type HALF_OF( const scalar_type & a) { return a*static_cast<scalar_type>(.5);}
         void C_MULBYSCALAR(cpx_type & c,const scalar_type & a) {c*=a;}
 
         void kf_bfly2( cpx_type * Fout, const size_t fstride, int m)
         {
             for (int k=0;k<m;++k) {
-#pragma warning(suppress: 4267)
-                cpx_type t = Fout[m+k] * _traits.twiddle(k*fstride);
+                cpx_type t = Fout[m+k] * _traits.twiddle(static_cast<unsigned long>(k)*static_cast<unsigned long>(fstride));
                 Fout[m+k] = Fout[k] - t;
                 Fout[k] += t;
             }
@@ -140,12 +137,9 @@ class kissfft
             int negative_if_inverse = _inverse * -2 +1;
             for (size_t k=0;k<m;++k) {
 
-#pragma warning(suppress: 4267)
-                scratch[0] = Fout[k+m] * _traits.twiddle(k*fstride);
-#pragma warning(suppress: 4267)
-                scratch[1] = Fout[k+2*m] * _traits.twiddle(k*fstride*2);
-#pragma warning(suppress: 4267)
-                scratch[2] = Fout[k+3*m] * _traits.twiddle(k*fstride*3);
+                scratch[0] = Fout[k+m] * _traits.twiddle(static_cast<unsigned long>(k*fstride));
+                scratch[1] = Fout[k+2*m] * _traits.twiddle(static_cast<unsigned long>(k*fstride*2));
+                scratch[2] = Fout[k+3*m] * _traits.twiddle(static_cast<unsigned long>(k*fstride*3));
                 scratch[5] = Fout[k] - scratch[1];
 
                 Fout[k] += scratch[1];
@@ -273,7 +267,7 @@ class kissfft
             cpx_type * twiddles = &_twiddles[0];
             cpx_type t;
             int Norig = _nfft;
-            cpx_type* scratchbuf = new cpx_type[p];
+            cpx_type* scratchbuf = new cpx_type[static_cast<size_t>(p)];
 
             for ( u=0; u<m; ++u ) {
                 k=u;
@@ -288,8 +282,7 @@ class kissfft
                     int twidx=0;
                     Fout[ k ] = scratchbuf[0];
                     for (q=1;q<p;++q ) {
-#pragma warning(suppress: 4267)
-                        twidx += fstride * k;
+                        twidx += static_cast<int>(static_cast<unsigned long>(fstride) * (unsigned long)k);
                         if (twidx>=Norig) twidx-=Norig;
                         C_MUL(t,scratchbuf[q] , twiddles[twidx] );
                         C_ADDTO( Fout[ k ] ,t);

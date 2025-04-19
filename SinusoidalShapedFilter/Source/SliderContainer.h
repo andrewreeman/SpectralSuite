@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "FreqSlider.h"
 #include "WidthSlider.h"
 #include "PhaseSlider.h"
@@ -10,7 +10,7 @@ class SliderContainer : public ParameterContainerComponent
 {
 public:
 	SliderContainer(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~SliderContainer();
+    ~SliderContainer() override;
     
     std::shared_ptr<PluginParameters> getPluginParameters() override {
         return valueTreeState;

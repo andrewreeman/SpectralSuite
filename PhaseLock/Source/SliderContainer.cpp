@@ -74,7 +74,7 @@ SliderContainer::~SliderContainer()
 {
 }
 
-void SliderContainer::paint (Graphics& g)
+void SliderContainer::paint (Graphics&)
 {
 }
 
@@ -109,16 +109,4 @@ void SliderContainer::resized()
     area.removeFromTop(16);
     m_startMorphPhaseAndMag.setBounds(area.removeFromTop(checkBoxHeight));
     m_morphDurationSeconds.setBounds(area.removeFromTop(sliderHeight));
-}
-
-// TODO: remove this, there are no controlpoints in phase lock
-void SliderContainer::controlPointsChanged(Array<float> outputValues, ControlPointComponent* component) {
-    // get source points
-    // set source points and output values on plugin parameter object
-    m_pluginParameters->setControlPoints(outputValues, component->getSourcePoints());
-}
-
-void SliderContainer::onAudioValueTreeStateLoadedFromXmlState(PluginParameters* params, XmlElement* xml) {
-//    auto controlPoints = pluginParameters->getControlPoints();
-//    controlPoint.setSourcePoints(controlPoints);
 }

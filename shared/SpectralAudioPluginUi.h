@@ -27,7 +27,7 @@ class SpectralAudioPluginUi :
 {
 public:	    
     SpectralAudioPluginUi(SpectralAudioPlugin&, PluginParameters* pluginParameters, ParameterContainerComponent* parameterContainer);
-    ~SpectralAudioPluginUi();
+    ~SpectralAudioPluginUi() override;
 
     //==============================================================================
     void paint (Graphics&) override;

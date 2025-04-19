@@ -4,7 +4,7 @@
 #include "BinScramblerFFTProcessor.h"
 #include "../../shared/utilities.h"
 
-BinScramblerInteractor::BinScramblerInteractor(int numOverlaps, std::shared_ptr<BinScramblerParameters> params)
+BinScramblerInteractor::BinScramblerInteractor(int numOverlaps, const std::shared_ptr<BinScramblerParameters> &params)
 :  SpectralAudioProcessorInteractor(numOverlaps), m_currentScrambleValue(0.f), m_currentScatterValue(0.f), m_currentRateValue(0.f), m_phasor(0)
 {
     m_pA_Ind = &m_A_Ind;
@@ -36,7 +36,7 @@ void BinScramblerInteractor::process(std::vector<std::vector<float>>* input, std
 
 		for (auto& processChannel : m_spectralProcess) {
 			for (auto& stftProcess : processChannel) {
-				((BinScramblerFFTProcessor*)stftProcess.get())->swap();
+				static_cast<BinScramblerFFTProcessor *>(stftProcess.get())->swap();
             }
 		}		
 	}
@@ -48,34 +48,34 @@ void BinScramblerInteractor::process(std::vector<std::vector<float>>* input, std
 
 void BinScramblerInteractor::prepareProcess(StandardFFTProcessor* spectralProcess)
 {
-	auto scrambler = (BinScramblerFFTProcessor*)spectralProcess;
+	auto scrambler = static_cast<BinScramblerFFTProcessor *>(spectralProcess);
 	scrambler->setPhase(m_phasor);
 	scrambler->setMaxPhase(m_phasorMax);
 }
 
-std::unique_ptr<StandardFFTProcessor> BinScramblerInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chan, int numChans)
+std::unique_ptr<StandardFFTProcessor> BinScramblerInteractor::createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int, int)
 {
-	m_A_Ind.resize(fftSize / 2);
-	m_B_Ind.resize(fftSize / 2);
+	m_A_Ind.resize(static_cast<size_t>(fftSize / 2));
+	m_B_Ind.resize(static_cast<size_t>(fftSize / 2));
 	resetIndicies();
     recalculateInternalParameters();
     
-	return std::make_unique<BinScramblerFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), (int)sampleRate, this->getPhaseBuffer(), &m_A_Ind, &m_B_Ind);
+	return std::make_unique<BinScramblerFFTProcessor>(fftSize, hopSize, hopSize * (index%numOverlaps), sampleRate, this->getPhaseBuffer(), &m_A_Ind, &m_B_Ind);
 }
 
 void BinScramblerInteractor::onFftSizeChanged()
 {
-	m_A_Ind.resize(getFftSize() / 2);
-	m_B_Ind.resize(getFftSize() / 2);
+	m_A_Ind.resize(static_cast<size_t>(getFftSize() / 2));
+	m_B_Ind.resize(static_cast<size_t>(getFftSize() / 2));
 	resetIndicies();
     recalculateInternalParameters();
 }
 
 void BinScramblerInteractor::resetIndicies()
 {		
-	for (int i = 0; i < m_A_Ind.size(); ++i) {
-		m_A_Ind[i] = i;
-		m_B_Ind[i] = i;
+	for (size_t i = 0; i < m_A_Ind.size(); ++i) {
+		m_A_Ind[i] = static_cast<int>(i);
+		m_B_Ind[i] = static_cast<int>(i);
 	}
 }
 
@@ -84,24 +84,24 @@ void BinScramblerInteractor::recalculateInternalParameters() {
     m_currentScatterValue = *m_scatterParameter;
     m_currentScrambleValue = *m_scrambleParameter;
     
-    m_phasorMax = getMaxPhase();
-    int binRange = getFftSize() / 2;
+    m_phasorMax = static_cast<int>(getMaxPhase());
+    const int binRange = getFftSize() / 2;
 
     // sprinkle amount determines the amount of lower indices to be mapped t
-    float scatter = *m_scatterParameter;
-    float scramble = *m_scrambleParameter;
+    const float scatter = *m_scatterParameter;
+    const float scramble = *m_scrambleParameter;
 
-    m_sprinkleAmount = (1.f - (scatter*scatter))*100.f;
+    m_sprinkleAmount = static_cast<int>((1.f - (scatter*scatter))*100.f);
     m_sprinkleRange = binRange / 5;
-    m_scrambleFactor = (int)(pow(scramble, 3.0f) * binRange) / 2;
+    m_scrambleFactor = static_cast<int>(pow(scramble, 3.0f) * binRange) / 2;
 }
 
 void BinScramblerInteractor::resetBIndicies() {
-    for (int i = 0; i < getFftSize() / 2; ++i) m_pB_Ind->at(i) = i; // reset the b indices
+    for (size_t i = 0; i < static_cast<size_t>(getFftSize()) / 2; ++i) m_pB_Ind->at(i) = static_cast<int>(i); // reset the b indices
 }
 
 bool BinScramblerInteractor::shouldRecalculateInternalParameters() const {
-    return m_currentRateValue != *m_rateParameter
-        || m_currentScatterValue != *m_scatterParameter
-        || m_currentScrambleValue != *m_scrambleParameter;
+    return !exactlyEqual(m_currentRateValue, *m_rateParameter)
+        || !exactlyEqual(m_currentScatterValue, *m_scatterParameter)
+        || !exactlyEqual(m_currentScrambleValue, *m_scrambleParameter);
 }

@@ -9,7 +9,7 @@
 */
 
 #pragma once
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 #include "FrequencyMagnetInteractor.h"
 #include "SliderContainer.h"

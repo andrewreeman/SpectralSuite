@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/PluginParameters.h"
 
 class ScatterSlider : public Component
 {
 public:
     ScatterSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~ScatterSlider();
+    ~ScatterSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;

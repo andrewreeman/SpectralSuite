@@ -7,17 +7,17 @@
 #endif
 
 namespace PitchInfoParser {
-float roundFreq(double var)
+static float roundFreq(double var)
 {
     // 37.66666 * 100 =3766.66
     // 3766.66 + .5 =3767.16    for rounding off value
     // then type cast to int so value is 3767
     // then divided by 100 so the value converted into 37.67
-    float value = (int)(var * 100 + .5);
+    float value = static_cast<float>(static_cast<int>(var * 100.0 + .5));
     return (float)value / 100;
 }
 
-std::string findNote(float frequency) {
+static std::string findNote(float frequency) {
     auto notes = getPitchInfoList();
     
     PitchInfo foundPitchInfo, previousPitchInfo;
@@ -76,10 +76,10 @@ std::vector<PitchInfo> getPitchInfoList() {
     
     if(PITCH_INFO_LIST.empty()) {
         for(int octave=0; octave<=8; ++octave) {
-            for(int note=0; note<NOTE_LIST.size(); ++note) {
-                std::string noteString = NOTE_LIST[note] + std::to_string(octave-1);
+            for(int note=0; note<(int)NOTE_LIST.size(); ++note) {
+                std::string noteString = NOTE_LIST[(size_t)note] + std::to_string(octave-1);
                 double noteNumber = (double)((octave * 12) + note);
-                int midiNumber = noteNumber;
+                int midiNumber = (int)noteNumber;
                 double freq = 440.0 * pow(2.0,  (noteNumber - 69) / 12.0);
                 
 #ifdef DEBUG

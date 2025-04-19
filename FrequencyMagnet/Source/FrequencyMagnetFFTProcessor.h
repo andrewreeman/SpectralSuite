@@ -12,7 +12,7 @@ public:
 
     void setFrequency(float freq) { m_freq = freq; }
     void setWidth(float width) { m_width = width; }
-    void setWidthBias(float widthBias) { m_widthBias = widthBias; };
+    void setWidthBias(float widthBias) { m_widthBias = widthBias; }
     void setUseLegacyHighFrequencyShift(bool useLegacy) { m_useLegacyHighFrequencyShift = useLegacy; }
 
 private:

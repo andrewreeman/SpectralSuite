@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="JUCE Modules\juce_audio_plugin_client\VST3">
@@ -15,17 +16,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
       <Filter>JUCE Modules\juce_audio_plugin_client\VST3</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.mm">
+      <Filter>JUCE Modules\juce_audio_plugin_client\VST3</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
+      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.mm">
       <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_VST3.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup/>
   <ItemGroup>
     <ResourceCompile Include=".\resources.rc">
       <Filter>JUCE Library Code</Filter>

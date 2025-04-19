@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "../../shared/PluginParameters.h"
 
 //==============================================================================
@@ -8,7 +8,7 @@ class CutOffSlider : public Component
 {
 public:
     CutOffSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour textColour, int textBoxHeight);
-    ~CutOffSlider();
+    ~CutOffSlider() override;
 
     void paint (Graphics&) override;
     void resized() override;	

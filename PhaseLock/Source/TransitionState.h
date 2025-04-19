@@ -15,7 +15,7 @@ public:
     TransitionState(int sampleRate, int blockSize) :
         m_sampleRate(sampleRate), m_incrementAmount(blockSize),
         m_state(OFF), m_inDurationSeconds(1), m_outDurationSeconds(1),
-        m_counter(0.f), m_end(sampleRate * blockSize)
+        m_counter(0.f), m_end(static_cast<float>(sampleRate * blockSize))
     {}
 
     bool isOff() const { return m_state == OFF; }

@@ -18,10 +18,10 @@ public:
 	class Listener {
 	public:
 		virtual void onNewVersionAvailable(VersionInfo* versionInfo) = 0;
-        virtual ~Listener(){};
+        virtual ~Listener(){}
 	};
 
-	VersionCheckThread(int currentVersionCode, String versionCheckUrl) : Thread("versionCheckThread", 0),  m_currentVersionCode(currentVersionCode), m_versionCheckUrl(versionCheckUrl), m_listener(nullptr) {};
+	VersionCheckThread(int currentVersionCode, String versionCheckUrl) : Thread("versionCheckThread", 0),  m_currentVersionCode(currentVersionCode), m_versionCheckUrl(versionCheckUrl), m_listener(nullptr) {}
 	void setListener(Listener* listener) { m_listener = listener; }
 	void run() override;
 

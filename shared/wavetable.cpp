@@ -36,25 +36,25 @@ void Phasor::set_rate(int rate){
 
 //----Table----
 template<typename T>
-Table<T>::Table(int size) : m_Size(size), m_Table(size+2), m_interp(1), m_wrap(1),  m_shape(0)
+Table<T>::Table(int size) : m_Size(size), m_Table((size_t)size+2), m_interp(1), m_wrap(1),  m_shape(0)
 {
     init_shape(0);
 }
 
 template<typename T>
-Table<T>::Table(int size, int type) : m_Size(size), m_Table(size+2), m_interp(1),  m_wrap(1), m_shape(type)
+Table<T>::Table(int size, int type) : m_Size(size), m_Table((size_t)size+2), m_interp(1),  m_wrap(1), m_shape(type)
 {
     init_shape(type);
 }
 
 template<typename T>
-Table<T>::Table(int size, int type, int interp) : m_Size(size), m_Table(size+2), m_interp(interp), m_wrap(1), m_shape(type)
+Table<T>::Table(int size, int type, int interp) : m_Size(size), m_Table((size_t)size+2), m_interp(interp), m_wrap(1), m_shape(type)
 {
     init_shape(type);
 }
 
 template<typename T>
-Table<T>::Table(int size, int type, int interp, int wrap) : m_Size(size+2),  m_Table(size+2), m_interp(interp), m_wrap(wrap), m_shape(type)
+Table<T>::Table(int size, int type, int interp, int wrap) : m_Size(size+2),  m_Table((size_t)size+2), m_interp(interp), m_wrap(wrap), m_shape(type)
 {
     init_shape(type);
 }
@@ -89,77 +89,77 @@ void Table<T>::init_shape(int type){
             this->fill_zero();
             break;
     };
-};
+}
 
 template<typename T>
 void Table<T>::fill_zero(){
- for(int n=0; n<=m_Size; ++n) m_Table[n] = T(0.0); //including the last point
+ for(int n=0; n<=m_Size; ++n) m_Table[(size_t)n] = T(0.0); //including the last point
 }
 
 template<typename T>
 void Table<T>::fill_sine(){
 
     for(int n=0; n<m_Size; ++n){
-        m_Table[n] = sin(TWOPI*n/m_Size);
+        m_Table[(size_t)n] = sinf((float)(TWOPI*n/m_Size));
     }
-    m_Table[m_Size] = T(0.0); //the last point will be the guard point
-};
+    m_Table[(size_t)m_Size] = T(0.0); //the last point will be the guard point
+}
 
 template<typename T>
 void Table<T>::fill_cosine(){
     for(int n=0;n<m_Size; ++n){
-        m_Table[n] = cos(TWOPI*n/m_Size);
+        m_Table[(size_t)n] = cosf((float)(TWOPI*n/m_Size));
     }
-    m_Table[m_Size] = T(1.0);
-};
+    m_Table[(size_t)m_Size] = T(1.0);
+}
 
 template<typename T>
 void Table<T>::fill_halfsine(){
 
     for(int n=0; n<m_Size; ++n){
-        m_Table[n] = sin(TWOPI*n*0.5/m_Size);
+        m_Table[(size_t)n] = sinf((float)(TWOPI*n*0.5/m_Size));
     }
-    m_Table[m_Size] = T(0.0);
-};
+    m_Table[(size_t)m_Size] = T(0.0);
+}
 
 template<typename T>
 void Table<T>::fill_halfcos(){
 
     for(int n=0; n<m_Size; ++n){
-        m_Table[n] = cos(TWOPI*n*0.5/m_Size);
+        m_Table[(size_t)n] = cosf((float)(TWOPI*n*0.5/m_Size));
     }
-    m_Table[m_Size] = T(-1.0);
-};
+    m_Table[(size_t)m_Size] = T(-1.0);
+}
 
 template<typename T>
-void Table<T>::fill_triangle(float curve){
+void Table<T>::fill_triangle(float){
 
     for(int n=0;n<int(m_Size/2); ++n){
-        m_Table[n] = 2.0*T(n)/T(m_Size);
-    };
+        m_Table[(size_t)n] = 2.f*T(n)/T(m_Size);
+    }
 
     for(int n=int(m_Size/2); n<m_Size; ++n){
-        m_Table[n] = 2.0*(1.0-(T(n)/T(m_Size)));
-    };
-    m_Table[m_Size] = T(0.0);
-};
+        m_Table[(size_t)n] = 2.f*(1.f-(T(n)/T(m_Size)));
+    }
+    m_Table[(size_t)m_Size] = T(0.0);
+}
 
 template<typename T>
 void Table<T>::fill_line(float curve, float scale, float offset, bool invert){
   for(int n=0; n<m_Size; ++n){
-    curve = pow(n, curve);
-    m_Table[n] = (T(n)/T(m_Size)*curve)*scale+offset;
+    curve = powf((float)n, curve);
+    m_Table[(size_t)n] = (T(n)/T(m_Size)*curve)*scale+offset;
   }
   if(invert){
       for(int n=0; n<m_Size; ++n){
-          m_Table[n] = m_Table[m_Size-n];
+          m_Table[(size_t)n] = m_Table[(size_t)m_Size-(size_t)n];
       }
   }
 }
 
 template<typename T>
 void Table<T>::fill_saw(float curve){ //saw contains all the harmonics with amplitudes of 1/harmonic.
-    curve = 1.0 - curve; //invert
+    curve = 1.f - curve; //invert
     curve *= 25;
     int max_harmonics = int(curve+1);
     int cur_harmonic = 1;
@@ -172,44 +172,44 @@ void Table<T>::fill_saw(float curve){ //saw contains all the harmonics with ampl
         //this expression for scale ... works
         scale = 0.5+0.5*(cur_harmonic/max_harmonics);
         for (int i=0;i<m_Size; ++i){
-            m_Table[i] += (amp_fact*sin(TWOPI*i*cur_harmonic/double(m_Size)))*scale;
-        };
+            m_Table[(size_t)i] += (float)((amp_fact*sinf((float)(TWOPI*i*cur_harmonic/double(m_Size))))*scale);
+        }
         cur_harmonic += 1;
 
-    };
-    m_Table[m_Size] = T(0.0);
-};
+    }
+    m_Table[(size_t)m_Size] = T(0.0);
+}
 
 template<typename T>
 T Table<T>::get_value(double _index){
-    int index = (int)_index % m_Table.size();
+    int index = (int)_index % (int)m_Table.size();
             
     switch(m_interp){
         case 1:
         {
             
             //TODO: will need to add a guard point if linear interp ...
-            T vala = m_Table[index];
+            T vala = m_Table[(size_t)index];
             
             int nextIndex = index + 1;
-            if(nextIndex == m_Table.size()) {
+            if((size_t)nextIndex == m_Table.size()) {
                 nextIndex = 0;
             }
             
-            T valb = m_Table[nextIndex];
+            T valb = m_Table[(size_t)nextIndex];
                         
-            return utilities::interp_lin<T>(vala, valb, _index);
+            return utilities::interp_lin<T>(vala, valb, (float)index);
         } break;
         default:
-            return m_Table[int (index)];
+            return m_Table[(size_t)index];
             break;
     }
-};
+}
 
 template<typename T>
 void Table<T>::resize(int newSize) {
     m_Size = newSize;
-    m_Table.resize(newSize + 2, T());
+    m_Table.resize((size_t)newSize + 2, T());
     m_interp = 1;
     m_wrap = 1;
     init_shape(m_shape);

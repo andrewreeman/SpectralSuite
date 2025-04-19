@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 
 /** Cubic spline interpolation is a simple way to obtain a smooth curve from a set of

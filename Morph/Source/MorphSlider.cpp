@@ -1,11 +1,11 @@
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "MorphSlider.h"
 
 //==============================================================================
-MorphSlider::MorphSlider(std::shared_ptr<MorphPluginParameters> valueTreeState, Colour textColour, int textBoxHeight)
+MorphSlider::MorphSlider(std::shared_ptr<MorphPluginParameters> aValueTreeState, Colour, int)
 {
     this->addAndMakeVisible(controlPointComponent);
-	this->valueTreeState = valueTreeState;
+	this->valueTreeState = aValueTreeState;
     this->valueTreeState.get()->setControlPointComponent(&this->controlPointComponent);
 }
 
@@ -37,5 +37,5 @@ void MorphSlider::resized()
         controlPointComponent.setSourcePoints(lastPoints);
     }
     
-    controlPointComponent.setBounds(0, 0, getWidth() * 0.8, getHeight());
+    controlPointComponent.setBounds(0, 0, (int)(getWidth() * 0.8), getHeight());
 }

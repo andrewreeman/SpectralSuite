@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #define POINTS_ARE_CLOSE(p1,p2)  p1->getDistanceFrom(p2) < 20
 
 //==============================================================================
@@ -51,7 +51,7 @@ public:
     };
     
     ControlPointComponent();
-    ~ControlPointComponent();
+    ~ControlPointComponent() override {}
 
     void paint (Graphics&) override;
     void resized() override;
@@ -83,7 +83,6 @@ private:
     juce::Point<int>* draggedPoint;
     Array<float> outputValues;
     int draggedPointIndex;
-    int outputResolution;
     PointXAxisComparator pointComparator;
     Listener* listener;
     Time lastMouseClick;

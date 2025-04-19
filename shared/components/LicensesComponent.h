@@ -10,7 +10,7 @@ class LicensesComponent : public Component
 {
 public:
     LicensesComponent(ResourceRepository& resources);
-    ~LicensesComponent();
+    ~LicensesComponent() override;
 
     void paint (Graphics&) override;
     void resized() override;

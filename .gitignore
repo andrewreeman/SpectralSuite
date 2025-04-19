@@ -88,3 +88,13 @@ spectral-suite/SpectralSuiteInstaller/Debug
 spectral-suite/SpectralSuiteInstaller/Release
 
 PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj/xcshareddata/xcschemes/Phase Lock - VST3.xcscheme
+
+# cmake
+build
+libs/juce
+/cmake-build-debug/_deps/juce-build/tools/.ninja_deps
+cmake-build-debug
+.idea
+Morph/CMakeBuilds/
+Morph/libs/cpm/
+spectral-suite-win/

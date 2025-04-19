@@ -11,11 +11,11 @@ void SSF_FFTProcessor::spectral_process(const PolarVector &in, PolarVector &out,
     float sinusoid, wavetableIndex;    
 
     for(int i=0; i<bins; ++i){
-        wavetableIndex = (float)(i * m_indexScale) + m_theta;
+        wavetableIndex = (float)((float)i * m_indexScale) + m_theta;
         sinusoid = std::max(0.f,  m_waveTable->get_value(wavetableIndex));
         
-        out[i].m_mag = in[i].m_mag * std::pow(sinusoid, m_sinusoidExponent);
-        out[i].m_phase = in[i].m_phase;
+        out[(size_t)i].m_mag = in[(size_t)i].m_mag * std::pow(sinusoid, m_sinusoidExponent);
+        out[(size_t)i].m_phase = in[(size_t)i].m_phase;
     }
 }
 
@@ -27,26 +27,26 @@ bool SSF_FFTProcessor::setFFTSize(int newSize) {
 
 void SSF_FFTProcessor::recalculateInternalParameters() {
     m_indexScale = m_freq + 1.f;
-	m_theta = std::pow(m_phase, 3) * (float)m_halfSize;
+	m_theta = std::powf(m_phase, 3) * (float)m_halfSize;
 	m_sinusoidExponent = (m_width * m_width * 8.f) + 1.f;
 }
 
-void SSF_FFTProcessor::setFrequency(float freq) {
-    if(m_freq != freq) {
+void SSF_FFTProcessor::setFrequency(const float freq) {
+    if(!exactlyEqual(m_freq,  freq)) {
         m_freq = freq;
         recalculateInternalParameters();
     }
 }
 
-void SSF_FFTProcessor::setWidth(float width) {
-    if(m_width != width) {
+void SSF_FFTProcessor::setWidth(const float width) {
+    if(!exactlyEqual(m_width, width)) {
         m_width = width;
         recalculateInternalParameters();
     }
 }
 
-void SSF_FFTProcessor::setPhase(float phase) {
-    if(m_phase != phase) {
+void SSF_FFTProcessor::setPhase(const float phase) {
+    if(!exactlyEqual(m_phase, phase)) {
         m_phase = phase;
         recalculateInternalParameters();
     }

@@ -9,7 +9,7 @@ public:
     public:
         virtual bool isWaitingForFft() = 0;
         virtual void performFftWork() = 0;
-        virtual ~FftWorker(){};
+        virtual ~FftWorker(){}
     };
         
     FftThread() : Thread("fftThread", 0) {

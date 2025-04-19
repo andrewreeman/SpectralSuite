@@ -17,13 +17,14 @@ Happy Coding. Pix ❤️
 """ 
 
 class Cmd:
-	def __init__(self, p : str, n : str, d : str, v : bool):
+	def __init__(self, p : str, n : str, c : str, d : str, v : bool):
 		self.path = p.pop() if p else None
 		self.name = n.pop() if n else None
+		self.code = c.pop() if c else None
 		self.description = d.pop() if d else None
 		self.verbose = v.pop() if type(v) is list else v
 
-class Abstract_JucerFile:
+class Abstract_JucerFile(object):
 
 	def __init__(self, name:str, desc:str, path:str):
 		self.name = name
@@ -61,6 +62,10 @@ class Abstract_JucerFile:
 
 class Base(Abstract_JucerFile):
 
+	def __init__(self, name:str, code:str, desc:str, path:str):
+		super().__init__(name, desc, path)
+		self.code = code
+		
 	def manip_description(self, dt:str) -> str:
 		dt = self.swit(dt, 'pluginDesc="BaseDescription"', f'pluginDesc="{self.desc}"')
 		return dt
@@ -72,6 +77,7 @@ class Base(Abstract_JucerFile):
 
 		dt = self.swit(dt, 'name="BaseTitle"', f'name="{self.name}"')
 		dt = self.swit(dt, 'name="BaseTitle"', f'name="{self.name}"')
+		dt = self.swit(dt, 'pluginCode="AAAA"', f'pluginCode="{self.code}"')
 
 		dt = self.swit(dt, 'name="BaseAudioPlugin.cpp"', f'name="{self.name}AudioPlugin.cpp"')
 		dt = self.swit(dt, 'file="BaseAudioPlugin.cpp"', f'file="{self.name}AudioPlugin.cpp"')
@@ -176,12 +182,12 @@ class UiContainer_H(Abstract_JucerFile):
 	def rename_path(self, old_path : str) ->  str:
 		return old_path
 
-def get_jucebox(name : str, desc : str, directory : str) -> List[Abstract_JucerFile]:
+def get_jucebox(name : str, code: str, desc : str, directory : str) -> List[Abstract_JucerFile]:
 	jucebox = []
 	files = [f for f in listdir(directory)]
 	for file_path in files:
 		if file_path == "Base.jucer":
-			jucebox.append(Base(name, desc, abspath(f'{directory}/{file_path}')))
+			jucebox.append(Base(name, code, desc, abspath(f'{directory}/{file_path}')))
 		elif file_path == "BaseAudioPlugin.cpp":
 			jucebox.append(AudioPluggin_Cpp(name, desc, abspath(f'{directory}/{file_path}')))
 		elif file_path == "BaseAudioPlugin.h":
@@ -208,6 +214,8 @@ def get_args() -> ArgumentParser:
                			help='The relative or absolute path to the directory containing new plugin')
 	parser.add_argument('-n', '--name', type=str, nargs=1, required=True,
                			help='The name of the new plugin')
+	parser.add_argument('-c', '--code', type=str, nargs=1, required=True, 
+										 help='The unique plugin code')
 	parser.add_argument('-d', '--description', type=str, nargs=1, required=False, 
                			default=None, help='The description of the new plugin')
 	parser.add_argument('-v', '--verbose', nargs=1, required=False, default=True, 
@@ -240,7 +248,7 @@ def copy_boilerplate_files_to_new_plugin(new_plugin_directory : str) -> List[str
 
 def main():
 	args = get_args()
-	cmds = Cmd(args.path, args.name, args.description, args.verbose)
+	cmds = Cmd(args.path, args.name, args.code, args.description, args.verbose)
 	copy_errors = copy_boilerplate_files_to_new_plugin(cmds.path)
 	if cmds.verbose:
 		print(f"Populated {cmds.path} with boilerplate files")
@@ -249,7 +257,7 @@ def main():
 			for err in copy_errors:
 				print(f" -- {err}")
 
-	jucebox = get_jucebox(cmds.name, cmds.description, cmds.path)
+	jucebox = get_jucebox(cmds.name, cmds.code, cmds.description, cmds.path)
 	for j in jucebox:
 		if cmds.verbose:
 			print(f"Pushing provided values into {j} and renaming file")

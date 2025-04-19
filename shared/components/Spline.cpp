@@ -38,7 +38,14 @@ Spline::Spline (const Array<juce::Point<double>>& points)
     {
         h.set (i, points[i+1].getX() - points[i].getX());
         l.set (i, (2 * (points[i+1].getX() - points[i-1].getX())) - (h[i-1]) * u[i-1]);
+#if defined(__clang__)
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
         u.set (i, l[i] == 0 ? 0 :h[i] / l[i]);
+#if defined(__clang__)
+        #pragma clang diagnostic push
+#endif
         a.set (i, h[i] == 0 || h[i-1] == 0 ? 0 : (3.0 / (h[i])) * (points[i+1].getY() - points[i].getY()) - (3.0 / (h[i-1])) * (points[i].getY() - points[i-1].getY()));
         z.set (i, l[i] == 0 ? 0 : (a[i] - (h[i-1]) * z[i-1]) / l[i]);
     }
