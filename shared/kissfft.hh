@@ -137,9 +137,9 @@ class kissfft
             int negative_if_inverse = _inverse * -2 +1;
             for (size_t k=0;k<m;++k) {
 
-                scratch[0] = Fout[k+m] * _traits.twiddle(k*fstride);
-                scratch[1] = Fout[k+2*m] * _traits.twiddle(k*fstride*2);
-                scratch[2] = Fout[k+3*m] * _traits.twiddle(k*fstride*3);
+                scratch[0] = Fout[k+m] * _traits.twiddle(static_cast<unsigned long>(k*fstride));
+                scratch[1] = Fout[k+2*m] * _traits.twiddle(static_cast<unsigned long>(k*fstride*2));
+                scratch[2] = Fout[k+3*m] * _traits.twiddle(static_cast<unsigned long>(k*fstride*3));
                 scratch[5] = Fout[k] - scratch[1];
 
                 Fout[k] += scratch[1];
@@ -282,7 +282,7 @@ class kissfft
                     int twidx=0;
                     Fout[ k ] = scratchbuf[0];
                     for (q=1;q<p;++q ) {
-                        twidx += fstride * (unsigned long)k;
+                        twidx += static_cast<int>(static_cast<unsigned long>(fstride) * (unsigned long)k);
                         if (twidx>=Norig) twidx-=Norig;
                         C_MUL(t,scratchbuf[q] , twiddles[twidx] );
                         C_ADDTO( Fout[ k ] ,t);

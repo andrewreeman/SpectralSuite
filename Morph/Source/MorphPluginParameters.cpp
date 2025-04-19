@@ -10,6 +10,7 @@
 
 MorphPluginParameters::MorphPluginParameters(AudioProcessor * processor) :
     PluginParameters(processor),    
+    listener(nullptr),
     didSetInitialAudioState(false),
     controlPointComponent(nullptr)
 {}
@@ -47,7 +48,7 @@ void MorphPluginParameters::replaceState(const ValueTree& newState) {
 
 void MorphPluginParameters::triggerControlPointsChanged() {
     if(listener != nullptr && !lastPointsV2.points.isEmpty()) {
-        auto audioValues = SplineHelper::getAudioSplineValues(lastPointsV2.points, lastPointsV2.yScale);
+        auto audioValues = SplineHelper::getAudioSplineValues(lastPointsV2.points, static_cast<float>(lastPointsV2.yScale));
         listener->controlPointsChanged(audioValues);
     };
 }

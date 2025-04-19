@@ -2,7 +2,7 @@
 #include "../../shared/utilities.h"
 
 static float phaseLockGenerateRandomNumber() {
-    float r = rand() % 1000;
+    float r = static_cast<float>(rand() % 1000);
     float p = (float)((r / 1000.f) * TWOPI);
     return p - (float)PI;
 }
@@ -14,6 +14,7 @@ PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int
         m_phaseMix(1.0),
         m_magMix(1.0),
         m_magTrack(0.0),
+        m_randomPhaseMix(0.f),
         m_morphDurationSeconds(1),
         m_transitionMagCounter(0.0),
         m_transitionMagEnd(0.0),
