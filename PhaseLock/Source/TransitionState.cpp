@@ -3,7 +3,7 @@
  void TransitionState::start() {
     if(!isOff()) { return; }
 
-    m_end = m_sampleRate * m_inDurationSeconds;
+    m_end = static_cast<float>(m_sampleRate * m_inDurationSeconds);
     m_counter = 0.0;
     m_state = START_TRANSITION;
 }

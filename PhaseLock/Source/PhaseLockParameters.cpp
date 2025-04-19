@@ -25,9 +25,9 @@ PhaseLockParameters::PhaseLockParameters(AudioProcessor * processor) :
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
         KEY_PHASE_MIX,
         "Phase mix",
-        0.0,
-        1.0,
-        1.0
+        0.f,
+        1.f,
+        1.f
     ));
     
     createAndAddParameter(std::make_unique<AudioParameterBool>(
@@ -39,25 +39,25 @@ PhaseLockParameters::PhaseLockParameters(AudioProcessor * processor) :
    createAndAddParameter(std::make_unique<AudioParameterFloat>(
        KEY_MAG_MIX,
        "Frequency mix",
-       0.0,
-       1.0,
-       1.0
+       0.f,
+       1.f,
+       1.f
    ));
    
    createAndAddParameter(std::make_unique<AudioParameterFloat>(
        KEY_MAG_TRACK,
        "Magnitude Tracking",
-       0.0,
-       1.0,
-       0.0
+       0.f,
+       1.f,
+       0.f
    ));
          
     createAndAddParameter(std::make_unique<AudioParameterFloat>(
        KEY_RAND_PHASE,
        "Random phase",
-       0.0,
-       1.0,
-       0.0
+       0.f,
+       1.f,
+       0.f
    ));
    
     createAndAddParameter(std::make_unique<AudioParameterBool>(

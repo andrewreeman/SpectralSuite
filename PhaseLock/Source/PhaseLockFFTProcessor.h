@@ -11,10 +11,6 @@ private:
 public:
 	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
     
-    void extracted(int bins, const PolarVector &in, PolarVector &out);
-    
-    void extracted(const PolarVector &in, PolarVector &out);
-    
     virtual void spectral_process(const PolarVector& in, PolarVector& out, int bins) override;
     virtual bool setFFTSize(int newSize) override;
 	
