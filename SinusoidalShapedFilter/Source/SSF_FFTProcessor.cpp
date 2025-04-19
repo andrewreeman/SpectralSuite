@@ -27,7 +27,7 @@ bool SSF_FFTProcessor::setFFTSize(int newSize) {
 
 void SSF_FFTProcessor::recalculateInternalParameters() {
     m_indexScale = m_freq + 1.f;
-	m_theta = std::powf(m_phase, 3) * (float)m_halfSize;
+	m_theta = powf(m_phase, 3) * (float)m_halfSize;
 	m_sinusoidExponent = (m_width * m_width * 8.f) + 1.f;
 }
 
