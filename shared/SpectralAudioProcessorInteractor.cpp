@@ -17,7 +17,13 @@ void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate
     m_isPreparingToPlay = true;
     m_fftSize = fftSize;
     m_numChans = channelCount;
-    
+
+    // process() early-returns from setFftSize when the size is unchanged, so the
+    // per-processor PhaseVocoder::setFFTSize (and its phaseBuffer resize) may
+    // never run on the first prepare. Size the buffer here so phaseDiff2Hertz
+    // can safely read up to fftSize/2 from the first block (issue #97).
+    m_phaseBuffer->requestResize(fftSize / 2);
+
     if (m_sampleRate != sampleRate && !m_spectralProcess.empty()) {
         m_spectralProcess.clear();
     }
