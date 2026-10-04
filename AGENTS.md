@@ -20,9 +20,22 @@ cmake --build build --config Release
 
 ## Tests
 
-There is **no automated test suite**. "Testing" means manual host checks recorded
-in `Testing/*.md` (AU/VST3 in REAPER/FL Studio/Logic). On macOS, validate AU
-registration with `./auValidate.sh` (`auval -strict` per plugin).
+- Automated acceptance tests live in `Tests/` as headless `juce::UnitTest` classes
+  (category `SpectralSuite`), run by `Tests/TestRunner.cpp` and registered with CTest:
+  ```bash
+  cmake --build build --target SpectralSuiteTests
+  ctest --test-dir build -R SpectralSuiteTests
+  # or run the binary directly to see every sub-test:
+  ./build/Tests/SpectralSuiteTests_artefacts/SpectralSuiteTests
+  ```
+- They test the pure DSP core (`spectral_process` kernels, `utilities`, state machines,
+  `PitchInfoParser`), so when adding a `*FFTProcessor.cpp` that should be covered, add it
+  to `Tests/CMakeLists.txt`. Tests are deliberately **not** part of the Docker/release image.
+- Manual host checks are recorded in `Testing/*.md` (AU/VST3 in REAPER/FL Studio/Logic).
+  On macOS, validate AU registration with `./auValidate.sh` (`auval -strict` per plugin).
+- `Tests/` intentionally omits `juce_recommended_warning_flags` and sets
+  `COMPILE_WARNING_AS_ERROR OFF` (the root enables `-Werror`, which breaks JUCE's bundled
+  harfbuzz and fights int-indexed test loops). Plugins keep the full warning set.
 
 ## Architecture
 

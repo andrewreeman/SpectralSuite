@@ -98,3 +98,4 @@ cmake-build-debug
 Morph/CMakeBuilds/
 Morph/libs/cpm/
 spectral-suite-win/
+.vscode/settings.json

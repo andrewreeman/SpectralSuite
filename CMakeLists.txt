@@ -67,3 +67,6 @@ add_subdirectory(Morph)
 add_subdirectory(PhaseLock)
 add_subdirectory(SinusoidalShapedFilter)
 add_subdirectory(SpectralGate)
+
+enable_testing()
+add_subdirectory(Tests)
