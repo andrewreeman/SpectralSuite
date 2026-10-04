@@ -16,6 +16,7 @@ target_sources(SpectralSuiteTests
     SpectralGateTests.cpp
     FrequencyShiftTests.cpp
     BinScramblerTests.cpp
+    FftResizeTests.cpp
     PhaseLockTests.cpp
     MorphTests.cpp
     SSFTests.cpp
