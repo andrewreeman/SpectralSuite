@@ -94,4 +94,9 @@ omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the
 ## Conventions
 
 - `.editorconfig`: 4-space indent, LF, final newline, trimmed trailing whitespace.
+- Comments describe the current state, never history: no bug numbers, no "previously
+  X did Y", no restating what the code already says. An issue number belongs only on
+  the specific test method that encodes the regression — never on a generically-named
+  file or class. A general comment is fine where behavior is genuinely unexpected, kept
+  to the *why*.
 - `release-backup/` and `.Dockerfile-bak.swp` are stray local artefacts, not source.
