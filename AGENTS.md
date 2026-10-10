@@ -17,6 +17,11 @@ cmake --build build --config Release
 - macOS builds universal (`arm64 x86_64`).
 - `libs/juce` and all `cmake-build-*` / `build` dirs are generated and gitignored.
   First configure downloads JUCE; do not commit it.
+- Local-toolchain note (this machine only): the CommandLineTools install lacks its own
+  libc++ headers, so configure with `CPLUS_INCLUDE_PATH` pointed at the SDK's
+  `usr/include/c++/v1`; JUCE 8.0.6 also fails the root `-Werror` on the newer SDK
+  (harfbuzz, `NSEventTypeMouseCancelled`), so local builds use a `clang -Wno-error`
+  wrapper. Neither workaround touches repo source.
 
 ## Tests
 
@@ -30,12 +35,19 @@ cmake --build build --config Release
   ```
 - They test the pure DSP core (`spectral_process` kernels, `utilities`, state machines,
   `PitchInfoParser`), so when adding a `*FFTProcessor.cpp` that should be covered, add it
-  to `Tests/CMakeLists.txt`. Tests are deliberately **not** part of the Docker/release image.
+  to `Tests/CMakeLists.txt`. `FftResizeTests` / `FftResizeProductionTests` cover runtime
+  FFT-size changes through the real `BinScramblerInteractor`. Tests are deliberately
+  **not** part of the Docker/release image.
 - Manual host checks are recorded in `Testing/*.md` (AU/VST3 in REAPER/FL Studio/Logic).
-  On macOS, validate AU registration with `./auValidate.sh` (`auval -strict` per plugin).
+  scripted REAPER testing goes through the `reaper-reapy` skill. On macOS, validate AU
+  registration with `./auValidate.sh` (`auval -strict` per plugin).
 - `Tests/` intentionally omits `juce_recommended_warning_flags` and sets
   `COMPILE_WARNING_AS_ERROR OFF` (the root enables `-Werror`, which breaks JUCE's bundled
   harfbuzz and fights int-indexed test loops). Plugins keep the full warning set.
+- Because the production tests include `SpectralAudioPlugin.h`, `Tests/` also links a
+  `SpectralSuiteTestsData` binary-data target and compiles the BinScrambler
+  interactor + parameters sources. Any new test that pulls in UI/resource headers needs
+  the same treatment.
 
 ## Architecture
 
@@ -49,6 +61,10 @@ cmake --build build --config Release
   - `*FFTProcessor` — `StandardFFTProcessor` subclass; implement `spectral_process(in, out, bins)`.
 - FFT size / style / overlap / window switching is owned by `SpectralAudioPlugin` and
   runs on a background `FftSwitcherThread`; changes are refused while playback is active.
+- `PhaseBuffer::prevPhase` must always be ≥ the largest `fftSize/2` in use; resizing is
+  grow-only and `prepareToPlay` sizes it before the first block. `prepareToPlay` can run
+  directly at a non-default FFT size (project load), in which case per-processor
+  `setFFTSize` never runs — never assume it does.
 - Each plugin gets a unique 4-char `pluginCode` in its `add_plugin(...)` call;
   manufacturer is always `STPW`. GarageBand needs exactly one uppercase char (see root `CMakeLists.txt`).
 - Version is defined once in root `CMakeLists.txt` (`project(... VERSION ...)` and
@@ -78,4 +94,9 @@ omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the
 ## Conventions
 
 - `.editorconfig`: 4-space indent, LF, final newline, trimmed trailing whitespace.
+- Comments describe the current state, never history: no bug numbers, no "previously
+  X did Y", no restating what the code already says. An issue number belongs only on
+  the specific test method that encodes the regression — never on a generically-named
+  file or class. A general comment is fine where behavior is genuinely unexpected, kept
+  to the *why*.
 - `release-backup/` and `.Dockerfile-bak.swp` are stray local artefacts, not source.

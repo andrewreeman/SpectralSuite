@@ -16,6 +16,8 @@ target_sources(SpectralSuiteTests
     SpectralGateTests.cpp
     FrequencyShiftTests.cpp
     BinScramblerTests.cpp
+    FftResizeTests.cpp
+    FftResizeProductionTests.cpp
     PhaseLockTests.cpp
     MorphTests.cpp
     SSFTests.cpp
@@ -29,6 +31,10 @@ target_sources(SpectralSuiteTests
     ${CMAKE_CURRENT_SOURCE_DIR}/../shared/wavetable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../shared/StandardFFTProcessor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../shared/PhaseVocoder.cpp
+    # Interactor + parameters for the production-faithful resize regression (#97).
+    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/SpectralAudioProcessorInteractor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerParameters.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerInteractor.cpp
 
     # Per-plugin spectral processors under test
     ${CMAKE_CURRENT_SOURCE_DIR}/../SpectralGate/Source/SpectralGateFFTProcessor.cpp
@@ -41,6 +47,15 @@ target_sources(SpectralSuiteTests
     ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/PhaseLockFFTProcessor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/LockState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/TransitionState.cpp
+)
+
+# Test sources pull in shared UI headers that reference the BinaryData
+# namespace, so the test target embeds the same resources as the plugins.
+juce_add_binary_data(SpectralSuiteTestsData
+    SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/resources/baseline-arrow_back-24px.svg
+    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/resources/baseline-info-24px.svg
+    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/resources/baseline-settings-20px.svg
 )
 
 # The root sets CMAKE_COMPILE_WARNING_AS_ERROR ON, but JUCE's own bundled
@@ -64,6 +79,7 @@ juce_generate_juce_header(SpectralSuiteTests)
 # loops used throughout the tests. Plugin targets still use the full warning set.
 target_link_libraries(SpectralSuiteTests
     PRIVATE
+    SpectralSuiteTestsData
     juce::juce_audio_utils
     PUBLIC
     juce::juce_recommended_config_flags
