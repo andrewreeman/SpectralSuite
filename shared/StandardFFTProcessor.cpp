@@ -56,12 +56,6 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
     m_halfSize = newSize/2;
     m_invSize = 1.f/(float)newSize;
 
-    // Resizing at runtime (e.g. when a host restores the `fft` parameter on
-    // project load) leaves m_offset pointing into the previous buffer size.
-    // Without this reset the next process() pass writes past the end of the
-    // resized m_input / m_output, producing garbage output and host crashes
-    // (issue #97). Any partially-filled input from the old size must also be
-    // discarded rather than reinterpreted at the new size.
     m_offset = 0;
 
     Cpx emptyCpx(0, 0);

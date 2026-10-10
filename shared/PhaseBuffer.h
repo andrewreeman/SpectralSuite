@@ -11,16 +11,10 @@
 // immediate and grow-only: shrinking is unnecessary (reads never exceed the
 // current halfSize) and always keeping the high-water mark means a resize can
 // never leave the buffer smaller than what a live processor will read.
-//
-// The previous count-based barrier required every client to request the same
-// size before resizing. On initial prepare that never happened (the plugin's
-// setFftSize early-returns when the size is unchanged), so prevPhase stayed at
-// its initial size and phaseDiff2Hertz read out of bounds for any FFT size
-// other than the default 2048 (issue #97).
 class PhaseBuffer {
 public:
     PhaseBuffer(int clientCount, int initialSize) : m_usePvoc(false) {
-        (void) clientCount; // retained for API compatibility; barrier no longer needed
+        (void) clientCount; // unused; retained for API compatibility
         prevPhase.assign((size_t)initialSize, 0.f);
     }
 

@@ -5,11 +5,8 @@
 #include "shared/PhaseVocoder.h"
 #include "BinScrambler/Source/BinScramblerFFTProcessor.h"
 
-// Regression tests for issue #97: changing the FFT size at runtime (e.g. when a
-// host restores the `fft` parameter on project load) left the STFT write cursor
-// (`m_offset`) pointing into the previous buffer size. The next process() pass
-// then wrote past the end of the resized m_input / m_output vectors, producing
-// garbage magnitudes (extreme, near-Nyquist output) and crashing the host.
+// FFT-size-change tests: the write cursor and internal buffers must stay
+// valid across resizes.
 class FftResizeTests : public UnitTest
 {
 public:
@@ -52,6 +49,7 @@ private:
     {
         beginTest ("shrinking the FFT size resets the write cursor");
 
+        // Issue #97: a stale cursor past the new size wrote out of bounds.
         std::vector<int> a (2048), b (2048);
         auto phaseBuffer = std::make_shared<PhaseBuffer> (8, 4096);
         InspectableScrambler processor (4096, 1024, 0, 48000, phaseBuffer, &a, &b);
@@ -70,6 +68,7 @@ private:
     {
         beginTest ("growing the FFT size resets the write cursor");
 
+        // Issue #97: a stale cursor from the old size must not survive a resize.
         std::vector<int> a (1024), b (1024);
         auto phaseBuffer = std::make_shared<PhaseBuffer> (8, 4096);
         InspectableScrambler processor (2048, 512, 0, 48000, phaseBuffer, &a, &b);
@@ -87,6 +86,7 @@ private:
     {
         beginTest ("the next write after a resize stays within the new buffers");
 
+        // Issue #97: the first write after a resize must land inside the new buffers.
         std::vector<int> a (2048), b (2048);
         auto phaseBuffer = std::make_shared<PhaseBuffer> (8, 4096);
         InspectableScrambler processor (4096, 1024, 0, 48000, phaseBuffer, &a, &b);

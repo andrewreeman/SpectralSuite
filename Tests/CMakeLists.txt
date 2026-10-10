@@ -49,9 +49,8 @@ target_sources(SpectralSuiteTests
     ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/TransitionState.cpp
 )
 
-# The production-faithful resize tests include SpectralAudioPlugin.h, which
-# transitively pulls in the shared UI/resource headers. Those reference the
-# BinaryData namespace, so the same SVG resources the plugins embed are needed.
+# Test sources pull in shared UI headers that reference the BinaryData
+# namespace, so the test target embeds the same resources as the plugins.
 juce_add_binary_data(SpectralSuiteTestsData
     SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/../shared/resources/baseline-arrow_back-24px.svg

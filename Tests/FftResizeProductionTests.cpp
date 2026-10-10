@@ -6,12 +6,9 @@
 #include "BinScrambler/Source/BinScramblerParameters.h"
 #include "BinScrambler/Source/BinScramblerInteractor.h"
 
-// Production-faithful reproduction for issue #97.
-//
-// Unlike FftResizeTests.cpp (which calls setFFTSize in isolation), these tests
-// drive the real SpectralAudioProcessorInteractor::setFftSize sequence, which
-// also calls setOffset() immediately after setFFTSize(). This is the path a
-// host takes when it restores the saved `fft` parameter on project load.
+// Resize tests that drive the real interactor sequence (setFFTSize, then
+// setHopSize and setOffset on each processor), the path a host takes when
+// restoring saved state.
 
 namespace
 {
@@ -96,6 +93,7 @@ private:
     {
         beginTest ("prepare at restored FFT 4096 (DEFAULT style) keeps output finite");
 
+        // Issue #97: preparing directly at a non-default size must not crash.
         MockProcessor processor;
         auto params = std::make_shared<BinScramblerParameters> (&processor);
         params->getParameter ("rate")->setValueNotifyingHost (
@@ -117,6 +115,8 @@ private:
     {
         beginTest ("prepare at restored FFT 4096 (PVOC style) keeps output finite");
 
+        // Issue #97: the phase-vocoder path reads prevPhase, which used to be
+        // too small here and crashed.
         MockProcessor processor;
         auto params = std::make_shared<BinScramblerParameters> (&processor);
         BinScramblerInteractor interactor (4, params);
@@ -137,8 +137,8 @@ private:
         // Mirrors the client count the interactor uses: numChans (2) * overlaps (4).
         PhaseBuffer buffer (2 * 4, 1024);
 
-        // A single request must be enough: the old count-based barrier could
-        // leave prevPhase too small if not every client requested the same size.
+        // A single request must grow the buffer, regardless of what other
+        // clients have requested.
         buffer.requestResize (4096 / 2);
         expectGreaterOrEqual (static_cast<int> (buffer.prevPhase.size()), 4096 / 2);
 
