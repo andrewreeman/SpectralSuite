@@ -18,21 +18,17 @@ target_sources(SpectralSuiteTests
     BinScramblerTests.cpp
     FftResizeTests.cpp
     FftResizeProductionTests.cpp
+    FftSwitcherThreadTests.cpp
     PhaseLockTests.cpp
     MorphTests.cpp
     SSFTests.cpp
     FrequencyMagnetTests.cpp
     PitchInfoParserTests.cpp
 
-    # Shared DSP core under test
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/utilities.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/Polar.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/Types.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/wavetable.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/StandardFFTProcessor.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/PhaseVocoder.cpp
-    # Interactor + parameters for the production-faithful resize regression (#97).
-    ${CMAKE_CURRENT_SOURCE_DIR}/../shared/SpectralAudioProcessorInteractor.cpp
+    # Full shared framework: the switcher-exclusion tests construct the real
+    # SpectralAudioPlugin, which needs the plugin, UI support and adapter
+    # sources; every shared DSP source is part of this set.
+    ${SHARED_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerParameters.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerInteractor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/PhaseLockParameters.cpp
@@ -66,12 +62,21 @@ juce_add_binary_data(SpectralSuiteTestsData
 set_target_properties(SpectralSuiteTests PROPERTIES COMPILE_WARNING_AS_ERROR OFF)
 
 # Match the plugin builds: no web browser or curl, and share the version code.
+# The shared sources reference the JucePlugin_* macros that the plugin targets
+# get from juce_add_plugin; provide stand-in values for the test target.
 target_compile_definitions(SpectralSuiteTests
     PRIVATE
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0
     JUCE_VST3_CAN_REPLACE_VST2=0
     VersionCode=${VERSION_CODE}
+    JucePlugin_Name="SpectralSuiteTests"
+    JucePlugin_Desc="SpectralSuite acceptance tests"
+    JucePlugin_VersionString="${PROJECT_VERSION}"
+    JucePlugin_WantsMidiInput=0
+    JucePlugin_ProducesMidiOutput=0
+    JucePlugin_IsMidiEffect=0
+    JucePlugin_IsSynth=0
 )
 
 juce_generate_juce_header(SpectralSuiteTests)

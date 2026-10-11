@@ -31,7 +31,9 @@ public:
     void parameterValueChanged(int, float) override;
     void parameterGestureChanged(int, bool) override {}
 private:
-    bool m_shouldChangeFftStyle;
-    FftStyle m_currentStyle;
+    // Written from the parameter listener thread; read and cleared on the
+    // audio thread, and read again by the FFT switcher thread.
+    std::atomic<bool> m_shouldChangeFftStyle;
+    std::atomic<FftStyle> m_currentStyle;
     AudioParameterChoice* m_parameter;
 };

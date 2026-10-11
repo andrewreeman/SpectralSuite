@@ -1,6 +1,7 @@
 #ifndef PhaseBuffer_h
 #define PhaseBuffer_h
 
+#include <atomic>
 #include <vector>
 
 // Holds the previous phase values, shared between all overlapping STFT
@@ -11,6 +12,12 @@
 // immediate and grow-only: shrinking is unnecessary (reads never exceed the
 // current halfSize) and always keeping the high-water mark means a resize can
 // never leave the buffer smaller than what a live processor will read.
+//
+// prevPhase and its resizes are serialized by the owning interactor's process
+// lock: the audio thread reads/writes per bin under the try-locked hop, and
+// the FFT switcher thread resizes under the blocking lock. m_usePvoc is
+// written from the switcher thread and read on the audio thread, so it is
+// atomic.
 class PhaseBuffer {
 public:
     PhaseBuffer(int clientCount, int initialSize) : m_usePvoc(false) {
@@ -37,7 +44,7 @@ public:
     std::vector<float> prevPhase;
 
 private:
-    bool m_usePvoc;
+    std::atomic<bool> m_usePvoc;
 };
 
 #endif /* PhaseBuffer_h */

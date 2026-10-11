@@ -32,109 +32,132 @@ SpectralAudioPlugin::SpectralAudioPlugin(
     m_internalBufferReadWriteIndex(0),
 	m_versionCheckThread(VersionCode, "https://www.andrewreeman.com/spectral_suite_publish.json"),
     m_dependencyFactory(dependencies),
-    m_loggerRef(LoggerFactory::createLoggerReference())
+    m_loggerRef(LoggerFactory::createLoggerReference()),
+    m_pendingLatency(0)
 {
     this->initialiseParameters();
 }
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {
+    // Join with a generous bound instead of force-killing: the switcher
+    // thread may be mid-mutation of the processor bank, and killing it
+    // there corrupts shared state. Five seconds exceeds any switch by
+    // orders of magnitude while keeping shutdown finite.
+    if(this->m_fftSwitcher.isThreadRunning()) {
+        this->m_fftSwitcher.stopThread(5000);
+    }
+
     if(this->m_versionCheckThread.isThreadRunning()) {
-        this->m_versionCheckThread.stopThread(20);
+        this->m_versionCheckThread.stopThread(5000);
     }
     
-    if(this->m_fftSwitcher.isThreadRunning()) {
-        this->m_fftSwitcher.stopThread(20);
-    }
+    // The switcher thread is joined, so no further latency updates can be
+    // triggered; drop any pending one so the AsyncUpdater can be destroyed.
+    cancelPendingUpdate();
 }
 
 /* FFT Switcher methods */
 void SpectralAudioPlugin::switchFftSize()
 {
     Logger::writeToLog("[switchFftSize]");
-    if (isInvalidFftModificationState()) {
-        Logger::writeToLog("Invalid fft modification state");
-        return;
-    }
 
 	setFftSize(m_fftSizeChoiceAdapter.fftSize());
     
     if(getActiveEditor() != nullptr) {
-        SpectralAudioPluginUi* ui = (SpectralAudioPluginUi*)getActiveEditor();
-        ui->onFftSizeChanged();
+        // The switcher thread must not touch the editor directly; marshal to
+        // the message thread and keep a safe reference in case it is closed.
+        Component::SafePointer<AudioProcessorEditor> editor(getActiveEditor());
+        auto notify = [editor]() {
+            if (editor != nullptr) {
+                static_cast<SpectralAudioPluginUi*>(editor.getComponent())->onFftSizeChanged();
+            }
+        };
+        
+        if (auto* messageManager = MessageManager::getInstanceWithoutCreating()) {
+            messageManager->callAsync(notify);
+        }
+        else {
+            notify(); // no message loop exists (headless); deliver directly
+        }
     }
 }
 void SpectralAudioPlugin::switchFftStyle()
 {
     if (isInvalidFftModificationState()) { return; }
 
-    FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
-    switch(style) {
-        case FftStyle::DEFAULT:
-            m_audioProcessorInteractor->usePvoc(false);
-            break;
-        case FftStyle::PVOC:
-            m_audioProcessorInteractor->usePvoc(true);
-            break;
-        default:
-            break;
+    {
+        const auto lock = acquireProcessLock();
+        if (isInvalidFftModificationState()) { return; }
+
+        FftStyle style = m_fftStyleChoiceAdapter.fftStyle();
+        switch(style) {
+            case FftStyle::DEFAULT:
+                m_audioProcessorInteractor->usePvoc(false);
+                break;
+            case FftStyle::PVOC:
+                m_audioProcessorInteractor->usePvoc(true);
+                break;
+            default:
+                break;
+        }
     }
     
     if(getActiveEditor() != nullptr) {
-        SpectralAudioPluginUi* ui = (SpectralAudioPluginUi*)getActiveEditor();
-        ui->onFftStyleChanged();
+        Component::SafePointer<AudioProcessorEditor> editor(getActiveEditor());
+        auto notify = [editor]() {
+            if (editor != nullptr) {
+                static_cast<SpectralAudioPluginUi*>(editor.getComponent())->onFftStyleChanged();
+            }
+        };
+        
+        if (auto* messageManager = MessageManager::getInstanceWithoutCreating()) {
+            messageManager->callAsync(notify);
+        }
+        else {
+            notify(); // no message loop exists (headless); deliver directly
+        }
     }
 }
 
 void SpectralAudioPlugin::switchOverlapCount() {
     if (isInvalidFftModificationState()) { return; }
 
-    int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
-    m_audioProcessorInteractor->setNumOverlaps(overlaps);
-    
-    const int hopSize = m_audioProcessorInteractor->getHopSize();
-    
-    for(std::vector<float>& output : m_output)
+    int hopSize;
     {
-        if (output.size() == static_cast<size_t>(hopSize))
-        {
-            continue;
-        }
-        
+        const auto lock = acquireProcessLock();
         if (isInvalidFftModificationState()) { return; }
-        // Because we switch overlaps on a different thread m_output might be empty when we resize
-        // Which means we no longer own the output vector
-        // output vector expected to only be empty if we have been destructed
-        // TODO: use mutex when modifying fft buffers
-        if (!m_output.empty() && !output.empty())
+
+        const int overlaps = m_fftOverlapsChoiceAdapter.overlapCount();
+        m_audioProcessorInteractor->setNumOverlaps(overlaps);
+        
+        hopSize = m_audioProcessorInteractor->getHopSize();
+        
+        for(std::vector<float>& output : m_output)
         {
             output.resize(static_cast<size_t>(hopSize), 0.f);
         }
-    }
-    
-    for(std::vector<float>& input : m_input)
-    {
-        if (input.size() == static_cast<size_t>(hopSize))
-        {
-            continue;
-        }
- 
-        if (isInvalidFftModificationState()) { return; }
-        if (!m_input.empty() && !input.empty())
+        
+        for(std::vector<float>& input : m_input)
         {
             input.resize(static_cast<size_t>(hopSize), 0.f);
         }
     }
     
-	setLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
+	deferSetLatencySamples(m_audioProcessorInteractor->getFftSize() + hopSize);
 }
 
 
 void SpectralAudioPlugin::switchFftWindowType() {
     if (isInvalidFftModificationState()) { return; }
     
-    auto windowType = m_fftWindowChoiceAdapter.fftWindow();
-    m_audioProcessorInteractor->setWindowType(windowType);
+    {
+        const auto lock = acquireProcessLock();
+        if (isInvalidFftModificationState()) { return; }
+        
+        auto windowType = m_fftWindowChoiceAdapter.fftWindow();
+        m_audioProcessorInteractor->setWindowType(windowType);
+    }
 }
 
 /* Public methods */
@@ -203,33 +226,27 @@ void SpectralAudioPlugin::changeProgramName (int, const String&)
 void SpectralAudioPlugin::prepareToPlay (double sampleRate, int)
 {
     Logger::writeToLog("[prepareToPlay]");
-    int waitCount = 0;
-    while (m_fftSwitcher.isBusy() && waitCount < 100)
-    {
-        waitCount++;
-        Thread::sleep(100);
-    }
-    
-    if (m_fftSwitcher.isBusy())
-    {
-        return;
-    }
-    
-	m_output.clear();
-	m_input.clear();
-    
-	for (
-		int outputChannelCount = getBusesLayout().getMainOutputChannels();		
-		outputChannelCount > 0;
-		outputChannelCount--
-	)
-	{
-		m_output.push_back(std::vector<float>());
-		m_input.push_back(std::vector<float>());
-	}
-    
     const int fftSize = m_fftSizeChoiceAdapter.fftSize();
-	m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());
+    
+    {
+        // Waits for any in-flight FFT switch to finish instead of racing it.
+        const auto lock = acquireProcessLock();
+        
+        m_output.clear();
+        m_input.clear();
+        
+        for (
+            int outputChannelCount = getBusesLayout().getMainOutputChannels();
+            outputChannelCount > 0;
+            outputChannelCount--
+        )
+        {
+            m_output.push_back(std::vector<float>());
+            m_input.push_back(std::vector<float>());
+        }
+        
+        m_audioProcessorInteractor->prepareToPlay(fftSize, (int)sampleRate, getBusesLayout().getMainOutputChannels());
+    }
     
 	setFftSize(fftSize);
 }
@@ -289,6 +306,16 @@ void SpectralAudioPlugin::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     
     if(m_fftWindowChoiceAdapter.shouldChangeFftWindow()) {
         m_fftSwitcher.switchWindowType();
+        return;
+    }
+    
+    // A background FFT switch may be mutating the processor bank or the io
+    // buffers under the process lock. Never block the audio thread on it:
+    // emit silence for this block and let the next one pick up the new state.
+    const CriticalSection::ScopedTryLockType processLock(m_audioProcessorInteractor->getProcessLock());
+    if (!processLock.isLocked()) {
+        m_internalBufferReadWriteIndex = 0;
+        buffer.clear();
         return;
     }
     
@@ -372,20 +399,52 @@ void SpectralAudioPlugin::setFftSize(int size) {
         return;
     }
     
-	m_audioProcessorInteractor->setFftSize(size);
-	const size_t hopSize = static_cast<size_t>(m_audioProcessorInteractor->getHopSize());
+    int hopSize;
+    {
+        const auto lock = acquireProcessLock();
+        
+        // prepareToPlay or another switch may have started while we waited
+        // for the lock.
+        if (isInvalidFftModificationState()) {
+            Logger::writeToLog("Invalid fft modification state");
+            return;
+        }
+        
+        m_audioProcessorInteractor->setFftSize(size);
+        hopSize = m_audioProcessorInteractor->getHopSize();
+        const size_t hopSizeT = static_cast<size_t>(hopSize);
 
-	for(std::vector<float>& output : m_output)
-	{
-		output.resize(hopSize, 0.f);
-	}
+        for(std::vector<float>& output : m_output)
+        {
+            output.resize(hopSizeT, 0.f);
+        }
 
-	for(std::vector<float>& input : m_input)
-	{
-		input.resize(hopSize, 0.f);
-	}
+        for(std::vector<float>& input : m_input)
+        {
+            input.resize(hopSizeT, 0.f);
+        }
+    }
 
-	setLatencySamples(size + static_cast<int>(hopSize));
+    deferSetLatencySamples(size + hopSize);
+}
+
+void SpectralAudioPlugin::deferSetLatencySamples(int latencySamples)
+{
+    if (MessageManager::existsAndIsCurrentThread())
+    {
+        setLatencySamples(latencySamples);
+        return;
+    }
+    
+    // Called from the FFT switcher thread: hosts expect latency changes on
+    // the message thread, so hand it over there.
+    m_pendingLatency.store(latencySamples);
+    triggerAsyncUpdate();
+}
+
+void SpectralAudioPlugin::handleAsyncUpdate()
+{
+    setLatencySamples(m_pendingLatency.load());
 }
 
 void SpectralAudioPlugin::checkForUpdates(VersionCheckThread::Listener* listener) {
