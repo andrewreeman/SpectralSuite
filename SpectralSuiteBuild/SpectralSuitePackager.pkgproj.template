@@ -82,9 +82,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Bin Scrambler.vst3</string>
+																	<string>../release/MacOSX/VST3/Bin Scrambler.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -100,9 +100,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Frequency Magnet.vst3</string>
+																	<string>../release/MacOSX/VST3/Frequency Magnet.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -118,9 +118,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Frequency Shifter.vst3</string>
+																	<string>../release/MacOSX/VST3/Frequency Shifter.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -136,9 +136,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Morph.vst3</string>
+																	<string>../release/MacOSX/VST3/Morph.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -154,9 +154,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Phase Lock.vst3</string>
+																	<string>../release/MacOSX/VST3/Phase Lock.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -172,9 +172,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Sinusoidal Shaped Filter.vst3</string>
+																	<string>../release/MacOSX/VST3/Sinusoidal Shaped Filter.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -190,9 +190,9 @@
 																	<key>GID</key>
 																	<integer>0</integer>
 																	<key>PATH</key>
-																	<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/VST3/Spectral Gate.vst3</string>
+																	<string>../release/MacOSX/VST3/Spectral Gate.vst3</string>
 																	<key>PATH_TYPE</key>
-																	<integer>0</integer>
+																	<integer>1</integer>
 																	<key>PERMISSIONS</key>
 																	<integer>493</integer>
 																	<key>TYPE</key>
@@ -638,15 +638,17 @@
 			<dict>
 				<key>POSTINSTALL_PATH</key>
 				<dict>
+					<key>PATH</key>
+					<string>post-install-vst3.sh</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>PREINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>/Users/andrewreeman/Documents/Personal/spectral-suite/SpectralSuiteBuild/pre-install-vst3.sh</string>
+					<string>pre-install-vst3.sh</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>RESOURCES</key>
 				<array/>
@@ -748,9 +750,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Bin Scrambler.component</string>
+															<string>../release/MacOSX/AU/Bin Scrambler.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -766,9 +768,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Frequency Magnet.component</string>
+															<string>../release/MacOSX/AU/Frequency Magnet.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -784,9 +786,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Frequency Shifter.component</string>
+															<string>../release/MacOSX/AU/Frequency Shifter.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -802,9 +804,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Morph.component</string>
+															<string>../release/MacOSX/AU/Morph.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -820,9 +822,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Phase Lock.component</string>
+															<string>../release/MacOSX/AU/Phase Lock.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -838,9 +840,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Sinusoidal Shaped Filter.component</string>
+															<string>../release/MacOSX/AU/Sinusoidal Shaped Filter.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -856,9 +858,9 @@
 															<key>GID</key>
 															<integer>0</integer>
 															<key>PATH</key>
-															<string>/Users/andrewreeman/Documents/Personal/spectral-suite/release/MacOSX/AU/Spectral Gate.component</string>
+															<string>../release/MacOSX/AU/Spectral Gate.component</string>
 															<key>PATH_TYPE</key>
-															<integer>0</integer>
+															<integer>1</integer>
 															<key>PERMISSIONS</key>
 															<integer>493</integer>
 															<key>TYPE</key>
@@ -1290,15 +1292,17 @@
 			<dict>
 				<key>POSTINSTALL_PATH</key>
 				<dict>
+					<key>PATH</key>
+					<string>post-install-au.sh</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>PREINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>/Users/andrewreeman/Documents/Personal/spectral-suite/SpectralSuiteBuild/pre-install-au.sh</string>
+					<string>pre-install-au.sh</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>RESOURCES</key>
 				<array/>
@@ -1485,9 +1489,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/andrewreeman/Documents/Personal/spectral-suite/SpectralSuiteBuild/readme-package.rtf</string>
+							<string>readme-package.rtf</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>
@@ -1509,9 +1513,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/andrewreeman/Documents/Personal/spectral-suite/SpectralSuiteBuild/PACKAGE_README.html</string>
+							<string>PACKAGE_README.html</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>

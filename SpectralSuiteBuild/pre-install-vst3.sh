@@ -1,10 +1,21 @@
 #!/bin/bash
+# Backs up the installed Spectral Suite VST3 folder before it is overwritten.
+# The installer runs this as root, so $HOME is root's home; the backup goes to
+# the logged-in user's home instead.
 
-DATE=$(date +%F-%H-%M-%S)
-DIR=~/SpectralSuite-Backup/VST3-${DATE}
-mkdir -p $DIR
+user=$(/usr/bin/stat -f%Su /dev/console)
+if [ -z "$user" ] || [ "$user" = "root" ] || [ "$user" = "loginwindow" ]; then
+    user=""
+    backup_root="/Users/Shared/SpectralSuite-Backup"
+else
+    home=$(/usr/bin/dscl . -read "/Users/$user" NFSHomeDirectory | /usr/bin/awk '{print $2}')
+    backup_root="$home/SpectralSuite-Backup"
+fi
+dir="$backup_root/VST3-$(date +%F-%H-%M-%S)"
 
-cp -r ${DSTROOT} ${DIR}/ || true
-
-# if no previous plugins then DIR will be empty and rmdir will succeed
-rmdir ${DIR} || true
+if [ -d "$DSTROOT" ] && [ -n "$(/bin/ls -A "$DSTROOT")" ]; then
+    /bin/mkdir -p "$dir"
+    /bin/cp -Rp "$DSTROOT/" "$dir/"
+    [ -n "$user" ] && /usr/sbin/chown -R "$user" "$backup_root"
+fi
+exit 0

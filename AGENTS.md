@@ -58,8 +58,9 @@ cmake --build build --config Release
 `codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 —
 opts out of warnings-as-error until the MSVC baseline is audited), and Ubuntu
 (build + headless `SpectralSuiteTests` — the Linux quality gate; shipped Linux
-artefacts still come from the Docker path). Tag builds attach the macOS and
-Windows zips to the GitHub release. `auval` stays a local release gate.
+artefacts still come from the Docker path). The macOS job also builds the `.pkg`
+installer (see Release). Tag builds attach the macOS `.pkg` and Windows zip to the
+GitHub release. `auval` stays a local release gate.
 
 ## Architecture
 
@@ -91,10 +92,19 @@ Windows zips to the GitHub release. `auval` stays a local release gate.
 and renames it. It requires `-p`, `-n` **and `-c` (plugin code)** — the README usage
 omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the root
 `CMakeLists.txt`, a matching `<Dir>/CMakeLists.txt` calling `add_plugin(...)`, and the
-`Dockerfile` `COPY` + artefact-copy list (its TODO notes this).
+`Dockerfile` `COPY` + artefact-copy list (its TODO notes this), the bundle entries in
+`SpectralSuiteBuild/SpectralSuitePackager.pkgproj.template`, and the `PLUGINS` lists in
+`SpectralSuiteBuild/pre-install-au.sh` / `post-install-au.sh`.
 
 ## Release
 
+- macOS: `SpectralSuiteBuild/buildMacPkg.sh [build-dir]` stages a CMake Release build
+  into `release/MacOSX/` and runs `packagesbuild` (the Packages app) on
+  `SpectralSuitePackager.pkgproj.template`, whose paths are relative to
+  `SpectralSuiteBuild/`. Output: `SpectralSuiteBuild/package/MacOS-SpectralSuite-v<version>.pkg`.
+  The plugins are ad-hoc signed only (no paid Apple Developer account), so the pkg is
+  unsigned; its post-install scripts clear the quarantine flag. CI pins the Packages
+  download by SHA-256 — a new Packages release needs the hash in `ci.yml` updated.
 - Linux: `Dockerfile` + `SpectralSuiteBuild/buildLinux.sh` (Docker build, copies
   artefacts to top-level `release/linux-x86_64`).
 - Legacy Projucer flow: `SpectralSuiteBuild/ssutil.rb` requires a `projucer` CLI alias

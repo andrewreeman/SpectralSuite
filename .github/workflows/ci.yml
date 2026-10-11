@@ -83,21 +83,81 @@ jobs:
             codesign --verify --deep --strict --verbose=2 "$bundle"
           done
 
-      - name: Package
+      # The installer is built with Packages (packagesbuild) from
+      # SpectralSuiteBuild/SpectralSuitePackager.pkgproj.template. The download
+      # URL is unversioned and served over HTTP, so it is pinned by checksum;
+      # when Packages publishes a new release this step fails until the hash is
+      # updated.
+      - name: Install Packages
+        env:
+          PACKAGES_SHA256: c7d599842562b18f8dfb6e9f76fc915dde7716a263c967aaf1fe11e17d283ded # 1.2.11
         run: |
           set -euo pipefail
+          curl -sSfL -o "$RUNNER_TEMP/Packages.dmg" http://s.sudre.free.fr/Software/files/Packages.dmg
+          echo "$PACKAGES_SHA256  $RUNNER_TEMP/Packages.dmg" | shasum -a 256 -c -
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/packages-dmg" "$RUNNER_TEMP/Packages.dmg"
+          pkgutil --check-signature "$RUNNER_TEMP/packages-dmg/Install Packages.pkg"
+          sudo installer -pkg "$RUNNER_TEMP/packages-dmg/Install Packages.pkg" -target /
+          hdiutil detach "$RUNNER_TEMP/packages-dmg"
+          command -v packagesbuild
+
+      - name: Build installer
+        run: |
+          set -euo pipefail
+          pkg=$(SpectralSuiteBuild/buildMacPkg.sh build | tail -n 1)
+          pkgutil --expand "$pkg" "$RUNNER_TEMP/expanded"
+          grep -q 'hostArchitectures="arm64,x86_64"' "$RUNNER_TEMP/expanded/Distribution"
+          # 7 AUs + 7 VST3s at the top of their install locations
+          [ "$(lsbom -s "$RUNNER_TEMP/expanded/AU.pkg/Bom" | grep -cE '^\./[^/]+\.component$')" -eq 7 ] || { echo "installer is missing AU bundles" >&2; exit 1; }
+          [ "$(lsbom -s "$RUNNER_TEMP/expanded/VST3.pkg/Bom" | grep -cE '^\./[^/]+\.vst3$')" -eq 7 ] || { echo "installer is missing VST3 bundles" >&2; exit 1; }
           version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
-          [ -n "$version" ] || { echo "could not read project version" >&2; exit 1; }
-          mkdir -p dist/AU dist/VST3
-          cp -R build/*/*_artefacts/Release/AU/*.component dist/AU/
-          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
-          ditto -c -k --keepParent dist "SpectralSuite-v${version}-macos-universal.zip"
+          cp "$pkg" "SpectralSuite-v${version}-macos-universal.pkg"
+
+      # Installs twice on the runner: a first install, then an upgrade over it,
+      # which exercises the backup and quarantine-clearing install scripts.
+      - name: Test installer
+        run: |
+          set -euo pipefail
+          pkg=$(ls SpectralSuite-v*-macos-universal.pkg)
+          au=/Library/Audio/Plug-Ins/Components
+          vst3=/Library/Audio/Plug-Ins/VST3/SpectralSuite
+          console_user=$(stat -f%Su /dev/console)
+          case "$console_user" in
+            ""|root|loginwindow) backup_root=/Users/Shared/SpectralSuite-Backup ;;
+            *) backup_root="$(dscl . -read "/Users/$console_user" NFSHomeDirectory | awk '{print $2}')/SpectralSuite-Backup" ;;
+          esac
+          echo "console user: ${console_user:-none}, expecting backups in $backup_root"
+
+          check_installed() {
+            for bundle in build/*/*_artefacts/Release/AU/*.component; do
+              [ -d "$au/$(basename "$bundle")" ] || { echo "not installed: $au/$(basename "$bundle")" >&2; exit 1; }
+            done
+            for bundle in build/*/*_artefacts/Release/VST3/*.vst3; do
+              [ -d "$vst3/$(basename "$bundle")" ] || { echo "not installed: $vst3/$(basename "$bundle")" >&2; exit 1; }
+            done
+          }
+
+          sudo installer -pkg "$pkg" -target /
+          check_installed
+          [ ! -e "$backup_root" ] || { echo "first install created a backup" >&2; exit 1; }
+
+          sudo xattr -w com.apple.quarantine "0081;00000000;Safari;" "$au/Morph.component" "$vst3/Morph.vst3"
+          sudo installer -pkg "$pkg" -target /
+          check_installed
+          [ "$(ls -d "$backup_root"/AU-*/*.component | wc -l)" -eq 7 ] || { echo "AU backup incomplete" >&2; exit 1; }
+          [ "$(ls -d "$backup_root"/VST3-*/*.vst3 | wc -l)" -eq 7 ] || { echo "VST3 backup incomplete" >&2; exit 1; }
+          if [ "$backup_root" != /Users/Shared/SpectralSuite-Backup ]; then
+            [ "$(stat -f%Su "$backup_root")" = "$console_user" ] || { echo "backup not owned by $console_user" >&2; exit 1; }
+          fi
+          if xattr -r "$au"/*.component "$vst3" | grep -q com.apple.quarantine; then
+            echo "quarantine flag left on installed plugins" >&2; exit 1
+          fi
 
       - name: Upload build artefact
         uses: actions/upload-artifact@v4
         with:
           name: SpectralSuite-macos-universal
-          path: SpectralSuite-v*-macos-universal.zip
+          path: SpectralSuite-v*-macos-universal.pkg
           if-no-files-found: error
 
   windows:
@@ -195,4 +255,6 @@ jobs:
       - name: Attach to GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: SpectralSuite-*.zip
+          files: |
+            SpectralSuite-*.pkg
+            SpectralSuite-*.zip
