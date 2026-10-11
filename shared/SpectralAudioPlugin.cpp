@@ -40,14 +40,16 @@ SpectralAudioPlugin::SpectralAudioPlugin(
 
 SpectralAudioPlugin::~SpectralAudioPlugin()
 {
-    // Join instead of force-killing: the switcher thread may be mid-mutation
-    // of the processor bank, and killing it there corrupts shared state.
+    // Join with a generous bound instead of force-killing: the switcher
+    // thread may be mid-mutation of the processor bank, and killing it
+    // there corrupts shared state. Five seconds exceeds any switch by
+    // orders of magnitude while keeping shutdown finite.
     if(this->m_fftSwitcher.isThreadRunning()) {
-        this->m_fftSwitcher.stopThread(-1);
+        this->m_fftSwitcher.stopThread(5000);
     }
-    
+
     if(this->m_versionCheckThread.isThreadRunning()) {
-        this->m_versionCheckThread.stopThread(-1);
+        this->m_versionCheckThread.stopThread(5000);
     }
     
     // The switcher thread is joined, so no further latency updates can be
