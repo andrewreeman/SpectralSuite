@@ -26,7 +26,9 @@ public:
     void parameterValueChanged(int, float) override;
     void parameterGestureChanged(int, bool) override {}
 private:
-    bool m_shouldChangeFftWindow;
-    FftWindowType m_currentWindow;
+    // Written from the parameter listener thread; read and cleared on the
+    // audio thread, and read again by the FFT switcher thread.
+    std::atomic<bool> m_shouldChangeFftWindow;
+    std::atomic<FftWindowType> m_currentWindow;
     AudioParameterChoice* m_parameter;
 };
