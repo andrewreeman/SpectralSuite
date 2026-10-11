@@ -47,12 +47,12 @@ void PhaseLockInteractor::prepareProcess(StandardFFTProcessor * spectralProcesso
         processor->unlockMag();
     }
             
-    processor->setPhaseMix(*m_params->getPhaseMixParameter());
-    processor->setMagMix(*m_params->getMagMixParameter());
-    processor->setMagTrack(*m_params->getMagTrackParameter());
-    processor->setRandomPhase(*m_params->getRandomPhaseParameter());
+    processor->setPhaseMix(m_params->getPhaseMix());
+    processor->setMagMix(m_params->getMagMix());
+    processor->setMagTrack(m_params->getMagTrack());
+    processor->setRandomPhase(m_params->getRandomPhase());
     
-    processor->setMorphDurationSeconds(m_params->getMorphDurationParameter());
+    processor->setMorphDurationSeconds(m_params->getMorphDuration());
     if(m_params->shouldMorphMagAndPhase()) {
         processor->startMorphingMagAndFreq();
     }

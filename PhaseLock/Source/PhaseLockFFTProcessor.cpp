@@ -1,5 +1,6 @@
 #include "PhaseLockFFTProcessor.h"
 #include "../../shared/utilities.h"
+#include <algorithm>
 
 static float phaseLockGenerateRandomNumber() {
     float r = static_cast<float>(rand() % 1000);
@@ -9,8 +10,8 @@ static float phaseLockGenerateRandomNumber() {
 
 PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer) :
 		PhaseVocoder(size, hops, offset, sRate, phaseBuffer),
-		m_lockedPhases(0),
-        m_lockedMag(0),
+		m_lockedPhases(static_cast<size_t>(size / 2)),
+        m_lockedMag(static_cast<size_t>(size / 2)),
         m_phaseMix(1.0),
         m_magMix(1.0),
         m_magTrack(0.0),
@@ -30,21 +31,26 @@ void PhaseLockFFTProcessor::spectral_process(const PolarVector& in, PolarVector&
 }
 
 void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector &out) {
+    const size_t numBins = static_cast<size_t>(bins);
+
     if (m_lockPhaseState.shouldTransitionToOn()) {
-        m_lockedPhases.clear();
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
-            m_lockedPhases.push_back(in[i].m_phase);
+        // resize() only allocates when growing; the storage is pre-sized in
+        // the constructor and setFFTSize, so steady-state capture never
+        // allocates on the audio thread.
+        m_lockedPhases.resize(numBins);
+        for (size_t i = 0; i < numBins; ++i) {
+            m_lockedPhases[i] = in[i].m_phase;
         }
-        
+
         m_lockPhaseState.completeTransitionToOn();
     }
-    
+
     if (m_lockMagState.shouldTransitionToOn()) {
-        m_lockedMag.clear();
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
-            m_lockedMag.push_back(in[i].m_mag);
+        m_lockedMag.resize(numBins);
+        for (size_t i = 0; i < numBins; ++i) {
+            m_lockedMag[i] = in[i].m_mag;
         }
-        
+
         m_lockMagState.completeTransitionToOn();
     }
     
@@ -67,66 +73,74 @@ void PhaseLockFFTProcessor::doLock(int bins, const PolarVector &in, PolarVector 
     scale = scale + (-(scale - 1.f) * (1.0f - m_magTrack));
     float magMix = m_magMix;
     float randPhaseMix = m_randomPhaseMix;
-    
+
+    // Clamp every locked-spectrum read to what was actually captured. A
+    // mismatch can only follow a concurrent resize, and must degrade to
+    // passthrough: .at() would throw on the audio thread and terminate.
+    const size_t ioBins = std::min({numBins, in.size(), out.size()});
+    const size_t safeBins = std::min({ioBins, m_lockedPhases.size(), m_lockedMag.size()});
+
     if(m_lockPhaseState.isOn() && m_lockMagState.isOn()) {
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
+        for (size_t i = 0; i < safeBins; ++i) {
             float inPhase = in[i].m_phase;
-            out[i].m_phase = inPhase + ((m_lockedPhases.at(i) - inPhase) * m_phaseMix);
-            
+            out[i].m_phase = inPhase + ((m_lockedPhases[i] - inPhase) * m_phaseMix);
+
             float inMag = in[i].m_mag;
-            out[i].m_mag = (inMag + ((m_lockedMag.at(i) - inMag) * magMix)) * scale;
+            out[i].m_mag = (inMag + ((m_lockedMag[i] - inMag) * magMix)) * scale;
             out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.f - randPhaseMix) * out[i].m_phase); }
     }
     else if(m_lockPhaseState.isOn() && m_lockMagState.isOff()) {
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
+        for (size_t i = 0; i < safeBins; ++i) {
             out[i] = in[i];
             float inPhase = in[i].m_phase;
-            out[i].m_phase = inPhase + ((m_lockedPhases.at(i) - inPhase) * m_phaseMix);
+            out[i].m_phase = inPhase + ((m_lockedPhases[i] - inPhase) * m_phaseMix);
             out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber()) + ((1.f - randPhaseMix) * out[i].m_phase);
         }
     }
     else if(m_lockPhaseState.isOff() && m_lockMagState.isOn()) {
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
+        for (size_t i = 0; i < safeBins; ++i) {
             const float inMag = in[i].m_mag;
-            out[i].m_mag = (inMag + ((m_lockedMag.at(i) - inMag) * magMix)) * scale;
+            out[i].m_mag = (inMag + ((m_lockedMag[i] - inMag) * magMix)) * scale;
             out[i].m_phase = ( randPhaseMix * phaseLockGenerateRandomNumber() ) + ((1.f - randPhaseMix) * in[i].m_phase);
         }
     }
     else {
-        for (size_t i = 0; i < static_cast<size_t>(bins); ++i) {
+        for (size_t i = 0; i < safeBins; ++i) {
             out[i] = in[i];
             out[i].m_phase = randPhaseMix * phaseLockGenerateRandomNumber() + ((1.f - randPhaseMix) * out[i].m_phase);
         }
     }
+
+    // Bins past the captured spectra pass through unlocked.
+    for (size_t i = safeBins; i < ioBins; ++i) {
+        out[i] = in[i];
+        out[i].m_phase = randPhaseMix * phaseLockGenerateRandomNumber() + ((1.f - randPhaseMix) * out[i].m_phase);
+    }
 }
 
 void PhaseLockFFTProcessor::doMorphTransition(PolarVector &out) {
-    if(m_transitionMagState.shouldStartTransition() && m_transitionPhaseState.shouldStartTransition()) {
-        m_targetMags.clear();
-        m_targetPhases.clear();
-        for(auto& input : out) {
-            m_targetMags.push_back(input.m_mag);
-            m_targetPhases.push_back(input.m_phase);
+    if(m_transitionMagState.shouldStartTransition() || m_transitionPhaseState.shouldStartTransition()) {
+        // Both targets are captured together so they can never diverge in
+        // size. resize() only allocates when growing; the storage is
+        // pre-sized in setFFTSize, so steady-state capture never allocates
+        // on the audio thread.
+        m_targetMags.resize(out.size());
+        m_targetPhases.resize(out.size());
+        for(size_t i = 0; i < out.size(); ++i) {
+            m_targetMags[i] = out[i].m_mag;
+            m_targetPhases[i] = out[i].m_phase;
         }
     }
-    else if(m_transitionMagState.shouldStartTransition()) {
-        m_targetMags.clear();
-        for(auto& input : out) {
-            m_targetMags.push_back(input.m_mag);
-        }
-    }
-    else if(m_transitionPhaseState.shouldStartTransition()) {
-        m_targetPhases.clear();
-        for(auto& input : out) {
-            m_targetPhases.push_back(input.m_phase);
-        }
-    }
-    
-    if(!m_transitionMagState.isOff() && !m_transitionPhaseState.isOff()) {
+
+    if(!m_transitionMagState.isOff() && !m_transitionPhaseState.isOff()
+        && !m_targetMags.empty() && m_targetMags.size() == m_targetPhases.size()) {
         const float phaseInterpolateFactor = m_transitionPhaseState.next(); //std::min<float>(1.f, m_transitionPhaseCounter / m_transitionPhaseEnd);
         const float magInterpolateFactor = m_transitionMagState.next(); //std::min<float>(1.f, m_transitionMagCounter / m_transitionMagEnd);
-        
-        for(size_t i=0; i < m_targetMags.size(); ++i) {
+
+        // Blend only what the output buffer holds; the captured targets may
+        // be larger after the output shrank.
+        const size_t blendBins = std::min(out.size(), m_targetMags.size());
+        for(size_t i=0; i < blendBins; ++i) {
             out[i].m_mag = utilities::interp_lin_normalised<float>(out[i].m_mag, m_targetMags[i], magInterpolateFactor);
             out[i].m_phase = utilities::interp_lin_normalised<float>(out[i].m_phase, m_targetPhases[i], phaseInterpolateFactor);
         }
@@ -134,15 +148,17 @@ void PhaseLockFFTProcessor::doMorphTransition(PolarVector &out) {
 }
 
 bool PhaseLockFFTProcessor::setFFTSize(const int newSize) {
-    const size_t newVectorSize = static_cast<size_t>(newSize);
-    m_lockedPhases.resize(newVectorSize);
-    m_lockedMag.resize(newVectorSize);
+    const size_t newBins = static_cast<size_t>(newSize / 2);
+    m_lockedPhases.resize(newBins);
+    m_lockedMag.resize(newBins);
     
     m_lockPhaseState.reset();
     m_lockMagState.reset();
-    
-    m_targetPhases.resize(newVectorSize);
-    m_targetMags.resize(newVectorSize);
+
+    // Pre-size the morph targets to the output buffer size they will be
+    // captured from (StandardFFTProcessor sizes m_polarIn to newSize).
+    m_targetPhases.resize(static_cast<size_t>(newSize));
+    m_targetMags.resize(static_cast<size_t>(newSize));
     
     m_transitionPhaseState.setSampleRateAndBlockSize(getSampleRate(), newSize);
     m_transitionMagState.setSampleRateAndBlockSize(getSampleRate(), newSize);
