@@ -1,0 +1,198 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, master]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  macos:
+    name: macOS universal (AU + VST3, ad-hoc signed)
+    # macos-15 pins the Xcode 16 major, whose macOS 15 SDK is the newest that
+    # builds JUCE 8.0.6 without warnings; the macOS 26 SDK produces warnings in
+    # JUCE's bundled sources that fail the root -Werror. macos-14 is retired
+    # 2026-11-02. The AU is validated separately with auval (local release gate).
+    runs-on: macos-15
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: xcodebuild -version && cmake --version
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          # 8.0.6 must match CPMAddPackage GIT_TAG in CMakeLists.txt
+          path: ~/.cache/CPM
+          key: cpm-juce-8.0.6-macos
+          restore-keys: cpm-juce-8.0.6-macos
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build plugins
+        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All
+
+      - name: Build tests
+        run: cmake --build build --target SpectralSuiteTests
+
+      - name: Run headless acceptance tests
+        run: ctest --test-dir build -R SpectralSuiteTests --output-on-failure
+
+      - name: Verify universal binaries
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          count=0
+          for bin in build/*/*_artefacts/Release/AU/*.component/Contents/MacOS/* \
+                      build/*/*_artefacts/Release/VST3/*.vst3/Contents/MacOS/*; do
+            info=$(lipo -info "$bin")
+            echo "$info"
+            grep -q arm64 <<<"$info" || { echo "missing arm64 slice: $bin" >&2; exit 1; }
+            grep -q x86_64 <<<"$info" || { echo "missing x86_64 slice: $bin" >&2; exit 1; }
+            count=$((count + 1))
+          done
+          # 7 AUs + 7 VST3s
+          [ "$count" -eq 14 ] || { echo "expected 14 plugin binaries, found $count" >&2; exit 1; }
+
+      - name: Ad-hoc sign every bundle
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for bundle in build/*/*_artefacts/Release/AU/*.component \
+                        build/*/*_artefacts/Release/VST3/*.vst3; do
+            codesign --force --sign - "$bundle"
+          done
+
+      - name: Verify signatures
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for bundle in build/*/*_artefacts/Release/AU/*.component \
+                        build/*/*_artefacts/Release/VST3/*.vst3; do
+            codesign --verify --deep --strict --verbose=2 "$bundle"
+          done
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          [ -n "$version" ] || { echo "could not read project version" >&2; exit 1; }
+          mkdir -p dist/AU dist/VST3
+          cp -R build/*/*_artefacts/Release/AU/*.component dist/AU/
+          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
+          ditto -c -k --keepParent dist "SpectralSuite-v${version}-macos-universal.zip"
+
+      - name: Upload build artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-macos-universal
+          path: SpectralSuite-v*-macos-universal.zip
+          if-no-files-found: error
+
+  windows:
+    name: Windows VST3 (x64)
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\CPM
+          key: cpm-juce-8.0.6-windows
+          restore-keys: cpm-juce-8.0.6-windows
+
+      # The MSVC warning baseline is not yet audited, so this job opts out of
+      # warnings-as-error; the macOS and Linux jobs keep it enabled.
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $match = Select-String -Path CMakeLists.txt -Pattern 'project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\)'
+          if (-not $match) { throw "could not read project version" }
+          $version = $match.Matches[0].Groups[1].Value
+          New-Item -ItemType Directory -Force -Path dist\VST3 | Out-Null
+          Get-ChildItem -Path build\*\*_artefacts\Release\VST3\*.vst3 |
+            Copy-Item -Recurse -Destination dist\VST3\
+          if ((Get-ChildItem dist\VST3 -Filter *.vst3).Count -ne 7) { throw "expected 7 VST3 bundles" }
+          Compress-Archive -Path dist -DestinationPath "SpectralSuite-v$version-windows-x64-VST3.zip"
+
+      - name: Upload build artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-windows-x64-VST3
+          path: SpectralSuite-v*-windows-x64-VST3.zip
+          if-no-files-found: error
+
+  ubuntu:
+    name: Linux build + headless tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Mirrors the Dockerfile dependency set; the shipped Linux artefacts still
+      # come from the Docker path. This job is the Linux quality gate.
+      - name: Install JUCE build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libasound2-dev libjack-jackd2-dev ladspa-sdk libcurl4-openssl-dev \
+            libfreetype6-dev libfontconfig1-dev \
+            libx11-dev libxcomposite-dev libxcursor-dev libxext-dev \
+            libxinerama-dev libxrandr-dev libxrender-dev \
+            libglu1-mesa-dev mesa-common-dev xvfb
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/CPM
+          key: cpm-juce-8.0.6-ubuntu
+          restore-keys: cpm-juce-8.0.6-ubuntu
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build plugins and tests
+        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All SpectralSuiteTests
+
+      - name: Run headless acceptance tests
+        run: xvfb-run -a ctest --test-dir build -R SpectralSuiteTests --output-on-failure
+
+  release:
+    name: Attach release assets
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [macos, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artefacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: SpectralSuite-*
+          merge-multiple: true
+
+      - name: Attach to GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SpectralSuite-*.zip

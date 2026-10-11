@@ -12,9 +12,9 @@ struct traits
     typedef std::complex<scalar_type> cpx_type;
     void fill_twiddles( std::complex<T_scalar> * dst ,int nfft,bool inverse)
     {
-        T_scalar phinc =  (inverse?2:-2)* acos( (T_scalar) -1)  / nfft;
+        T_scalar phinc =  (inverse?2:-2)* acos( (T_scalar) -1)  / static_cast<T_scalar>(nfft);
         for (int i=0;i<nfft;++i)
-            dst[i] = exp( std::complex<T_scalar>(0,i*phinc) );
+            dst[i] = exp( std::complex<T_scalar>(0, static_cast<T_scalar>(i)*phinc) );
     }
 
     void prepare(
@@ -134,7 +134,7 @@ class kissfft
         void kf_bfly4( cpx_type * Fout, const size_t fstride, const size_t m)
         {
             cpx_type scratch[7];
-            int negative_if_inverse = _inverse * -2 +1;
+            const scalar_type negative_if_inverse = static_cast<scalar_type>(_inverse * -2 +1);
             for (size_t k=0;k<m;++k) {
 
                 scratch[0] = Fout[k+m] * _traits.twiddle(static_cast<unsigned long>(k*fstride));

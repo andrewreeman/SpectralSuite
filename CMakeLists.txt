@@ -14,7 +14,11 @@ CPMAddPackage(
 
 include(shared/shared.cmake)
 set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+# Warnings fail the build, unless explicitly overridden at configure time
+# (the Windows CI job does this until its MSVC warning baseline is audited).
+if(NOT DEFINED CMAKE_COMPILE_WARNING_AS_ERROR)
+    set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+endif()
 
 function (add_plugin name description code displayName)
     juce_add_plugin("${name}"

@@ -10,9 +10,11 @@ cmake -B build -G <generator>     # from repo root; fetches JUCE 8.0.6 via CPM
 cmake --build build --config Release
 ```
 
-- Single plugin: `cmake --build build --target <target> --config Release`.
-  CMake targets differ from directory names: `BinScrambler`, `FreqMagnet`,
-  `FreqShift`, `Morph`, `PhaseLock`, `Ssf` (SinusoidalShapedFilter), `SpecGate`.
+- Single plugin: `cmake --build build --target <target>_All --config Release`.
+  The plain `<target>` umbrella only builds SharedCode — it does not link the
+  AU/VST3 bundles. CMake targets differ from directory names: `BinScrambler`,
+  `FreqMagnet`, `FreqShift`, `Morph`, `PhaseLock`, `Ssf` (SinusoidalShapedFilter),
+  `SpecGate`.
 - `CMAKE_COMPILE_WARNING_AS_ERROR ON` — warnings fail the build.
 - macOS builds universal (`arm64 x86_64`).
 - `libs/juce` and all `cmake-build-*` / `build` dirs are generated and gitignored.
@@ -48,6 +50,16 @@ cmake --build build --config Release
   `SpectralSuiteTestsData` binary-data target and compiles the BinScrambler
   interactor + parameters sources. Any new test that pulls in UI/resource headers needs
   the same treatment.
+
+## CI
+
+`.github/workflows/ci.yml` runs on pushes to `develop`/`master`, on PRs, and on
+`v*` tags. Jobs: macOS (`macos-15`, universal AU + VST3, `lipo` + ad-hoc
+`codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 —
+opts out of warnings-as-error until the MSVC baseline is audited), and Ubuntu
+(build + headless `SpectralSuiteTests` — the Linux quality gate; shipped Linux
+artefacts still come from the Docker path). Tag builds attach the macOS and
+Windows zips to the GitHub release. `auval` stays a local release gate.
 
 ## Architecture
 

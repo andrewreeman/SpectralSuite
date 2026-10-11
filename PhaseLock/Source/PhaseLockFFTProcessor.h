@@ -61,14 +61,7 @@ private:
     float m_magMix;
     float m_magTrack;
     float m_randomPhaseMix;
-    int m_morphDurationSeconds;
-    
-    float m_transitionMagCounter;
-    float m_transitionMagEnd;
-    
-    float m_transitionPhaseCounter;
-    float m_transitionPhaseEnd;
-           
+
     LockState m_lockPhaseState;
     LockState m_lockMagState;
     
