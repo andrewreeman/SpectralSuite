@@ -99,3 +99,6 @@ Morph/CMakeBuilds/
 Morph/libs/cpm/
 spectral-suite-win/
 .vscode/settings.json
+
+# Mistral Vibe local config
+.vibe/
