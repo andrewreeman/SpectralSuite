@@ -1,5 +1,5 @@
 ---
-name: JUCE DSP memory debugging
+name: juce-dsp-debug
 description: Hunt memory bugs in the SpectralSuite DSP core (shared/ processors, PhaseBuffer, interactors). Use when output is silent, extreme, NaN, or crashy, or when a resize/prepare sequence is suspected. Workflow is ASan-first with production-faithful harnesses.
 ---
 
@@ -26,6 +26,15 @@ cmake --build build-asan --target SpectralSuiteTests
 ASAN_OPTIONS=detect_leaks=0 ./build-asan/Tests/SpectralSuiteTests_artefacts/Debug/SpectralSuiteTests
 ```
 
+Repo toolchain flags on this machine (see AGENTS.md): the compiler must be the
+`clang -Wno-error` wrapper (e.g. `~/.local/share/reaper-mcp/bin/clang++-nowerror`)
+because JUCE 8.0.6 fails the root `-Werror` on the newer SDK, and **every**
+`cmake --build` invocation must carry `CPLUS_INCLUDE_PATH` pointing at
+`/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1` (plus
+`C_INCLUDE_PATH` at the SDK's `usr/include`). A source change can trigger
+CMake's regenerate-during-build, which rebuilds `juceaide` — without those env
+vars it fails with `'algorithm' file not found`.
+
 ## 3. Write a production-faithful reproduction
 
 - Drive the **real `*Interactor`** (`prepareToPlay` → `process` blocks → `setFftSize`), not the processor in isolation. Isolated `setFFTSize` calls skip the `setOffset` / buffer-sizing calls the interactor makes and can prove a bug that production never hits (or miss the real one).
@@ -42,4 +51,12 @@ ASAN_OPTIONS=detect_leaks=0 ./build-asan/Tests/SpectralSuiteTests_artefacts/Debu
 
 ## 5. End-to-end confirmation (optional, see `reaper-reapy`)
 
-For user-facing proof, A/B the before/after plugin binaries in REAPER with bypass renders as anchors. Unit+ASan proof is the acceptance bar; REAPER is corroboration.
+For user-facing proof, run the crash scenario in a scripted REAPER session:
+playback + rapid parameter toggling + FFT switching + save/reload, with no
+crash/hang and a responsive API as the pass bar. The distant API cannot
+automate renders on this machine (see `reaper-reapy`'s Rendering section), so
+output sanity rests on the unit-test finiteness assertions; leave an explicit
+manual-listen item in the local host-validation record (`.vibe/testing/`,
+gitignored — Andrew prefers release test records not committed; historical
+`Testing/*.md` files from earlier releases remain in the repo).
+Unit+ASan proof is the acceptance bar; REAPER is corroboration.

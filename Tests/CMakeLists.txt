@@ -35,6 +35,8 @@ target_sources(SpectralSuiteTests
     ${CMAKE_CURRENT_SOURCE_DIR}/../shared/SpectralAudioProcessorInteractor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerParameters.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../BinScrambler/Source/BinScramblerInteractor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/PhaseLockParameters.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../PhaseLock/Source/PhaseLockInteractor.cpp
 
     # Per-plugin spectral processors under test
     ${CMAKE_CURRENT_SOURCE_DIR}/../SpectralGate/Source/SpectralGateFFTProcessor.cpp
