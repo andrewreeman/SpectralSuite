@@ -428,17 +428,17 @@ void SpectralAudioPlugin::setFftSize(int size) {
     deferSetLatencySamples(size + hopSize);
 }
 
-void SpectralAudioPlugin::deferSetLatencySamples(int latencySamples)
+void SpectralAudioPlugin::deferSetLatencySamples(int newLatencySamples)
 {
     if (MessageManager::existsAndIsCurrentThread())
     {
-        setLatencySamples(latencySamples);
+        setLatencySamples(newLatencySamples);
         return;
     }
     
     // Called from the FFT switcher thread: hosts expect latency changes on
     // the message thread, so hand it over there.
-    m_pendingLatency.store(latencySamples);
+    m_pendingLatency.store(newLatencySamples);
     triggerAsyncUpdate();
 }
 

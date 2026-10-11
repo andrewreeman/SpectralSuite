@@ -125,7 +125,7 @@ private:
 
     // setLatencySamples may be reached from the FFT switcher thread; hosts
     // expect it on the message thread, so defer it there.
-    void deferSetLatencySamples(int latencySamples);
+    void deferSetLatencySamples(int newLatencySamples);
     void handleAsyncUpdate() override;
     
     std::shared_ptr<PluginParameters> parameters;
