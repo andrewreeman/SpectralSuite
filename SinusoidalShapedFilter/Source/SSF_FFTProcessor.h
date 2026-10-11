@@ -7,7 +7,7 @@
 class SSF_FFTProcessor : public PhaseVocoder {
 public:
 using SharedTable = std::shared_ptr<Table<float> >;
-    SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, SharedTable wavetable);
+    SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer, SharedTable wavetable);
         
     void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
     bool setFFTSize(int newSize) override;

@@ -8,8 +8,8 @@ static float phaseLockGenerateRandomNumber() {
     return p - (float)PI;
 }
 
-PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer) :
-		PhaseVocoder(size, hops, offset, sRate, phaseBuffer),
+PhaseLockFFTProcessor::PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer) :
+		PhaseVocoder(size, hops, offset, sRate, _phaseBuffer),
 		m_lockedPhases(static_cast<size_t>(size / 2)),
         m_lockedMag(static_cast<size_t>(size / 2)),
         m_phaseMix(1.0),

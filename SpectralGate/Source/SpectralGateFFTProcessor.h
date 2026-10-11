@@ -6,7 +6,7 @@
 class SpectralGateFFTProcessor: public PhaseVocoder {
     
 public:
-    SpectralGateFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
+    SpectralGateFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer);
     
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
     

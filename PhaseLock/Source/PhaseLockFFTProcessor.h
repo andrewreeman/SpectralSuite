@@ -9,7 +9,7 @@ private:
     typedef PhaseVocoder super;
 
 public:
-	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer);
+	PhaseLockFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer);
     
     virtual void spectral_process(const PolarVector& in, PolarVector& out, int bins) override;
     virtual bool setFFTSize(int newSize) override;

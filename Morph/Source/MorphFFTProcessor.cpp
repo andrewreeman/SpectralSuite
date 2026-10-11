@@ -1,8 +1,8 @@
 #include "MorphFFTProcessor.h"
 #include "../../shared/Polar.h"
 
-MorphFFTProcessor::MorphFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, Array<int>** pMorphPointsPointer)
-    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_pMorphPointsPointer(pMorphPointsPointer)
+MorphFFTProcessor::MorphFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer, Array<int>** pMorphPointsPointer)
+    : PhaseVocoder(size, hops, offset, sRate, _phaseBuffer), m_pMorphPointsPointer(pMorphPointsPointer)
 {}
 
 void MorphFFTProcessor::spectral_process(const PolarVector &in, PolarVector &out, int halfSize) {

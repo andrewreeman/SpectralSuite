@@ -67,6 +67,8 @@ public:
    #endif
 
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    // keep the double-precision overload visible in derived/plugin classes
+    using AudioProcessor::processBlock;
 
     //==============================================================================
     AudioProcessorEditor* createEditor() override;
