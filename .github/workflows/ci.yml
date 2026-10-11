@@ -173,7 +173,7 @@ jobs:
         run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Build plugins and tests
-        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All SpectralSuiteTests
+        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All SpectralSuiteTests -- -k 0
 
       - name: Run headless acceptance tests
         run: xvfb-run -a ctest --test-dir build -R SpectralSuiteTests --output-on-failure
