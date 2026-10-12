@@ -57,10 +57,10 @@ cmake --build build --config Release
 `v*` tags. Jobs: macOS (`macos-15`, universal AU + VST3, `lipo` + ad-hoc
 `codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 —
 opts out of warnings-as-error until the MSVC baseline is audited), and Ubuntu
-(build + headless `SpectralSuiteTests` — the Linux quality gate; shipped Linux
-artefacts still come from the Docker path). The macOS job also builds the `.pkg`
-installer (see Release). Tag builds attach the macOS `.pkg` and Windows zip to the
-GitHub release. `auval` stays a local release gate.
+(`ubuntu-24.04`: build + headless `SpectralSuiteTests` — the Linux quality gate — and
+the shipped Linux VST3 `tar.gz`). The macOS job also builds the `.pkg` installer and a
+zip of the bundles (see Release). Every run uploads each file as its own artefact; tag
+builds attach them all to the GitHub release. `auval` stays a local release gate.
 
 ## Architecture
 
@@ -105,8 +105,9 @@ omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the
   The plugins are ad-hoc signed only (no paid Apple Developer account), so the pkg is
   unsigned; its post-install scripts clear the quarantine flag. CI pins the Packages
   download by SHA-256 — a new Packages release needs the hash in `ci.yml` updated.
-- Linux: `Dockerfile` + `SpectralSuiteBuild/buildLinux.sh` (Docker build, copies
-  artefacts to top-level `release/linux-x86_64`).
+- Linux: the shipped `tar.gz` comes from the CI Ubuntu job. `Dockerfile` +
+  `SpectralSuiteBuild/buildLinux.sh` remain for local builds (copies artefacts to
+  top-level `release/linux-x86_64`); it configures with no `CMAKE_BUILD_TYPE`.
 - Legacy Projucer flow: `SpectralSuiteBuild/ssutil.rb` requires a `projucer` CLI alias
   in the shell; `ssutil.ps1` is the Windows equivalent.
 - `moveReleaseFiles.sh` / `win-moveReleaseFiles.ps1` collect artefacts from

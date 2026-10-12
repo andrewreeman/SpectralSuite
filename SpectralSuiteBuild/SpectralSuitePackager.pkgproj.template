@@ -1380,7 +1380,7 @@
 									<key>HIDDEN</key>
 									<false/>
 									<key>STATE</key>
-									<integer>2</integer>
+									<integer>1</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
 								<string>AA692DBA-F132-4BB4-9C69-BE0D5BF97EF7</string>
@@ -1401,7 +1401,7 @@
 									<key>HIDDEN</key>
 									<false/>
 									<key>STATE</key>
-									<integer>2</integer>
+									<integer>1</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
 								<string>F3AE7E8F-28F3-4A47-A0A2-E86D3F259E76</string>

@@ -113,6 +113,15 @@ jobs:
           version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
           cp "$pkg" "SpectralSuite-v${version}-macos-universal.pkg"
 
+      - name: Zip bundles
+        run: |
+          set -euo pipefail
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          mkdir -p dist/AU dist/VST3
+          cp -R build/*/*_artefacts/Release/AU/*.component dist/AU/
+          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
+          ditto -c -k --keepParent dist "SpectralSuite-v${version}-macos-universal.zip"
+
       # Installs twice on the runner: a first install, then an upgrade over it,
       # which exercises the backup and quarantine-clearing install scripts.
       - name: Test installer
@@ -137,18 +146,7 @@ jobs:
             done
           }
 
-          # Both formats are unticked by default in the installer UI; select them.
-          cat > "$RUNNER_TEMP/choices.xml" <<'XML'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <array>
-            <dict><key>attributeSetting</key><integer>1</integer><key>choiceAttribute</key><string>selected</string><key>choiceIdentifier</key><string>installer_choice_1</string></dict>
-            <dict><key>attributeSetting</key><integer>1</integer><key>choiceAttribute</key><string>selected</string><key>choiceIdentifier</key><string>installer_choice_2</string></dict>
-          </array>
-          </plist>
-          XML
-          install() { sudo installer -pkg "$pkg" -target / -applyChoiceChangesXML "$RUNNER_TEMP/choices.xml"; }
+          install() { sudo installer -pkg "$pkg" -target /; }
 
           install
           check_installed
@@ -166,11 +164,18 @@ jobs:
             echo "quarantine flag left on installed plugins" >&2; exit 1
           fi
 
-      - name: Upload build artefact
+      - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: SpectralSuite-macos-universal
+          name: SpectralSuite-macos-universal-installer
           path: SpectralSuite-v*-macos-universal.pkg
+          if-no-files-found: error
+
+      - name: Upload zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-macos-universal-zip
+          path: SpectralSuite-v*-macos-universal.zip
           if-no-files-found: error
 
   windows:
@@ -217,14 +222,15 @@ jobs:
 
   ubuntu:
     name: Linux build + headless tests
-    runs-on: ubuntu-latest
+    # Pinned so the shipped binaries need no newer glibc than Ubuntu 24.04 has.
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # Mirrors the Dockerfile dependency set; the shipped Linux artefacts still
-      # come from the Docker path. This job is the Linux quality gate.
+      # Mirrors the Dockerfile dependency set. This job is the Linux quality gate
+      # and produces the shipped Linux artefact.
       - name: Install JUCE build dependencies
         run: |
           sudo apt-get update
@@ -251,10 +257,29 @@ jobs:
       - name: Run headless acceptance tests
         run: xvfb-run -a ctest --test-dir build -R SpectralSuiteTests --output-on-failure
 
+      - name: Package
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          [ -n "$version" ] || { echo "could not read project version" >&2; exit 1; }
+          mkdir -p dist/VST3
+          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
+          bundles=(dist/VST3/*.vst3)
+          [ "${#bundles[@]}" -eq 7 ] || { echo "expected 7 VST3 bundles, found ${#bundles[@]}" >&2; exit 1; }
+          tar -czf "SpectralSuite-v${version}-linux-x86_64-VST3.tar.gz" -C dist VST3
+
+      - name: Upload build artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-linux-x86_64-VST3
+          path: SpectralSuite-v*-linux-x86_64-VST3.tar.gz
+          if-no-files-found: error
+
   release:
     name: Attach release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [macos, windows]
+    needs: [macos, windows, ubuntu]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -271,3 +296,4 @@ jobs:
           files: |
             SpectralSuite-*.pkg
             SpectralSuite-*.zip
+            SpectralSuite-*.tar.gz
