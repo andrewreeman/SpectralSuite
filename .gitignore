@@ -91,6 +91,7 @@ PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj/xcshareddata/xcschemes/Phase Lock -
 
 # cmake
 build
+build-*/
 libs/juce
 /cmake-build-debug/_deps/juce-build/tools/.ninja_deps
 cmake-build-debug

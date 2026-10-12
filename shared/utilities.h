@@ -81,7 +81,7 @@ namespace utilities{
         }
         
 		float factor = index - (float)intPart;
-        if(intPart < indexLow || factor == 0.f) {
+        if(intPart < indexLow) {
             return a;
         }
         

@@ -46,7 +46,7 @@ static std::string findNote(float frequency) {
 float parseFrequency(std::string string) {
     try {
         return (float)std::stoi(string);
-    } catch(std::invalid_argument invalidArg) {
+    } catch(const std::invalid_argument&) {
         return 440.f;
     }
 }

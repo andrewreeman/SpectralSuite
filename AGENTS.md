@@ -10,9 +10,11 @@ cmake -B build -G <generator>     # from repo root; fetches JUCE 8.0.6 via CPM
 cmake --build build --config Release
 ```
 
-- Single plugin: `cmake --build build --target <target> --config Release`.
-  CMake targets differ from directory names: `BinScrambler`, `FreqMagnet`,
-  `FreqShift`, `Morph`, `PhaseLock`, `Ssf` (SinusoidalShapedFilter), `SpecGate`.
+- Single plugin: `cmake --build build --target <target>_All --config Release`.
+  The plain `<target>` umbrella only builds SharedCode — it does not link the
+  AU/VST3 bundles. CMake targets differ from directory names: `BinScrambler`,
+  `FreqMagnet`, `FreqShift`, `Morph`, `PhaseLock`, `Ssf` (SinusoidalShapedFilter),
+  `SpecGate`.
 - `CMAKE_COMPILE_WARNING_AS_ERROR ON` — warnings fail the build.
 - macOS builds universal (`arm64 x86_64`).
 - `libs/juce` and all `cmake-build-*` / `build` dirs are generated and gitignored.
@@ -49,6 +51,18 @@ cmake --build build --config Release
   interactor + parameters sources. Any new test that pulls in UI/resource headers needs
   the same treatment.
 
+## CI
+
+`.github/workflows/ci.yml` runs on pushes to `develop`/`master`, on PRs, and on
+`v*` tags. Jobs: macOS (`macos-15`, universal AU + VST3, `lipo` + ad-hoc
+`codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 zip +
+WiX MSI, install/uninstall tested — opts out of warnings-as-error until the MSVC
+baseline is audited), and Ubuntu
+(`ubuntu-24.04`: build + headless `SpectralSuiteTests` — the Linux quality gate — and
+the shipped Linux VST3 `tar.gz`). The macOS job also builds the `.pkg` installer and a
+zip of the bundles (see Release). Every run uploads each file as its own artefact; tag
+builds attach them all to the GitHub release. `auval` stays a local release gate.
+
 ## Architecture
 
 - `shared/` is the framework, but **not a library**. Its sources are injected into
@@ -79,12 +93,29 @@ cmake --build build --config Release
 and renames it. It requires `-p`, `-n` **and `-c` (plugin code)** — the README usage
 omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the root
 `CMakeLists.txt`, a matching `<Dir>/CMakeLists.txt` calling `add_plugin(...)`, and the
-`Dockerfile` `COPY` + artefact-copy list (its TODO notes this).
+`Dockerfile` `COPY` + artefact-copy list (its TODO notes this), the bundle entries in
+`SpectralSuiteBuild/SpectralSuitePackager.pkgproj.template`, and the `PLUGINS` lists in
+`SpectralSuiteBuild/pre-install-au.sh` / `post-install-au.sh`.
 
 ## Release
 
-- Linux: `Dockerfile` + `SpectralSuiteBuild/buildLinux.sh` (Docker build, copies
-  artefacts to top-level `release/linux-x86_64`).
+- macOS: `SpectralSuiteBuild/buildMacPkg.sh [build-dir]` stages a CMake Release build
+  into `release/MacOSX/` and runs `packagesbuild` (the Packages app) on
+  `SpectralSuitePackager.pkgproj.template`, whose paths are relative to
+  `SpectralSuiteBuild/`. Output: `SpectralSuiteBuild/package/MacOS-SpectralSuite-v<version>.pkg`.
+  The plugins are ad-hoc signed only (no paid Apple Developer account), so the pkg is
+  unsigned; its post-install scripts clear the quarantine flag. CI pins the Packages
+  download by SHA-256 — a new Packages release needs the hash in `ci.yml` updated.
+- Windows: `SpectralSuiteBuild/buildWinMsi.ps1 [-BuildDir build]` builds
+  `SpectralSuiteBuild/package/SpectralSuite-v<version>-windows-x64.msi` from
+  `SpectralSuiteBuild/windows/SpectralSuite.wxs` with WiX 5.0.2 (pinned; later majors
+  carry a maintenance-fee EULA). Per-machine install of the VST3 bundle folders to
+  `Common Files\VST3\Spectral Suite\`; keep the `UpgradeCode` so upgrades replace older
+  installs. The C++ runtime is linked statically (`CMAKE_MSVC_RUNTIME_LIBRARY`), so no
+  VC++ redistributable is needed; CI fails if a plugin imports it.
+- Linux: the shipped `tar.gz` comes from the CI Ubuntu job. `Dockerfile` +
+  `SpectralSuiteBuild/buildLinux.sh` remain for local builds (copies artefacts to
+  top-level `release/linux-x86_64`); it configures with no `CMAKE_BUILD_TYPE`.
 - Legacy Projucer flow: `SpectralSuiteBuild/ssutil.rb` requires a `projucer` CLI alias
   in the shell; `ssutil.ps1` is the Windows equivalent.
 - `moveReleaseFiles.sh` / `win-moveReleaseFiles.ps1` collect artefacts from

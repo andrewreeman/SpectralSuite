@@ -5,7 +5,7 @@
 
 class MorphFFTProcessor : public PhaseVocoder {
 public:
-    MorphFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, Array<int>** pMorphPointsPointer);    
+    MorphFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer, Array<int>** pMorphPointsPointer);    
     
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;            
 private:
