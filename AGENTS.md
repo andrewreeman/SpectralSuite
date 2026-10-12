@@ -55,8 +55,9 @@ cmake --build build --config Release
 
 `.github/workflows/ci.yml` runs on pushes to `develop`/`master`, on PRs, and on
 `v*` tags. Jobs: macOS (`macos-15`, universal AU + VST3, `lipo` + ad-hoc
-`codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 —
-opts out of warnings-as-error until the MSVC baseline is audited), and Ubuntu
+`codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 zip +
+WiX MSI, install/uninstall tested — opts out of warnings-as-error until the MSVC
+baseline is audited), and Ubuntu
 (`ubuntu-24.04`: build + headless `SpectralSuiteTests` — the Linux quality gate — and
 the shipped Linux VST3 `tar.gz`). The macOS job also builds the `.pkg` installer and a
 zip of the bundles (see Release). Every run uploads each file as its own artefact; tag
@@ -105,6 +106,13 @@ omits `-c`. After running it, wire up manually: `add_subdirectory(<Dir>)` in the
   The plugins are ad-hoc signed only (no paid Apple Developer account), so the pkg is
   unsigned; its post-install scripts clear the quarantine flag. CI pins the Packages
   download by SHA-256 — a new Packages release needs the hash in `ci.yml` updated.
+- Windows: `SpectralSuiteBuild/buildWinMsi.ps1 [-BuildDir build]` builds
+  `SpectralSuiteBuild/package/SpectralSuite-v<version>-windows-x64.msi` from
+  `SpectralSuiteBuild/windows/SpectralSuite.wxs` with WiX 5.0.2 (pinned; later majors
+  carry a maintenance-fee EULA). Per-machine install of the VST3 bundle folders to
+  `Common Files\VST3\Spectral Suite\`; keep the `UpgradeCode` so upgrades replace older
+  installs. The C++ runtime is linked statically (`CMAKE_MSVC_RUNTIME_LIBRARY`), so no
+  VC++ redistributable is needed; CI fails if a plugin imports it.
 - Linux: the shipped `tar.gz` comes from the CI Ubuntu job. `Dockerfile` +
   `SpectralSuiteBuild/buildLinux.sh` remain for local builds (copies artefacts to
   top-level `release/linux-x86_64`); it configures with no `CMAKE_BUILD_TYPE`.

@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.22)
 project(SpectralSuite VERSION 2.2.0)
 SET(VERSION_CODE 19)
 
+# Link the MSVC C++ runtime statically so the Windows plugins need no Visual C++
+# redistributable installed.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 include(cmake/cpm.cmake)
 CPMAddPackage(

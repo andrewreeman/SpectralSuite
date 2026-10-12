@@ -179,7 +179,7 @@ jobs:
           if-no-files-found: error
 
   windows:
-    name: Windows VST3 (x64)
+    name: Windows (VST3 x64 + MSI)
     runs-on: windows-latest
     timeout-minutes: 120
     steps:
@@ -213,7 +213,59 @@ jobs:
           if ((Get-ChildItem dist\VST3 -Filter *.vst3).Count -ne 7) { throw "expected 7 VST3 bundles" }
           Compress-Archive -Path dist -DestinationPath "SpectralSuite-v$version-windows-x64-VST3.zip"
 
-      - name: Upload build artefact
+      - name: Check static C++ runtime
+        shell: pwsh
+        run: |
+          $dlls = @(Get-ChildItem build\*\*_artefacts\Release\VST3\*.vst3\Contents\x86_64-win\*.vst3)
+          if ($dlls.Count -ne 7) { throw "expected 7 plugin binaries, found $($dlls.Count)" }
+          foreach ($dll in $dlls) {
+            if (Select-String -Path $dll.FullName -Pattern 'VCRUNTIME140|MSVCP140' -Quiet) {
+              throw "$($dll.Name) imports the Visual C++ runtime DLLs"
+            }
+          }
+
+      # WiX 5 is MS-RL licensed; pinned to stay on that major.
+      - name: Install WiX
+        shell: pwsh
+        run: |
+          dotnet tool install --global wix --version 5.0.2
+          "$env:USERPROFILE\.dotnet\tools" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          wix extension add --global WixToolset.UI.wixext/5.0.2
+          $msi = & SpectralSuiteBuild\buildWinMsi.ps1 -BuildDir build | Select-Object -Last 1
+          Copy-Item $msi .
+
+      - name: Test installer
+        shell: pwsh
+        run: |
+          $msi = (Get-Item SpectralSuite-v*-windows-x64.msi).FullName
+          $dir = Join-Path $env:CommonProgramFiles 'VST3\Spectral Suite'
+          $names = Get-ChildItem build\*\*_artefacts\Release\VST3\*.vst3 -Directory | ForEach-Object Name
+          function Invoke-Msi($action, $log) {
+            $p = Start-Process msiexec.exe -ArgumentList @($action, "`"$msi`"", '/qn', '/norestart', '/l*v', "`"$log`"") -Wait -PassThru
+            if ($p.ExitCode -ne 0) { Get-Content $log -Tail 60; throw "msiexec $action failed with exit code $($p.ExitCode)" }
+          }
+
+          Invoke-Msi '/i' "$env:RUNNER_TEMP\install.log"
+          foreach ($name in $names) {
+            $binary = Join-Path $dir "$name\Contents\x86_64-win\$name"
+            if (-not (Test-Path $binary)) { throw "not installed: $binary" }
+          }
+
+          Invoke-Msi '/x' "$env:RUNNER_TEMP\uninstall.log"
+          if (Test-Path $dir) { Get-ChildItem -Recurse $dir; throw "uninstall left $dir behind" }
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-windows-x64-installer
+          path: SpectralSuite-v*-windows-x64.msi
+          if-no-files-found: error
+
+      - name: Upload zip
         uses: actions/upload-artifact@v4
         with:
           name: SpectralSuite-windows-x64-VST3
@@ -295,5 +347,6 @@ jobs:
         with:
           files: |
             SpectralSuite-*.pkg
+            SpectralSuite-*.msi
             SpectralSuite-*.zip
             SpectralSuite-*.tar.gz
