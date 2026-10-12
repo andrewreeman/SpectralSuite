@@ -137,12 +137,25 @@ jobs:
             done
           }
 
-          sudo installer -pkg "$pkg" -target /
+          # Both formats are unticked by default in the installer UI; select them.
+          cat > "$RUNNER_TEMP/choices.xml" <<'XML'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <array>
+            <dict><key>attributeSetting</key><integer>1</integer><key>choiceAttribute</key><string>selected</string><key>choiceIdentifier</key><string>installer_choice_1</string></dict>
+            <dict><key>attributeSetting</key><integer>1</integer><key>choiceAttribute</key><string>selected</string><key>choiceIdentifier</key><string>installer_choice_2</string></dict>
+          </array>
+          </plist>
+          XML
+          install() { sudo installer -pkg "$pkg" -target / -applyChoiceChangesXML "$RUNNER_TEMP/choices.xml"; }
+
+          install
           check_installed
           [ ! -e "$backup_root" ] || { echo "first install created a backup" >&2; exit 1; }
 
           sudo xattr -w com.apple.quarantine "0081;00000000;Safari;" "$au/Morph.component" "$vst3/Morph.vst3"
-          sudo installer -pkg "$pkg" -target /
+          install
           check_installed
           [ "$(ls -d "$backup_root"/AU-*/*.component | wc -l)" -eq 7 ] || { echo "AU backup incomplete" >&2; exit 1; }
           [ "$(ls -d "$backup_root"/VST3-*/*.vst3 | wc -l)" -eq 7 ] || { echo "VST3 backup incomplete" >&2; exit 1; }
