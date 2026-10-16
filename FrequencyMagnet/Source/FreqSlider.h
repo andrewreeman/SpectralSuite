@@ -15,7 +15,6 @@ public:
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;		
 
-    Label pitchLabel;
 	Label freqLabel;
 	Slider freq;	
 	std::unique_ptr<SliderAttachment> freqAttachment;

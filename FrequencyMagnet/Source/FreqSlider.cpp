@@ -20,10 +20,6 @@ FreqSlider::FreqSlider(std::shared_ptr<PluginParameters> valueTreeState, Colour 
 	freqLabel.setColour(Label::ColourIds::textColourId, textColour);
 
 	addAndMakeVisible(freqLabel);
-        
-    pitchLabel.setText("C4", NotificationType::dontSendNotification);
-    pitchLabel.setColour(Label::ColourIds::textColourId, textColour);
-    addAndMakeVisible(pitchLabel);            
 }
 
 FreqSlider::~FreqSlider()
@@ -42,10 +38,6 @@ void FreqSlider::resized()
 	freqLabel.setBounds(0, y, getWidth() / 3, 30);
     
     y += freqLabel.getHeight();
-    pitchLabel.setBounds(0, y, getWidth() / 3, 30);
-	
-	//y += freqLabel.getBounds().getBottom() + 10;;
-    y += pitchLabel.getHeight();
 //	freq.setBounds(0, y, getWidth(), getHeight() / 2);
     freq.setBounds(0, y, getWidth(), getHeight() - y);
 }
