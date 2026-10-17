@@ -53,7 +53,7 @@ cmake --build build --config Release
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pushes to `develop`/`master`, on PRs, and on
+`.github/workflows/ci.yml` runs on pushes to `develop`/`main`, on PRs, and on
 `v*` tags. Jobs: macOS (`macos-15`, universal AU + VST3, `lipo` + ad-hoc
 `codesign` verified, headless tests), Windows (`windows-latest`, VST3 x64 zip +
 WiX MSI, install/uninstall tested — opts out of warnings-as-error until the MSVC

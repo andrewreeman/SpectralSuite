@@ -77,7 +77,7 @@ gh pr create --base main --head release/X.Y.Z --title "Release X.Y.Z" --body-fil
 ```
 
 The PR is what runs CI on the release branch (branch pushes alone only trigger CI on
-`develop`/`master`).
+`develop`/`main`).
 
 ## 3. Get CI green
 
@@ -190,13 +190,14 @@ Release notes template:
 - **Linux** (x86_64): extract the `.tar.gz` and copy the `.vst3` folders to `~/.vst3`.
 ```
 
-Then bring `develop` up to date with the release merge:
+Then finish the git-flow release: merge the release branch into `develop` too, so
+the version bump and any release-branch fixes land there, and delete it:
 
 ```bash
-gh pr create --base develop --head main --title "Merge release X.Y.Z back into develop" --body "Release X.Y.Z"
+gh pr create --base develop --head release/X.Y.Z --title "Merge release X.Y.Z into develop" --body "Release X.Y.Z"
+gh pr merge <pr> --merge          # once CI passes; a merge commit keeps the release history
+git push origin --delete release/X.Y.Z
 ```
-
-and merge it once CI passes.
 
 ## 7. Update the in-app update check
 
