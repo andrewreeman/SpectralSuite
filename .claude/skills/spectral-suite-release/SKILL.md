@@ -22,8 +22,9 @@ with the plugin's compiled-in `VERSION_CODE`. The website is not in this repo: t
 uploads that file by hand.
 
 **Merging to `main` and pushing the tag is the point of no return.** Everything before
-it is local or on a branch and can be redone. Do steps 1–4 on your own, then stop at
-step 5 and get an explicit yes before publishing. A request like "release 2.3.0" is
+it is local or on a branch and can be redone. Do steps 1–3 on your own, run step 4
+(manual testing) with the user, then stop at step 5 and get an explicit yes before
+publishing. A request like "release 2.3.0" is
 permission to prepare; it is not approval to publish.
 
 `scripts/release_tool.py` (next to this file) does the exact checks; call it rather
@@ -94,14 +95,53 @@ gh run download <run-id> -D /tmp/spectral-suite-X.Y.Z
 ls -R /tmp/spectral-suite-X.Y.Z    # five files, all carrying X.Y.Z
 ```
 
-## 4. auval (macOS, on the user's Mac)
+## 4. Manual testing (the user, with the CI build)
 
-`auval` is the release gate CI can't run. It needs the AUs installed system-wide,
-which takes the user's admin password, so ask the user to install the CI-built pkg
-from step 3 themselves (double-click, or `sudo installer -pkg … -target /`). Then
-run `./auValidate.sh` from the repo root; all seven plugins must pass. If the user
-isn't at their Mac, say auval is still pending and carry it into step 5 as an open
-item; only skip it if they explicitly say so.
+CI can't open a DAW, so the user tests the release-branch build by hand before
+anything is published. Your part is to set it up, keep the record, and chase
+findings — the user does the listening and clicking. They may test over several
+sessions; carry on recording as results arrive.
+
+**Set up**
+
+- Give the user the run link and which artefacts to install: the macOS
+  `-installer` pkg (download it in a browser, so the Gatekeeper "Open Anyway"
+  path users hit is tested too) and the Windows `-installer` MSI. Installing
+  needs their admin password, so they install, not you.
+- Make sure nothing shadows the build under test. Development builds in
+  `~/Library/Audio/Plug-Ins/{Components,VST3}` (CMake doesn't copy there, but
+  earlier debugging sessions did) win over or duplicate the `/Library` install —
+  move them aside, don't delete them. After installing, confirm the receipt
+  (`pkgutil --pkg-info com.stepwise.pkg.specsuite.AU`) shows the new version
+  and today's install time.
+
+**Record** results in `.vibe/testing/vX-Y-Z.md` (dashes for dots). It's
+gitignored on purpose — the user doesn't want release test records committed.
+Note the CI run and commit under test, then follow the shape of
+`Testing/TestingTemplate.md` (host → format → each plugin: parameters work,
+presets load/save) plus:
+
+- `./auValidate.sh` (`auval -strict` on all 7 AUs) — must pass
+- REAPER on macOS, AU and VST3, all 7 plugins
+- Runtime FFT size / overlap / style / window changes during playback, and a
+  project saved at a non-default FFT size reloading cleanly (#97)
+- Phase Lock: rapid toggling and automation (#101); a short listen, including
+  for the brief silence when FFT settings change mid-playback
+- Other hosts the user has (FL Studio, Ableton) — load all 7
+- Windows: a quick load-and-play in REAPER or FL Studio
+- Linux: no manual test; the headless tests in the Ubuntu CI job are the gate
+
+Which items are required versus nice-to-have is the user's call; ask rather
+than block on FL Studio or Ableton if they don't have them to hand.
+
+**Findings**
+
+- Something to fix for this release: branch from `release/X.Y.Z`, PR back into
+  it, have the user verify with that PR's CI build, then record it. The fix
+  reaches `develop` when the release is merged back.
+- Something that can wait: find or open the GitHub issue (check for an existing
+  one first) with what was seen and, if you can tell from the code, the cause.
+- Note every finding and its outcome in the record either way.
 
 ## 5. Confirm before publishing
 
@@ -110,7 +150,8 @@ Stop and show the user, in one message:
 - the version and `VERSION_CODE` (old → new)
 - the CHANGES.md entry as it will appear
 - the CI run link and the five artefact names
-- the auval result, or that it's pending
+- the manual testing summary from `.vibe/testing/vX-Y-Z.md`: what passed,
+  findings and how each was resolved, and anything not tested
 - what happens next: merge the PR to `main`, push `vX.Y.Z`, CI publishes the release
 
 Ask directly whether to publish. Wait for a clear yes.
