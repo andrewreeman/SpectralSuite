@@ -114,6 +114,10 @@ sessions; carry on recording as results arrive.
   move them aside, don't delete them. After installing, confirm the receipt
   (`pkgutil --pkg-info com.stepwise.pkg.specsuite.AU`) shows the new version
   and today's install time.
+- Have the user quit and reopen every host after installing. A host that was
+  already running keeps the old plugin code loaded, so its About page shows the
+  old version and every test silently runs against the previous build (auval is
+  unaffected; it loads fresh).
 
 **Record** results in `.vibe/testing/vX-Y-Z.md` (dashes for dots). It's
 gitignored on purpose — the user doesn't want release test records committed.
