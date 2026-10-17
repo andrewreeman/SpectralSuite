@@ -87,7 +87,9 @@ public:
 
     int getHopSize() const { return m_hopsize; }
     void setHopSize(int hopSize){ m_hopsize = hopSize;}
-    void setOffset(int offset){ m_offset = offset; }
+    // Virtual: PhaseVocoder tracks the initial offset separately so its
+    // hann-rotation stays correct across FFT size changes.
+    virtual void setOffset(int offset){ m_offset = offset; }
 
     virtual void process(const FftDecimal* input, FftDecimal* output, int blockSize);
     // spectral_process is a pure function that needs to be defined by class derivatives

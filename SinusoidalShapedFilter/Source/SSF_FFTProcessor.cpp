@@ -1,7 +1,7 @@
 #include "SSF_FFTProcessor.h"
 
-SSF_FFTProcessor::SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer, SharedTable wavetable)
-    : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_waveTable(wavetable), m_freq(0.0),
+SSF_FFTProcessor::SSF_FFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer, SharedTable wavetable)
+    : PhaseVocoder(size, hops, offset, sRate, _phaseBuffer), m_waveTable(wavetable), m_freq(0.0),
     m_width(0.0), m_phase(0.0)
 {
     recalculateInternalParameters();
@@ -27,7 +27,7 @@ bool SSF_FFTProcessor::setFFTSize(int newSize) {
 
 void SSF_FFTProcessor::recalculateInternalParameters() {
     m_indexScale = m_freq + 1.f;
-	m_theta = std::powf(m_phase, 3) * (float)m_halfSize;
+	m_theta = powf(m_phase, 3) * (float)m_halfSize;
 	m_sinusoidExponent = (m_width * m_width * 8.f) + 1.f;
 }
 

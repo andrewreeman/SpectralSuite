@@ -91,6 +91,7 @@ PhaseLock/Builds/MacOSX/Phase Lock.xcodeproj/xcshareddata/xcschemes/Phase Lock -
 
 # cmake
 build
+build-*/
 libs/juce
 /cmake-build-debug/_deps/juce-build/tools/.ninja_deps
 cmake-build-debug
@@ -98,3 +99,7 @@ cmake-build-debug
 Morph/CMakeBuilds/
 Morph/libs/cpm/
 spectral-suite-win/
+.vscode/settings.json
+
+# Mistral Vibe local config
+.vibe/

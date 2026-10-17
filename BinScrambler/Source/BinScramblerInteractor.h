@@ -10,6 +10,7 @@ class BinScramblerInteractor : public SpectralAudioProcessorInteractor {
 public:
     BinScramblerInteractor(int numOverlaps, const std::shared_ptr<BinScramblerParameters> &params);
 
+    using SpectralAudioProcessorInteractor::process;
 	virtual void process(std::vector<std::vector<float>>* input, std::vector<std::vector<float>>* output) override;
 	void prepareProcess(StandardFFTProcessor* spectralProcessor) override;
 	std::unique_ptr<StandardFFTProcessor> createSpectralProcess(int index, int fftSize, int hopSize, int sampleRate, int numOverlaps, int chans, int numChans) override;

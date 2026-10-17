@@ -28,8 +28,10 @@ public:
 	void parameterValueChanged(int, float) override;
 	void parameterGestureChanged(int, bool) override {}
 private:	
-	bool m_shouldChangeFft;
-	int m_currentIndex;
+	// Written from the parameter listener thread; read and cleared on the
+	// audio thread, and read again by the FFT switcher thread.
+	std::atomic<bool> m_shouldChangeFft;
+	std::atomic<int> m_currentIndex;
 	Array<int> m_ffts;	
 	AudioParameterChoice* m_parameter;
 };

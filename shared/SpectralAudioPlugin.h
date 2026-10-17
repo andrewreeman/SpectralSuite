@@ -13,9 +13,11 @@
 #include "PluginParameters.h"
 #include "logging/LoggerFactory.h"
 
+#include <atomic>
+
 class SpectralAudioPluginUi;
 
-class SpectralAudioPlugin : public AudioProcessor, private FftSwitcherThread::FftSwitcher
+class SpectralAudioPlugin : public AudioProcessor, private FftSwitcherThread::FftSwitcher, private AsyncUpdater
 {
 public:
 	static const int FFT_OVERLAPS;
@@ -65,6 +67,8 @@ public:
    #endif
 
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    // keep the double-precision overload visible in derived/plugin classes
+    using AudioProcessor::processBlock;
 
     //==============================================================================
     AudioProcessorEditor* createEditor() override;
@@ -111,6 +115,18 @@ private:
             || m_output.empty()
             || m_input.empty();
     }
+
+    // The FFT switcher thread and prepareToPlay run mutations while holding
+    // this lock (taken blocking); processBlock only try-locks it and emits
+    // silence while a switch is in flight.
+    const CriticalSection::ScopedLockType acquireProcessLock() const {
+        return CriticalSection::ScopedLockType (m_audioProcessorInteractor->getProcessLock());
+    }
+
+    // setLatencySamples may be reached from the FFT switcher thread; hosts
+    // expect it on the message thread, so defer it there.
+    void deferSetLatencySamples(int newLatencySamples);
+    void handleAsyncUpdate() override;
     
     std::shared_ptr<PluginParameters> parameters;
     std::unique_ptr<SpectralAudioProcessorInteractor> m_audioProcessorInteractor;
@@ -130,6 +146,7 @@ private:
 	VersionCheckThread m_versionCheckThread;
     std::unique_ptr<DependencyFactory> m_dependencyFactory;
     std::unique_ptr<LoggerRef> m_loggerRef;
+    std::atomic<int> m_pendingLatency;
  
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpectralAudioPlugin)
 };

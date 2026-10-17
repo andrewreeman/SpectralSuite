@@ -1,0 +1,29 @@
+<!--
+  Windows installer for the Spectral Suite VST3 plugins. Built by buildWinMsi.ps1,
+  which passes Version, BundleDir (the staged .vst3 bundle folders) and LicenseRtf.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="Spectral Suite"
+           Manufacturer="Stepwise"
+           Version="$(var.Version)"
+           UpgradeCode="5EB21440-7114-41E9-B405-48D7B7EFEBEE"
+           Scope="perMachine">
+    <MajorUpgrade Schedule="afterInstallValidate"
+                  DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <StandardDirectory Id="CommonFiles64Folder">
+      <Directory Id="VST3Folder" Name="VST3">
+        <Directory Id="INSTALLFOLDER" Name="Spectral Suite" />
+      </Directory>
+    </StandardDirectory>
+
+    <Feature Id="VST3" Title="VST3 plugins">
+      <Files Directory="INSTALLFOLDER" Include="$(var.BundleDir)\**" />
+    </Feature>
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.LicenseRtf)" />
+    <ui:WixUI Id="WixUI_Minimal" />
+  </Package>
+</Wix>

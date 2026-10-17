@@ -93,7 +93,7 @@ void BinScramblerInteractor::recalculateInternalParameters() {
 
     m_sprinkleAmount = static_cast<int>((1.f - (scatter*scatter))*100.f);
     m_sprinkleRange = binRange / 5;
-    m_scrambleFactor = static_cast<int>(pow(scramble, 3.0f) * binRange) / 2;
+    m_scrambleFactor = static_cast<int>(pow(scramble, 3.0f) * static_cast<float>(binRange)) / 2;
 }
 
 void BinScramblerInteractor::resetBIndicies() {

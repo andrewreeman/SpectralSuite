@@ -2,6 +2,10 @@
 
 #include "JuceHeader.h"
 
+// Performs a single queued FFT configuration change on its own thread. The
+// request flags are written from the audio thread (processBlock) and consumed
+// here, so they are atomic. Callers must not assume a request has run when
+// switchX() returns; use isBusy() to poll.
 class FftSwitcherThread: public Thread {
 public:
 	class FftSwitcher {
@@ -66,9 +70,9 @@ public:
 
 private:
 	FftSwitcher* m_fftSwitcher;
-    bool m_switchFft;
-    bool m_switchFftStyle;
-    bool m_switchOverlaps;
-    bool m_switchWindow;
+    std::atomic<bool> m_switchFft;
+    std::atomic<bool> m_switchFftStyle;
+    std::atomic<bool> m_switchOverlaps;
+    std::atomic<bool> m_switchWindow;
     
 };

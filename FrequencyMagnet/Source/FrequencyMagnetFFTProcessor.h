@@ -5,8 +5,8 @@
 
 class FrequencyMagnetFFTProcessor : public PhaseVocoder {
 public:
-    FrequencyMagnetFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> phaseBuffer)
-        : PhaseVocoder(size, hops, offset, sRate, phaseBuffer), m_freq(0.5), m_width(0.5), m_widthBias(0.5), m_useLegacyHighFrequencyShift(false) {}
+    FrequencyMagnetFFTProcessor(int size, int hops, int offset, int sRate, std::shared_ptr<PhaseBuffer> _phaseBuffer)
+        : PhaseVocoder(size, hops, offset, sRate, _phaseBuffer), m_freq(0.5), m_width(0.5), m_widthBias(0.5), m_useLegacyHighFrequencyShift(false) {}
 
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override;
 
