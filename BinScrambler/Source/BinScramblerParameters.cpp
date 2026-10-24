@@ -31,7 +31,7 @@ BinScramblerParameters::BinScramblerParameters(AudioProcessor * processor) :
                     AudioParameterFloatAttributes()
                     .withLabel("")
                     .withCategory(AudioProcessorParameter::Category::genericParameter)
-                    .withStringFromValueFunction ([] (auto x, auto) { return (bool)x ? "On" : "Off"; })
+                    .withStringFromValueFunction ([] (auto x, auto) { return x > 0.f ? "On" : "Off"; })
                     .withStringFromValueFunction([freqHertzLabel](float v, int) { return String(v, 2) + freqHertzLabel; })
                     .withValueFromStringFunction([freqHertzLabel](const String& text) { return text.dropLastCharacters(freqHertzLabel.length()).getFloatValue(); })
     ));

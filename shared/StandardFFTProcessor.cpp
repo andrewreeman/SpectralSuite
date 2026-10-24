@@ -56,20 +56,22 @@ bool StandardFFTProcessor::setFFTSize(int newSize){
     m_halfSize = newSize/2;
     m_invSize = 1.f/(float)newSize;
 
+    m_offset = 0;
+
     Cpx emptyCpx(0, 0);
-    m_input.resize((size_t)newSize, 0.f);
-    m_cpxInput.resize((size_t)newSize, emptyCpx);
-    m_output.resize((size_t)newSize, 0.f);
-    m_fftOut.resize((size_t)newSize, emptyCpx);
-    m_window.resize((size_t)newSize, 0.f);
+    m_input.assign((size_t)newSize, 0.f);
+    m_cpxInput.assign((size_t)newSize, emptyCpx);
+    m_output.assign((size_t)newSize, 0.f);
+    m_fftOut.assign((size_t)newSize, emptyCpx);
+    m_window.assign((size_t)newSize, 0.f);
 
     fillWindow(m_window, newSize);
 
     Polar<FftDecimal> emptyPolar(0.f, 0.f);
-    m_polarOut.resize((size_t )newSize, emptyPolar);
-    m_polarIn.resize((size_t)newSize, emptyPolar);
-    m_ifftin.resize((size_t)newSize, emptyCpx);
-    m_cpxOutput.resize((size_t)newSize, emptyCpx);
+    m_polarOut.assign((size_t )newSize, emptyPolar);
+    m_polarIn.assign((size_t)newSize, emptyPolar);
+    m_ifftin.assign((size_t)newSize, emptyCpx);
+    m_cpxOutput.assign((size_t)newSize, emptyCpx);
     if(newFFT(newSize) == 1) return false;
 
     return true;

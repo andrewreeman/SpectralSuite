@@ -35,7 +35,7 @@ void TransitionState::tick() {
             m_state = HOLD;
         }
         else {
-            m_counter += m_incrementAmount;
+            m_counter += static_cast<float>(m_incrementAmount);
         }
     }
     else if(m_state == TRANSITION_OUT) {
@@ -43,7 +43,7 @@ void TransitionState::tick() {
             m_state = OFF;
         }
         else {
-            m_counter -= m_incrementAmount;
+            m_counter -= static_cast<float>(m_incrementAmount);
         }
     }
 }

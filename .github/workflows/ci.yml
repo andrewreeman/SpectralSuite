@@ -1,0 +1,352 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  macos:
+    name: macOS universal (AU + VST3, ad-hoc signed)
+    # macos-15 pins the Xcode 16 major, whose macOS 15 SDK is the newest that
+    # builds JUCE 8.0.6 without warnings; the macOS 26 SDK produces warnings in
+    # JUCE's bundled sources that fail the root -Werror. macos-14 is retired
+    # 2026-11-02. The AU is validated separately with auval (local release gate).
+    runs-on: macos-15
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: xcodebuild -version && cmake --version
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          # 8.0.6 must match CPMAddPackage GIT_TAG in CMakeLists.txt
+          path: ~/.cache/CPM
+          key: cpm-juce-8.0.6-macos
+          restore-keys: cpm-juce-8.0.6-macos
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build plugins
+        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All
+
+      - name: Build tests
+        run: cmake --build build --target SpectralSuiteTests
+
+      - name: Run headless acceptance tests
+        run: ctest --test-dir build -R SpectralSuiteTests --output-on-failure
+
+      - name: Verify universal binaries
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          count=0
+          for bin in build/*/*_artefacts/Release/AU/*.component/Contents/MacOS/* \
+                      build/*/*_artefacts/Release/VST3/*.vst3/Contents/MacOS/*; do
+            info=$(lipo -info "$bin")
+            echo "$info"
+            grep -q arm64 <<<"$info" || { echo "missing arm64 slice: $bin" >&2; exit 1; }
+            grep -q x86_64 <<<"$info" || { echo "missing x86_64 slice: $bin" >&2; exit 1; }
+            count=$((count + 1))
+          done
+          # 7 AUs + 7 VST3s
+          [ "$count" -eq 14 ] || { echo "expected 14 plugin binaries, found $count" >&2; exit 1; }
+
+      - name: Ad-hoc sign every bundle
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for bundle in build/*/*_artefacts/Release/AU/*.component \
+                        build/*/*_artefacts/Release/VST3/*.vst3; do
+            codesign --force --sign - "$bundle"
+          done
+
+      - name: Verify signatures
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for bundle in build/*/*_artefacts/Release/AU/*.component \
+                        build/*/*_artefacts/Release/VST3/*.vst3; do
+            codesign --verify --deep --strict --verbose=2 "$bundle"
+          done
+
+      # The installer is built with Packages (packagesbuild) from
+      # SpectralSuiteBuild/SpectralSuitePackager.pkgproj.template. The download
+      # URL is unversioned and served over HTTP, so it is pinned by checksum;
+      # when Packages publishes a new release this step fails until the hash is
+      # updated.
+      - name: Install Packages
+        env:
+          PACKAGES_SHA256: c7d599842562b18f8dfb6e9f76fc915dde7716a263c967aaf1fe11e17d283ded # 1.2.11
+        run: |
+          set -euo pipefail
+          curl -sSfL -o "$RUNNER_TEMP/Packages.dmg" http://s.sudre.free.fr/Software/files/Packages.dmg
+          echo "$PACKAGES_SHA256  $RUNNER_TEMP/Packages.dmg" | shasum -a 256 -c -
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/packages-dmg" "$RUNNER_TEMP/Packages.dmg"
+          pkgutil --check-signature "$RUNNER_TEMP/packages-dmg/Install Packages.pkg"
+          sudo installer -pkg "$RUNNER_TEMP/packages-dmg/Install Packages.pkg" -target /
+          hdiutil detach "$RUNNER_TEMP/packages-dmg"
+          command -v packagesbuild
+
+      - name: Build installer
+        run: |
+          set -euo pipefail
+          pkg=$(SpectralSuiteBuild/buildMacPkg.sh build | tail -n 1)
+          pkgutil --expand "$pkg" "$RUNNER_TEMP/expanded"
+          grep -q 'hostArchitectures="arm64,x86_64"' "$RUNNER_TEMP/expanded/Distribution"
+          # 7 AUs + 7 VST3s at the top of their install locations
+          [ "$(lsbom -s "$RUNNER_TEMP/expanded/AU.pkg/Bom" | grep -cE '^\./[^/]+\.component$')" -eq 7 ] || { echo "installer is missing AU bundles" >&2; exit 1; }
+          [ "$(lsbom -s "$RUNNER_TEMP/expanded/VST3.pkg/Bom" | grep -cE '^\./[^/]+\.vst3$')" -eq 7 ] || { echo "installer is missing VST3 bundles" >&2; exit 1; }
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          cp "$pkg" "SpectralSuite-v${version}-macos-universal.pkg"
+
+      - name: Zip bundles
+        run: |
+          set -euo pipefail
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          mkdir -p dist/AU dist/VST3
+          cp -R build/*/*_artefacts/Release/AU/*.component dist/AU/
+          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
+          ditto -c -k --keepParent dist "SpectralSuite-v${version}-macos-universal.zip"
+
+      # Installs twice on the runner: a first install, then an upgrade over it,
+      # which exercises the backup and quarantine-clearing install scripts.
+      - name: Test installer
+        run: |
+          set -euo pipefail
+          pkg=$(ls SpectralSuite-v*-macos-universal.pkg)
+          au=/Library/Audio/Plug-Ins/Components
+          vst3=/Library/Audio/Plug-Ins/VST3/SpectralSuite
+          console_user=$(stat -f%Su /dev/console)
+          case "$console_user" in
+            ""|root|loginwindow) backup_root=/Users/Shared/SpectralSuite-Backup ;;
+            *) backup_root="$(dscl . -read "/Users/$console_user" NFSHomeDirectory | awk '{print $2}')/SpectralSuite-Backup" ;;
+          esac
+          echo "console user: ${console_user:-none}, expecting backups in $backup_root"
+
+          check_installed() {
+            for bundle in build/*/*_artefacts/Release/AU/*.component; do
+              [ -d "$au/$(basename "$bundle")" ] || { echo "not installed: $au/$(basename "$bundle")" >&2; exit 1; }
+            done
+            for bundle in build/*/*_artefacts/Release/VST3/*.vst3; do
+              [ -d "$vst3/$(basename "$bundle")" ] || { echo "not installed: $vst3/$(basename "$bundle")" >&2; exit 1; }
+            done
+          }
+
+          install() { sudo installer -pkg "$pkg" -target /; }
+
+          install
+          check_installed
+          [ ! -e "$backup_root" ] || { echo "first install created a backup" >&2; exit 1; }
+
+          sudo xattr -w com.apple.quarantine "0081;00000000;Safari;" "$au/Morph.component" "$vst3/Morph.vst3"
+          install
+          check_installed
+          [ "$(ls -d "$backup_root"/AU-*/*.component | wc -l)" -eq 7 ] || { echo "AU backup incomplete" >&2; exit 1; }
+          [ "$(ls -d "$backup_root"/VST3-*/*.vst3 | wc -l)" -eq 7 ] || { echo "VST3 backup incomplete" >&2; exit 1; }
+          if [ "$backup_root" != /Users/Shared/SpectralSuite-Backup ]; then
+            [ "$(stat -f%Su "$backup_root")" = "$console_user" ] || { echo "backup not owned by $console_user" >&2; exit 1; }
+          fi
+          if xattr -r "$au"/*.component "$vst3" | grep -q com.apple.quarantine; then
+            echo "quarantine flag left on installed plugins" >&2; exit 1
+          fi
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-macos-universal-installer
+          path: SpectralSuite-v*-macos-universal.pkg
+          if-no-files-found: error
+
+      - name: Upload zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-macos-universal-zip
+          path: SpectralSuite-v*-macos-universal.zip
+          if-no-files-found: error
+
+  windows:
+    name: Windows (VST3 x64 + MSI)
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\CPM
+          key: cpm-juce-8.0.6-windows
+          restore-keys: cpm-juce-8.0.6-windows
+
+      # The MSVC warning baseline is not yet audited, so this job opts out of
+      # warnings-as-error; the macOS and Linux jobs keep it enabled.
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $match = Select-String -Path CMakeLists.txt -Pattern 'project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\)'
+          if (-not $match) { throw "could not read project version" }
+          $version = $match.Matches[0].Groups[1].Value
+          New-Item -ItemType Directory -Force -Path dist\VST3 | Out-Null
+          Get-ChildItem -Path build\*\*_artefacts\Release\VST3\*.vst3 |
+            Copy-Item -Recurse -Destination dist\VST3\
+          if ((Get-ChildItem dist\VST3 -Filter *.vst3).Count -ne 7) { throw "expected 7 VST3 bundles" }
+          Compress-Archive -Path dist -DestinationPath "SpectralSuite-v$version-windows-x64-VST3.zip"
+
+      - name: Check static C++ runtime
+        shell: pwsh
+        run: |
+          $dlls = @(Get-ChildItem build\*\*_artefacts\Release\VST3\*.vst3\Contents\x86_64-win\*.vst3)
+          if ($dlls.Count -ne 7) { throw "expected 7 plugin binaries, found $($dlls.Count)" }
+          foreach ($dll in $dlls) {
+            if (Select-String -Path $dll.FullName -Pattern 'VCRUNTIME140|MSVCP140' -Quiet) {
+              throw "$($dll.Name) imports the Visual C++ runtime DLLs"
+            }
+          }
+
+      # WiX 5 is MS-RL licensed; pinned to stay on that major.
+      - name: Install WiX
+        shell: pwsh
+        run: |
+          dotnet tool install --global wix --version 5.0.2
+          "$env:USERPROFILE\.dotnet\tools" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          wix extension add --global WixToolset.UI.wixext/5.0.2
+          $msi = & SpectralSuiteBuild\buildWinMsi.ps1 -BuildDir build | Select-Object -Last 1
+          Copy-Item $msi .
+
+      - name: Test installer
+        shell: pwsh
+        run: |
+          $msi = (Get-Item SpectralSuite-v*-windows-x64.msi).FullName
+          $dir = Join-Path $env:CommonProgramFiles 'VST3\Spectral Suite'
+          $names = Get-ChildItem build\*\*_artefacts\Release\VST3\*.vst3 -Directory | ForEach-Object Name
+          function Invoke-Msi($action, $log) {
+            $p = Start-Process msiexec.exe -ArgumentList @($action, "`"$msi`"", '/qn', '/norestart', '/l*v', "`"$log`"") -Wait -PassThru
+            if ($p.ExitCode -ne 0) { Get-Content $log -Tail 60; throw "msiexec $action failed with exit code $($p.ExitCode)" }
+          }
+
+          Invoke-Msi '/i' "$env:RUNNER_TEMP\install.log"
+          foreach ($name in $names) {
+            $binary = Join-Path $dir "$name\Contents\x86_64-win\$name"
+            if (-not (Test-Path $binary)) { throw "not installed: $binary" }
+          }
+
+          Invoke-Msi '/x' "$env:RUNNER_TEMP\uninstall.log"
+          if (Test-Path $dir) { Get-ChildItem -Recurse $dir; throw "uninstall left $dir behind" }
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-windows-x64-installer
+          path: SpectralSuite-v*-windows-x64.msi
+          if-no-files-found: error
+
+      - name: Upload zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-windows-x64-VST3
+          path: SpectralSuite-v*-windows-x64-VST3.zip
+          if-no-files-found: error
+
+  ubuntu:
+    name: Linux build + headless tests
+    # Pinned so the shipped binaries need no newer glibc than Ubuntu 24.04 has.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Mirrors the Dockerfile dependency set. This job is the Linux quality gate
+      # and produces the shipped Linux artefact.
+      - name: Install JUCE build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libasound2-dev libjack-jackd2-dev ladspa-sdk libcurl4-openssl-dev \
+            libfreetype6-dev libfontconfig1-dev \
+            libx11-dev libxcomposite-dev libxcursor-dev libxext-dev \
+            libxinerama-dev libxrandr-dev libxrender-dev \
+            libglu1-mesa-dev mesa-common-dev xvfb
+
+      - name: Cache JUCE (CPM source cache)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/CPM
+          key: cpm-juce-8.0.6-ubuntu
+          restore-keys: cpm-juce-8.0.6-ubuntu
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build plugins and tests
+        run: cmake --build build --target BinScrambler_All FreqMagnet_All FreqShift_All Morph_All PhaseLock_All Ssf_All SpecGate_All SpectralSuiteTests -- -k 0
+
+      - name: Run headless acceptance tests
+        run: xvfb-run -a ctest --test-dir build -R SpectralSuiteTests --output-on-failure
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          version=$(sed -nE 's/^project\(SpectralSuite VERSION ([0-9]+\.[0-9]+\.[0-9]+)\).*$/\1/p' CMakeLists.txt)
+          [ -n "$version" ] || { echo "could not read project version" >&2; exit 1; }
+          mkdir -p dist/VST3
+          cp -R build/*/*_artefacts/Release/VST3/*.vst3 dist/VST3/
+          bundles=(dist/VST3/*.vst3)
+          [ "${#bundles[@]}" -eq 7 ] || { echo "expected 7 VST3 bundles, found ${#bundles[@]}" >&2; exit 1; }
+          tar -czf "SpectralSuite-v${version}-linux-x86_64-VST3.tar.gz" -C dist VST3
+
+      - name: Upload build artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpectralSuite-linux-x86_64-VST3
+          path: SpectralSuite-v*-linux-x86_64-VST3.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Attach release assets
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [macos, windows, ubuntu]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artefacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: SpectralSuite-*
+          merge-multiple: true
+
+      - name: Attach to GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SpectralSuite-*.pkg
+            SpectralSuite-*.msi
+            SpectralSuite-*.zip
+            SpectralSuite-*.tar.gz

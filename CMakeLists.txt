@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpectralSuite VERSION 2.2.0)
-SET(VERSION_CODE 19)
+project(SpectralSuite VERSION 2.3.0)
+SET(VERSION_CODE 20)
+
+# Link the MSVC C++ runtime statically so the Windows plugins need no Visual C++
+# redistributable installed.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 include(cmake/cpm.cmake)
@@ -14,7 +18,11 @@ CPMAddPackage(
 
 include(shared/shared.cmake)
 set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+# Warnings fail the build, unless explicitly overridden at configure time
+# (the Windows CI job does this until its MSVC warning baseline is audited).
+if(NOT DEFINED CMAKE_COMPILE_WARNING_AS_ERROR)
+    set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+endif()
 
 function (add_plugin name description code displayName)
     juce_add_plugin("${name}"
@@ -67,3 +75,6 @@ add_subdirectory(Morph)
 add_subdirectory(PhaseLock)
 add_subdirectory(SinusoidalShapedFilter)
 add_subdirectory(SpectralGate)
+
+enable_testing()
+add_subdirectory(Tests)

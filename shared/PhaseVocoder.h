@@ -37,7 +37,7 @@ public:
             
     // still an abstract class that needs spectral_process to be overwritten
     virtual void spectral_process(const PolarVector &in, PolarVector &out, int bins) override = 0;
-    virtual void setOffset(int offset){
+    virtual void setOffset(int offset) override{
         m_initialOffset = offset;
         StandardFFTProcessor::setOffset(offset);
     }

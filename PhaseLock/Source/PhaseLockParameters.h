@@ -9,18 +9,22 @@ public:
     using PSliderAttachment = AudioProcessorValueTreeState::SliderAttachment*;
 
 	PhaseLockParameters(AudioProcessor* processor);
-    
-	bool isPhaseLocked() const { return (bool)getParameterAsValueByParameterId(KEY_PHASE_LOCK).getValue(); }
-    float* getPhaseMixParameter() const { return getRawParameterValueByParameterId(KEY_PHASE_MIX); }
-    
-    bool isFreqLocked() const { return (bool)getParameterAsValueByParameterId(KEY_MAG_LOCK).getValue(); }
-    float* getMagMixParameter() const { return getRawParameterValueByParameterId(KEY_MAG_MIX); }
-    
-    float* getMagTrackParameter() const { return getRawParameterValueByParameterId(KEY_MAG_TRACK); }
-    float* getRandomPhaseParameter() const { return getRawParameterValueByParameterId(KEY_RAND_PHASE); }
-    
-    bool shouldMorphMagAndPhase() const { return (bool)getParameterAsValueByParameterId(KEY_MORPH_MAG_AND_PHASE).getValue(); }
-    int getMorphDurationParameter() const { return (int)getParameterAsValueByParameterId(KEY_MORPH_DURATION).getValue(); }
+
+    // All getters below read lock-free parameter storage, so they are safe to
+    // call on the audio thread. They must not use Value/ValueTree reads here:
+    // those allocate, mutate global listener lists, and read unlocked shared
+    // state while the message thread writes it.
+	bool isPhaseLocked() const { return getBoolParam (KEY_PHASE_LOCK); }
+    float getPhaseMix() const { return getFloatParam (KEY_PHASE_MIX, 1.f); }
+
+    bool isFreqLocked() const { return getBoolParam (KEY_MAG_LOCK); }
+    float getMagMix() const { return getFloatParam (KEY_MAG_MIX, 1.f); }
+
+    float getMagTrack() const { return getFloatParam (KEY_MAG_TRACK, 0.f); }
+    float getRandomPhase() const { return getFloatParam (KEY_RAND_PHASE, 0.f); }
+
+    bool shouldMorphMagAndPhase() const { return getBoolParam (KEY_MORPH_MAG_AND_PHASE); }
+    int getMorphDuration() const { return getIntParam (KEY_MORPH_DURATION, 2); }
     
     bool willContinuePlayingWhenSilentInput() const { return isFreqLocked() || shouldMorphMagAndPhase(); }
     
@@ -37,6 +41,27 @@ public:
     PSliderAttachment createMorphDurationAttachment(Slider& slider) { return createSliderAttachmentByParameterId(KEY_MORPH_DURATION, slider); }
     
 private:
+    bool getBoolParam (const ParameterID& key) const
+    {
+        auto* param = getParameter (key.getParamID());
+        jassert (param != nullptr);
+        return param != nullptr && static_cast<AudioParameterBool*> (param)->get();
+    }
+
+    float getFloatParam (const ParameterID& key, float fallback) const
+    {
+        auto* param = getParameter (key.getParamID());
+        jassert (param != nullptr);
+        return param != nullptr ? static_cast<AudioParameterFloat*> (param)->get() : fallback;
+    }
+
+    int getIntParam (const ParameterID& key, int fallback) const
+    {
+        auto* param = getParameter (key.getParamID());
+        jassert (param != nullptr);
+        return param != nullptr ? static_cast<AudioParameterInt*> (param)->get() : fallback;
+    }
+
     using ParameterKey = ParameterID;
 
     static ParameterKey KEY_PHASE_LOCK;
