@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpectralSuite VERSION 2.2.0)
-SET(VERSION_CODE 19)
+project(SpectralSuite VERSION 2.3.0)
+SET(VERSION_CODE 20)
 
 # Link the MSVC C++ runtime statically so the Windows plugins need no Visual C++
 # redistributable installed.

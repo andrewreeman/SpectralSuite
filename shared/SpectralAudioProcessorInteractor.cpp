@@ -19,7 +19,14 @@ void SpectralAudioProcessorInteractor::prepareToPlay(int fftSize, int sampleRate
 
     m_phaseBuffer->requestResize(fftSize / 2);
 
-    if (m_sampleRate != sampleRate && !m_spectralProcess.empty()) {
+    // Hosts can prepare at the default size and prepare again at a restored
+    // project's size; processors built for another size must be rebuilt, as
+    // setNumOverlaps keeps an existing bank and setFftSize then sees no change.
+    const bool sizeChanged = !m_spectralProcess.empty()
+        && !m_spectralProcess.front().empty()
+        && m_spectralProcess.front().front()->getFFTSize() != fftSize;
+
+    if ((m_sampleRate != sampleRate || sizeChanged) && !m_spectralProcess.empty()) {
         m_spectralProcess.clear();
     }
     
@@ -99,6 +106,7 @@ void SpectralAudioProcessorInteractor::setNumOverlaps(int newOverlapCount) {
        if (m_spectralProcess.at(0).size() == (size_t)newOverlapCount)
        {
            m_numOverlaps = newOverlapCount;
+           m_fftHopSize = getFftSize() / m_numOverlaps;
            return;
        }
    }

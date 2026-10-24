@@ -1,4 +1,12 @@
 % Spectral Suite
+## Version 2.3.0
+    * Fixed Phase Lock crashing when toggled quickly during playback
+    * Fixed Bin Scrambler going silent or extremely loud when a project is
+      loaded with a non-default FFT size
+    * Changing FFT size, overlap, style or window during use is more reliable
+    * New installers: macOS (Intel and Apple Silicon) and Windows, plus a
+      Linux build
+    * Removed a stray "C4" label from Frequency Magnet
 ## Version 2.2.0
     * Added 'Scale' parameter to Frequency Shift
 ## Version 2.1.12
